@@ -9,8 +9,9 @@ function App() {
   return (
     <div>
       <h1>hi</h1>
+      <p>new react project</p>
     </div>
-  )
+  );
 }
 
 export default App
