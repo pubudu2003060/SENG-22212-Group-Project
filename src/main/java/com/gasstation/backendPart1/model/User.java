@@ -19,5 +19,5 @@ public class User {
     private String address;
     private String identityType;
     private String idNo;
-    //ane manda itim
+
 }
