@@ -8,13 +8,14 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class BackendPart1Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BackendPart1Application.class, args);
-	}
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BackendPart1Application.class, args);
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
 }
 
