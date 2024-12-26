@@ -21,27 +21,29 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<UserDTO> getAllUsers(){
-        List<User> userList=userRepo.findAll();
-        return modelMapper.map(userList,new TypeToken<List<UserDTO>>(){}.getType());
+    public List<UserDTO> getAllUsers() {
+        List<User> userList = userRepo.findAll();
+        return modelMapper.map(userList, new TypeToken<List<UserDTO>>() {
+        }.getType());
 
     }
-    public UserDTO saveUser(UserDTO userDTO){
-        userRepo.save(modelMapper.map(userDTO,User.class));
+
+    public UserDTO saveUser(UserDTO userDTO) {
+        userRepo.save(modelMapper.map(userDTO, User.class));
         return userDTO;
     }
 
-    public UserDTO updateUser(UserDTO userDTO){
-        userRepo.save(modelMapper.map(userDTO,User.class));
+    public UserDTO updateUser(UserDTO userDTO) {
+        userRepo.save(modelMapper.map(userDTO, User.class));
         return userDTO;
     }
 
-    public UserDTO userDTO(UserDTO userDTO){
-        userRepo.save(modelMapper.map(userDTO,User.class));
+    public UserDTO userDTO(UserDTO userDTO) {
+        userRepo.save(modelMapper.map(userDTO, User.class));
         return userDTO;
     }
 
-    public String deleteUser(Integer userId){
+    public String deleteUser(Integer userId) {
         userRepo.deleteById(userId);
         return "deleted user successfully";
     }
