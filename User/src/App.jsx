@@ -1,18 +1,28 @@
 
-import Dashboard from './Dashboard';
-import { useState } from 'react'
-import './App.css'
-import Login from './Resistration/LoginPage';
+
+import { useState } from 'react';
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
+import Login from './Components/LoginForm.jsx';
+import Otp from './Components/Otp.jsx';
 
 
-function App() {  
+function App() {
+ 
 
   return (
-    <div>
-    <Dashboard />
-      <Login/>
-    </div>
+    <Router> 
+      <div>
+        <Routes> 
+          <Route path="/" element={<Login />} />
+          <Route path="/Otp" element={<Otp />} /> 
+        </Routes>
+      </div>
+    </Router>
+
   );
 }
 
-export default App;
+export default App;
+
+
