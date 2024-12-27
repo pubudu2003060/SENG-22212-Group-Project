@@ -6,7 +6,7 @@ function NavigationBar() {
         <nav className="navBar">
           <div className="navButtons">
             <button className="nav-btn"></button>
-            <button className="nav-btn" >Dashboard</button>
+            <button className="nav-btn" id = "dashboard-btn">Dashboard</button>
             <button className="nav-btn">Vehicle Registration</button>
             <button className="nav-btn">Profile</button>
           </div>
