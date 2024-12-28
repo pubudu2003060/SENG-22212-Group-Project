@@ -1,0 +1,16 @@
+package com.gasstation.backendPart1.dataTransferObject;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class AminDTO {
+
+    private int adminId;
+    private String email;
+    private String password;
+}
