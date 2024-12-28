@@ -12,6 +12,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 4em;
   }
   
   .navButtons {
@@ -38,6 +39,12 @@ body {
     background-color: white;
     padding: 10px 30px;
     color: #003366; 
+  }
+
+  @media (min-width: 791px) {
+    .nav-btn {
+      padding: 1.2em 1.5em;
+    }
   }
   
   .logout-btn {
