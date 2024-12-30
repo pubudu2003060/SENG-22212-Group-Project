@@ -5,8 +5,8 @@
   min-height: 100vh; 
 }
 
-#interBody{
-    background-color: #E3F2FD;
+#profileBody{
+    background-color: rgba(227, 242, 253, 0.70);
     padding: 3em 8em 5em 8em;
     width: 80%; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
@@ -14,13 +14,7 @@
     margin: 3em 6em;
 }
 
-#subHeading{
-    margin-bottom: 1.5em;
-    margin-left: -1.5em;
-}
-
-#interBody input[type="text"], 
-#interBody select {
+#profileBody input[type="text"]{
     width: 100%; 
     padding: 0.6em; 
     margin-top: 0.5em; 
@@ -29,7 +23,15 @@
     box-sizing: border-box; 
 }
 
-#edit-btn, #save-btn {
+#profileBody input[id="OTP"]{
+    width: 50%;     
+}
+
+.ProfileInfo{
+    width: 100%;
+}
+
+#verify-btn, #confirm-btn{
     color: white;
     background-color: green; 
     border: none; 
@@ -41,35 +43,32 @@
     margin-top: 1em;
 }
 
-#save-btn {
-    margin-right: 0; 
+#confirm-btn{
+    float: none;
+    margin-top: 0;     
 }
 
-#save-btn:disabled {
-    background-color: lightgray; 
-    cursor: not-allowed; 
-}
-
-.active-btn {
-    background-color: green; 
+#verify-btn{
+    margin-top: -1em;
 }
 
 hr {
     border: 0;
     height: 1px;
     background: #ccc;
-    margin-top: 6em;
-    margin-bottom: 3em;
+    margin-top: 4em;
+    margin-bottom: 2em;
 }
 
 #cancel-btn,
-#add-btn {
+#save-btn {
     color: white;
     background-color: green; 
     border: none; 
     padding: 1em 2em; 
     border-radius: 5px; 
     cursor: pointer; 
+    margin-top: 2em;
 }
 
 #cancel-btn {
@@ -77,21 +76,8 @@ hr {
     margin-right: 1em; 
 }
 
-#add-btn {
+#save-btn {
     margin-left: 1em; 
-}
-
-.fuelButtons .fuel-btn {
-    margin-right: 0.5em; 
-    padding: 0.5em 1em; 
-    border: 1px solid #003366;
-    border-radius: 5px; 
-    cursor: pointer;
-}
-
-.fuelButtons .fuel-btn.selected {
-    background-color: #003366; 
-    color: white;
 }
 
 .footer-btn{
@@ -101,7 +87,27 @@ hr {
     margin-top: 2em; 
 }
 
-#vehicleInfo-btn{
+p{
+    margin-top: -1.2em;
+}
+
+img{
+    width: 4em;
+    height: 4em;
+    margin-top: 1.7em;
+}
+h4{
+    margin-top: 0;
+    margin-bottom: 2em;
+}
+
+#user{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#profile-btn{
     color: #003366;
     background-color: white;
     border: 1px solid #003366;    
