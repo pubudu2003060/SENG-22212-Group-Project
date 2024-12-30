@@ -1,13 +1,13 @@
-/* src/Login.css */
+
 body {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color:#ffffff;
-    font-family: Arial, sans-serif;
-  }
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff !important; 
+  font-family: Arial, sans-serif;
+}
   
   .login-container {
     width: 100%;
@@ -74,11 +74,11 @@ body {
   }
   
   .btn.send-otp {
-    background-color: #008080;
+    background-color:#055555;
   }
   
   .btn:hover {
-    opacity: 0.9;
+    background-color: #008080;
   }
   .otp-input-group {
     display: flex;
