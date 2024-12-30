@@ -23,6 +23,7 @@ function Login() {
   };
 
   return (
+    <div className="login-body">
     <div className="login-container">
       <h2>Login</h2>
       <h3></h3>
@@ -41,6 +42,7 @@ function Login() {
       <button onClick={handleSendOtp} className="btn send-otp">
         Send OTP
       </button>
+    </div>
     </div>
   );
 }
