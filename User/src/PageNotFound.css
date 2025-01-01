@@ -70,3 +70,22 @@ body, html {
         height: 5em;
     }
 }
+
+.backHome-btn {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 30px;
+    font-size: 15px;
+    color: white;
+    background-color: green;
+    border: none;
+    padding: 1em 1.3em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.backHome-btn:hover {
+    transform: scale(1.05); 
+    text-decoration: none;
+}
+
