@@ -4,15 +4,17 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Components/LoginForm.jsx';
 import Otp from './Components/Otp.jsx';
 import HomePage from './Components/Home.jsx';
-import Dashboard from './Dashboard.jsx';
-import ProfileManagement from './ProfileManagement.jsx';
-import VehicleInfomation from './VehicleInfomation.jsx';
+import Dashboard from './Dashboard';
+import ProfileManagement from './ProfileManagement';
+import VehicleInfomation from './VehicleInfomation';
 import PageNotFound from "./PageNotFound";
 
+
 function App() {
+  
  
   return (
-    <Router> 
+    <Router>
       <div>
         <Routes> 
           <Route path="/" element={<HomePage />} />
