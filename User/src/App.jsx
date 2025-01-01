@@ -7,6 +7,7 @@ import HomePage from './Components/Home.jsx';
 import Dashboard from './Dashboard.jsx';
 import ProfileManagement from './ProfileManagement.jsx';
 import VehicleInfomation from './VehicleInfomation.jsx';
+import PageNotFound from "./PageNotFound";
 
 function App() {
  
@@ -20,6 +21,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<ProfileManagement />} />
           <Route path="/vehicle-info" element={<VehicleInfomation />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
     </Router>
