@@ -1,27 +1,46 @@
-.body{
-    margin: 4em 5.5em;
+.dashboard{
+    margin: 0;
+    padding: 0;
+    width: 100vw; 
+    height: 100vh; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    box-sizing: border-box;
+}
+.dashboard-body{
+    padding: 4em 5.5em;
+    background-color: rgba(227, 242, 253, 0.70);
 }
 
-#name{
+@media(min-width:791px){
+    .dashboard-body{
+        padding: 4em 9.5em;
+    }
+}
+
+#dashboard-name{
     color: #4682B4;
 }
 
-#longLine {
+#dashboard-longLine {
     border: none;
     border-top: 2px solid black;
+    margin-top: 0;
+    margin-bottom: 3em;
 }
 
-#h3Text{
+#dashboard-h3Text{
     padding: 1em 0 0 0;
+    font-weight: 700;
 }
 
-.vehicleInfo{
+.dashboard-vehicleInfo{
     margin: 2.5em 3.5em 1em 3.5em;
     display: flex;
     justify-content: space-between;
 }
 
-#smallLine{
+#dashboard-smallLine{
     border: none;
     border-top: 1px dashed black;
     width: 90%;
@@ -34,5 +53,15 @@
     border: 1px solid #003366;    
 }
 
+#dashboard-h2{
+    font-size: 24px;
+    font-weight: 600;
+    color: black;
+    margin-bottom: 1em;
+}
+
+#dashboard-p{
+    margin-top: 1em;
+}
 
 
