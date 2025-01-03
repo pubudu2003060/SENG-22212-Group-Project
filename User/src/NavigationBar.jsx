@@ -14,7 +14,7 @@ function NavigationBar() {
             <button className="nav-btn" id = "vehicleInfo-btn" onClick = {() => navigate("/vehicle-info")}>Vehicle Infomation</button>
             <button className="nav-btn" id = "profile-btn" onClick = {() => navigate("/profile")}>Profile</button>
           </div>
-          <button className="nav-btn logout-btn">Logout</button>
+          <button className="nav-btn logout-btn" onClick = {() => navigate("/")}>Logout</button>
         </nav>
       </div>
   );
