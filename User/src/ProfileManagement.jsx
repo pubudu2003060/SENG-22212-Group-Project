@@ -34,42 +34,42 @@ function ProfileManagement() {
     };
 
     return (  
-        <div>
+        <div className = "profile">
             <NavigationBar/>
-            <div className = "body">
-                <div id = "profileBody">
-                    <div id = "user">
-                        <img src = "/images/user2.png" alt = "User" />
+            <div className = "profile-body">
+                <div id = "profile-profileBody">
+                    <div id = "profile-user">
+                        <img src = "/images/userProfile.png" alt = "User" />
                         <h4>User ID: {profileData.UserID}</h4>
                     </div>
                     <div className = "ProfileInfo">                        
-                        <div className = "form-group">
+                        <div className = "profile-form-group">
                             <label>Name:</label><br />
                             <input type = "text" id="Name" placeholder="Enter your name here" value={profileData.Name} onChange={handleInputChange}/>
                         </div><br />
-                        <div className = "form-group">
+                        <div className = "profile-form-group">
                             <label>NIC:</label><br />
                             <input type = "text" id="NIC" placeholder="Enter your NIC here" value={profileData.NIC} onChange={handleInputChange}/>
                         </div><br />
-                        <div className = "form-group">
+                        <div className = "profile-form-group">
                             <label>Phone No:</label><br />
                             <input type = "text" id="PhoneNo" placeholder="Enter your telephone number here" value={profileData.PhoneNo} onChange={handleInputChange}/>
                         </div><br />
-                        <p>Please verify your phone number through the OTP code we have sent.</p>
-                        <button id = "verify-btn" onClick={handleVerifyClick} >Verify</button><br/>
-                        <div className = "form-group" id = "OTP-group">
+                        <p id = "profile-p">Please verify your phone number through the OTP code we have sent.</p>
+                        <button id = "profile-verify-btn" onClick={handleVerifyClick} >Verify</button><br/>
+                        <div className = "profile-form-group" id = "profile-OTP-group">
                             <label>OTP:</label><br />
                             <input type = "text" id="OTP" placeholder="Enter your OTP here" value={profileData.OTP} onChange={handleInputChange} disabled={!isVerified}  />
                         </div><br />
-                        <button id = "confirm-btn" >Confirm</button>
+                        <button id = "profile-confirm-btn" >Confirm</button>
                         <hr /> 
-                        <div className="form-group">
+                        <div className="profile-form-group">
                             <input type="checkbox" id="agreeTerms" value="agree" />
                             <label htmlFor="agreeTerms">I certify that the updated profile information provided is accurate and up-to-date.</label>
                         </div>
-                        <div className = "footer-btn">
-                            <button id = "cancel-btn" onClick={() => setProfileData(originalData)}>Cancel</button>
-                            <button id = "save-btn" onClick={handleSaveChanges}>Save Changes</button>
+                        <div className = "profile-footer-btn">
+                            <button id = "profile-cancel-btn" onClick={() => setProfileData(originalData)}>Cancel</button>
+                            <button id = "profile-save-btn" onClick={handleSaveChanges}>Save Changes</button>
                         </div> 
                          
                     </div> 
