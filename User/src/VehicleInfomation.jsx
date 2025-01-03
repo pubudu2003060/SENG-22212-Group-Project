@@ -32,17 +32,17 @@ function VehicleInfomation() {
     };
 
     return (  
-        <div>
+        <div className = "vehicle">
             <NavigationBar/>
-            <div className = "body">
-                <div id = "interBody">
-                    <h2 id = "subHeading">Vehicle Details...</h2>
-                    <div className = "VehicleInfo">                        
-                        <div className = "form-group">
+            <div className = "vehicle-body">
+                <div id = "vehicle-interBody">
+                    <h2 id = "vehicle-subHeading">Vehicle Details...</h2>
+                    <div className = "vehicle-VehicleInfo">                        
+                        <div className = "vehicle-form-group">
                             <label>Vehicle Number:</label><br />
                             <input type = "text" id="VehicleNo" placeholder="Enter vehicle number" defaultValue={VehicleData.vehicleNo}/>
                         </div><br />
-                        <div className = "form-group">
+                        <div className = "vehicle-form-group">
                             <label>Vehicle Type:</label><br />
                             <select
                                 id="VehicleType"
@@ -60,44 +60,44 @@ function VehicleInfomation() {
                                 <option value="Tractor">Tractor</option>
                             </select>
                         </div><br />
-                        <div className = "form-group">
+                        <div className = "vehicle-form-group">
                             <label>Chassis Number:</label><br />
                             <input type = "text" id="ChassisNo" placeholder="Enter chassis number" defaultValue={VehicleData.chassisNo} />
                         </div><br />
-                        <div className = "form-group">
+                        <div className = "vehicle-form-group">
                             <label>Engine Number:</label><br />
                             <input type = "text" id="EngineNo" placeholder="Enter engine number" defaultValue={VehicleData.engineNo} />
                         </div><br />
-                        <div className = "form-group">
+                        <div className = "vehicle-form-group">
                             <label>Fuel Type:</label><br />
-                            <div className="fuelButtons">
+                            <div className="vehicle-fuelButtons">
                                 <button
-                                    className={selectedFuelType === "Petrol" ? "fuel-btn selected" : "fuel-btn"}
+                                    className={selectedFuelType === "Petrol" ? "vehicle-fuel-btn selected" : "vehicle-fuel-btn"}
                                     onClick={() => handleFuelTypeChange("Petrol")}
                                 >
                                     Petrol
                                 </button>
                                 <button
-                                    className={selectedFuelType === "Diesel" ? "fuel-btn selected" : "fuel-btn"}
+                                    className={selectedFuelType === "Diesel" ? "vehicle-fuel-btn selected" : "vehicle-fuel-btn"}
                                     onClick={() => handleFuelTypeChange("Diesel")}
                                 >
                                     Diesel
                                 </button>
                             </div>
                         </div><br />
-                        <div className="form-group">
+                        <div className="vehicle-form-group" id = "vehicle-checkbox">
                             <input type="checkbox" id="agreeTerms" value="agree" />
                             <label htmlFor="agreeTerms">I certify that the updated vehicle information provided is accurate and up-to-date.</label>
                         </div>
-                        <div className="button-group">                            
-                            <button id="save-btn" className={isEditing ? "active-btn" : ""} onClick={handleSaveClick} disabled={!isEditing}>Save</button>
-                            <button id="edit-btn" onClick={handleEditClick} disabled={isEditing}>Edit</button>
+                        <div className="vehicle-button-group">                            
+                            <button id="vehicle-save-btn" className={isEditing ? "vehicle-active-btn" : ""} onClick={handleSaveClick} disabled={!isEditing}>Save</button>
+                            <button id="vehicle-edit-btn" onClick={handleEditClick} disabled={isEditing}>Edit</button>
                         </div>
-                        <hr />  
+                        <hr id = "vehicle-hr"/>  
                     </div> 
-                    <div className = "footer-btn">
-                        <button id = "cancel-btn">Cancel</button>
-                        <button id = "add-btn">Add Vehicles</button>
+                    <div className = "vehicle-footer-btn">
+                        <button id = "vehicle-cancel-btn">Cancel</button>
+                        <button id = "vehicle-add-btn">Add Vehicles</button>
                     </div> 
                 </div>                       
             </div>
