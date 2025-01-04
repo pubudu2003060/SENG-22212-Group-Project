@@ -1,11 +1,33 @@
-.body{
+.vehicle{
+    margin: 0;
+    padding: 0;
+    width: 100vw;  
+    height: 100vh; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    box-sizing: border-box;
+}
+.vehicle-body{
     display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh; 
 }
 
-#interBody{
+@media(min-width:791px){
+    .vehicle-body{
+        padding: 4em 5em;
+    }
+}
+
+@media(max-width:791px){
+    .vehicle-interbody{
+        padding: 4em 0.5em;
+    }
+}
+
+
+#vehicle-interBody{
     background-color: #E3F2FD;
     padding: 3em 8em 5em 8em;
     width: 80%; 
@@ -14,22 +36,24 @@
     margin: 3em 6em;
 }
 
-#subHeading{
+#vehicle-subHeading{
     margin-bottom: 1.5em;
-    margin-left: -1.5em;
+    margin-left: -1.6em;
+    font-size: 28px;
 }
 
-#interBody input[type="text"], 
-#interBody select {
+#vehicle-interBody input[type="text"], 
+#vehicle-interBody select {
     width: 100%; 
     padding: 0.6em; 
-    margin-top: 0.5em; 
+    margin-top: -16em; 
+    margin-bottom: 0.5em;
     border: 1px solid #ccc; 
     border-radius: 5px; 
     box-sizing: border-box; 
 }
 
-#edit-btn, #save-btn {
+#vehicle-edit-btn, #vehicle-save-btn {
     color: white;
     background-color: green; 
     border: none; 
@@ -41,20 +65,20 @@
     margin-top: 1em;
 }
 
-#save-btn {
+#vehicle-save-btn {
     margin-right: 0; 
 }
 
-#save-btn:disabled {
+#vehicle-save-btn:disabled {
     background-color: lightgray; 
     cursor: not-allowed; 
 }
 
-.active-btn {
+.vehicle-active-btn {
     background-color: green; 
 }
 
-hr {
+#vehicle-hr {
     border: 0;
     height: 1px;
     background: #ccc;
@@ -62,8 +86,8 @@ hr {
     margin-bottom: 3em;
 }
 
-#cancel-btn,
-#add-btn {
+#vehicle-cancel-btn,
+#vehicle-add-btn {
     color: white;
     background-color: green; 
     border: none; 
@@ -72,16 +96,16 @@ hr {
     cursor: pointer; 
 }
 
-#cancel-btn {
+#vehicle-cancel-btn {
     background-color: grey; 
     margin-right: 1em; 
 }
 
-#add-btn {
+#vehicle-add-btn {
     margin-left: 1em; 
 }
 
-.fuelButtons .fuel-btn {
+.vehicle-fuel-btn {
     margin-right: 0.5em; 
     padding: 0.5em 1em; 
     border: 1px solid #003366;
@@ -89,12 +113,12 @@ hr {
     cursor: pointer;
 }
 
-.fuelButtons .fuel-btn.selected {
+.vehicle-fuel-btn.selected {
     background-color: #003366; 
     color: white;
 }
 
-.footer-btn{
+.vehicle-footer-btn{
     display: flex;
     justify-content: center; 
     gap: 1em; 
@@ -105,4 +129,12 @@ hr {
     color: #003366;
     background-color: white;
     border: 1px solid #003366;    
+}
+
+#vehicle-checkbox{
+    display: 'flex';
+}
+
+.vehicle-form-group label{
+    margin-bottom: -0.3em;
 }
