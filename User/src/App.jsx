@@ -5,17 +5,27 @@ import Login from './Components/LoginForm.jsx';
 import Otp from './Components/Otp.jsx';
 import HomePage from './Components/Home.jsx';
 import PersonalDetailsForm from './Components/PersonalDetailsForm.jsx';
+import Dashboard from './Dashboard';
+import ProfileManagement from './ProfileManagement';
+import VehicleInfomation from './VehicleInfomation';
+import PageNotFound from "./PageNotFound";
+
 
 function App() {
+  
  
   return (
-    <Router> 
+    <Router>
       <div>
         <Routes> 
           <Route path="/" element={<HomePage/>} />
           <Route path="/LoginForm" element={<Login/>} /> 
           <Route path="/Otp" element={<Otp />} /> 
           <Route path="/PersonalDetailsForm" element={<PersonalDetailsForm/>} /> 
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<ProfileManagement />} />
+          <Route path="/vehicle-info" element={<VehicleInfomation />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
     </Router>
