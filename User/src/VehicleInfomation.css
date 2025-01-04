@@ -1,0 +1,108 @@
+.body{
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; 
+}
+
+#interBody{
+    background-color: #E3F2FD;
+    padding: 3em 8em 5em 8em;
+    width: 80%; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 10px; 
+    margin: 3em 6em;
+}
+
+#subHeading{
+    margin-bottom: 1.5em;
+    margin-left: -1.5em;
+}
+
+#interBody input[type="text"], 
+#interBody select {
+    width: 100%; 
+    padding: 0.6em; 
+    margin-top: 0.5em; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    box-sizing: border-box; 
+}
+
+#edit-btn, #save-btn {
+    color: white;
+    background-color: green; 
+    border: none; 
+    padding: 1em 3em; 
+    border-radius: 5px; 
+    float: right; 
+    cursor: pointer;
+    margin-right: 1em;
+    margin-top: 1em;
+}
+
+#save-btn {
+    margin-right: 0; 
+}
+
+#save-btn:disabled {
+    background-color: lightgray; 
+    cursor: not-allowed; 
+}
+
+.active-btn {
+    background-color: green; 
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin-top: 6em;
+    margin-bottom: 3em;
+}
+
+#cancel-btn,
+#add-btn {
+    color: white;
+    background-color: green; 
+    border: none; 
+    padding: 1em 2em; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+#cancel-btn {
+    background-color: grey; 
+    margin-right: 1em; 
+}
+
+#add-btn {
+    margin-left: 1em; 
+}
+
+.fuelButtons .fuel-btn {
+    margin-right: 0.5em; 
+    padding: 0.5em 1em; 
+    border: 1px solid #003366;
+    border-radius: 5px; 
+    cursor: pointer;
+}
+
+.fuelButtons .fuel-btn.selected {
+    background-color: #003366; 
+    color: white;
+}
+
+.footer-btn{
+    display: flex;
+    justify-content: center; 
+    gap: 1em; 
+    margin-top: 2em; 
+}
+
+#vehicleInfo-btn{
+    color: #003366;
+    background-color: white;
+    border: 1px solid #003366;    
+}
