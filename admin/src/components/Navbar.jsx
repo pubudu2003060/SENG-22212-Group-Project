@@ -2,13 +2,28 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Menu } from 'antd';
-import { AppstoreOutlined, HomeOutlined, SettingOutlined, AreaChartOutlined, PayCircleOutlined, BarsOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, HomeOutlined, SettingOutlined, AreaChartOutlined, PayCircleOutlined } from '@ant-design/icons';
+
+import '../styles/navbar.css'; // Import custom CSS
 
 
-function Navbar() {
+function Navbar({ setHeaderTitle }) {
+  const handleMenuClick = ({ key, domEvent }) => {
+    const titles = {
+      dashboard: 'Dashboard',
+      fuelManagement: 'Fuel Management',
+      stationManagement: 'Station Management',
+      userManagement: 'User Management',
+      fuelQuotaManagement: 'Fuel Quota Management',
+      setting: 'Settings',
+    };
+
+    setHeaderTitle(titles[key] || 'Dashboard');
+  };
 
     return (
-        <Menu mode="inline" className="menu-bar">
+      <div className="nav-bar">
+        <Menu mode="inline" className="menu-bar" onClick={handleMenuClick}>
             <Menu.Item key="dashboard" icon={<HomeOutlined />}>
               <Link to="/dashboard"> Dashboard </Link>  
             </Menu.Item>
@@ -33,6 +48,7 @@ function Navbar() {
               <Link to="/Setting"> Setting </Link>
             </Menu.Item>
         </Menu>
+      </div>
     );
 }
 
