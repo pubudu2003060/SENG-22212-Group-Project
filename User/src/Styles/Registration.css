@@ -1,0 +1,128 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    overflow-x: hidden; 
+}
+
+.form-container {
+    max-width: 1000px;
+    min-width: 550px;
+    margin: 60px auto; 
+    margin-top: 160px !important;
+    padding: 40px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    overflow-y: auto; 
+}
+
+.form-title {
+    text-align: center;
+    color: #055555;
+    font-size: 28px; 
+    font-weight: bold;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 100px;
+}
+
+
+.form-subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 16px; 
+    margin-bottom: 20px;
+}
+
+
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
+.form-input {
+    width: 100%;
+    padding: 12px; 
+    margin-bottom: 25px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+
+.form-textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    height: 100px; 
+    box-sizing: border-box;
+    resize: vertical; 
+}
+
+.form-button {
+    width: 100%;
+    padding: 12px; 
+    background-color: #055555;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 10px; 
+}
+
+.form-button:hover {
+    background-color: #008080;
+}
+.error-border {
+    border: 2px solid rgb(250, 161, 161);
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+
+@media (max-width: 768px) {
+    .form-container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .form-title {
+        font-size: 20px;
+    }
+
+    .form-subtitle {
+        font-size: 14px;
+    }
+
+    .form-label {
+        font-size: 12px;
+    }
+
+    .form-input, .form-textarea {
+        font-size: 12px;
+    }
+
+    .form-button {
+        font-size: 14px;
+    }
+}
