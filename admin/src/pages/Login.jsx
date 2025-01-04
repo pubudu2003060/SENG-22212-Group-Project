@@ -22,7 +22,7 @@ function Login() {
 
     //validations
     if (email === adminEmail && password === adminPassword) {
-      navigate('./Dashboard'); 
+      navigate('/dashboard'); 
     } else {
       alert('Invalid credentials. Please try again.');
     }
