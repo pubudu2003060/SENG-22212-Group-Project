@@ -5,7 +5,7 @@ import { Menu } from 'antd';
 import { AppstoreOutlined, HomeOutlined, SettingOutlined, AreaChartOutlined, PayCircleOutlined, BarsOutlined } from '@ant-design/icons';
 
 
-function Nav() {
+function Navbar() {
 
     return (
         <Menu mode="inline" className="menu-bar">
@@ -36,4 +36,4 @@ function Nav() {
     );
 }
 
-export default Nav;
+export default Navbar;
