@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Vehical {
+public class User {
 
     @Id
-    private int vehicalId;
-    private int chassiNo;
-    private String vehicalType;
-    private int vehicalNo;
-    private int enginNo;
-    private String fualType;
-
+    private int userId;
+    private String firstName;
+    private String lastName;
+    private String contactNo;
+    private String address;
+    private String identityType;
+    private String idNo;
 }
