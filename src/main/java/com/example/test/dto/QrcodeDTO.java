@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class QrcodeDTO {
 
-    int qrcodeId;
+    private int qrcodeId;
+    private int customerFualQuataId;
 }

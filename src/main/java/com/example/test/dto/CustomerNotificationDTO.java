@@ -11,4 +11,5 @@ public class CustomerNotificationDTO {
 
     private int cnId;
     private String content;
+    private String customerId;
 }
