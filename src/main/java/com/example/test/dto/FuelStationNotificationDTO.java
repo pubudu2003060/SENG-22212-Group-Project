@@ -11,4 +11,5 @@ public class FuelStationNotificationDTO {
 
     private int fsnId; // Primary Key
     private String content;
+    private int fuelStationID;
 }

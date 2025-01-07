@@ -18,5 +18,8 @@ public class BuyQuota {
     private int bqId;
     private int amount;
     private Date date;
+    private int customerId;
+    private int vehicalId;
+    private int fuelstationId;
 
 }

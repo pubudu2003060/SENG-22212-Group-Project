@@ -17,4 +17,6 @@ public class CustomerFuelQuota {
     private String eligibleDays;
     private int eligibleFuelQuota;
     private int remainFuel;
+    private String customerId;
+    private String vehicalId;
 }
