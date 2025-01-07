@@ -19,5 +19,6 @@ public class Vehical {
     private int vehicalNo;
     private int enginNo;
     private String fualType;
+    private String customerId;
 
 }

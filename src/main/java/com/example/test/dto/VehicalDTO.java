@@ -15,4 +15,5 @@ public class VehicalDTO {
     private int vehicalNo;
     private int enginNo;
     private String fualType;
+    private String customerId;
 }

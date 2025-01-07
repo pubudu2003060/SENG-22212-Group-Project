@@ -10,15 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class User {
+public class CustomerFuelQuota {
 
     @Id
-    private int userId;
-    private String firstName;
-    private String lastName;
-    private String contactNo;
-    private String address;
-    private String identityType;
-    private String idNo;
-
+    private int customerFuelQuotaId;
+    private String eligibleDays;
+    private int eligibleFuelQuota;
+    private int remainFuel;
+    private String customerId;
+    private String vehicalId;
 }

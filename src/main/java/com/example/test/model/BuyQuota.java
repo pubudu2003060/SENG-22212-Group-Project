@@ -6,19 +6,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class User {
+public class BuyQuota {
 
     @Id
-    private int userId;
-    private String firstName;
-    private String lastName;
-    private String contactNo;
-    private String address;
-    private String identityType;
-    private String idNo;
+    private int bqId;
+    private int amount;
+    private Date date;
+    private int customerId;
+    private int vehicalId;
+    private int fuelstationId;
 
 }

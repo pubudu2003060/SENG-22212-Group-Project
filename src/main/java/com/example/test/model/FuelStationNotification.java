@@ -10,15 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class User {
+public class FuelStationNotification {
 
     @Id
-    private int userId;
-    private String firstName;
-    private String lastName;
-    private String contactNo;
-    private String address;
-    private String identityType;
-    private String idNo;
-
+    private int fsnId; // Primary Key
+    private String content;
+    private int fuelStationID;
 }
