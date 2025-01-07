@@ -15,5 +15,6 @@ public class CustomerNotification {
     @Id
     private int cnId;
     private String content;
+    private String customerId;
 
 }

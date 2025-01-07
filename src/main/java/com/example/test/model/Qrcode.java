@@ -13,5 +13,6 @@ import lombok.NoArgsConstructor;
 public class Qrcode {
 
     @Id
-    int qrcodeId;
+    private int qrcodeId;
+    private int customerFualQuataId;
 }

@@ -15,4 +15,5 @@ public class FuelStationNotification {
     @Id
     private int fsnId; // Primary Key
     private String content;
+    private int fuelStationID;
 }
