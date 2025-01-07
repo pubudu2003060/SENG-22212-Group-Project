@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VehicalDTO {
 
-    private int id;
-    private String name;
+    private int vehicalId;
+    private int chassiNo;
+    private String vehicalType;
+    private int vehicalNo;
+    private int enginNo;
+    private String fualType;
 }
