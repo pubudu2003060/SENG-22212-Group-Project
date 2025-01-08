@@ -1,6 +1,6 @@
 package com.example.test.dto;
 
-import com.example.test.model.User;
+import com.example.test.model.FuelStation;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CustomerNotificationDTO {
+public class FuelStationNotificationDTO {
 
-    private int cnId;
+    private int fsnId; // Primary Key
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
-    private User user;
+    @JoinColumn(name = "fuelstationId", referencedColumnName = "stationId", nullable = false)
+    private FuelStation fuelStation;
 }

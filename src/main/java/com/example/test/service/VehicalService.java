@@ -31,12 +31,22 @@ public class VehicalService {
         List<Vehical> vehicals = vehicalRepo.findAll();
         List<VehicalDTO> vehicalDTOS = new ArrayList<>();
         for (Vehical vehical : vehicals) {
-            vehicalDTOS.add(modelMapper.map(vehical,VehicalDTO.class));
+            vehicalDTOS.add(modelMapper.map(vehical, VehicalDTO.class));
         }
         return vehicalDTOS;
     }
 
+    public List<VehicalDTO> getAllVehicalsByCustomerId(int customerId) {
+        List<VehicalDTO> allVehicals = getAllVehicals();
+        List<VehicalDTO> vehicalDTOS = new ArrayList<>();
+        for (VehicalDTO vehical : allVehicals) {
+            if(vehical.getUser().getUserId() == customerId) {
+                vehicalDTOS.add(vehical);
+            }
+        }
 
+        return vehicalDTOS;
+    }
 
 
 }
