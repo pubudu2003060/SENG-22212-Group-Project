@@ -12,18 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Vehical {
+public class FuelStationNotification {
 
     @Id
-    private int vehicalId;
-    private int chassiNo;
-    private String vehicalType;
-    private int vehicalNo;
-    private int enginNo;
-    private String fualType;
+    private int fsnId; // Primary Key
+    private String content;
 
     @ManyToOne
-    @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
-    private User user;
-
+    @JoinColumn(name = "fuelstationId", referencedColumnName = "stationId", nullable = false)
+    private FuelStation fuelStation;
 }
