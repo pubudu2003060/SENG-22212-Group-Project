@@ -1,5 +1,8 @@
 package com.example.test.dto;
 
+import com.example.test.model.FuelStationOwner;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +22,8 @@ public class FuelStationDTO {
     private String fuelType;
     private String username;
     private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "stationOwnerid", referencedColumnName = "stationOwnerid", nullable = false)
+    private FuelStationOwner fuelStationOwner;
 }
