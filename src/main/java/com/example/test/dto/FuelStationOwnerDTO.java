@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class FuelStationOwnerDTO {
 
-    private int id;
+    private int stationOwnerid;
     private String name;
     private String contact;
-    private int fuelStationID;
 }

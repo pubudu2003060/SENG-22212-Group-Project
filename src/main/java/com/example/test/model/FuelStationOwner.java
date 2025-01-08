@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class FuelStationOwner {
 
     @Id
-    private int id;
+    private int stationOwnerid;
     private String name;
     private String contact;
-    private int fuelStationID;
+
 }
