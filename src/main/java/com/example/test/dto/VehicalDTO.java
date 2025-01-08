@@ -1,5 +1,8 @@
 package com.example.test.dto;
 
+import com.example.test.model.User;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +18,8 @@ public class VehicalDTO {
     private int vehicalNo;
     private int enginNo;
     private String fualType;
+
+    @ManyToOne
+    @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
+    private User user;
 }
