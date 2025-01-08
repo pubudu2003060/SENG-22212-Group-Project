@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
 public class FuelStation {
 
     @Id
-    private int s_id;
+    private int stationId;
     private String location;
-    private String status; // e.g., [active, not active]
-    private String station_type; // e.g., [gov, spec, other]
-    private int registered_id;
+    private String status;
+    private String stationType;
+    private int registeredId;
     private int capacity;
-    private int eligible_fuel_capacity;
-    private String fuel_type; // e.g., [petrol, diesel, both]
+    private int eligibleFuelCapacity;
+    private String fuelType;
     private String username;
     private String password;
 }
