@@ -1,6 +1,7 @@
 package com.example.test.service;
 
 
+import com.example.test.dto.BuyQuatoVehicleDTO;
 import com.example.test.dto.BuyQuotaDTO;
 import com.example.test.model.BuyQuota;
 import com.example.test.repo.BuyQuotaRepo;
@@ -31,5 +32,9 @@ public class BuyQuotaService {
     public BuyQuotaDTO saveBuyQuota(BuyQuotaDTO buyQuotaDTO) {
         buyQuotaRepo.save(modelMapper.map(buyQuotaDTO, BuyQuota.class));
         return buyQuotaDTO;
+    }
+
+    public List<BuyQuatoVehicleDTO> getBuyQuotosByVehical(int customerId){
+        return buyQuotaRepo.getBuyQuotosByVehical(customerId);
     }
 }
