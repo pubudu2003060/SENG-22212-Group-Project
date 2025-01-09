@@ -25,8 +25,5 @@ public class VehicalController {
         return vehicalService.getAllVehicals();
     }
 
-    @GetMapping("/getallvehicalsbycustomerid/{customerid}")
-    public List<VehicalDTO> getAllVehicalsByCustomerId(@PathVariable("customerid") int customerID) {
-        return vehicalService.getAllVehicalsByCustomerId(customerID);
-    }
+
 }
