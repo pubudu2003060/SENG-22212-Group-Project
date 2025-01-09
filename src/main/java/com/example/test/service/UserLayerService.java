@@ -52,7 +52,7 @@ public class UserLayerService {
         return qrcodeGeneraterService.generateQrCode(vehicalId);
     }
 
-    public void generateQRCodeImage(int vehicalId) {
-        qrcodeGeneraterService.generateQRCodeImage(vehicalId);
+    public String generateQRCodeImage(int vehicalId) {
+        return qrcodeGeneraterService.generateQRCodeImage(vehicalId);
     }
 }

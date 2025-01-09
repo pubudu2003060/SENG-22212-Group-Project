@@ -44,7 +44,7 @@ public class UserLayerController {
     }
 
     @GetMapping("/generateQRCodeImageByVehicalId/{vehicalid}")
-    public void generateQRCodeImage(@PathVariable("vehicalid") int vehicalId) {
-        userLayerService.generateQRCodeImage(vehicalId);
+    public String generateQRCodeImage(@PathVariable("vehicalid") int vehicalId) {
+        return userLayerService.generateQRCodeImage(vehicalId);
     }
 }

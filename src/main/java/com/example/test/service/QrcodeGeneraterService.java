@@ -41,7 +41,7 @@ public class QrcodeGeneraterService {
         }
     }
 
-    public void generateQRCodeImage(int vehicalId) {
+    public String generateQRCodeImage(int vehicalId) {
         Qrcode qrcode = qrcodeRepo.getQrcodeByCustomerFualQuata_Vehical_VehicalId(vehicalId);
         String Text = qrcode.getContent();
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
@@ -53,6 +53,7 @@ public class QrcodeGeneraterService {
             Path path = FileSystems.getDefault().getPath(userHome + "/Downloads/qrcode_" + vehicalId + ".png");
             try {
                 MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+                return path.toAbsolutePath().toString();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
