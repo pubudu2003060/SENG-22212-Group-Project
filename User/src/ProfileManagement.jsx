@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import './ProfileManagement.css';
 import NavigationBar from './NavigationBar';
+import WebFooter from './WebFooter';
 
 function ProfileManagement() {
     const defaultProfileData = {
@@ -76,6 +77,7 @@ function ProfileManagement() {
                     
                 </div>                       
             </div>
+            <WebFooter />
         </div>    
     );
 }
