@@ -1,12 +1,14 @@
 package com.example.test.service;
 
 import com.example.test.dto.CustomerFuelQuotaDTO;
+import com.example.test.dto.VehicalFualQuataDTO;
 import com.example.test.model.CustomerFuelQuota;
 import com.example.test.repo.CustomerFuelQuotaRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,4 +33,8 @@ public class CustomerFualQuataService {
         customerFuelQuotaRepo.save(modelMapper.map(customerFuelQuotaDTO, CustomerFuelQuota.class));
         return customerFuelQuotaDTO;
     }
+
+    public List<VehicalFualQuataDTO> getVehicalFualQuata(int customerId){
+        return customerFuelQuotaRepo.getVehicalFualQuata(customerId);
+    };
 }
