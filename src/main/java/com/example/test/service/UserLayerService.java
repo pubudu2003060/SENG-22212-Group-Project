@@ -1,5 +1,6 @@
 package com.example.test.service;
 
+import com.example.test.dto.BuyQuatoVehicleDTO;
 import com.example.test.dto.VehicalDTO;
 import com.example.test.dto.VehicalFualDataDTO;
 import com.example.test.dto.VehicalFualQuataDTO;
@@ -21,6 +22,8 @@ public class UserLayerService {
     private BuyQuotaService buyQuotaService;
     @Autowired
     private CustomerFualQuataService customerFualQuataService;
+    @Autowired
+    private QrcodeGeneraterService qrcodeGeneraterService;
 
     public List<VehicalDTO> getAllVehicalsByCustomerId(int customerId) {
         List<VehicalDTO> allVehicals = vehicalService.getAllVehicals();
@@ -39,5 +42,17 @@ public class UserLayerService {
 
     public List<VehicalFualQuataDTO> getVehicalFualQuata(int customerId){
         return customerFualQuataService.getVehicalFualQuata(customerId);
+    }
+
+    public List<BuyQuatoVehicleDTO> getBuyQuotosByVehical(int customerId){
+        return buyQuotaService.getBuyQuotosByVehical(customerId);
+    }
+
+    public byte[] generateQrCode(int vehicalId) {
+        return qrcodeGeneraterService.generateQrCode(vehicalId);
+    }
+
+    public void generateQRCodeImage(int vehicalId) {
+        qrcodeGeneraterService.generateQRCodeImage(vehicalId);
     }
 }

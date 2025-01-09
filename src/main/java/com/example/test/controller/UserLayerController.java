@@ -1,5 +1,6 @@
 package com.example.test.controller;
 
+import com.example.test.dto.BuyQuatoVehicleDTO;
 import com.example.test.dto.VehicalDTO;
 import com.example.test.dto.VehicalFualDataDTO;
 import com.example.test.dto.VehicalFualQuataDTO;
@@ -30,5 +31,20 @@ public class UserLayerController {
     @GetMapping("/getVehicalFualQuata/{customerid}")
     public List<VehicalFualQuataDTO> getVehicalFualQuata(@PathVariable("customerid") int customerID){
         return userLayerService.getVehicalFualQuata(customerID);
+    }
+
+    @GetMapping("/getBuyQuotosByVehical/{customerid}")
+    public List<BuyQuatoVehicleDTO> getBuyQuotosByVehical(@PathVariable("customerid") int customerId){
+        return userLayerService.getBuyQuotosByVehical(customerId);
+    }
+
+    @GetMapping("/generateQrCodeByVehicalId/{vehicalid}")
+    public byte[] generateQrCodeByVehicalId(@PathVariable("vehicalid") int vehicalId) {
+        return userLayerService.generateQrCode(vehicalId);
+    }
+
+    @GetMapping("/generateQRCodeImageByVehicalId/{vehicalid}")
+    public void generateQRCodeImage(@PathVariable("vehicalid") int vehicalId) {
+        userLayerService.generateQRCodeImage(vehicalId);
     }
 }
