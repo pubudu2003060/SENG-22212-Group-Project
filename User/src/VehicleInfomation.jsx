@@ -1,6 +1,7 @@
 import './VehicleInfomation.css';
 import NavigationBar from './NavigationBar';
 import {useState} from 'react';
+import WebFooter from './WebFooter';
 
 function VehicleInfomation() {
     const VehicleData = {
@@ -101,6 +102,7 @@ function VehicleInfomation() {
                     </div> 
                 </div>                       
             </div>
+            <WebFooter />
         </div>
     );
 }
