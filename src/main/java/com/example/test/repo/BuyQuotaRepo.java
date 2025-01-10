@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -17,4 +18,6 @@ public interface BuyQuotaRepo extends JpaRepository<BuyQuota, Integer> {
             "join Vehical v on v.vehicalId = b.vehical.vehicalId " +
             "where b.user.userId = :customerId")
     List<BuyQuatoVehicleDTO> getBuyQuotosByVehical(@Param("customerId")int customerId);
+
+    List<BuyQuota> getBuyQuotasByFuelType(String fuelType);
 }
