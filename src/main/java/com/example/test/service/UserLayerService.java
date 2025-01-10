@@ -1,9 +1,6 @@
 package com.example.test.service;
 
-import com.example.test.dto.BuyQuatoVehicleDTO;
-import com.example.test.dto.VehicalDTO;
-import com.example.test.dto.VehicalFualDataDTO;
-import com.example.test.dto.VehicalFualQuataDTO;
+import com.example.test.dto.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +21,8 @@ public class UserLayerService {
     private CustomerFualQuataService customerFualQuataService;
     @Autowired
     private QrcodeGeneraterService qrcodeGeneraterService;
+    @Autowired
+    private UserService userService;
 
     public List<VehicalDTO> getAllVehicalsByCustomerId(int customerId) {
         List<VehicalDTO> allVehicals = vehicalService.getAllVehicals();
@@ -54,5 +53,9 @@ public class UserLayerService {
 
     public String generateQRCodeImage(int vehicalId) {
         return qrcodeGeneraterService.generateQRCodeImage(vehicalId);
+    }
+
+    public Object updateUser(UserDto userDTO) {
+        return userService.updateUser(userDTO);
     }
 }

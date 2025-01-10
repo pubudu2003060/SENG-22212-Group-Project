@@ -1,9 +1,6 @@
 package com.example.test.controller;
 
-import com.example.test.dto.BuyQuatoVehicleDTO;
-import com.example.test.dto.VehicalDTO;
-import com.example.test.dto.VehicalFualDataDTO;
-import com.example.test.dto.VehicalFualQuataDTO;
+import com.example.test.dto.*;
 import com.example.test.service.UserLayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -47,4 +44,13 @@ public class UserLayerController {
     public String generateQRCodeImage(@PathVariable("vehicalid") int vehicalId) {
         return userLayerService.generateQRCodeImage(vehicalId);
     }
+
+    @PostMapping("/updateuser")
+    public Object updateUser(@RequestBody  UserDto userDTO) {
+        return userLayerService.updateUser(userDTO);
+    }
+
+
+
+
 }
