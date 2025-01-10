@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QrcodeRepo extends JpaRepository<Qrcode, Integer> {
+
+    Qrcode getQrcodeByCustomerFualQuata_Vehical_VehicalId(int customerFualQuataVehicalVehicalId);
+
 }
