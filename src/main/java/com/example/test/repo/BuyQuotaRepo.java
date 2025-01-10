@@ -20,4 +20,10 @@ public interface BuyQuotaRepo extends JpaRepository<BuyQuota, Integer> {
     List<BuyQuatoVehicleDTO> getBuyQuotosByVehical(@Param("customerId")int customerId);
 
     List<BuyQuota> getBuyQuotasByFuelType(String fuelType);
+
+    @Query("SELECT COUNT(*) " +
+            "FROM BuyQuota bq " +
+            "WHERE LOWER(bq.fuelType) = LOWER(:fuelType) " +
+            "AND DATE(bq.date) = :date")
+    int countByFuelTypeAndDate(String fuelType, Date date);
 }

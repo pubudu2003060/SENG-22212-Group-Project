@@ -43,5 +43,9 @@ public class BuyQuotaService {
         return buyQuotaRepo.getBuyQuotasByFuelType(fuelType);
     }
 
+    public int countByFuelTypeByDate(String fuelType,Date date){
+        return buyQuotaRepo.countByFuelTypeAndDate(fuelType, date);
+    }
+
 
 }
