@@ -2,8 +2,12 @@ package com.example.test.controller;
 
 import com.example.test.service.AdminLayerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -16,8 +20,22 @@ public class AdminLayerController {
 
 
     @GetMapping("/getBuyQuotasDataByFuelType/{fualType}")
-    public Map<String, Map<String, Double>> getBuyQuotasDataByFuelType(@PathVariable("fualType") String fuelType) {
+    public Map<String, Double> getBuyQuotasDataByFuelType(@PathVariable("fualType") String fuelType) {
         return adminLayerService.getBuyQuotasDataByFuelType(fuelType);
     }
+
+    @GetMapping("/tranctionscountByFuelTypeandDate/{fuelType}/{date}")
+    int tranctionscountByFuelTypeandDate(
+            @PathVariable("fuelType") String fuelType,
+            @PathVariable("date") String dateString) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = dateFormat.parse(dateString);
+            return adminLayerService.tranctionscountByFuelTypeandDate(fuelType, date);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Invalid date format. Expected yyyy-MM-dd");
+        }
+    }
+
 
 }
