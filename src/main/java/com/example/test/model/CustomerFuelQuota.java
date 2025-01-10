@@ -1,7 +1,6 @@
 package com.example.test.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +16,12 @@ public class CustomerFuelQuota {
     private String eligibleDays;
     private int eligibleFuelQuota;
     private int remainFuel;
-    private String customerId;
-    private String vehicalId;
+
+    @ManyToOne
+    @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
+    private User user;
+
+    @OneToOne
+    @JoinColumn(name = "vehicalId", referencedColumnName = "vehicalId", nullable = false)
+    private Vehical vehical;
 }

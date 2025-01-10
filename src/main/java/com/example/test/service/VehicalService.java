@@ -1,6 +1,7 @@
 package com.example.test.service;
 
 import com.example.test.dto.VehicalDTO;
+import com.example.test.dto.VehicalFualDataDTO;
 import com.example.test.model.Vehical;
 import com.example.test.repo.VehicalRepo;
 import jakarta.transaction.Transactional;
@@ -31,9 +32,13 @@ public class VehicalService {
         List<Vehical> vehicals = vehicalRepo.findAll();
         List<VehicalDTO> vehicalDTOS = new ArrayList<>();
         for (Vehical vehical : vehicals) {
-            vehicalDTOS.add(modelMapper.map(vehical,VehicalDTO.class));
+            vehicalDTOS.add(modelMapper.map(vehical, VehicalDTO.class));
         }
         return vehicalDTOS;
+    }
+
+    public List<VehicalFualDataDTO> getvehicalFualData(int customerId){
+        return vehicalRepo.getvehicalFualData(customerId);
     }
 
 

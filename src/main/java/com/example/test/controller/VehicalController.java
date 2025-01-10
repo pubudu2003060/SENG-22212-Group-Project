@@ -24,4 +24,6 @@ public class VehicalController {
     public List<VehicalDTO> getAllVehicals() {
         return vehicalService.getAllVehicals();
     }
+
+
 }
