@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
+import VehicleOwners from '../userManagementComponents/VehicleOwners'
 
 import {Button, Layout} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import FuelStationOwners from '../userManagementComponents/FuelStationOwners';
 
 const { Sider, Header, Content } = Layout;
 
-function FuelManagement() {
-    const [headerTitle, setHeaderTitle] = useState('Fuel Management'); // Default title
+function UserManagement() {
+    const [headerTitle, setHeaderTitle] = useState('User Management'); // Default title
     const userName = 'John Doe'; // Replace with user data from login
 
     const [collapsed, setCollapsed] = useState(false);
+    const [activeComponent, setActiveComponent] = useState('VehicleOwners');
 
     return (
         <>
@@ -43,13 +46,28 @@ function FuelManagement() {
                     <Content>
                         <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
                             <Content style={{padding: 20, background: '#fff'}}>
-                                fsjyjs
+                                <div style={{ display: 'flex', justifyContent: 'right', marginBottom: '0.5rem' }}> 
+                                    <Button 
+                                        type={activeComponent === 'VehicleOwners' ? 'primary' : 'default'} 
+                                        onClick={() => setActiveComponent('VehicleOwners')} 
+                                        style={{ marginRight: '1rem' }}
+                                        > Vehicle Owners 
+                                    </Button> 
+                                    <Button 
+                                        type={activeComponent === 'FuelStationOwners' ? 'primary' : 'default'} 
+                                        onClick={() => setActiveComponent('FuelStationOwners')} 
+                                        > Station Owners 
+                                    </Button> 
+                                </div>
+                                {activeComponent === 'VehicleOwners' && <VehicleOwners />} 
+                                {activeComponent === 'FuelStationOwners' && <FuelStationOwners />}
                             </Content>
+                                
                         </Layout>
 
                         <Layout style={{padding: 0, marginTop: 10, marginLeft: 10}}>
                             <Content style={{padding: 20, background: '#fff'}}>
-                                fsjyjs
+                                
                             </Content>
                         </Layout>
 
@@ -60,4 +78,4 @@ function FuelManagement() {
     );
     }
 
-export default FuelManagement;
+export default UserManagement;
