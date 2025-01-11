@@ -1,14 +1,29 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import { Menu } from 'antd';
-import { AppstoreOutlined, HomeOutlined, SettingOutlined, AreaChartOutlined, PayCircleOutlined } from '@ant-design/icons';
+import { HomeOutlined, AreaChartOutlined, ShopOutlined, TeamOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 
 import '../styles/navbar.css'; // Import custom CSS
 
 
 function Navbar({ setHeaderTitle }) {
-  const handleMenuClick = ({ key, domEvent }) => {
+  const location = useLocation();
+  const [selectedKey, setSelectedKey] = useState('dashboard'); // Initialize the default selected key
+
+  useEffect(() => { 
+    const pathMap = { 
+      '/dashboard': 'dashboard', 
+      '/fuelManagement': 'fuelManagement', 
+      '/stationManagement': 'stationManagement', 
+      '/userManagement': 'userManagement', 
+      '/fuelQuotaManagement': 'fuelQuotaManagement', 
+      '/setting': 'setting' 
+    }; 
+    setSelectedKey(pathMap[location.pathname] || 'dashboard'); 
+  }, [location.pathname]);
+  
+  const handleMenuClick = ({ key }) => {
     const titles = {
       dashboard: 'Dashboard',
       fuelManagement: 'Fuel Management',
@@ -19,28 +34,34 @@ function Navbar({ setHeaderTitle }) {
     };
 
     setHeaderTitle(titles[key] || 'Dashboard');
+    setSelectedKey(key); // Update the selected key when a menu item is clicked
   };
 
     return (
       <div className="nav-bar">
-        <Menu mode="inline" className="menu-bar" onClick={handleMenuClick}>
+        <Menu 
+          mode="inline" 
+          className="menu-bar" 
+          onClick={handleMenuClick}
+          selectedKeys={[selectedKey]} // Set the selected key
+        >
             <Menu.Item key="dashboard" icon={<HomeOutlined />}>
               <Link to="/dashboard"> Dashboard </Link>  
             </Menu.Item>
             
-            <Menu.Item key="fuelManagement" icon={<AppstoreOutlined />}>
+            <Menu.Item key="fuelManagement" icon={<AreaChartOutlined />}>
               <Link to="/fuelManagement"> Fuel Management </Link>
             </Menu.Item>
 
-            <Menu.Item key="stationManagement" icon={<AppstoreOutlined />}>
+            <Menu.Item key="stationManagement" icon={<ShopOutlined />}>
               <Link to="/stationManagement"> Station Management </Link>
             </Menu.Item>
 
-            <Menu.Item key="userManagement" icon={<AreaChartOutlined />}>
+            <Menu.Item key="userManagement" icon={<TeamOutlined />}>
               <Link to="/userManagement"> User Management </Link>
             </Menu.Item>
 
-            <Menu.Item key="fuelQuotaManagement" icon={<PayCircleOutlined />}>
+            <Menu.Item key="fuelQuotaManagement" icon={<AppstoreOutlined />}>
               <Link to="/fuelQuotaManagement"> Fuel Quota Management </Link>
             </Menu.Item>
 
