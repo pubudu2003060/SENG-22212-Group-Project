@@ -8,7 +8,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 const { Sider, Header, Content } = Layout;
 
 function FuelManagement() {
-    const [headerTitle, setHeaderTitle] = useState('Fuel Management'); // Default title
+    const [headerTitle, setHeaderTitle] = useState('Fuel Quota Management'); // Default title
     const userName = 'John Doe'; // Replace with user data from login
 
     const [collapsed, setCollapsed] = useState(false);
