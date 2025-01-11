@@ -5,9 +5,38 @@ html, body {
     width: 100%;
     height: 100%;
     font-family: Arial, sans-serif;
-    background-color: #e3f2fd;
+
+}
+/* Ensure the top-bar stays at the top of the page */
+.top-bar {
+    display: flex;
+    align-items: center; /* Vertically center the items */
+    background-color: #055555; /* Background color for the header */
+    color: white; /* Text color */
+    padding: 2px px; /* Padding for spacing */
+    box-sizing: border-box;
+    width: 100%; /* Ensures the header takes the full width of the page */
+    position: fixed; /* Fixes the header at the top */
+    top: 0; /* Positions it at the top of the page */
+    left: 0; /* Ensures it's aligned with the left edge */
+    z-index: 1000; /* Ensures it stays above other content */
 }
 
+.top-bar img {
+    height: 150px; /* Adjust image height */
+    width: auto; /* Maintain aspect ratio */
+}
+
+.top-bar h2 {
+    font-family: 'Roboto', sans-serif; /* Font for the text */
+    font-size: 2.5rem; /* Font size */
+    text-align: center !important;
+    color: white; /* Text color */
+    margin-left: 350px;
+    letter-spacing: 0.2rem;
+    word-spacing: 0.5 rem;
+
+}
 
 .home-page {
     display: flex;
@@ -16,43 +45,46 @@ html, body {
     align-items: center; 
     height: 100vh; 
     width: 100vw; 
-    background-color: #e3f2fd;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-image: url('images/OIP.jpeg');
+    background-size: cover; /* Ensures the image covers the entire element */
+    background-position: center; /* Centers the image within the element */
+    background-repeat: no-repeat; /* Ensures the image doesn't repeat */
+    overflow: hidden;  /* Hide any overflow */
 }
-
-.hero-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 1000px !important;
-    text-align: center;
-
-}
-
+  
 .text-container {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.607);
     padding: 60px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
+    width: 30%;
+    justify-content: center;
+    min-width: 600px;
+    border-color: #d1d1d1;
+    display: flex;
+    flex-direction: column;
+    text-align: center; 
+    margin-top: 60px;
+    
 }
 
 
 .main-title {
     font-family: 'Roboto', sans-serif;
     font-size: 2.5rem;
-    color: #055555;
+    color: #1b262c;
     margin-bottom: 10px;
+    justify-items: center;
 }
 
 .subtitle {
     font-size: 1.2rem;
-    color: #666;
+    color: #121212;
     margin-bottom: 20px;
+    font-weight: bold;
 }
 
 
@@ -81,7 +113,8 @@ html, body {
 }
 .info-text {
     font-size: 1rem;
-    color: #555;
+    color: #202020;
     margin-bottom: 22px;
     font-style: italic;
+    font-weight: bold;
 }
