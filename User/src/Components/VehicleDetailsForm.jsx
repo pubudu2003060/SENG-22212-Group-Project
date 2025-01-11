@@ -18,6 +18,7 @@ function VehicleDetailsForm() {
 
     const mockDatabase = [
         { vehicleNumber: "ABC1234", chassisNumber: "CH12345678912345" },
+        { vehicleNumber: "ABC5678", chassisNumber: "CH12345678956789" }
     ];
 
 
