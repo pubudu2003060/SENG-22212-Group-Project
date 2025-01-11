@@ -7,31 +7,31 @@ html, body {
     font-family: Arial, sans-serif;
 
 }
-/* Ensure the top-bar stays at the top of the page */
+
 .top-bar {
     display: flex;
-    align-items: center; /* Vertically center the items */
-    background-color: #055555; /* Background color for the header */
-    color: white; /* Text color */
-    padding: 2px px; /* Padding for spacing */
+    align-items: center;
+    background-color: #055555; 
+    color: white; 
+    padding: 2px px; 
     box-sizing: border-box;
-    width: 100%; /* Ensures the header takes the full width of the page */
-    position: fixed; /* Fixes the header at the top */
-    top: 0; /* Positions it at the top of the page */
-    left: 0; /* Ensures it's aligned with the left edge */
-    z-index: 1000; /* Ensures it stays above other content */
+    width: 100%; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    z-index: 1000;
 }
 
 .top-bar img {
-    height: 150px; /* Adjust image height */
-    width: auto; /* Maintain aspect ratio */
+    height: 150px; 
+    width: auto; 
 }
 
 .top-bar h2 {
-    font-family: 'Roboto', sans-serif; /* Font for the text */
-    font-size: 2.5rem; /* Font size */
+    font-family: 'Roboto', sans-serif; 
+    font-size: 2.5rem; 
     text-align: center !important;
-    color: white; /* Text color */
+    color: white; 
     margin-left: 350px;
     letter-spacing: 0.2rem;
     word-spacing: 0.5 rem;
@@ -49,10 +49,10 @@ html, body {
     padding: 0;
     box-sizing: border-box;
     background-image: url('images/fuelstation.jpg');
-    background-size: cover; /* Ensures the image covers the entire element */
-    background-position: center; /* Centers the image within the element */
-    background-repeat: no-repeat; /* Ensures the image doesn't repeat */
-    overflow: hidden;  /* Hide any overflow */
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    overflow: hidden;  
 }
   
 .text-container {
@@ -68,7 +68,17 @@ html, body {
     flex-direction: column;
     text-align: center; 
     margin-top: 60px;
-    
+    animation: slideInFromTop 1s ease-out; 
+}
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-20px); 
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); 
+    }
 }
 
 
