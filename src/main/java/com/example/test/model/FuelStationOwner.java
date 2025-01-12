@@ -16,5 +16,7 @@ public class FuelStationOwner {
     private int stationOwnerid;
     private String name;
     private String contact;
+    private String address;
+    private int nicNo;
 
 }
