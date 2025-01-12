@@ -1,6 +1,6 @@
 package com.example.test.service;
 
-/*import com.twilio.Twilio;
+import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,4 +30,4 @@ public abstract class TwilioSmsService implements SmsService{
                 "Your OTP is: "+otp
         ).create();
     }
-}*/
+}
