@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,4 +33,16 @@ public class UserService {
         userRepo.save(modelMapper.map(userDTO, User.class));
         return userDTO;
     }
+
+    public Object updateUser(UserDto userDTO) {
+        Optional<User> user = userRepo.findById(userDTO.getUserId());
+        if (user.isPresent()) {
+            userRepo.save(modelMapper.map(userDTO, User.class));
+            return userDTO;
+        }
+        else{
+            return "user doesnt exist";
+        }
+    }
+
 }
