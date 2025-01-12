@@ -31,7 +31,7 @@ function Otp() {
   const handleVerifyOtp = () => {
     const enteredOtp = otp.join(""); 
     if (enteredOtp === "1234") {
-      navigate("/dashboard");
+      navigate("/Dashboard");
     } else {
       setError("Invalid OTP. Please try again.");
     }
