@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import NavigationBar from './NavigationBar';
 import WebFooter from './WebFooter';
+import WebHeader from './WebHeader';
 
 function Dashboard() {
     const navigate = useNavigate();
@@ -49,6 +50,7 @@ function Dashboard() {
 
     return (
         <div className="dashboard">
+            <WebHeader />
             <NavigationBar />
             <div className="dashboard-body">
                 <h2 id="dashboard-h2">
