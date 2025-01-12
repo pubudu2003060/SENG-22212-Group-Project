@@ -35,11 +35,6 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#hidden-btn{
-  border: none;
-}
-
-
 .nav-btn:hover {
   background-color: white;
   color: #003366; 
