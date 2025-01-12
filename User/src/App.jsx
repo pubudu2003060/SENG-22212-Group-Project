@@ -6,10 +6,10 @@ import Otp from './Components/Otp.jsx';
 import HomePage from './Components/Home.jsx';
 import PersonalDetailsForm from './Components/PersonalDetailsForm.jsx';
 import VehicleDetailsForm from './Components/VehicleDetailsForm.jsx';
-import Dashboard from './Dashboard';
-import ProfileManagement from './ProfileManagement';
-import VehicleInfomation from './VehicleInfomation';
-import PageNotFound from "./PageNotFound";
+import Dashboard from './Pages/Dashboard.jsx';
+import ProfileManagement from './Pages/ProfileManagement.jsx';
+import VehicleInfomation from './Pages/VehicleInfomation';
+import PageNotFound from "./Pages/PageNotFound.jsx";
 
 
 function App() {
