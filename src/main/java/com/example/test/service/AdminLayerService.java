@@ -17,7 +17,10 @@ import java.util.Map;
 public class AdminLayerService {
 
     @Autowired
-    BuyQuotaService buyQuotaService;
+    private BuyQuotaService buyQuotaService;
+
+    @Autowired
+    private UserService userService;
 
     public Map<String, Double> getBuyQuotasDataByFuelType(String fuelType) {
         // Fetch the list of BuyQuota for the specified fuel type
@@ -61,4 +64,6 @@ public class AdminLayerService {
     public int tranctionscountByFuelTypeandDate(String fuelType,Date date) {
         return buyQuotaService.countByFuelTypeByDate(fuelType,date);
     }
+
+
 }
