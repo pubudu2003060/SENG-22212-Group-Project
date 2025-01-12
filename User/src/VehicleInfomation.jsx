@@ -1,6 +1,7 @@
 import './VehicleInfomation.css';
 import NavigationBar from './NavigationBar';
 import WebFooter from './WebFooter';
+import WebHeader from './WebHeader';
 
 function VehicleInfomation() {
     const vehicleData = [
@@ -22,6 +23,7 @@ function VehicleInfomation() {
 
     return (
         <div className="vehicle">
+            <WebHeader/>
             <NavigationBar />
             <div className="vehicle-body">
                 <div id="vehicle-interBody">
