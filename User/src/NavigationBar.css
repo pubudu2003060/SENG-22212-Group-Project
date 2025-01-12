@@ -27,17 +27,27 @@ body {
   padding: 0.625em 1.5em;
   font-size: 1em;
   font-family: inherit;
-  color: white;
+  color: rgb(255, 255, 255);
   background-color: #003366;
-  border: 1px solid transparent;
+  border: 1px solid white;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+#hidden-btn{
+  border: none;
+}
+
+
 .nav-btn:hover {
   background-color: white;
   color: #003366; 
+}
+
+.nav-btn.active{
+  background-color: white;
+  color: #003366;  
 }
 
 @media (min-width: 791px) {
@@ -49,6 +59,7 @@ body {
 .logout-btn {
   background-color: red; 
   color: white;
+  border: none;
 }
 
 .logout-btn:hover {
