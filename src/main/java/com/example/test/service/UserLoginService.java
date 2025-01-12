@@ -16,8 +16,11 @@ import java.util.Optional;
 @NoArgsConstructor
 public class UserLoginService {
 
+    @Autowired
     private UserLoginRepo userLoginRepo;
+    @Autowired
     private OtpGenerateService otpGenerateService;
+    @Autowired
     private SmsService smsService;
 
     public String sendOtp(String phoneNumber) {
@@ -31,13 +34,14 @@ public class UserLoginService {
         smsService.sendOtp(phoneNumber, otp);
         return "OTP sent successfully!";
     }
-    public String validateOtp(LoginRequestDto loginRequest){
-        Optional<UserLogin> userOpt= userLoginRepo.findById(loginRequest.getPhoneNumber());
-        if(userOpt.isPresent()){
+
+    public String validateOtp(LoginRequestDto loginRequest) {
+        Optional<UserLogin> userOpt = userLoginRepo.findById(loginRequest.getPhoneNumber());
+        if (userOpt.isPresent()) {
 
             UserLogin user = userOpt.get();
 
-            if(user.getOtp().equals(loginRequest.getOtp())){
+            if (user.getOtp().equals(loginRequest.getOtp())) {
                 user.setVerified(true);
                 userLoginRepo.save(user);
                 return "login successfully";
@@ -45,8 +49,6 @@ public class UserLoginService {
         }
         return "Invalid OTP!";
     }
-
-
 
 
 }
