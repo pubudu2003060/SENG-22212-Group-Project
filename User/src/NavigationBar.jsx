@@ -14,7 +14,6 @@ function NavigationBar() {
       <div>
         <nav className="navBar">
           <div className="navButtons">
-            <button className="nav-btn" id = "hidden-btn"></button>
             <button className={getButtonClass("/dashboard")}  onClick = {() => navigate("/dashboard")}>Dashboard</button>
             <button className={getButtonClass("/vehicle-info")}  onClick = {() => navigate("/vehicle-info")}>Vehicle Infomation</button>
             <button className={getButtonClass("/profile")}  onClick = {() => navigate("/profile")}>Profile</button>
