@@ -1,9 +1,6 @@
 package com.example.test.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,15 +12,38 @@ import lombok.NoArgsConstructor;
 public class FuelStation {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int stationId;
+
+    @Column(nullable = false)
     private String location;
-    private String status;
-    private String stationType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StationType stationType;
+
+    @Column(nullable = false,unique = true)
     private int registeredId;
+
+    @Column(nullable = false)
     private int capacity;
-    private int eligibleFuelCapacity;
-    private String fuelType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EligibleFuelCapacity eligibleFuelCapacity;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private FuelType fuelType;
+
+    @Column(nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
 
     @ManyToOne
