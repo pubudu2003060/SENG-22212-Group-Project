@@ -1,4 +1,4 @@
-import './NavigationBar.css';
+import '../Styles/NavigationBar.css';
 import { useLocation, useNavigate } from "react-router-dom";
 
 function NavigationBar() {

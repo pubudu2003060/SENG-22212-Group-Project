@@ -1,7 +1,7 @@
-import './VehicleInfomation.css';
-import NavigationBar from './NavigationBar';
-import WebFooter from './WebFooter';
-import WebHeader from './WebHeader';
+import '../Styles/VehicleInfomation.css';
+import NavigationBar from '../Components/NavigationBar';
+import WebFooter from '../Components/WebFooter';
+import WebHeader from '../Components/WebHeader';
 
 function VehicleInfomation() {
     const vehicleData = [

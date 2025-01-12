@@ -1,4 +1,4 @@
-import './WebHeader.css';
+import '../Styles/WebHeader.css';
 
 function WebHeader() {
     return (  
