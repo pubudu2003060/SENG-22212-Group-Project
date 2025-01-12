@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Dashboard.css';
-import NavigationBar from './NavigationBar';
-import WebFooter from './WebFooter';
-import WebHeader from './WebHeader';
+import '../Styles/Dashboard.css';
+import NavigationBar from '../Components/NavigationBar';
+import WebFooter from '../Components/WebFooter';
+import WebHeader from '../Components/WebHeader';
 
 function Dashboard() {
     const navigate = useNavigate();

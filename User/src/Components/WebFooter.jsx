@@ -1,4 +1,4 @@
-import './WebFooter.css';
+import '../Styles/WebFooter.css';
 
 function WebFooter() {
     return (  
