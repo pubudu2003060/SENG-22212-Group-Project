@@ -47,12 +47,6 @@
     margin-top: 0;
 }
 
-#dashboard-btn{
-    color: #003366;
-    background-color: white;
-    border: 1px solid #003366;    
-}
-
 #dashboard-h2{
     font-size: 24px;
     font-weight: 600;
@@ -63,5 +57,7 @@
 #dashboard-p{
     margin-top: 1em;
 }
+
+
 
 

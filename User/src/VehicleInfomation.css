@@ -1,140 +1,64 @@
-.vehicle{
+.vehicle {
     margin: 0;
     padding: 0;
-    width: 100vw;  
-    height: 100vh; 
-    overflow-y: auto; 
-    overflow-x: hidden; 
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
     box-sizing: border-box;
+    background-color: rgba(227, 242, 253, 0.70);;
 }
-.vehicle-body{
+
+.vehicle-body {
     display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; 
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-@media(min-width:791px){
-    .vehicle-body{
-        padding: 4em 5em;
-    }
+#vehicle-interBody {
+    padding: 3em 5em;
+    width: 80%;
+    
 }
 
-@media(max-width:791px){
-    .vehicle-interbody{
-        padding: 4em 0.5em;
-    }
-}
-
-
-#vehicle-interBody{
-    background-color: #E3F2FD;
-    padding: 3em 8em 5em 8em;
-    width: 80%; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-    border-radius: 10px; 
-    margin: 3em 6em;
-}
-
-#vehicle-subHeading{
-    margin-bottom: 1.5em;
-    margin-left: -1.6em;
-    font-size: 28px;
-}
-
-#vehicle-interBody input[type="text"], 
-#vehicle-interBody select {
-    width: 100%; 
-    padding: 0.6em; 
-    margin-top: -16em; 
-    margin-bottom: 0.5em;
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    box-sizing: border-box; 
-}
-
-#vehicle-edit-btn, #vehicle-save-btn {
-    color: white;
-    background-color: green; 
-    border: none; 
-    padding: 1em 3em; 
-    border-radius: 5px; 
-    float: right; 
-    cursor: pointer;
-    margin-right: 1em;
-    margin-top: 1em;
-}
-
-#vehicle-save-btn {
-    margin-right: 0; 
-}
-
-#vehicle-save-btn:disabled {
-    background-color: lightgray; 
-    cursor: not-allowed; 
-}
-
-.vehicle-active-btn {
-    background-color: green; 
-}
-
-#vehicle-hr {
-    border: 0;
-    height: 1px;
-    background: #ccc;
-    margin-top: 6em;
+#vehicle-subHeading {
     margin-bottom: 3em;
+    font-size: 28px;
+    text-align: center;
+    margin-top: -6em;
 }
 
-#vehicle-cancel-btn,
-#vehicle-add-btn {
+.vehicle-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2em;
+}
+
+.vehicle-table th, .vehicle-table td {
+    text-align: left;
+    padding: 1em;
+    border: 1px solid #160f0f;
+}
+
+.vehicle-table th {
+    background-color: #003366;
     color: white;
-    background-color: green; 
-    border: none; 
-    padding: 1em 2em; 
-    border-radius: 5px; 
-    cursor: pointer; 
+    font-weight: bold;
+    text-align: center;
+    height: 3.5em;
 }
 
-#vehicle-cancel-btn {
-    background-color: grey; 
-    margin-right: 1em; 
+.vehicle-table tr:nth-child(even) {
+    background-color: #6babe8;
 }
 
-#vehicle-add-btn {
-    margin-left: 1em; 
+.vehicle-table tr:nth-child(odd) {
+    background-color: #cee4fb;
 }
 
-.vehicle-fuel-btn {
-    margin-right: 0.5em; 
-    padding: 0.5em 1em; 
-    border: 1px solid #003366;
-    border-radius: 5px; 
-    cursor: pointer;
+.vehicle-table tbody td{
+    height: 3em;
+    text-align: center;
 }
 
-.vehicle-fuel-btn.selected {
-    background-color: #003366; 
-    color: white;
-}
 
-.vehicle-footer-btn{
-    display: flex;
-    justify-content: center; 
-    gap: 1em; 
-    margin-top: 2em; 
-}
-
-#vehicleInfo-btn{
-    color: #003366;
-    background-color: white;
-    border: 1px solid #003366;    
-}
-
-#vehicle-checkbox{
-    display: 'flex';
-}
-
-.vehicle-form-group label{
-    margin-bottom: -0.3em;
-}

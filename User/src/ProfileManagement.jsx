@@ -2,6 +2,7 @@ import {useState} from 'react';
 import './ProfileManagement.css';
 import NavigationBar from './NavigationBar';
 import WebFooter from './WebFooter';
+import WebHeader from './WebHeader';
 
 function ProfileManagement() {
     const defaultProfileData = {
@@ -36,6 +37,7 @@ function ProfileManagement() {
 
     return (  
         <div className = "profile">
+            <WebHeader/>
             <NavigationBar/>
             <div className = "profile-body">
                 <div id = "profile-profileBody">
