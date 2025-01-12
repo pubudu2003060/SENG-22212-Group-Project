@@ -5,9 +5,6 @@ import Headerbar from '../components/Headerbar';
 import {Button, Layout} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
-import '../styles/navbar.css'; // Import custom CSS
-
-
 const {Header, Sider, Content} = Layout;
 
 function Dashboard() {
@@ -20,7 +17,7 @@ function Dashboard() {
         <>
            <Layout>
                 <Sider 
-                width={250} // Change the width to 300px (or any value you want)
+                width={250} 
                 collapsedWidth={70} // Width when collapsed
                 collapsed={collapsed} 
                 collapsible 
