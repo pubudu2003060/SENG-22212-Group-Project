@@ -34,7 +34,9 @@ public class UserLoginService {
     public String validateOtp(LoginRequestDto loginRequest){
         Optional<UserLogin> userOpt= userLoginRepo.findById(loginRequest.getPhoneNumber());
         if(userOpt.isPresent()){
+
             UserLogin user = userOpt.get();
+
             if(user.getOtp().equals(loginRequest.getOtp())){
                 user.setVerified(true);
                 userLoginRepo.save(user);
