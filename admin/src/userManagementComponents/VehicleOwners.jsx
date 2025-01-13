@@ -135,7 +135,7 @@ function VehicleOwners() {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="7" style={{ textAlign: "center" }}>
+                            <td colSpan="6" style={{ textAlign: "center" }}>
                                 No results found.
                             </td>
                         </tr>

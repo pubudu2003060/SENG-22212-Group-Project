@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
+//import SetNewQuota from '../FuelQuotaManagementComponents.jsx/SetNewQuota';
+//import ResetQuota from '../FuelQuotaManagementComponents.jsx/ResetQuota';
+//import QuotaDetails from '../FuelQuotaManagementComponents.jsx/QuotaDetails';
 
 import {Button, Layout} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -43,7 +46,7 @@ function FuelManagement() {
                     <Content>
                         <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
                             <Content style={{padding: 20, background: '#fff'}}>
-                                fsjyjs
+                                jgfxj
                             </Content>
                         </Layout>
 
