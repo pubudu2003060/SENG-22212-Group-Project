@@ -30,8 +30,8 @@ public class UserService {
     }
 
     public UserDto saveUser(UserDto userDTO) {
-        userRepo.save(modelMapper.map(userDTO, User.class));
-        return userDTO;
+        User user = userRepo.save(modelMapper.map(userDTO, User.class));
+        return modelMapper.map(user, UserDto.class);
     }
 
     public Object updateUser(UserDto userDTO) {
@@ -43,6 +43,17 @@ public class UserService {
         else{
             return "user doesnt exist";
         }
+    }
+
+    public UserDto getUserByPhoneNumber(String phoneNumber){
+        User user = userRepo.getUserByContactNo(phoneNumber);
+        if(user != null){
+            return modelMapper.map(user,UserDto.class);
+        }
+        else{
+            return null;
+        }
+
     }
 
 }

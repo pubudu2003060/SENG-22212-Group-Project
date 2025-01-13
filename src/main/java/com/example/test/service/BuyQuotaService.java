@@ -11,6 +11,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,4 +38,14 @@ public class BuyQuotaService {
     public List<BuyQuatoVehicleDTO> getBuyQuotosByVehical(int customerId){
         return buyQuotaRepo.getBuyQuotosByVehical(customerId);
     }
+
+    public List<BuyQuota> getBuyQuotasByFuelType(String fuelType){
+        return buyQuotaRepo.getBuyQuotasByFuelType(fuelType);
+    }
+
+    public int countByFuelTypeByDate(String fuelType,Date date){
+        return buyQuotaRepo.countByFuelTypeAndDate(fuelType, date);
+    }
+
+
 }
