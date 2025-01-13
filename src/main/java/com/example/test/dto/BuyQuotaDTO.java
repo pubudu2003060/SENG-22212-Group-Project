@@ -19,6 +19,7 @@ public class BuyQuotaDTO {
     private int bqId;
     private int amount;
     private Date date;
+    private String fuelType;
 
     @ManyToOne
     @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
