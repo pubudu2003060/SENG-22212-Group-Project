@@ -14,6 +14,7 @@ import java.util.Date;
 public class BuyQuota {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bqId;
     private int amount;
     private Date date;

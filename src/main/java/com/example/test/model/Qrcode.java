@@ -1,9 +1,6 @@
 package com.example.test.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class Qrcode {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int qrcodeId;
     private String content;
 

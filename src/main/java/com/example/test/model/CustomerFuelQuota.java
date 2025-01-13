@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class CustomerFuelQuota {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customerFuelQuotaId;
     private String eligibleDays;
     private int eligibleFuelQuota;
