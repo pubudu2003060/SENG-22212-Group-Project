@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
-//import SetNewQuota from '../FuelQuotaManagementComponents.jsx/SetNewQuota';
-//import ResetQuota from '../FuelQuotaManagementComponents.jsx/ResetQuota';
-//import QuotaDetails from '../FuelQuotaManagementComponents.jsx/QuotaDetails';
+import SetNewQuota from '../FuelQuotaManagementComponents/SetNewQuota';
+//import ResetQuota from '../FuelQuotaManagementComponents/ResetQuota';
+//import QuotaDetails from '../FuelQuotaManagementComponents/QuotaDetails';
 
-import {Button, Layout} from 'antd';
+import {Button, Layout, Row, Col} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
 const { Sider, Header, Content } = Layout;
 
-function FuelManagement() {
+function FuelQuotaManagement() {
     const [headerTitle, setHeaderTitle] = useState('Fuel Quota Management'); // Default title
     const userName = 'John Doe'; // Replace with user data from login
 
@@ -44,12 +44,25 @@ function FuelManagement() {
                     </Header>
 
                     <Content>
-                        <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
-                                jgfxj
-                            </Content>
-                        </Layout>
+                        {/* Row with two columns */}
+                        <Row  style={{ marginBottom: '10px' }}>
+                            <Col span={12}>
+                                <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
+                                    <Content style={{padding: 20, background: '#fff'}}>
+                                        <SetNewQuota />
+                                    </Content>
+                                </Layout>
+                            </Col>
 
+                            <Col span={12}>
+                                <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
+                                    <Content style={{padding: 20, background: '#fff'}}>
+                                        fsjyjs
+                                    </Content>
+                                </Layout>
+                            </Col>
+                        </Row>
+                        
                         <Layout style={{padding: 0, marginTop: 10, marginLeft: 10}}>
                             <Content style={{padding: 20, background: '#fff'}}>
                                 fsjyjs
@@ -63,4 +76,4 @@ function FuelManagement() {
     );
     }
 
-export default FuelManagement;
+export default FuelQuotaManagement;
