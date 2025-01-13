@@ -45,4 +45,15 @@ public class UserService {
         }
     }
 
+    public UserDto getUserByPhoneNumber(String phoneNumber){
+        User user = userRepo.getUserByContactNo(phoneNumber);
+        if(user != null){
+            return modelMapper.map(user,UserDto.class);
+        }
+        else{
+            return null;
+        }
+
+    }
+
 }

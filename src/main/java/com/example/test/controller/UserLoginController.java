@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/login")
-
 public class UserLoginController {
     @Autowired
     private UserLoginService userLoginService;
@@ -18,9 +17,9 @@ public class UserLoginController {
     public String sendOtp(@RequestParam String phoneNumber) {
         return userLoginService.sendOtp(phoneNumber);
     }
+
     @PostMapping("/validate-otp")
     public String validateOtp(@RequestBody LoginRequestDto loginRequest) {
         return userLoginService.validateOtp(loginRequest);
-
     }
 }

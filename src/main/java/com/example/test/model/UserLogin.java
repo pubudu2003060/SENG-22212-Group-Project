@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor //Generates a constructor that accepts all the fields in the class as parameter
 @NoArgsConstructor //generate default no arg constructor for the class
 public class UserLogin {
+
     @Id
     private String phoneNumber;
     private  String otp; // to store onetime password
