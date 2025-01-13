@@ -124,12 +124,6 @@ hr {
     align-items: center;
 }
 
-#profile-btn{
-    color: #003366;
-    background-color: white;
-    border: 1px solid #003366;    
-}
-
 .profile-form-group label{
     margin-bottom: 0em;
 }
