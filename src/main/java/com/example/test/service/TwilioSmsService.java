@@ -29,7 +29,7 @@ public class TwilioSmsService implements SmsService{
         Message.creator(
                 new com.twilio.type.PhoneNumber(phoneNumber),
                 new com.twilio.type.PhoneNumber(fromPhoneNumber),
-                "Your OTP is: "+otp
+                "Your OTP is:"+otp
         ).create();
 }
 }
