@@ -131,7 +131,7 @@ function FuelStationOwners() {
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="9" style={{ textAlign: "center" }}>
+                        <td colSpan="4" style={{ textAlign: "center" }}>
                             No results found.
                         </td>
                     </tr>

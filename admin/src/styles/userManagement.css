@@ -9,10 +9,12 @@ input, select {
 }
 
 .ownersTable { 
-    width: 100%; 
+    align-content: center;
+    width: 90%; 
     border-collapse: collapse; /* Standard border style */ 
     border: 1px solid #ccc; /* Border for the table */ 
     text-align: left;
+    margin: 0 auto;
 }
 
 .ownersTable thead {
