@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class FuelStationDTO {
+public class FuelStationManagementDTO {
 
     private int stationId;
     private String location;
@@ -20,8 +20,6 @@ public class FuelStationDTO {
     private int capacity;
     private EligibleFuelCapacity eligibleFuelCapacity;
     private FuelType fuelType;
-    private String username;
-    private String password;
 
     @ManyToOne
     @JoinColumn(name = "stationOwnerid", referencedColumnName = "stationOwnerid", nullable = false)
