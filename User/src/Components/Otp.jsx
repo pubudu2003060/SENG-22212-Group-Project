@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "../Styles/Login.css";
 
 function Otp() {
   const [otp, setOtp] = useState(["", "", "", ""]); 
-  const [error, setError] = useState("");  
+  const [error, setError] = useState(""); 
+  const location = useLocation();
+  const phoneNumber = location.state?.phoneNumber; // Get the phone number 
   const navigate = useNavigate();
 
   const handleInputChange = (e, index) => {
@@ -27,15 +30,42 @@ function Otp() {
   };
   
   
-
-  const handleVerifyOtp = () => {
-    const enteredOtp = otp.join(""); 
-    if (enteredOtp === "1234") {
-      navigate("/Dashboard");
+  const handleVerifyOtp = async () => {
+    const enteredOtp = otp.join(""); // Combine the OTP digits into a single string
+  
+    if (enteredOtp.length === 4) {
+      try {
+        const response = await fetch("http://localhost:<port>/api/v1/login/validate-otp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phoneNumber,
+            password: "your_password", // Replace with an actual password field if required
+            otp: enteredOtp,
+          }),
+        });
+  
+        const result = await response.text();
+        if (response.ok) {
+          alert(result); // Show "Login successfully" or "Invalid OTP!"
+          if (result === "Login successfully") {
+            navigate("/Dashboard");
+          } else {
+            setError("Invalid OTP. Please try again.");
+          }
+        } else {
+          setError("Error validating OTP.");
+        }
+      } catch (error) {
+        setError("An error occurred while validating OTP.");
+      }
     } else {
-      setError("Invalid OTP. Please try again.");
+      setError("Please enter a valid 4-digit OTP.");
     }
   };
+  
 
   return (
     <div className="login-container">
