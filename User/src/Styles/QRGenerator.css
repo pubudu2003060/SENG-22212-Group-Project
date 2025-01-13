@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+}
+
+.qr-container {
+    max-width: 1000px;
+    min-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.qr-title {
+    font-size: 24px;
+    color: #055555;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.qr-code {
+    margin: 20px 0;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.qr-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+.qr-buttons-row{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+.qr-buttons-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.qr-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #055555;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+.qr-buttons-column button{
+    width: 50% !important;
+    margin-left: 25%;
+}
+
+.qr-button:hover {
+    background-color: #008080;
+}
+
+.finish-button {
+    background-color: #28a745;
+}
+
+.finish-button:hover {
+    background-color: #218838;
+}
+.hint {
+   font-size: 14px;
+   color: #666;
+   margin-top: 5px;
+}
+
