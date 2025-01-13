@@ -6,6 +6,7 @@ import Otp from './Components/Otp.jsx';
 import HomePage from './Components/Home.jsx';
 import PersonalDetailsForm from './Components/PersonalDetailsForm.jsx';
 import VehicleDetailsForm from './Components/VehicleDetailsForm.jsx';
+import QRGenerator from './Components/QRGenerator.jsx';
 import Dashboard from './Dashboard';
 import ProfileManagement from './ProfileManagement';
 import VehicleInfomation from './VehicleInfomation';
@@ -27,6 +28,7 @@ function App() {
           <Route path="/profile" element={<ProfileManagement />} />
           <Route path="/vehicle-info" element={<VehicleInfomation />} />
           <Route path="/VehicleDetailsForm" element={<VehicleDetailsForm/>} /> 
+          <Route path="/QRGenerator" element={<QRGenerator />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
