@@ -11,9 +11,5 @@ public interface FuelStationRepo extends JpaRepository<FuelStation, Integer> {
 
     List<FuelStation> findByStatus(Status status);
 
-    List<FuelStation> findByFuelType(FuelType fuelType);
 
-    List<FuelStation> findByStationType(StationType stationType);
-
-    List<FuelStation> findByEligibleFuelCapacity(EligibleFuelCapacity eligibleFuelCapacity);
 }
