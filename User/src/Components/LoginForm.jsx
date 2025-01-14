@@ -12,7 +12,7 @@ function Login() {
   const handleSendOtp = async () => {
     if (phoneNumber.length === 10 && !isNaN(phoneNumber)) {
       try {
-        const response = await fetch(`http://localhost:<port>/api/v1/login/send-otp?phoneNumber=${phoneNumber}`, {
+        const response = await fetch(`http://localhost:5173/api/v1/login/send-otp?phoneNumber=${phoneNumber}`, {
           method: "POST",
         });
         
