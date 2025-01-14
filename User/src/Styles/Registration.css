@@ -39,7 +39,6 @@ body {
     margin-bottom: 20px;
 }
 
-
 .form-label {
     display: block;
     margin-bottom: 10px;
@@ -73,7 +72,31 @@ body {
 }
 
 .form-button {
+    background-color: #055555;
+    color: white;
+    border: none;
+    padding: 12px; 
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 15px;
     width: 100%;
+}
+
+.form-button:disabled,
+.disabled-button {
+    background-color: gray;
+    cursor: not-allowed;
+    color: #d3d3d3;
+}
+
+.form-button-before:hover{
+    background-color: #008080;
+}
+.form-button-before{
+    width: 25%;
     padding: 12px; 
     background-color: #055555;
     color: white;
@@ -84,11 +107,12 @@ body {
     font-weight: bold;
     text-transform: uppercase;
     margin-top: 10px; 
+    margin-bottom: 13px;
+}
+#profile-p{
+    margin-top: -1.2em;
 }
 
-.form-button:hover {
-    background-color: #008080;
-}
 .error-border {
     border: 2px solid rgb(250, 161, 161);
 }

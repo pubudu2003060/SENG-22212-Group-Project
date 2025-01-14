@@ -103,8 +103,8 @@ hr {
     margin-top: 2em; 
 }
 
-#profile-p{
-    margin-top: -1.2em;
+.profile-p{
+    margin-top: 10px;
 }
 
 #profile-user img{
