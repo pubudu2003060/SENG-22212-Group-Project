@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -17,7 +18,7 @@ public class FuelStationController {
     private FuelStationService fuelStationService;
 
     @GetMapping("/getfuelstations")
-    public List<FuelStationManagementDTO> getAllFuelStations() {
+    public Optional<FuelStationManagementDTO> getAllFuelStations() {
         return fuelStationService.getAllFuelStations();
     }
 
@@ -27,7 +28,7 @@ public class FuelStationController {
     }
 
     @GetMapping("/filterByStatus")
-    public List<FuelStationManagementDTO> filterByStatus(@RequestParam Status status) {
+    public Optional<FuelStationManagementDTO> filterByStatus(@RequestParam Status status) {
         return fuelStationService.filterStationByStatus(status);
     }
 

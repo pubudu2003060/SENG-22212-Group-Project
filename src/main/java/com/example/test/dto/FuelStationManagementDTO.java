@@ -20,8 +20,5 @@ public class FuelStationManagementDTO {
     private int capacity;
     private EligibleFuelCapacity eligibleFuelCapacity;
     private FuelType fuelType;
-
-    @ManyToOne
-    @JoinColumn(name = "stationOwnerid", referencedColumnName = "stationOwnerid", nullable = false)
     private FuelStationOwner fuelStationOwner;
 }

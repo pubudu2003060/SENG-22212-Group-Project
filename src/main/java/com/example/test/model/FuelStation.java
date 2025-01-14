@@ -1,5 +1,6 @@
 package com.example.test.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,5 +49,6 @@ public class FuelStation {
 
     @ManyToOne
     @JoinColumn(name = "stationOwnerid", referencedColumnName = "stationOwnerid", nullable = false)
+    @JsonBackReference
     private FuelStationOwner fuelStationOwner;
 }
