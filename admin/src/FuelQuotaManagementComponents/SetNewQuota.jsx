@@ -8,7 +8,7 @@ import "../styles/fuelQuotaManagement.css";
 const { Option } = Select;
 
 function SetNewQuota () {
-    const [vehicleTypes, setVehicleTypes] = useState(mockData);
+    const [vehicleTypes, setVehicleTypes] = useState(mockData.vehicleType);
 
     //const [vehicleTypes, setVehicleTypes] = useState("");
     const [filters, setFilters] = useState({  vehicleType: "" });

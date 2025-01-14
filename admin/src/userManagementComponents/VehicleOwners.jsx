@@ -16,21 +16,24 @@ function VehicleOwners() {
     const [filteredOwners, setFilteredOwners] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [filters, setFilters] = useState({ date: "", vehicleType: "" });
+    const [vehicleTypes, setVehicleTypes] = useState([]);
 
     //pagination
     const [currentPage, setCurrentPage] = useState(1); 
     const [pageSize, setPageSize] = useState(5); // Number of items per page
 
-    // Fetch data from API
-    useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/getusers")
-            .then((response) => {
-                setOwners(response.data);
-                setFilteredOwners(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => console.error("Error fetching vehicle owners:", error));
+    // Fetch data from API 
+    useEffect(() => { 
+        axios.get("http://localhost:8080/api/v1/getOwnersAndVehicleTypes") 
+        .then((response) => { 
+            const { owners, vehicleTypes } = response.data; 
+            setOwners(owners); 
+            setFilteredOwners(owners); 
+            setVehicleTypes(vehicleTypes); 
+            console.log(response.data); }) 
+        .catch((error) => console.error("Error fetching data:", error));
     }, []);
+    
 
     // Handle search and filter
     useEffect(() => {
@@ -101,9 +104,11 @@ function VehicleOwners() {
                     suffixIcon={<FilterOutlined />}
                 >
                     <Option value="">All Vehicle Types</Option>
-                    <Option value="Car">Car</Option>
-                    <Option value="Motorcycle">Motorcycle</Option>
-                    <Option value="Truck">Truck</Option>
+                    {vehicleTypes.map((type) => (
+                        <Option key={type} value={type}>
+                            {type}
+                        </Option>
+                    ))}
                 </Select>
             </div>
 
