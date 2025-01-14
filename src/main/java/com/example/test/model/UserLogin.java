@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class UserLogin {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String phoneNumber;
     private  String otp; // to store onetime password
     private boolean verified; // for login verification status(login successfully or not)
