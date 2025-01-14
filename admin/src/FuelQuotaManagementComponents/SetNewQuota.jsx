@@ -148,7 +148,7 @@ function SetNewQuota () {
                 
                 <Button
                     onClick={handleReset}
-                    style={{ marginLeft: "1rem", background: "#f5222d", color: "#fff" }}
+                    style={{ marginLeft: "1rem", background: "grey", color: "#fff" }}
                     className="set-new-quota_reset-button"
                 >
                     Reset
