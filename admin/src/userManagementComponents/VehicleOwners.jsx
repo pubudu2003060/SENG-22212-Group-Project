@@ -3,17 +3,17 @@ import axios from 'axios';
 import { Input, Select, Pagination } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
 
-import mockData from "../../mockdata.json";
+//import mockData from "../../mockdata.json";
 import "../styles/userManagement.css";
 
 const { Option } = Select;
 
 function VehicleOwners() {
-    const [owners, setOwners] = useState(mockData.owners);
-    const [filteredOwners, setFilteredOwners] = useState(mockData.owners);
+    //const [owners, setOwners] = useState(mockData.owners);
+    //const [filteredOwners, setFilteredOwners] = useState(mockData.owners);
 
-    // const [owners, setOwners] = useState([]);
-    // const [filteredOwners, setFilteredOwners] = useState([]);
+    const [owners, setOwners] = useState([]);
+    const [filteredOwners, setFilteredOwners] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [filters, setFilters] = useState({ date: "", vehicleType: "" });
 

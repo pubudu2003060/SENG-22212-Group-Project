@@ -3,17 +3,17 @@ import axios from 'axios';
 import { Input, Select, Pagination } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
 
-import mockData from '../../mockdata.json';
+//import mockData from '../../mockdata.json';
 import "../styles/userManagement.css";
 
 const { Option } = Select;
 
 function FuelStationOwners() {
-    const [stationOwners, setStationOwners] = useState(mockData.stationOwners);
-    const [filteredStationOwners, setFilteredStationOwners] = useState(mockData.stationOwners);
+    //const [stationOwners, setStationOwners] = useState(mockData.stationOwners);
+    //const [filteredStationOwners, setFilteredStationOwners] = useState(mockData.stationOwners);
 
-    //const [stationOwners, setStationOwners] = useState([]);
-    //const [filteredStationOwners, setFilteredStationOwners] = useState([]);
+    const [stationOwners, setStationOwners] = useState([]);
+    const [filteredStationOwners, setFilteredStationOwners] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [filters, setFilters] = useState({ date: "", status: "" });
     
