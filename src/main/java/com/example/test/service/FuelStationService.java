@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -21,7 +22,7 @@ public class FuelStationService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<FuelStationManagementDTO> getAllFuelStations() {
+    public Optional<FuelStationManagementDTO> getAllFuelStations() {
         List<FuelStation> fuelStationList = fuelStationRepo.findAll();
         return modelMapper.map(fuelStationList, new TypeToken<List<FuelStationManagementDTO>>() {
         }.getType());
@@ -33,8 +34,8 @@ public class FuelStationService {
         fuelStationRepo.save(fuelStation);
         return modelMapper.map(fuelStation, FuelStationManagementDTO.class);
     }
-    public List<FuelStationManagementDTO> filterStationByStatus(Status status){
-        List<FuelStation> fuelStationList = fuelStationRepo.findByStatus(status);
+    public Optional<FuelStationManagementDTO> filterStationByStatus(Status status){
+        Optional<FuelStation> fuelStationList = fuelStationRepo.findByStatus(status);
         return modelMapper.map(fuelStationList, new TypeToken<List<FuelStationManagementDTO>>() {
         }.getType());
     }
