@@ -8,6 +8,7 @@ import SetNewQuota from '../FuelQuotaManagementComponents/SetNewQuota';
 import {Button, Layout, Row, Col} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import ResetQuota from '../FuelQuotaManagementComponents/ResetQuota';
+import QuotaDetails from '../FuelQuotaManagementComponents/QuotaDetails';
 
 const { Sider, Header, Content } = Layout;
 
@@ -48,7 +49,7 @@ function FuelQuotaManagement() {
                         {/* Row with two columns */}
                         <Row  style={{ marginBottom: '10px' }}>
                             <Col span={12}>
-                                <Layout style={{padding: 0, marginTop: 40, marginLeft: 10, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'}}>
+                                <Layout style={{padding: 0, marginTop: 40, marginLeft: 10, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'}}>
                                     <Content style={{padding: 20, background: '#fff'}}>
                                         <SetNewQuota />
                                     </Content>
@@ -56,7 +57,7 @@ function FuelQuotaManagement() {
                             </Col>
 
                             <Col span={12}>
-                                <Layout style={{padding: 0, marginTop: 40, marginLeft: 10, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'}}>
+                                <Layout style={{padding: 0, marginTop: 40, marginLeft: 10, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'}}>
                                     <Content style={{padding: 20, background: '#fff'}}>
                                         <ResetQuota />
                                     </Content>
@@ -64,9 +65,9 @@ function FuelQuotaManagement() {
                             </Col>
                         </Row>
                         
-                        <Layout style={{padding: 0, marginTop: 10, marginLeft: 10}}>
+                        <Layout style={{padding: 0, marginTop: 10, marginLeft: 10, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'}}>
                             <Content style={{padding: 20, background: '#fff'}}>
-                                fsjyjs
+                                <QuotaDetails />
                             </Content>
                         </Layout>
 
