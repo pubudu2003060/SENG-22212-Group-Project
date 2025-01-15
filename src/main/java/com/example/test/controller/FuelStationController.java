@@ -24,4 +24,5 @@ public class FuelStationController {
     public FuelStationDTO saveFuelStation(@RequestBody FuelStationDTO fuelStationDTO) {
         return fuelStationService.saveFuelStation(fuelStationDTO);
     }
+
 }

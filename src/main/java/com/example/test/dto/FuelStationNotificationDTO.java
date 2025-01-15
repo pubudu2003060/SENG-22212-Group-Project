@@ -14,8 +14,5 @@ public class FuelStationNotificationDTO {
 
     private int fsnId; // Primary Key
     private String content;
-
-    @ManyToOne
-    @JoinColumn(name = "fuelstationId", referencedColumnName = "stationId", nullable = false)
     private FuelStation fuelStation;
 }

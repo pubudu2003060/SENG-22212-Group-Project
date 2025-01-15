@@ -18,12 +18,6 @@ public class CustomerFuelQuotaDTO {
     private String eligibleDays;
     private int eligibleFuelQuota;
     private int remainFuel;
-
-    @ManyToOne
-    @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
     private User user;
-
-    @OneToOne
-    @JoinColumn(name = "vehicalId", referencedColumnName = "vehicalId", nullable = false)
     private Vehical vehical;
 }
