@@ -8,7 +8,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,5 +36,29 @@ public class CustomerFualQuataService {
 
     public List<VehicalFualQuataDTO> getVehicalFualQuata(int customerId){
         return customerFuelQuotaRepo.getVehicalFualQuata(customerId);
-    };
+    }
+
+
+    @Scheduled(cron="0 0 0 * * MON")
+    public void resetAllQuotas(){
+        List<CustomerFuelQuota> customerFuelQuotaList = customerFuelQuotaRepo.findAll();
+        for(CustomerFuelQuota customerFuelQuota : customerFuelQuotaList){
+            customerFuelQuota.setRemainFuel(customerFuelQuota.getEligibleFuelQuota());
+            customerFuelQuotaRepo.save(customerFuelQuota);
+        }
+        System.out.println("Reset all fuel quotas");
+
+    }
+
+    public CustomerFuelQuotaDTO getFuelQuotaDetails(int id){
+        CustomerFuelQuota customerFuelQuota=customerFuelQuotaRepo.findById(id).orElseThrow(()->new IllegalArgumentException("Fuel quota not found for id: "+id));
+        return modelMapper.map(customerFuelQuota, CustomerFuelQuotaDTO.class);
+    }
+
+    public CustomerFuelQuotaDTO searchFuelQuotaByVehicleId(int vehicleId){
+        CustomerFuelQuotaDTO customerFuelQuota=customerFuelQuotaRepo.findByVehicalId(vehicleId).orElseThrow(()->new IllegalArgumentException("Fuel quota not found for id: "+vehicleId));
+        return modelMapper.map(customerFuelQuota, CustomerFuelQuotaDTO.class);
+    }
+
+
 }

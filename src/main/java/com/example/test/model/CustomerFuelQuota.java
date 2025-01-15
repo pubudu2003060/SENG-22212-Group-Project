@@ -12,9 +12,16 @@ import lombok.NoArgsConstructor;
 public class CustomerFuelQuota {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customerFuelQuotaId;
+
+    @Column(nullable = false)
     private String eligibleDays;
+
+    @Column(nullable = false)
     private int eligibleFuelQuota;
+
+    @Column(nullable = false)
     private int remainFuel;
 
     @ManyToOne
