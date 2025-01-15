@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class CustomerFuelQuotaDTO {
 
+
     private int customerFuelQuotaId;
     private String eligibleDays;
     private int eligibleFuelQuota;
