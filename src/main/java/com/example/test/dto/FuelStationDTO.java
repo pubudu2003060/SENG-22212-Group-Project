@@ -22,8 +22,5 @@ public class FuelStationDTO {
     private String fuelType;
     private String username;
     private String password;
-
-    @ManyToOne
-    @JoinColumn(name = "stationOwnerid", referencedColumnName = "stationOwnerid", nullable = false)
     private FuelStationOwner fuelStationOwner;
 }
