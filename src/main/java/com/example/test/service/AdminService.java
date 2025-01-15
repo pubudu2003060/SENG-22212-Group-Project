@@ -1,6 +1,7 @@
 package com.example.test.service;
 
 import com.example.test.dto.AdminDTO;
+import com.example.test.dto.AdminSignInDTO;
 import com.example.test.dto.BuyQuotaDTO;
 import com.example.test.model.Admin;
 import com.example.test.model.BuyQuota;
@@ -32,5 +33,16 @@ public class AdminService {
     public AdminDTO saveAdmin(AdminDTO adminDTO) {
         adminrepo.save(modelMapper.map(adminDTO, Admin.class));
         return adminDTO;
+    }
+
+    public AdminDTO getAdminByUserNameAndPassword(AdminSignInDTO adminSignInDTO){
+        String userName = adminSignInDTO.getUserName();
+        String password = adminSignInDTO.getPassword();
+
+        Admin admin = adminrepo.getAdminByUserNameAndPassword(userName, password);
+        if(admin == null){
+            return null;
+        }
+        return modelMapper.map(admin, AdminDTO.class);
     }
 }
