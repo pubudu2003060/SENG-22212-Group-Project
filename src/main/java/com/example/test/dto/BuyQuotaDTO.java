@@ -20,16 +20,7 @@ public class BuyQuotaDTO {
     private int amount;
     private Date date;
     private String fuelType;
-
-    @ManyToOne
-    @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
     private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "vehicalId", referencedColumnName = "vehicalId", nullable = false)
     private Vehical vehical;
-
-    @ManyToOne
-    @JoinColumn(name = "fuelstationId", referencedColumnName = "stationId", nullable = false)
     private FuelStation fuelStation;
 }

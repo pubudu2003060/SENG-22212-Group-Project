@@ -14,7 +14,7 @@ public class UserLoginController {
     private UserLoginService userLoginService;
 
     @PostMapping("/send-otp")
-    public String sendOtp(@RequestParam String phoneNumber) {
+    public String sendOtp(@RequestParam("phoneNumber") String phoneNumber) {
         return userLoginService.sendOtp(phoneNumber);
     }
 
