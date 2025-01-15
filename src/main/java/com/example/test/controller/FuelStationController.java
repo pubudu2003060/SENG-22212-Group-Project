@@ -11,14 +11,14 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "api/v1/fuelStationManagement")
+@RequestMapping(value = "api/v1")
 public class FuelStationController {
 
     @Autowired
     private FuelStationService fuelStationService;
 
     @GetMapping("/getfuelstations")
-    public Optional<FuelStationManagementDTO> getAllFuelStations() {
+    public List<FuelStationManagementDTO> getAllFuelStations() {
         return fuelStationService.getAllFuelStations();
     }
 
@@ -28,7 +28,7 @@ public class FuelStationController {
     }
 
     @GetMapping("/filterByStatus")
-    public Optional<FuelStationManagementDTO> filterByStatus(@RequestParam Status status) {
+    public List<FuelStationManagementDTO> filterByStatus(@RequestParam Status status) {
         return fuelStationService.filterStationByStatus(status);
     }
 
