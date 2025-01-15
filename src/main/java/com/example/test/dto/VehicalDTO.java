@@ -18,8 +18,5 @@ public class VehicalDTO {
     private int vehicalNo;
     private int enginNo;
     private String fualType;
-
-    @ManyToOne
-    @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
     private User user;
 }
