@@ -1,5 +1,6 @@
 package com.example.test.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,17 +15,40 @@ public class FuelStation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int stationId;
+
+    @Column(nullable = false)
     private String location;
-    private String status;
-    private String stationType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StationType stationType;
+
+    @Column(nullable = false,unique = true)
     private int registeredId;
+
+    @Column(nullable = false)
     private int capacity;
-    private int eligibleFuelCapacity;
-    private String fuelType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EligibleFuelCapacity eligibleFuelCapacity;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private FuelType fuelType;
+
+    @Column(nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
 
     @ManyToOne
     @JoinColumn(name = "stationOwnerid", referencedColumnName = "stationOwnerid", nullable = false)
+    @JsonBackReference
     private FuelStationOwner fuelStationOwner;
 }
