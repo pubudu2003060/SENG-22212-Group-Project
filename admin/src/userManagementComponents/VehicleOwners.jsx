@@ -23,15 +23,15 @@ function VehicleOwners() {
     const [pageSize, setPageSize] = useState(5); // Number of items per page
 
     // Fetch data from API 
-    useEffect(() => { 
-        axios.get("http://localhost:8080/api/v1/getOwnersAndVehicleTypes") 
-        .then((response) => { 
-            const { owners, vehicleTypes } = response.data; 
-            setOwners(owners); 
-            setFilteredOwners(owners); 
-            setVehicleTypes(vehicleTypes); 
-            console.log(response.data); }) 
-        .catch((error) => console.error("Error fetching data:", error));
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/v1/getusers")
+            .then((response) => {
+                console.log(response.data); // Confirm the structure here
+                setOwners(response.data || []); // Use fallback if owners is undefined
+                setFilteredOwners(response.data || []);
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+
     }, []);
     
 
