@@ -22,7 +22,7 @@ public class FuelStationService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public Optional<FuelStationManagementDTO> getAllFuelStations() {
+    public List<FuelStationManagementDTO> getAllFuelStations() {
         List<FuelStation> fuelStationList = fuelStationRepo.findAll();
         return modelMapper.map(fuelStationList, new TypeToken<List<FuelStationManagementDTO>>() {
         }.getType());
@@ -34,8 +34,8 @@ public class FuelStationService {
         fuelStationRepo.save(fuelStation);
         return modelMapper.map(fuelStation, FuelStationManagementDTO.class);
     }
-    public Optional<FuelStationManagementDTO> filterStationByStatus(Status status){
-        Optional<FuelStation> fuelStationList = fuelStationRepo.findByStatus(status);
+    public List<FuelStationManagementDTO> filterStationByStatus(Status status){
+        List<FuelStation> fuelStationList = fuelStationRepo.findByStatus(status);
         return modelMapper.map(fuelStationList, new TypeToken<List<FuelStationManagementDTO>>() {
         }.getType());
     }
