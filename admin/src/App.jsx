@@ -7,6 +7,7 @@ import FuelManagement from "./pages/FuelManagement";
 import StationManagement from "./pages/StationManagement";
 import UserManagement from "./pages/UserManagement";
 import FuelQuotaManagement from "./pages/FuelQuotaManagement";
+import Settings from "./pages/Settings";
 
 function App() {
  
@@ -21,6 +22,7 @@ function App() {
           <Route path="/stationManagement" element={<StationManagement />} />
           <Route path="/userManagement" element={<UserManagement />} />
           <Route path="/fuelQuotaManagement" element={<FuelQuotaManagement />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </Router>
     </>
