@@ -1,11 +1,33 @@
-.set-new-quota_container {
+.quota_container {
     padding: 1rem;
 }
 
-.set-new-quota_header {
+.quota_header {
     font-size: 1.5rem;
     font-weight: bold;
     color: #333;
     margin-bottom: 20px;
 }
   
+.quota-details_table {
+    align-content: center;
+    width: 100%; 
+    border-collapse: collapse; /* Standard border style */ 
+    border: 1px solid #ccc; /* Border for the table */ 
+    text-align: left;
+    margin: 0 auto;
+}
+
+.quota-details_table thead {
+    background-color: #d6d4d4;
+}
+
+.quota-details_table tbody tr :hover {
+    background-color: #f3f0f0;
+}
+
+.quota-details_table th, .quota-details_table td {
+    padding: 0.25rem; 
+    border: 1px solid #e8e5e5; /* Border for table cells */ 
+    text-align: left; 
+}
