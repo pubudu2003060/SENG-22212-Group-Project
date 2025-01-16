@@ -1,7 +1,9 @@
 package com.example.test.service;
 
 import com.example.test.dto.CustomerFuelQuotaDTO;
+import com.example.test.dto.FuelStationManagementDTO;
 import com.example.test.dto.VehicalFualQuataDTO;
+import com.example.test.model.BuyQuota;
 import com.example.test.model.CustomerFuelQuota;
 import com.example.test.repo.CustomerFuelQuotaRepo;
 import jakarta.transaction.Transactional;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,9 +58,22 @@ public class CustomerFualQuataService {
         return modelMapper.map(customerFuelQuota, CustomerFuelQuotaDTO.class);
     }
 
-    public CustomerFuelQuotaDTO searchFuelQuotaByVehicleId(int vehicleId){
+    public CustomerFuelQuotaDTO searchFuelQuota(int vehicleId){
         CustomerFuelQuotaDTO customerFuelQuota=customerFuelQuotaRepo.findByVehicalId(vehicleId).orElseThrow(()->new IllegalArgumentException("Fuel quota not found for id: "+vehicleId));
         return modelMapper.map(customerFuelQuota, CustomerFuelQuotaDTO.class);
+    }
+
+    public String updateFuelQuota(String fuelType,int newFuelQuota){
+        List<CustomerFuelQuota> customerFuelQuotaList = customerFuelQuotaRepo.findByVehicleType(fuelType);
+        for(CustomerFuelQuota customerFuelQuota : customerFuelQuotaList){
+            customerFuelQuota.setEligibleFuelQuota(newFuelQuota);
+            customerFuelQuotaRepo.save(customerFuelQuota);
+
+
+        }
+
+        return "Updated fuel quota to" + newFuelQuota +"for"+customerFuelQuotaList.size()+"vehicle of type"+fuelType+".";
+
     }
 
 
