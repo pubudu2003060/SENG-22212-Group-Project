@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
+import Footer from '../components/Footer';
 
 import { Button, Layout } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -68,6 +69,9 @@ function Dashboard() {
           </Content>
         </Layout>
       </Layout>
+
+      {/* Footer */}
+      <Footer />
     </>
   );
 }

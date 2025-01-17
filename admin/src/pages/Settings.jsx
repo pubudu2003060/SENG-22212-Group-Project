@@ -7,6 +7,7 @@ import Headerbar from '../components/Headerbar';
 import Profile from '../SettingComponenets/Profile';
 import ChangePassword from '../SettingComponenets/ChangePassword';
 import SettingHeadings from '../SettingComponenets/SettingHeadings';
+import Footer from '../components/Footer';
 
 import '../styles/settings.css';
 
@@ -90,6 +91,9 @@ function Settings() {
         
       </Layout>
     </Layout>
+    
+    {/* Footer */}
+    <Footer />
     </>
   );
 }

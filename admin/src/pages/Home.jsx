@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Image1 from "../assets/freepik__adjust__13674.png";
+import Footer from "../components/Footer";
 
 function Home() {
   const navigate = useNavigate();
@@ -52,13 +53,7 @@ function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-primary text-white py-2">
-        <div className="container text-center">
-          <p className="mb-0">
-            &copy; 2025 Fuel Quota Management System. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
