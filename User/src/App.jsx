@@ -11,7 +11,7 @@ import Dashboard from './Pages/Dashboard.jsx';
 import ProfileManagement from './Pages/ProfileManagement.jsx';
 import VehicleInfomation from './Pages/VehicleInfomation';
 import PageNotFound from "./Pages/PageNotFound.jsx";
-import WebFooter from"./Components/WebFooter.jsx"
+
 
 
 
@@ -31,7 +31,7 @@ function App() {
           <Route path="/vehicle-info" element={<VehicleInfomation />} />
           <Route path="/VehicleDetailsForm" element={<VehicleDetailsForm/>} /> 
           <Route path="/QRGenerator" element={<QRGenerator />} />
-          <Route path="/WebFooter" element={<WebFooter/>}/>
+        
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
