@@ -66,7 +66,7 @@ function Navbar({ setHeaderTitle }) {
             </Menu.Item>
 
             <Menu.Item key="settings" icon={<SettingOutlined />}>
-              <Link to="/Settings"> Settings </Link>
+              <Link to="/settings"> Settings </Link>
             </Menu.Item>
         </Menu>
       </div>
