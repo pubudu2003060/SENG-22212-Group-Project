@@ -14,6 +14,7 @@ import PageNotFound from "./Pages/PageNotFound.jsx";
 
 
 
+
 function App() {
   
  
@@ -30,6 +31,7 @@ function App() {
           <Route path="/vehicle-info" element={<VehicleInfomation />} />
           <Route path="/VehicleDetailsForm" element={<VehicleDetailsForm/>} /> 
           <Route path="/QRGenerator" element={<QRGenerator />} />
+        
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>

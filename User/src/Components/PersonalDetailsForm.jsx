@@ -67,14 +67,8 @@ function PersonalDetailsForm() {
     };
 
     const sendOTP = () => {
-        const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString(); // Generate a 6-digit OTP
-        setSentOTP(generatedOTP);
-    
         axios
-            .post("http://localhost:3001/send-otp", {
-                phoneNumber: formData.phoneNumber,
-                otp: generatedOTP,
-            })
+            .post(`http://localhost:8080/api/v1/login/send-otp?phoneNumber=%2B94${formData.phoneNumber}`)
             .then(() => {
                 alert("OTP sent successfully!");
             })
@@ -83,20 +77,57 @@ function PersonalDetailsForm() {
                 alert("Failed to send OTP. Please try again.");
             });
     };
-    
+
     const verifyOTP = () => {
-        if (formData.OTP === sentOTP) {
-            setIsVerified(true);
-            alert("OTP verified successfully!");
-        } else {
-            setIsVerified(false);
-            alert("Invalid OTP. Please try again.");
-        }
+        axios
+            .post("http://localhost:8080/api/v1/login/validate-otp", {
+                phoneNumber: formData.phoneNumber,
+                otp: formData.OTP,
+            })
+            .then((response) => {
+                if (response.data.message === "login successfully") {
+                    setIsVerified(true);
+                    alert("OTP verified successfully!");
+                } else {
+                    setIsVerified(false);
+                    alert("Invalid OTP. Please try again.");
+                }
+            })
+            .catch((err) => {
+                console.error("Error verifying OTP:", err);
+                alert("Failed to verify OTP. Please try again.");
+            });
     };
+    
+    const saveUserData = () => {
+        axios
+            .post("http://localhost:8080/api/v1/adduser", {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                contactNo: formData.phoneNumber,
+                address: formData.address,
+                identityType: formData.idType,
+                idNo: formData.idNumber,
+            })
+            .then((response) => {
+                console.log("User data saved:", response.data);
+    
+                // Store userId in session storage
+                sessionStorage.setItem("userId", response.data.userId);
+    
+                alert("Registration successful!");
+                navigate("/VehicleDetailsForm");
+            })
+            .catch((err) => {
+                console.error("Error saving user data:", err);
+                alert("Failed to save user data. Please try again.");
+            });
+    };
+    
 
     const goToNext = () => {
         if (validateForm() && isVerified) {
-            navigate("/VehicleDetailsForm");
+            saveUserData();
         } else if (!isVerified) {
             alert("Please verify your OTP before proceeding.");
         }
@@ -104,10 +135,9 @@ function PersonalDetailsForm() {
 
     return (
         <div className="form-container">
-             <h1 className="form-title">Personal Details Registration</h1>
-             <p className="form-subtitle">Please fill in your Personal details to proceed.</p>
+            <h1 className="form-title">Personal Details Registration</h1>
+            <p className="form-subtitle">Please fill in your Personal details to proceed.</p>
             <form>
-           
                 {/* ID Type */}
                 <label className="form-label">Select ID Type:</label>
                 <select
@@ -133,7 +163,6 @@ function PersonalDetailsForm() {
                     onChange={handleChange}
                 />
                 {errors.idNumber && <span className="error-message">{errors.idNumber}</span>}
-
 
                 {/* First Name */}
                 <label className="form-label">First Name:</label>
