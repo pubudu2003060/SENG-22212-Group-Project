@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
+import Footer from '../components/Footer';
 import VehicleOwners from '../userManagementComponents/VehicleOwners'
 
 import {Button, Layout} from 'antd';
@@ -74,6 +75,9 @@ function UserManagement() {
                     </Content>
                 </Layout>
             </Layout>
+
+            {/* Footer */}
+            <Footer />
         </>
     );
     }
