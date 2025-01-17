@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Home.css";
+import WebFooter from "../Components/WebFooter";
 
 function HomePage() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ function HomePage() {
     };
 
     return (
+        <div>
         <div className="home-page">
             <div className="top-bar">
                <div><img src="/images/lastfuel.png" alt="" /></div>
@@ -37,7 +39,11 @@ function HomePage() {
 
                 <div><p className="info-text">If you're a new user, please register first. If you're already registered, click Login.</p></div>
             </div>
+           
         </div>
+        <WebFooter />
+        </div>
+        
     );
 }
 
