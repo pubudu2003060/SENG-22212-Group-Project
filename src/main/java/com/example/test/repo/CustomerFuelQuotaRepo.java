@@ -12,31 +12,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CustomerFuelQuotaRepo extends JpaRepository<CustomerFuelQuota,Integer> {
+public interface CustomerFuelQuotaRepo extends JpaRepository<CustomerFuelQuota, Integer> {
 
-    @Query("select new com.example.test.dto.VehicalFualQuataDTO(v.vehicalId,v.vehicalType,v.vehicalNo,c.customerFuelQuotaId,c.eligibleDays,c.eligibleFuelQuota,c.remainFuel) " +
+    @Query("select new com.example.test.dto.VehicalFualQuataDTO(v.vehicalId, v.vehicalType, v.vehicalNo, c.customerFuelQuotaId, c.eligibleDays, c.eligibleFuelQuota, c.remainFuel) " +
             "FROM CustomerFuelQuota c " +
-            "left JOIN Vehical v on v.vehicalId = c.vehical.vehicalId " +
-            "where c.user.userId = :customerId  ")
+            "left JOIN c.vehical v on v.vehicalId = c.vehical.vehicalId " +
+            "where c.user.userId = :customerId")
     List<VehicalFualQuataDTO> getVehicalFualQuata(@Param("customerId") int customerId);
 
-    @Query("SELECT new com.example.test.dto.CustomerFuelQuotaDTO(u.firstName, v.vehicalId, v.vehicleType, " +
-            "c.eligibleFuelQuota, c.remainFuel, (c.eligibleFuelQuota - c.remainFuel) as usedFuelQuota) " +
+    @Query("SELECT new com.example.test.dto.CustomerFuelQuotaDTO(u.firstName, v.vehicalId, v.vehicalType, " +
+            "c.eligibleFuelQuota, c.remainFuel,c.usedFuelQuota) " +
             "FROM CustomerFuelQuota c " +
-            "JOIN c.Vehical v " +
-            "JOIN c.User u " +
-            "WHERE (v.vehicleType = :vehicleType OR :vehicleType IS NULL) " +
-            "AND (u.firstName = :ownerName OR :ownerName IS NULL) " +
-            "AND (c.eligibleFuelQuota = :eligibleFuelQuota OR :eligibleFuelQuota IS NULL)"+
-            "AND (u.userId = :customerId)" +
-            "AND v.vehicleId=:vehicleId")
-    List<CustomerFuelQuotaDTO> getCustomerFuelQuota(@Param("vehicleType") String vehicleType,
-                                                    @Param("ownerName") String ownerName,
+            "JOIN c.vehical v " +
+            "JOIN c.user u " +
+            "WHERE (v.vehicalType = :vehicleType OR :vehicleType IS NULL) " +
+            "AND (c.eligibleFuelQuota = :eligibleFuelQuota OR :eligibleFuelQuota IS NULL) " )
+    List<CustomerFuelQuotaDTO> filterFuelQuota(@Param("vehicleType") String vehicleType,
                                                     @Param("eligibleFuelQuota") Integer eligibleFuelQuota);
 
-    Optional<CustomerFuelQuotaDTO> findByUserId(@Param("customerId") int customerId);
-
-    @Query("SELECT new com.example.test.dto.CustomerFuelQuotaDTO(u.firstName, v.vehicalId, v.vehicleType, " +
+    @Query("SELECT new com.example.test.dto.CustomerFuelQuotaDTO(u.firstName, v.vehicalId, v.vehicalType, " +
             "c.eligibleFuelQuota, c.remainFuel, (c.eligibleFuelQuota - c.remainFuel) as usedFuelQuota) " +
             "FROM CustomerFuelQuota c " +
             "JOIN c.vehical v " +
@@ -46,10 +40,5 @@ public interface CustomerFuelQuotaRepo extends JpaRepository<CustomerFuelQuota,I
 
     @Query("SELECT c FROM CustomerFuelQuota c JOIN c.vehical v WHERE v.vehicalType = :vehicleType")
     List<CustomerFuelQuota> findByVehicleType(@Param("vehicleType") String vehicleType);
-
-
-
-
-
 
 }
