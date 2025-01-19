@@ -59,8 +59,8 @@ public class CustomerFualQuataService {
     }
 
     public CustomerFuelQuotaDTO searchFuelQuotaById(int vehicleId){
-        CustomerFuelQuotaDTO customerFuelQuota=customerFuelQuotaRepo.findByVehicalId(vehicleId).orElseThrow(()->new IllegalArgumentException("Fuel quota not found for id: "+vehicleId));
-        return modelMapper.map(customerFuelQuota, CustomerFuelQuotaDTO.class);
+        CustomerFuelQuotaDTO customerFuelQuota= modelMapper.map(customerFuelQuotaRepo.getCustomerFuelQuotaByVehical_VehicalId(vehicleId),CustomerFuelQuotaDTO.class);
+        return customerFuelQuota;
     }
 
     public String updateFuelQuota(String fuelType,int newFuelQuota){

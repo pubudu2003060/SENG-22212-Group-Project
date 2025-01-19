@@ -20,14 +20,7 @@ public interface CustomerFuelQuotaRepo extends JpaRepository<CustomerFuelQuota, 
             "where c.user.userId = :customerId")
     List<VehicalFualQuataDTO> getVehicalFualQuata(@Param("customerId") int customerId);
 
-
-    @Query("SELECT new com.example.test.dto.CustomerFuelQuotaDTO(u.firstName, v.vehicalId, v.vehicalType, " +
-            "c.eligibleFuelQuota, c.remainFuel, (c.eligibleFuelQuota - c.remainFuel) as usedFuelQuota) " +
-            "FROM CustomerFuelQuota c " +
-            "JOIN c.vehical v " +
-            "JOIN c.user u " +
-            "WHERE v.vehicalId = :vehicalId")
-    Optional<CustomerFuelQuotaDTO> findByVehicalId(@Param("vehicalId") int vehicalId);
+    CustomerFuelQuota getCustomerFuelQuotaByVehical_VehicalId(int vehicalVehicalId);
 
     @Query("SELECT c FROM CustomerFuelQuota c JOIN c.vehical v WHERE v.vehicalType = :vehicleType")
     List<CustomerFuelQuota> findByVehicleType(@Param("vehicleType") String vehicleType);
