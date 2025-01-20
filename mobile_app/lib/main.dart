@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Fuel Station App',
       debugShowCheckedModeBanner: false, 
-      
+      home: LoginScreen()
 
       
     );
