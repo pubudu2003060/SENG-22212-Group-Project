@@ -1,5 +1,6 @@
 package com.example.test.controller;
 
+import com.example.test.dto.AdminSignInDTO;
 import com.example.test.service.AdminLayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,7 +26,7 @@ public class AdminLayerController {
     }
 
     @GetMapping("/tranctionscountByFuelTypeandDate/{fuelType}/{date}")
-    int tranctionscountByFuelTypeandDate(
+    public int tranctionscountByFuelTypeandDate(
             @PathVariable("fuelType") String fuelType,
             @PathVariable("date") String dateString) {
         try {
@@ -35,6 +36,11 @@ public class AdminLayerController {
         } catch (ParseException e) {
             throw new IllegalArgumentException("Invalid date format. Expected yyyy-MM-dd");
         }
+    }
+
+    @PostMapping("/adminsignin")
+    public int getAdminByUsernameandPassword(@RequestBody AdminSignInDTO adminSignInDTO) {
+        return adminLayerService.adminSignIn(adminSignInDTO);
     }
 
 

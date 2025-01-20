@@ -15,7 +15,7 @@ public class CustomerFuelQuotaController {
     @Autowired
     CustomerFualQuataService customerFualQuataService;
 
-    @GetMapping("/getcustomerquota")
+    @GetMapping("/getallcustomerquota")
     public List<CustomerFuelQuotaDTO> getAllCustomerFuelQuotas() {
         return customerFualQuataService.getAllCustomerFuelQuotas();
     }
@@ -23,5 +23,15 @@ public class CustomerFuelQuotaController {
     @PostMapping("/addcustomerquota")
     public CustomerFuelQuotaDTO saveCustomerFuelQuota(@RequestBody CustomerFuelQuotaDTO customerFuelQuotaDTO) {
         return customerFualQuataService.saveCustomerFuelQuota(customerFuelQuotaDTO);
+    }
+
+    @PutMapping("/updateFuelQuota")
+    public String updateCustomerFuelQuota(@RequestParam("fuelType") String fuelType, @RequestParam("fuelQuantity") Integer fuelQuantity) {
+        return customerFualQuataService.updateFuelQuota(fuelType,fuelQuantity);
+    }
+
+    @GetMapping("/searchFuelQuota")
+    public CustomerFuelQuotaDTO searchFuelQuota(@RequestParam("vehiclId") int vehicleId) {
+        return customerFualQuataService.searchFuelQuotaById(vehicleId);
     }
 }
