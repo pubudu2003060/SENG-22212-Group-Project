@@ -9,7 +9,9 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -30,26 +32,40 @@ public class FuelStationService {
         }.getType());
     }
 
-    public FuelStationManagementDTO updateFuelStationStatus(Integer id, Status newStatus){
-        FuelStation fuelStation = fuelStationRepo.findById(id).orElseThrow(()->new IllegalArgumentException("Station not found with ID:"+id));
+    public FuelStationManagementDTO updateFuelStationStatus(Integer id, Status newStatus) {
+        FuelStation fuelStation = fuelStationRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Station not found with ID:" + id));
         fuelStation.setStatus(newStatus);
         fuelStationRepo.save(fuelStation);
         return modelMapper.map(fuelStation, FuelStationManagementDTO.class);
     }
-    public List<FuelStationManagementDTO> filterStationByStatus(Status status){
+
+    public List<FuelStationManagementDTO> filterStationByStatus(Status status) {
         List<FuelStation> fuelStationList = fuelStationRepo.findByStatus(status);
         return modelMapper.map(fuelStationList, new TypeToken<List<FuelStationManagementDTO>>() {
         }.getType());
     }
-    public FuelStationManagementDTO getFuelStationDetails(Integer id){
-        FuelStation fuelStation = fuelStationRepo.findById(id).orElseThrow(()->new IllegalArgumentException("Station not found with ID:"+id));
+
+    public FuelStationManagementDTO getFuelStationDetails(Integer id) {
+        FuelStation fuelStation = fuelStationRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Station not found with ID:" + id));
         return modelMapper.map(fuelStation, FuelStationManagementDTO.class);
     }
 
-    public FuelStationManagementDTO searchFuelStationByID(Integer id){
-        FuelStation fuelStation = fuelStationRepo.findById(id).orElseThrow(()->new IllegalArgumentException("Station not found with ID:"+id));
+    public FuelStationManagementDTO searchFuelStationByID(Integer id) {
+        FuelStation fuelStation = fuelStationRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Station not found with ID:" + id));
         return modelMapper.map(fuelStation, FuelStationManagementDTO.class);
     }
 
+    public FuelStationDTO addFuelStation(FuelStationDTO fuelStationDTO) {
+        try {
+            FuelStation fuelStation = fuelStationRepo.save(modelMapper.map(fuelStationDTO, FuelStation.class));
+            return modelMapper.map(fuelStation, FuelStationDTO.class);
+        } catch (Exception e) {
+            throw new DuplicateKeyException("Error while adding FuelStation: " + e.getMessage());
+        }
+    }
+
+    public boolean loginFuelStation(String username, String password) {
+        return fuelStationRepo.existsFuelStationByUsernameAndPassword(username, password);
+    }
 
 }
