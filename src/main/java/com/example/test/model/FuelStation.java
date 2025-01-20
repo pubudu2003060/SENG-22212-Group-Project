@@ -41,7 +41,7 @@ public class FuelStation {
     @Column(nullable = false)
     private FuelType fuelType;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -51,4 +51,5 @@ public class FuelStation {
     @JoinColumn(name = "stationOwnerid", referencedColumnName = "stationOwnerid", nullable = false)
     @JsonBackReference
     private FuelStationOwner fuelStationOwner;
+
 }
