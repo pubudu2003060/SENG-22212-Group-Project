@@ -3,10 +3,7 @@ package com.example.test.controller;
 import com.example.test.model.EligibleFuelCapacity;
 import com.example.test.service.ScanDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -19,5 +16,15 @@ public class ScanDetailsController {
     @GetMapping("/getScannedDetails")
     public String getScannedDetails() {
         return scanDetailsService.getScannedDetails();
+    }
+    @PutMapping("/setGivenFuel/{qrCodeId}")
+    public String setGivenFuel(@PathVariable int qrCodeId,@RequestParam Float givenFuel) {
+        try{
+            return scanDetailsService.setGivenFuel(qrCodeId,givenFuel);
+        }
+        catch(IllegalArgumentException e){
+            return "Error: "+e.getMessage();
+
+        }
     }
 }
