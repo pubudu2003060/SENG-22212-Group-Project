@@ -1,6 +1,7 @@
 package com.example.test.controller;
 
 import com.example.test.dto.FuelStationDTO;
+import com.example.test.dto.FuelStationLoginDTO;
 import com.example.test.dto.FuelStationOwnerDTO;
 import com.example.test.model.FuelStationOwner;
 import com.example.test.service.FuelStationOwnerService;
@@ -17,9 +18,9 @@ public class FuelStationLayerController {
     @Autowired
     private FuelStationService fuelStationService;
 
-//    @PostMapping("/savefuelstation")
-//    public FuelStationDTO savefuelStation(@RequestBody FuelStationDTO fuelStationDTO) {
-//
-//    }
+    @GetMapping("/loginfuelstation")
+    public boolean loginFuelStation(@RequestBody FuelStationLoginDTO fuelStationLoginDTO) {
+        return fuelStationService.loginFuelStation(fuelStationLoginDTO.getUsername(), fuelStationLoginDTO.getPassword());
+    }
 
 }
