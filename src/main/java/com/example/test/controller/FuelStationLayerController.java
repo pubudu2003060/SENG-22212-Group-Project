@@ -1,7 +1,11 @@
 package com.example.test.controller;
 
 import com.example.test.dto.FuelStationDTO;
+import com.example.test.dto.FuelStationOwnerDTO;
+import com.example.test.model.FuelStationOwner;
+import com.example.test.service.FuelStationOwnerService;
 import com.example.test.service.FuelStationService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +17,9 @@ public class FuelStationLayerController {
     @Autowired
     private FuelStationService fuelStationService;
 
-    @PostMapping("/savefuelstation")
-    public FuelStationDTO savefuelStation(@RequestBody FuelStationDTO fuelStationDTO) {
-        return fuelStationService.saveFuelStation(fuelStationDTO);
-    }
+//    @PostMapping("/savefuelstation")
+//    public FuelStationDTO savefuelStation(@RequestBody FuelStationDTO fuelStationDTO) {
+//
+//    }
 
 }
