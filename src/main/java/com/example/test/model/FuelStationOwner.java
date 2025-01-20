@@ -17,6 +17,7 @@ public class FuelStationOwner {
     private String name;
     private String contact;
     private String address;
+
     @Column(unique = true)
     private int nicNo;
 

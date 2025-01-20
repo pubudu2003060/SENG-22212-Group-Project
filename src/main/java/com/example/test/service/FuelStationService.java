@@ -2,6 +2,7 @@ package com.example.test.service;
 
 import com.example.test.dto.FuelStationDTO;
 import com.example.test.dto.FuelStationManagementDTO;
+import com.example.test.dto.FuelStationOwnerDTO;
 import com.example.test.model.*;
 import com.example.test.repo.FuelStationRepo;
 import jakarta.transaction.Transactional;
@@ -18,7 +19,8 @@ public class FuelStationService {
 
     @Autowired
     private FuelStationRepo fuelStationRepo;
-
+    @Autowired
+    private FuelStationOwnerService fuelStationOwnerService;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -49,9 +51,5 @@ public class FuelStationService {
         return modelMapper.map(fuelStation, FuelStationManagementDTO.class);
     }
 
-    public FuelStationDTO saveFuelStation(FuelStationDTO fuelStationDTO){
-        FuelStation fuelStation =  fuelStationRepo.save(modelMapper.map(fuelStationDTO, FuelStation.class));
-        return modelMapper.map(fuelStation, FuelStationDTO.class);
-    }
 
 }

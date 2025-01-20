@@ -32,15 +32,20 @@ public class FuelStationController {
         return fuelStationService.filterStationByStatus(status);
     }
 
-    @GetMapping("getFuelStationDetails/{id}")
+    @GetMapping("/getFuelStationDetails/{id}")
     public FuelStationManagementDTO getFuelStationDetails(@PathVariable int id) {
         return fuelStationService.getFuelStationDetails(id);
     }
 
-    @GetMapping("searchFuelStation")
+    @GetMapping("/searchFuelStation")
     public FuelStationManagementDTO searchFuelStation(@RequestParam Integer id) {
         return fuelStationService.searchFuelStationByID(id);
     }
+
+//    @PostMapping("/addfuelstation")
+//    public FuelStationManagementDTO addFuelStation(@RequestParam FuelStationManagementDTO fuelStationManagementDTO) {
+//
+//    }
 
 
 

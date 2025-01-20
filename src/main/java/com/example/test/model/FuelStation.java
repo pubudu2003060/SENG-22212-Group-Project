@@ -47,7 +47,7 @@ public class FuelStation {
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "stationOwnerid", referencedColumnName = "stationOwnerid", nullable = false)
     @JsonBackReference
     private FuelStationOwner fuelStationOwner;
