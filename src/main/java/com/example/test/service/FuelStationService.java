@@ -1,5 +1,6 @@
 package com.example.test.service;
 
+import com.example.test.dto.FuelStationDTO;
 import com.example.test.dto.FuelStationManagementDTO;
 import com.example.test.model.*;
 import com.example.test.repo.FuelStationRepo;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -47,6 +47,11 @@ public class FuelStationService {
     public FuelStationManagementDTO searchFuelStationByID(Integer id){
         FuelStation fuelStation = fuelStationRepo.findById(id).orElseThrow(()->new IllegalArgumentException("Station not found with ID:"+id));
         return modelMapper.map(fuelStation, FuelStationManagementDTO.class);
+    }
+
+    public FuelStationDTO saveFuelStation(FuelStationDTO fuelStationDTO){
+        FuelStation fuelStation =  fuelStationRepo.save(modelMapper.map(fuelStationDTO, FuelStation.class));
+        return modelMapper.map(fuelStation, FuelStationDTO.class);
     }
 
 }
