@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +28,19 @@ public class FuelStationOwnerService {
         }.getType());
     }
 
-    public FuelStationOwnerDTO saveFuelStationOwner(FuelStationOwnerDTO fuelStationOwnerDTO) {
-        fuelStationOwnerRepo.save(modelMapper.map(fuelStationOwnerDTO, FuelStationOwner.class));
-        return fuelStationOwnerDTO;
+    public FuelStationOwnerDTO saveFuelStationOwner(FuelStationOwnerDTO fuelStationOwnerDTO) throws Exception {
+        try {
+            FuelStationOwner fuelStationOwner = fuelStationOwnerRepo.save(modelMapper.map(fuelStationOwnerDTO, FuelStationOwner.class));
+            return modelMapper.map(fuelStationOwner, FuelStationOwnerDTO.class);
+        }
+        catch (DuplicateKeyException e) {
+            throw new DuplicateKeyException(e.getMessage());
+        }
+
     }
+
+    public FuelStationOwnerDTO getFuelStationOwnerByNicId(int id) {
+        return modelMapper.map(fuelStationOwnerRepo.getFuelStationOwnerByNicNo(id), FuelStationOwnerDTO.class);
+    }
+
 }

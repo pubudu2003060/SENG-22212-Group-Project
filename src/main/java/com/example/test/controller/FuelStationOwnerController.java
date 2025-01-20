@@ -3,6 +3,7 @@ package com.example.test.controller;
 import com.example.test.dto.FuelStationOwnerDTO;
 import com.example.test.service.FuelStationOwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,11 @@ public class FuelStationOwnerController {
 
     @PostMapping("/addfuelstationowner")
     public FuelStationOwnerDTO saveFuelStationOwner(@RequestBody FuelStationOwnerDTO fuelStationOwnerDTO) {
-        return fuelStationOwnerService.saveFuelStationOwner(fuelStationOwnerDTO);
+        try {
+            return fuelStationOwnerService.saveFuelStationOwner(fuelStationOwnerDTO);
+        } catch (Exception e) {
+            throw new DuplicateKeyException(e.getMessage());
+        }
     }
+
 }

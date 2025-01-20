@@ -1,5 +1,7 @@
 package com.example.test.service;
 
+import com.example.test.dto.AdminDTO;
+import com.example.test.dto.AdminSignInDTO;
 import com.example.test.model.BuyQuota;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,10 @@ public class AdminLayerService {
 
     @Autowired
     private BuyQuotaService buyQuotaService;
-
     @Autowired
     private UserService userService;
+    @Autowired
+    private AdminService adminService;
 
     public Map<String, Double> getBuyQuotasDataByFuelType(String fuelType) {
         // Fetch the list of BuyQuota for the specified fuel type
@@ -64,6 +67,18 @@ public class AdminLayerService {
     public int tranctionscountByFuelTypeandDate(String fuelType,Date date) {
         return buyQuotaService.countByFuelTypeByDate(fuelType,date);
     }
+
+    public int adminSignIn(AdminSignInDTO adminSignInDTO){
+        AdminDTO adminDTO = adminService.getAdminByUserNameAndPassword(adminSignInDTO);
+
+        if(adminDTO == null){
+            return 0;
+        }else{
+            return 1;
+        }
+    }
+
+
 
 
 }

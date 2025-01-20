@@ -27,8 +27,7 @@ public class UserLoginService {
             String otp = otpGenerateService.generateOTP();
 
             // Save or update user login details
-            UserLogin userLogin = userLoginRepo.findById(phoneNumber)
-                    .orElse(new UserLogin());
+            UserLogin userLogin = userLoginRepo.findById(phoneNumber).orElse(new UserLogin());
             userLogin.setPhoneNumber(phoneNumber);
             userLogin.setOtp(otp);
             userLogin.setVerified(false);
