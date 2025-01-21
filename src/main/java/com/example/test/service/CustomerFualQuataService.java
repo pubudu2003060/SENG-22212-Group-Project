@@ -1,9 +1,6 @@
 package com.example.test.service;
 
-import com.example.test.dto.CustomerFuelQuotaDTO;
-import com.example.test.dto.FuelStationManagementDTO;
-import com.example.test.dto.ScannedQRCodeDTO;
-import com.example.test.dto.VehicalFualQuataDTO;
+import com.example.test.dto.*;
 import com.example.test.model.BuyQuota;
 import com.example.test.model.CustomerFuelQuota;
 import com.example.test.model.VehicalType;
@@ -94,6 +91,18 @@ public class CustomerFualQuataService {
 
         return scannedQRCodeDTO;
     }
+
+    public String allocateFuel(int customerFuelQuotaId, int allocatedFuel){
+        CustomerFuelQuota customerFuelQuota=customerFuelQuotaRepo.findById(customerFuelQuotaId).orElseThrow(()->new IllegalArgumentException("customer fuel quota id is not found"+customerFuelQuotaId));
+        if(allocatedFuel>customerFuelQuota.getRemainFuel()){
+            throw new IllegalArgumentException("allocated Quota exceed the remaining fuel capacity");
+        }
+        customerFuelQuota.setRemainFuel(customerFuelQuota.getRemainFuel()-allocatedFuel);
+        customerFuelQuotaRepo.save(customerFuelQuota);
+
+        return "Fuel allocated successfully! Remain capacity: "+customerFuelQuota.getRemainFuel()+" liters";
+    }
+
 
 
 }

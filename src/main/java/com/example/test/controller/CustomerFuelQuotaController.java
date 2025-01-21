@@ -41,4 +41,10 @@ public class CustomerFuelQuotaController {
     public ScannedQRCodeDTO getQRCodeContent(@RequestParam("customerFuelQuotaId") int customerFuelQuotaId) {
         return customerFualQuataService.getScannedDetails(customerFuelQuotaId);
     }
+
+    @PutMapping("/allocateFuel")
+    public String allocateFuel(@RequestParam int customerFuelQuotaId, @RequestParam int allocatedFuel) {
+        return customerFualQuataService.allocateFuel(customerFuelQuotaId,allocatedFuel);
+
+    }
 }
