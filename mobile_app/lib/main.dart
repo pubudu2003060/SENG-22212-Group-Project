@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'register.dart';
+import 'mainpage.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,12 +16,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Fuel Station App',
       debugShowCheckedModeBanner: false, 
-      home: LoginScreen(),
+      home: MainScreen(),
       routes: {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
       },
 
+      
       
     );
   }
