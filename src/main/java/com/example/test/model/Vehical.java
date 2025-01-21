@@ -15,7 +15,11 @@ public class Vehical {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int vehicalId;
     private int chassiNo;
-    private String vehicalType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private VehicalType vehicalType;
+
     private int vehicalNo;
     private int enginNo;
     private String fualType;
