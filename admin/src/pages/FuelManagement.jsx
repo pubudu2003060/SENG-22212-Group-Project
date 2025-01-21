@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
 import Footer from '../components/Footer';
+import "../styles/background.css";
 
 import {Button, Layout} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -23,8 +24,7 @@ function FuelManagement() {
                 collapsed={collapsed} 
                 collapsible 
                 trigger = {null}
-                className='sidebar'
-                style={{padding: 0, background: '#fff'}}
+                className='background_sidebar'
                 >
                 
                 <Button 
@@ -37,19 +37,23 @@ function FuelManagement() {
                 </Sider>
             
                 <Layout> 
-                    <Header style={{padding: 0, background: '#fff'}}>
+                    <Header className="background_header">
                         <Headerbar headerTitle={headerTitle} userName={userName} /> 
                     </Header>
 
                     <Content>
-                        <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
+                        {/* Color Block with Background Image */}
+                        <div 
+                        className="background_cover"
+                        ></div>
+                        <Layout className="background_layout1">
+                            <Content className="background_content1">
                                 fsjyjs
                             </Content>
                         </Layout>
 
-                        <Layout style={{padding: 0, marginTop: 10, marginLeft: 10}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
+                        <Layout className="background_layout2">
+                            <Content className="background_content2">
                                 fsjyjs
                             </Content>
                         </Layout>

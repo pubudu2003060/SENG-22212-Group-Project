@@ -8,6 +8,8 @@ import {Button, Layout, Row, Col} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import ResetQuota from '../FuelQuotaManagementComponents/ResetQuota';
 import QuotaDetails from '../FuelQuotaManagementComponents/QuotaDetails';
+import "../styles/background.css";
+
 
 const { Sider, Header, Content } = Layout;
 
@@ -26,8 +28,7 @@ function FuelQuotaManagement() {
                 collapsed={collapsed} 
                 collapsible 
                 trigger = {null}
-                className='sidebar'
-                style={{padding: 0, background: '#fff'}}
+                className='background_sidebar'
                 >
                 
                 <Button 
@@ -40,32 +41,39 @@ function FuelQuotaManagement() {
                 </Sider>
             
                 <Layout> 
-                    <Header style={{padding: 0, background: '#fff'}}>
+                    <Header className="background_header" >
                         <Headerbar headerTitle={headerTitle} userName={userName} /> 
                     </Header>
 
                     <Content>
-                        {/* Row with two columns */}
-                        <Row  style={{ marginBottom: '10px' }}>
-                            <Col span={12}>
-                                <Layout style={{padding: 0, marginTop: 40, marginLeft: 10, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'}}>
-                                    <Content style={{padding: 20, background: '#fff'}}>
-                                        <SetNewQuota />
-                                    </Content>
-                                </Layout>
-                            </Col>
+                        {/* Color Block with Background Image */}
+                        <div 
+                            className="background_cover"
+                        ></div>
 
-                            <Col span={12}>
-                                <Layout style={{padding: 0, marginTop: 40, marginLeft: 10, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'}}>
-                                    <Content style={{padding: 20, background: '#fff'}}>
-                                        <ResetQuota />
-                                    </Content>
-                                </Layout>
-                            </Col>
-                        </Row>
                         
-                        <Layout style={{padding: 0, marginTop: 10, marginLeft: 10, boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
+                                {/* Row with two columns */}
+                                <Row  style={{ marginBottom: '10px' }}>
+                                    <Col span={12}>
+                                        <Layout className="background_layout1" style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1'}}>
+                                            <Content className="background_content1">
+                                                <SetNewQuota />
+                                            </Content>
+                                        </Layout>
+                                    </Col>
+
+                                    <Col span={12}>
+                                        <Layout className="background_layout1" style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'}}>
+                                            <Content className="background_content1">
+                                                <ResetQuota />
+                                            </Content>
+                                        </Layout>
+                                    </Col>
+                                </Row>
+                            
+                        
+                        <Layout className="background_layout2">
+                            <Content className="background_content2">
                                 <QuotaDetails />
                             </Content>
                         </Layout>
