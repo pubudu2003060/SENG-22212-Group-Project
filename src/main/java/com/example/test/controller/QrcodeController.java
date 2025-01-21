@@ -23,5 +23,11 @@ public class QrcodeController {
     @GetMapping("/getqrcodes")
     public List<QrcodeDTO> getQrcodes() {
         return qrcodeService.getQrcode();
+
+    }
+
+    @GetMapping("/{id}")
+    public QrcodeDTO getQrcodeDetailsById(@PathVariable int id) {
+        return qrcodeService.getQrCodeDetailsById(id);
     }
 }
