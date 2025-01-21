@@ -59,12 +59,7 @@ class LoginScreen extends StatelessWidget {
             ),
 
             SizedBox(height: 16.0),
-            TextButton(
-              onPressed: () {                
-                print('Forgot Password Clicked');
-              },
-              child: Text('Forgot Password?'),
-            ),
+            
             TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/register');
