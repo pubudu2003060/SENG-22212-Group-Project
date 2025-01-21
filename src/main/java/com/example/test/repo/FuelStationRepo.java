@@ -14,5 +14,6 @@ public interface FuelStationRepo extends JpaRepository<FuelStation, Integer> {
 
     List<FuelStation> findByStatus(Status status);
 
+    boolean existsFuelStationByUsernameAndPassword(String username, String password);
 
 }

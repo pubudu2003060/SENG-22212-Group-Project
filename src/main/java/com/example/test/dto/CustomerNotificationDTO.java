@@ -14,8 +14,5 @@ public class CustomerNotificationDTO {
 
     private int cnId;
     private String content;
-
-    @ManyToOne
-    @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
     private User user;
 }

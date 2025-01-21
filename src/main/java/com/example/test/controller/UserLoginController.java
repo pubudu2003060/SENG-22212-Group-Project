@@ -9,18 +9,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/login")
-
 public class UserLoginController {
     @Autowired
     private UserLoginService userLoginService;
 
     @PostMapping("/send-otp")
-    public String sendOtp(@RequestParam String phoneNumber) {
+    public String sendOtp(@RequestParam("phoneNumber") String phoneNumber) {
         return userLoginService.sendOtp(phoneNumber);
     }
+
     @PostMapping("/validate-otp")
     public String validateOtp(@RequestBody LoginRequestDto loginRequest) {
         return userLoginService.validateOtp(loginRequest);
-
     }
 }
