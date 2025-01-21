@@ -34,4 +34,10 @@ public class QrcodeService {
         qrcodeRepo.save(modelMapper.map(qrcodeDTO,Qrcode.class));
         return qrcodeDTO;
     }
+
+    public QrcodeDTO getQrCodeDetailsById(int qrCodeId){
+        Qrcode qrCode=qrcodeRepo.findById(qrCodeId).orElseThrow(()->new IllegalArgumentException("Qrcode not found with the given ID") );
+        return modelMapper.map(qrCode,QrcodeDTO.class);
+    }
+
 }

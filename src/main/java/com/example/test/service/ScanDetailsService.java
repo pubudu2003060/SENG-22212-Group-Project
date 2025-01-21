@@ -17,8 +17,4 @@ public class ScanDetailsService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public scannedDetailsDTO getScannedDetails() {
-        Qrcode qrcodeDetails = ScanDetailsRepo.findByQrCodeId(QrCodeid);
-        return modelMapper.map(Qrcode,scannedDetailsDTO.class);
-    }
 }
