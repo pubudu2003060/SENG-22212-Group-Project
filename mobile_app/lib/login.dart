@@ -51,11 +51,11 @@ class LoginScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/dashboard');
                 }
               },
-              child: Text('Login'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromARGB(255, 64, 146, 198), 
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
               ),
+              child: Text('Login'),
             ),
 
             SizedBox(height: 16.0),
@@ -66,10 +66,10 @@ class LoginScreen extends StatelessWidget {
               child: Text('Forgot Password?'),
             ),
             TextButton(
-              onPressed: () {                
-                print('Sign Up Clicked');
+              onPressed: () {
+                Navigator.pushNamed(context, '/register');
               },
-              child: Text('Sign Up'),
+              child: const Text('Register'),
             ),
           ],
         ),
