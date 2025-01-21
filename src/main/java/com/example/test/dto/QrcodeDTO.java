@@ -14,8 +14,5 @@ public class QrcodeDTO {
 
     private int qrcodeId;
     private String content;
-
-    @OneToOne
-    @JoinColumn(name = "customerFuelQuotaId",referencedColumnName = "customerFuelQuotaId")
     private CustomerFuelQuota customerFualQuata;
 }

@@ -3,52 +3,58 @@ package com.example.test.service;
 import com.example.test.dto.LoginRequestDto;
 import com.example.test.model.UserLogin;
 import com.example.test.repo.UserLoginRepo;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
 
-import java.security.SecureRandom;
-import java.util.Optional;
+import java.util.List;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
+@Transactional
 public class UserLoginService {
 
     @Autowired
     private UserLoginRepo userLoginRepo;
+
     @Autowired
     private OtpGenerateService otpGenerateService;
+
     @Autowired
     private SmsService smsService;
 
     public String sendOtp(String phoneNumber) {
-        String otp = otpGenerateService.generateOTP();
-        UserLogin user = userLoginRepo.findById(phoneNumber)
-                .orElse(new UserLogin(phoneNumber, null, false));
-        user.setOtp(otp);
-        user.setVerified(false);
-        userLoginRepo.save(user);
+        try {
+            String otp = otpGenerateService.generateOTP();
 
-        smsService.sendOtp(phoneNumber, otp);
-        return "OTP sent successfully!";
+            // Save or update user login details
+            UserLogin userLogin = userLoginRepo.findById(phoneNumber).orElse(new UserLogin());
+            userLogin.setPhoneNumber(phoneNumber);
+            userLogin.setOtp(otp);
+            userLogin.setVerified(false);
+            userLoginRepo.save(userLogin);
+
+            // Send OTP via SMS
+            smsService.sendOtp(phoneNumber, otp);
+
+            return "OTP sent successfully";
+        } catch (Exception e) {
+            return "Failed to send OTP: " + e.getMessage();
+        }
     }
 
     public String validateOtp(LoginRequestDto loginRequest) {
-        Optional<UserLogin> userOpt = userLoginRepo.findById(loginRequest.getPhoneNumber());
-        if (userOpt.isPresent()) {
+        try {
+            UserLogin userLogin = userLoginRepo.getUserLoginByPhoneNumber(loginRequest.getPhoneNumber());
 
-            UserLogin user = userOpt.get();
-
-            if (user.getOtp().equals(loginRequest.getOtp())) {
-                user.setVerified(true);
-                userLoginRepo.save(user);
-                return "login successfully";
+            if (userLogin.getOtp().equals(loginRequest.getOtp())) {
+                userLogin.setVerified(true);
+                userLoginRepo.save(userLogin);
+                return "OTP verified successfully";
+            } else {
+                return "Invalid OTP";
             }
+        } catch (Exception e) {
+            return "OTP verification failed: " + e.getMessage();
         }
-        return "Invalid OTP!";
     }
-
-
 }
