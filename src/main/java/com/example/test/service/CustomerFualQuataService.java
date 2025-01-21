@@ -2,9 +2,11 @@ package com.example.test.service;
 
 import com.example.test.dto.CustomerFuelQuotaDTO;
 import com.example.test.dto.FuelStationManagementDTO;
+import com.example.test.dto.ScannedQRCodeDTO;
 import com.example.test.dto.VehicalFualQuataDTO;
 import com.example.test.model.BuyQuota;
 import com.example.test.model.CustomerFuelQuota;
+import com.example.test.model.VehicalType;
 import com.example.test.repo.CustomerFuelQuotaRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -53,15 +55,17 @@ public class CustomerFualQuataService {
 
     }
 
-    public CustomerFuelQuotaDTO getFuelQuotaDetails(int id){
-        CustomerFuelQuota customerFuelQuota=customerFuelQuotaRepo.findById(id).orElseThrow(()->new IllegalArgumentException("Fuel quota not found for id: "+id));
-        return modelMapper.map(customerFuelQuota, CustomerFuelQuotaDTO.class);
+    public Integer getFuelQuotaDetailsByVehicleType(VehicalType vehicleType){
+        Integer customerFuelQuota=customerFuelQuotaRepo.findEligibleFuelCapacityByVehicleType(vehicleType);
+        return customerFuelQuota;
     }
 
     public CustomerFuelQuotaDTO searchFuelQuotaById(int vehicleId){
         CustomerFuelQuotaDTO customerFuelQuota= modelMapper.map(customerFuelQuotaRepo.getCustomerFuelQuotaByVehical_VehicalId(vehicleId),CustomerFuelQuotaDTO.class);
         return customerFuelQuota;
     }
+
+
 
     public String updateFuelQuota(String fuelType,int newFuelQuota){
         List<CustomerFuelQuota> customerFuelQuotaList = customerFuelQuotaRepo.findByVehicleType(fuelType);
@@ -74,6 +78,21 @@ public class CustomerFualQuataService {
 
         return "Updated fuel quota to" + newFuelQuota +"for"+customerFuelQuotaList.size()+"vehicle of type"+fuelType+".";
 
+    }
+
+    public ScannedQRCodeDTO getScannedDetails(int customerFuelQuotaId){
+
+        CustomerFuelQuota customerFuelQuota = customerFuelQuotaRepo.findById(customerFuelQuotaId).orElseThrow(()->new IllegalArgumentException("customer fuel Quota id not found"+customerFuelQuotaId));
+
+        ScannedQRCodeDTO scannedQRCodeDTO = new ScannedQRCodeDTO();
+        scannedQRCodeDTO.setVehicleNo(customerFuelQuota.getVehical().getVehicalNo());
+        scannedQRCodeDTO.setVehicalType(customerFuelQuota.getVehical().getVehicalType());
+        scannedQRCodeDTO.setRemainFuel(customerFuelQuota.getEligibleFuelQuota());
+        scannedQRCodeDTO.setEligibleDays(customerFuelQuota.getEligibleDays());
+
+
+
+        return scannedQRCodeDTO;
     }
 
 
