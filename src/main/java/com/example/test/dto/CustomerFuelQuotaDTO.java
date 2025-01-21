@@ -17,7 +17,7 @@ public class CustomerFuelQuotaDTO {
 
     private int customerFuelQuotaId;
     private String eligibleDays;
-    private int eligibleFueglQuota;
+    private int eligibleFuelQuota;
     private int remainFuel;
     @Formula("eligible_fuel_quota - remain_fuel")
     private int usedFuelQuota;
