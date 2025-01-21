@@ -1,6 +1,9 @@
 package com.example.test.controller;
 
+import com.example.test.dto.ScannedDetailsDTO;
 import com.example.test.model.EligibleFuelCapacity;
+import com.example.test.model.Qrcode;
+import com.example.test.repo.QrcodeRepo;
 import com.example.test.service.ScanDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,19 +15,11 @@ public class ScanDetailsController {
 
     @Autowired
     private ScanDetailsService scanDetailsService;
+    @Autowired
+    private QrcodeRepo qrcodeRepo;
 
-    @GetMapping("/getScannedDetails")
-    public String getScannedDetails() {
-        return scanDetailsService.getScannedDetails();
-    }
-    @PutMapping("/setGivenFuel/{qrCodeId}")
-    public String setGivenFuel(@PathVariable int qrCodeId,@RequestParam Float givenFuel) {
-        try{
-            return scanDetailsService.setGivenFuel(qrCodeId,givenFuel);
-        }
-        catch(IllegalArgumentException e){
-            return "Error: "+e.getMessage();
-
-        }
-    }
+    //@PutMapping("/allocateFuel")
+    //public String allocateFuel(@RequestBody ScannedDetailsDTO scannedDetailsDTO) {
+      //return scanDetailsService.allocateFuel(scannedDetailsDTO);
+    //}
 }
