@@ -1,6 +1,7 @@
 package com.example.test.controller;
 
 import com.example.test.dto.QrcodeDTO;
+import com.example.test.dto.ScannedQRCodeDTO;
 import com.example.test.service.QrcodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +24,7 @@ public class QrcodeController {
     @GetMapping("/getqrcodes")
     public List<QrcodeDTO> getQrcodes() {
         return qrcodeService.getQrcode();
-
     }
 
-    @GetMapping("/{id}")
-    public QrcodeDTO getQrcodeDetailsById(@PathVariable int id) {
-        return qrcodeService.getQrCodeDetailsById(id);
-    }
+
 }

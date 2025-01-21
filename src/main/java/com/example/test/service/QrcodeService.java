@@ -1,6 +1,7 @@
 package com.example.test.service;
 
 import com.example.test.dto.QrcodeDTO;
+import com.example.test.dto.ScannedQRCodeDTO;
 import com.example.test.model.Qrcode;
 import com.example.test.repo.QrcodeRepo;
 import jakarta.transaction.Transactional;
@@ -35,9 +36,6 @@ public class QrcodeService {
         return qrcodeDTO;
     }
 
-    public QrcodeDTO getQrCodeDetailsById(int qrCodeId){
-        Qrcode qrCode=qrcodeRepo.findById(qrCodeId).orElseThrow(()->new IllegalArgumentException("Qrcode not found with the given ID") );
-        return modelMapper.map(qrCode,QrcodeDTO.class);
-    }
+
 
 }
