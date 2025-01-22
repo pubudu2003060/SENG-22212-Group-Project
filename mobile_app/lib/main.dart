@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'register.dart';
+import 'ownerregister.dart';
 import 'mainpage.dart';
 
 void main() {
@@ -19,8 +19,10 @@ class MyApp extends StatelessWidget {
       home: MainScreen(),
       routes: {
         '/login': (context) => LoginScreen(),
-        '/register': (context) => RegisterScreen(),
+        '/ownerregister': (context) => OwnerRegisterScreen(),
+      
       },
+      
 
       
       
