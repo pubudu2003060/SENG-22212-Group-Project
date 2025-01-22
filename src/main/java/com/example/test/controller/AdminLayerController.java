@@ -1,6 +1,7 @@
 package com.example.test.controller;
 
 import com.example.test.dto.AdminSignInDTO;
+import com.example.test.dto.BuyquotaFuelStationDTO;
 import com.example.test.service.AdminLayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,7 +20,6 @@ public class AdminLayerController {
 
     @Autowired
     private AdminLayerService adminLayerService;
-
 
     @GetMapping("/getBuyQuotasDataByFuelType/{fualType}")
     public Map<String, Double> getBuyQuotasDataByFuelType(@PathVariable("fualType") String fuelType) {
@@ -43,5 +44,8 @@ public class AdminLayerController {
         return adminLayerService.adminSignIn(adminSignInDTO);
     }
 
-
+    @GetMapping("/getfuelstationbuyquoto")
+    public List<BuyquotaFuelStationDTO> getFuelStationBuyQuoto() {
+        return adminLayerService.getFuelStationBuyQuoto();
+    }
 }
