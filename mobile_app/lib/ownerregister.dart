@@ -100,9 +100,10 @@ class OwnerRegisterScreen extends StatelessWidget {
               
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {                    
-                    Navigator.pushNamed(context, '/vehicleregistration');
-                  }
+                  /*if (_formKey.currentState!.validate()) {                    
+                    Navigator.pushNamed(context, '/vehicle_registration');
+                  }*/
+                  Navigator.pushNamed(context, '/vehicle_registration');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 64, 146, 198),
