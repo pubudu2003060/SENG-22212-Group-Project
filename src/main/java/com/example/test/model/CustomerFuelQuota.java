@@ -31,4 +31,5 @@ public class CustomerFuelQuota {
     @OneToOne
     @JoinColumn(name = "vehicalId", referencedColumnName = "vehicalId", nullable = false)
     private Vehical vehical;
+
 }

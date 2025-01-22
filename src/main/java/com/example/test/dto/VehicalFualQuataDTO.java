@@ -17,4 +17,5 @@ public class VehicalFualQuataDTO {
     private String eligibleDays;
     private int eligibleFuelQuota;
     private int remainFuel;
+
 }

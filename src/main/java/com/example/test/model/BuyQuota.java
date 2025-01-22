@@ -16,9 +16,16 @@ public class BuyQuota {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bqId;
+
+    @Column(nullable = false)
     private int amount;
+
+    @Column(nullable = false)
     private Date date;
-    private String fuelType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private FuelType fuelType;
 
     @ManyToOne
     @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
@@ -31,5 +38,6 @@ public class BuyQuota {
     @ManyToOne
     @JoinColumn(name = "fuelstationId", referencedColumnName = "stationId", nullable = false)
     private FuelStation fuelStation;
+
 
 }

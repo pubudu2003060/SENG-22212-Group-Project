@@ -13,7 +13,9 @@ public class FuelStationNotification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int fsnId; // Primary Key
+    private int fsnId;
+
+    @Column(nullable = false)
     private String content;
 
     @ManyToOne

@@ -23,9 +23,8 @@ public class VehicalService {
     private ModelMapper modelMapper;
 
     public VehicalDTO addVehical(VehicalDTO vehicalDTO) {
-        vehicalRepo.save(modelMapper.map(vehicalDTO, Vehical.class));
-
-        return vehicalDTO;
+        Vehical vehical = vehicalRepo.save(modelMapper.map(vehicalDTO, Vehical.class));
+        return modelMapper.map(vehical, VehicalDTO.class);
     }
 
     public List<VehicalDTO> getAllVehicals() {
@@ -40,11 +39,9 @@ public class VehicalService {
     public List<VehicalFualDataDTO> getvehicalFualData(int customerId){
         return vehicalRepo.getvehicalFualData(customerId);
     }
+
     public Long getVehicleCount(){
         return vehicalRepo.getTotalVehicles();
     }
-
-
-
 
 }

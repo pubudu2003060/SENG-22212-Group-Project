@@ -14,15 +14,23 @@ public class Vehical {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int vehicalId;
+
+    @Column(nullable = false, unique = true)
     private int chassiNo;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private VehicalType vehicalType;
 
+    @Column(nullable = false, unique = true)
     private int vehicalNo;
+
+    @Column(nullable = false, unique = true)
     private int enginNo;
-    private String fualType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private FuelType fualType;
 
     @ManyToOne
     @JoinColumn(name = "customerId", referencedColumnName = "userId", nullable = false)
