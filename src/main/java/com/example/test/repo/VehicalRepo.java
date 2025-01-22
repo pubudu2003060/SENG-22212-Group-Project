@@ -22,4 +22,8 @@ public interface VehicalRepo extends JpaRepository<Vehical, Integer> {
             "WHERE u.userId = :customerId")
     List<VehicalFualDataDTO> getvehicalFualData(@Param("customerId") int customerId);
 
+    @Query("SELECT COUNT(v) FROM Vehical v")
+    long getTotalVehicles();
+
+
 }
