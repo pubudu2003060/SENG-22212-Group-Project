@@ -68,4 +68,14 @@ public class FuelStationService {
         return fuelStationRepo.existsFuelStationByUsernameAndPassword(username, password);
     }
 
+    public Long getTotalActiveStations() {
+        return fuelStationRepo.getTotalActiveStations();
+    }
+
+    public List<FuelStationDTO> findFuelStationsCapacityBelow8000(){
+        List<FuelStation> lowFuelStationList=fuelStationRepo.findStationsWithCapacityBelow8000();
+        return modelMapper.map(lowFuelStationList, new TypeToken<List<FuelStationDTO>>() {
+        }.getType());
+    }
+
 }
