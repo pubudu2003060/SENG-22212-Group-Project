@@ -13,13 +13,33 @@ public class UserLoginController {
     @Autowired
     private UserLoginService userLoginService;
 
-    @PostMapping("/send-otp")
-    public String sendOtp(@RequestParam("phoneNumber") String phoneNumber) {
-        return userLoginService.sendOtp(phoneNumber);
+    @PostMapping("/send-otp/{phoneNumber}")
+    public String sendOtp(@PathVariable("phoneNumber") String phoneNumber) {
+        try {
+            return userLoginService.sendOtp(phoneNumber);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
     @PostMapping("/validate-otp")
     public String validateOtp(@RequestBody LoginRequestDto loginRequest) {
         return userLoginService.validateOtp(loginRequest);
+    }
+
+    @PostMapping("/makecall/{phoneNumber}")
+    public Void sendcall(@PathVariable("phoneNumber") String phoneNumber) {
+        userLoginService.sendCall(phoneNumber);
+        return null;
+    }
+
+    @GetMapping(value = "/twiml")
+    public String getTwiML(@RequestParam String otp) {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<Response>\n" +
+                "    <Say voice=\"alice\">Hello, this is your Spring Boot application calling you! Your API is " + otp + "</Say>\n" +
+                "</Response>";
     }
 }

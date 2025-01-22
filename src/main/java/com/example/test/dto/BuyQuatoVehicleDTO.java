@@ -18,4 +18,5 @@ public class BuyQuatoVehicleDTO {
     private String vehicalType;
     private int vehicalNo;
     private String fualType;
+
 }
