@@ -2,6 +2,7 @@ package com.example.test.service;
 
 import com.example.test.dto.AdminDTO;
 import com.example.test.dto.AdminSignInDTO;
+import com.example.test.dto.BuyquotaFuelStationDTO;
 import com.example.test.model.BuyQuota;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class AdminLayerService {
+public class  AdminLayerService {
 
     @Autowired
     private BuyQuotaService buyQuotaService;
@@ -26,11 +27,14 @@ public class AdminLayerService {
     private AdminService adminService;
 
     public Map<String, Double> getBuyQuotasDataByFuelType(String fuelType) {
-        // Fetch the list of BuyQuota for the specified fuel type
-        List<BuyQuota> buyQuotaList = buyQuotaService.getBuyQuotasByFuelType(fuelType);
 
+        List<BuyQuota> buyQuotaList = buyQuotaService.getBuyQuotasByFuelType(fuelType);
         // Initialize summary map
         Map<String, Double> summary = new HashMap<>();
+
+        if(buyQuotaList.isEmpty()) {
+            return summary;
+        }
 
         // Define dates for today, start of the week, and start of the month
         LocalDate today = LocalDate.now();
@@ -79,6 +83,8 @@ public class AdminLayerService {
     }
 
 
-
+    public List<BuyquotaFuelStationDTO> getFuelStationBuyQuoto() {
+        return buyQuotaService.getFuelStationBuyQuoto();
+    }
 
 }
