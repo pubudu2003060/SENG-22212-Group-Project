@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios"; 
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
 import "../Styles/Registration.css";
 
 function VehicleDetailsForm() {
@@ -11,18 +11,19 @@ function VehicleDetailsForm() {
         vehicleType: "Car",
         chassisNumber: "",
         fuelType: "Petrol",
+        enginNumber: "",
     });
 
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
-        setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+        setErrors((prevErrors) => ({...prevErrors, [name]: ""}));
     };
 
     const validateForm = () => {
@@ -40,7 +41,7 @@ function VehicleDetailsForm() {
     const handleRegister = async () => {
         // Validate form inputs
         if (!validateForm()) return;
-    
+
         // Get userId from session storage
         const userId = sessionStorage.getItem("userId");
         if (!userId) {
@@ -48,21 +49,22 @@ function VehicleDetailsForm() {
             navigate("/PersonalDetailsForm");
             return;
         }
-    
+
         // Create the data to send
         const apiBody = {
-            vehicalNo: formData.vehicleNumber,
-            vehicalType: formData.vehicleType,
             chassiNo: formData.chassisNumber,
+            vehicalType: formData.vehicleType,
+            vehicalNo: formData.vehicleNumber,
+            enginNo: formData.enginNumber,
             fualType: formData.fuelType,
-            user: { userId: parseInt(userId) },
+            user: {userId: parseInt(userId)},
         };
-    
+
         try {
-    
+
             // Send data to the API
             await axios.post("http://localhost:8080/api/v1/addvehical", apiBody);
-    
+
             alert("Vehicle registered successfully!");
             navigate("/QRGenerator"); // Go to the next page
         } catch (error) {
@@ -71,7 +73,7 @@ function VehicleDetailsForm() {
             setLoading(false); // Hide loading state
         }
     };
-    
+
 
     const handleBack = () => {
         navigate("/PersonalDetailsForm");
