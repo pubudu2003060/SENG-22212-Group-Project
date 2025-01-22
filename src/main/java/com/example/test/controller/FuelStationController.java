@@ -54,6 +54,16 @@ public class FuelStationController {
         }
     }
 
+    @GetMapping("/getTotalActiveFuelStations")
+    public Long getTotalActiveFuelStations() {
+        return fuelStationService.getTotalActiveStations();
+    }
+
+    @GetMapping("/findFuelStationCapacityBelow8000")
+    public List<FuelStationDTO> findFuelStationCapacityBelow8000() {
+        return fuelStationService.findFuelStationsCapacityBelow8000();
+    }
+
 
 
 }

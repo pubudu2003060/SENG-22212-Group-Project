@@ -40,6 +40,9 @@ public class VehicalService {
     public List<VehicalFualDataDTO> getvehicalFualData(int customerId){
         return vehicalRepo.getvehicalFualData(customerId);
     }
+    public Long getVehicleCount(){
+        return vehicalRepo.getTotalVehicles();
+    }
 
 
 
