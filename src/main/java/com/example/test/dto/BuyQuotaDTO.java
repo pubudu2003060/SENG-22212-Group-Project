@@ -23,4 +23,5 @@ public class BuyQuotaDTO {
     private User user;
     private Vehical vehical;
     private FuelStation fuelStation;
+
 }

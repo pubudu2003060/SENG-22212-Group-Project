@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Service
@@ -20,13 +21,13 @@ public class UserLoginService {
     private OtpGenerateService otpGenerateService;
 
     @Autowired
-    private SmsService smsService;
+    private TwilioSmsService twilioSmsService;
 
     public String sendOtp(String phoneNumber) {
         try {
             String otp = otpGenerateService.generateOTP();
 
-            // Save or update user login details
+            //Save or update user login details
             UserLogin userLogin = userLoginRepo.findById(phoneNumber).orElse(new UserLogin());
             userLogin.setPhoneNumber(phoneNumber);
             userLogin.setOtp(otp);
@@ -34,11 +35,11 @@ public class UserLoginService {
             userLoginRepo.save(userLogin);
 
             // Send OTP via SMS
-            smsService.sendOtp(phoneNumber, otp);
+            twilioSmsService.sendOtp(phoneNumber, otp);
 
-            return "OTP sent successfully";
+            return "OTP sent successfully "+phoneNumber;
         } catch (Exception e) {
-            return "Failed to send OTP: " + e.getMessage();
+            throw new RuntimeException("Failed to send OTP " + e.getMessage());
         }
     }
 
@@ -55,6 +56,14 @@ public class UserLoginService {
             }
         } catch (Exception e) {
             return "OTP verification failed: " + e.getMessage();
+        }
+    }
+
+    public void sendCall(String phoneNumber){
+        try {
+            twilioSmsService.sendCall(phoneNumber,otpGenerateService.generateOTP());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
