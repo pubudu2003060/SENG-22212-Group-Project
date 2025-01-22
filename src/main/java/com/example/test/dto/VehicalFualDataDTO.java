@@ -1,5 +1,6 @@
 package com.example.test.dto;
 
+import com.example.test.model.VehicalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.Date;
 public class VehicalFualDataDTO {
 
     private int vehicalId;
-    private String vehicalType;
+    private VehicalType vehicalType;
     private int vehicalNo;
     private int customerFuelQuotaId;
     private String eligibleDays;

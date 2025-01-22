@@ -25,5 +25,9 @@ public class VehicalController {
         return vehicalService.getAllVehicals();
     }
 
+    @GetMapping("/getTotalVehicles")
+    public Long getTotalVehicals() {
+        return vehicalService.getVehicleCount();
+    }
 
 }

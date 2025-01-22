@@ -1,6 +1,8 @@
 package com.example.test.controller;
 
 import com.example.test.dto.CustomerFuelQuotaDTO;
+import com.example.test.dto.ScannedQRCodeDTO;
+import com.example.test.model.VehicalType;
 import com.example.test.service.CustomerFualQuataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +27,24 @@ public class CustomerFuelQuotaController {
         return customerFualQuataService.saveCustomerFuelQuota(customerFuelQuotaDTO);
     }
 
-    @PutMapping("/updateFuelQuota")
-    public String updateCustomerFuelQuota(@RequestParam("fuelType") String fuelType, @RequestParam("fuelQuantity") Integer fuelQuantity) {
-        return customerFualQuataService.updateFuelQuota(fuelType,fuelQuantity);
+    @PutMapping("/updateFuelQuotaByVehicleType")
+    public String updateCustomerFuelQuota(@RequestParam("vehicleType") String vehicleType, @RequestParam("fuelQuantity") Integer fuelQuantity) {
+        return customerFualQuataService.updateFuelQuota(vehicleType,fuelQuantity);
     }
 
-    @GetMapping("/searchFuelQuota")
-    public CustomerFuelQuotaDTO searchFuelQuota(@RequestParam("vehiclId") int vehicleId) {
-        return customerFualQuataService.searchFuelQuotaById(vehicleId);
+    @GetMapping("/getFuelQuotaByVehicleType")
+    public Integer getFuelQuotaDetailsByVehicleType(@RequestParam("vehicalType") VehicalType vehicalType) {
+        return customerFualQuataService.getFuelQuotaDetailsByVehicleType(vehicalType);
+    }
+
+    @GetMapping("/getQRCodeContent")
+    public ScannedQRCodeDTO getQRCodeContent(@RequestParam("customerFuelQuotaId") int customerFuelQuotaId) {
+        return customerFualQuataService.getScannedDetails(customerFuelQuotaId);
+    }
+
+    @PutMapping("/allocateFuel")
+    public String allocateFuel(@RequestParam int customerFuelQuotaId, @RequestParam int allocatedFuel) {
+        return customerFualQuataService.allocateFuel(customerFuelQuotaId,allocatedFuel);
+
     }
 }

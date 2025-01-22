@@ -1,6 +1,7 @@
 package com.example.test.service;
 
 import com.example.test.dto.QrcodeDTO;
+import com.example.test.dto.ScannedQRCodeDTO;
 import com.example.test.model.Qrcode;
 import com.example.test.repo.QrcodeRepo;
 import jakarta.transaction.Transactional;
@@ -34,4 +35,7 @@ public class QrcodeService {
         qrcodeRepo.save(modelMapper.map(qrcodeDTO,Qrcode.class));
         return qrcodeDTO;
     }
+
+
+
 }

@@ -3,6 +3,7 @@ package com.example.test.repo;
 import com.example.test.dto.CustomerFuelQuotaDTO;
 import com.example.test.dto.VehicalFualQuataDTO;
 import com.example.test.model.CustomerFuelQuota;
+import com.example.test.model.VehicalType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,5 +25,9 @@ public interface CustomerFuelQuotaRepo extends JpaRepository<CustomerFuelQuota, 
 
     @Query("SELECT c FROM CustomerFuelQuota c JOIN c.vehical v WHERE v.vehicalType = :vehicleType")
     List<CustomerFuelQuota> findByVehicleType(@Param("vehicleType") String vehicleType);
+
+    @Query("SELECT c.eligibleFuelQuota FROM CustomerFuelQuota c JOIN c.vehical v WHERE v.vehicalType = :vehicleType")
+    Integer findEligibleFuelCapacityByVehicleType(@Param("vehicleType") VehicalType vehicleType);
+
 
 }
