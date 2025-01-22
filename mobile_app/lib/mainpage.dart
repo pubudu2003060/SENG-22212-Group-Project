@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
-  void _showPopup(BuildContext context) {
+  @override
+  MainScreenState createState() => MainScreenState();
+}
+
+class MainScreenState extends State<MainScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _showPopup();
+  }
+
+  void _showPopup() {
     Future.delayed(const Duration(seconds: 10), () {
       if (!context.mounted) return;
       showDialog(
@@ -12,13 +23,11 @@ class MainScreen extends StatelessWidget {
         builder: (BuildContext context) {
           return Dialog(
             backgroundColor: Color.fromARGB((0.9 * 255).toInt(), 255, 255, 255),
-
-
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Container(
-              margin: const EdgeInsets.all(10.0), 
+              margin: const EdgeInsets.all(10.0),
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -28,12 +37,11 @@ class MainScreen extends StatelessWidget {
                     children: [
                       Image.asset(
                         'assets/images/logo.png',
-                        width: 100, // Adjust the width as per your requirement
-                        height: 100, // Adjust the height as per your requirement
-                        fit: BoxFit.contain, // Maintain aspect ratio
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.contain,
                       ),
                       const SizedBox(height: 50),
-
                       const Text(
                         'Welcome',
                         style: TextStyle(
@@ -69,7 +77,8 @@ class MainScreen extends StatelessWidget {
                           Navigator.pushNamed(context, '/login');
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 64, 146, 198),
+                          backgroundColor:
+                              const Color.fromARGB(255, 64, 146, 198),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50, vertical: 10),
                         ),
@@ -84,10 +93,11 @@ class MainScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/register');
+                          Navigator.pushNamed(context, '/ownerregister');
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 64, 146, 198),
+                          backgroundColor:
+                              const Color.fromARGB(255, 64, 146, 198),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 40, vertical: 10),
                         ),
@@ -112,15 +122,10 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _showPopup(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Main Page'),
-        backgroundColor: const Color.fromARGB(255, 80, 171, 227),
-      ),
       body: Center(
         child: const Text(
-          'Main Screen Content',
+          'Home Screen Content Here',
           style: TextStyle(fontSize: 24.0),
         ),
       ),
