@@ -4,6 +4,8 @@ import 'ownerregister.dart';
 import 'mainpage.dart';
 import 'firstpage.dart';
 import 'dashboard.dart';
+import 'qr_details.dart';
+import 'station_registration.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,9 +26,10 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/ownerregister': (context) => OwnerRegisterScreen(),
         '/dashboard': (context) => DashboardScreen(),
-      
-      },
-      
+        '/qr_details':(context) => DetailsScreen(),
+        '/vehicle_registration' : (context) => StationRegisterScreen(),
+    
+      },    
 
       
       
