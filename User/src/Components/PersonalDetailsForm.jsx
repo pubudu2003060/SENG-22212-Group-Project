@@ -69,8 +69,10 @@ function PersonalDetailsForm() {
     const sendOTP = () => {
         axios
             .post(`http://localhost:8080/api/v1/login/send-otp?phoneNumber=%2B94${formData.phoneNumber}`)
-            .then(() => {
+            .then((response) => {
                 alert("OTP sent successfully!");
+                console.log(response.data)
+
             })
             .catch((err) => {
                 console.error("Error sending OTP:", err);
@@ -81,16 +83,17 @@ function PersonalDetailsForm() {
     const verifyOTP = () => {
         axios
             .post("http://localhost:8080/api/v1/login/validate-otp", {
-                phoneNumber: formData.phoneNumber,
+                phoneNumber: "+94"+formData.phoneNumber,
                 otp: formData.OTP,
             })
             .then((response) => {
-                if (response.data.message === "login successfully") {
+                console.log(response.data)
+                if (response.data === "OTP verified successfully") {
                     setIsVerified(true);
                     alert("OTP verified successfully!");
                 } else {
                     setIsVerified(false);
-                    alert("Invalid OTP. Please try again.");
+                    alert("Invalid OTP. Please try again. "+formData.phoneNumber+" "+formData.OTP);
                 }
             })
             .catch((err) => {
