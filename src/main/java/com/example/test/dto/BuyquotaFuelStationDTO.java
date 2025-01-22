@@ -1,5 +1,6 @@
 package com.example.test.dto;
 
+import com.example.test.model.FuelType;
 import com.example.test.model.StationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,7 @@ public class BuyquotaFuelStationDTO {
     private int bqId;
     private int amount;
     private Date date;
-    private String fuelType;
+    private FuelType fuelType;
     private int stationId;
     private StationType stationType;
 

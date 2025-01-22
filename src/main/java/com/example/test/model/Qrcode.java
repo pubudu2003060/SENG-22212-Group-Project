@@ -14,6 +14,8 @@ public class Qrcode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int qrcodeId;
+
+    @Column(nullable = false)
     private String content;
 
     @OneToOne

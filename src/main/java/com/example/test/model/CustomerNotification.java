@@ -14,6 +14,8 @@ public class CustomerNotification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cnId;
+
+    @Column(nullable = false)
     private String content;
 
     @ManyToOne

@@ -32,8 +32,8 @@ public class CustomerFualQuataService {
     }
 
     public CustomerFuelQuotaDTO saveCustomerFuelQuota(CustomerFuelQuotaDTO customerFuelQuotaDTO) {
-        customerFuelQuotaRepo.save(modelMapper.map(customerFuelQuotaDTO, CustomerFuelQuota.class));
-        return customerFuelQuotaDTO;
+        CustomerFuelQuota customerFuelQuota = customerFuelQuotaRepo.save(modelMapper.map(customerFuelQuotaDTO, CustomerFuelQuota.class));
+        return modelMapper.map( customerFuelQuota , CustomerFuelQuotaDTO.class);
     }
 
     public List<VehicalFualQuataDTO> getVehicalFualQuata(int customerId){

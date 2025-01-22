@@ -15,11 +15,6 @@ public class VehicalController {
     @Autowired
     VehicalService vehicalService;
 
-    @PostMapping("/addvehical")
-    public VehicalDTO addVehical(@RequestBody VehicalDTO vehicalDTO) {
-        return vehicalService.addVehical(vehicalDTO);
-    }
-
     @GetMapping("/getvehicals")
     public List<VehicalDTO> getAllVehicals() {
         return vehicalService.getAllVehicals();

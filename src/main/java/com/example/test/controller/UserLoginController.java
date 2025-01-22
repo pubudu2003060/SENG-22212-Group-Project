@@ -1,6 +1,7 @@
 package com.example.test.controller;
 
 import com.example.test.dto.LoginRequestDto;
+import com.example.test.dto.VehicalDTO;
 import com.example.test.model.UserLogin;
 import com.example.test.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,10 @@ public class UserLoginController {
                 "<Response>\n" +
                 "    <Say voice=\"alice\">Hello, this is your Spring Boot application calling you! Your API is " + otp + "</Say>\n" +
                 "</Response>";
+    }
+
+    @PostMapping("/addvehical")
+    public VehicalDTO addVehical(@RequestBody VehicalDTO vehicalDTO) {
+        return userLoginService.registerVehicalDetails(vehicalDTO);
     }
 }
