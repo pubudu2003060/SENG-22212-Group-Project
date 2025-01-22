@@ -84,7 +84,7 @@ class MainScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/register');
+                          Navigator.pushNamed(context, '/ownerregister');
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(255, 64, 146, 198),
