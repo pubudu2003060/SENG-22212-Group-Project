@@ -3,6 +3,7 @@ import 'login.dart';
 import 'ownerregister.dart';
 import 'mainpage.dart';
 import 'firstpage.dart';
+import 'dashboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         '/mainpage': (context) => MainScreen(),
         '/login': (context) => LoginScreen(),
         '/ownerregister': (context) => OwnerRegisterScreen(),
+        '/dashboard': (context) => DashboardScreen(),
       
       },
       
