@@ -17,8 +17,7 @@ function Otp() {
     if (value >= "0" && value <= "9") { 
       const newOtp = otp.slice(); 
       newOtp[index] = value; 
-      setOtp(newOtp); 
-  
+      setOtp(newOtp);
 
       if (value && index < 3) { 
         const nextInput = e.target.nextSibling; 
@@ -26,23 +25,25 @@ function Otp() {
           nextInput.focus(); 
         }
       }
+
     }
+
   };
   
   
   const handleVerifyOtp = async () => {
     const enteredOtp = otp.join(""); // Combine the OTP digits into a single string
-  
+  console.log(enteredOtp)
     if (enteredOtp.length === 4) {
       try {
-        const response = await fetch("http://localhost:<port>/api/v1/login/validate-otp", {
+
+        const response = await fetch("http://localhost:8080/api/v1/login/validate-otp", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            phoneNumber,
-            password: "your_password", // Replace with an actual password field if required
+            phoneNumber:"+94"+phoneNumber,
             otp: enteredOtp,
           }),
         });
@@ -50,7 +51,7 @@ function Otp() {
         const result = await response.text();
         if (response.ok) {
           alert(result); // Show "Login successfully" or "Invalid OTP!"
-          if (result === "Login successfully") {
+          if (result === "OTP verified successfully") {
             navigate("/Dashboard");
           } else {
             setError("Invalid OTP. Please try again.");

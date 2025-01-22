@@ -12,7 +12,7 @@ function Login() {
   const handleSendOtp = async () => {
     if (phoneNumber.length === 10 && !isNaN(phoneNumber)) {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/login/send-otp?phoneNumber=${phoneNumber}`, {
+        const response = await fetch(`http://localhost:8080/api/v1/login/send-otp?phoneNumber=%2B94${phoneNumber}`, {
           method: "POST",
         });
         
@@ -22,9 +22,11 @@ function Login() {
           navigate("/Otp", { state: { phoneNumber } }); // Pass phone number to Otp page
         } else {
           setError("Failed to send OTP. Please try again.");
+
         }
       } catch (error) {
-        setError("Error occurred while sending OTP.");
+        setError("Error occurred while sending OTP. ");
+        navigate("/Otp", { state: { phoneNumber } });
       }
     } else {
       setError("Please enter a valid 10-digit phone number.");
