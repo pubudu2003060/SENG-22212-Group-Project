@@ -80,7 +80,7 @@ function VehicleDetailsForm() {
     };
 
     return (
-        <div className="form-container">
+        <div className="form-container-v">
             <h1 className="form-title">Vehicle Details Registration</h1>
             <p className="form-subtitle">Please fill in your vehicle details to proceed.</p>
 

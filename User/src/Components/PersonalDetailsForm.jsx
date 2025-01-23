@@ -6,6 +6,8 @@ import axios from "axios";
 function PersonalDetailsForm() {
     const navigate = useNavigate();
 
+
+
     const [formData, setFormData] = useState({
         idType: "NIC",
         idNumber: "",
@@ -15,6 +17,8 @@ function PersonalDetailsForm() {
         address: "",
         OTP: "",
     });
+
+    console.log(formData.phoneNumber)
 
     const [errors, setErrors] = useState({});
     const [sentOTP, setSentOTP] = useState(""); // Stores the sent OTP
@@ -68,10 +72,14 @@ function PersonalDetailsForm() {
 
     const sendOTP = () => {
         axios
-            .post(`http://localhost:8080/api/v1/login/send-otp/%2B94${formData.phoneNumber}`)
+            .post(`http://localhost:8080/api/v1/login/send-otp/su/%2B94${formData.phoneNumber}`)
             .then((response) => {
-                alert("OTP sent successfully!");
-                console.log(response.data)
+
+                if(response.ok){
+                    alert("OTP sent successfully!");
+                    console.log(response.data)
+                }
+
 
             })
             .catch((err) => {
@@ -93,7 +101,7 @@ function PersonalDetailsForm() {
                     alert("OTP verified successfully!");
                 } else {
                     setIsVerified(false);
-                    alert("Invalid OTP. Please try again. "+formData.phoneNumber+" "+formData.OTP);
+                    alert("Invalid OTP. Please try again. ");
                 }
             })
             .catch((err) => {
