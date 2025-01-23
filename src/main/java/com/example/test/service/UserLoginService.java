@@ -5,9 +5,11 @@ import com.example.test.dto.LoginRequestDto;
 import com.example.test.dto.QrcodeDTO;
 import com.example.test.dto.VehicalDTO;
 import com.example.test.model.CustomerFuelQuota;
+import com.example.test.model.User;
 import com.example.test.model.UserLogin;
 import com.example.test.model.Vehical;
 import com.example.test.repo.UserLoginRepo;
+import com.example.test.repo.UserRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,9 +36,17 @@ public class UserLoginService {
     private ModelMapper modelMapper;
     @Autowired
     private QrcodeService qrcodeService;
+    @Autowired
+    private UserRepo userRepo;
 
-    public String sendOtp(String phoneNumber) {
+    public String sendOtplogin(String phoneNumber) {
         try {
+
+            User user = userRepo.findUserByContactNo(phoneNumber);
+            if(user == null) {
+                throw new Exception("User not found");
+            }
+
             String otp = otpGenerateService.generateOTP();
 
             //Save or update user login details
@@ -49,9 +59,38 @@ public class UserLoginService {
             // Send OTP via SMS
             twilioSmsService.sendOtp(phoneNumber, otp);
 
-            return "OTP sent successfully "+phoneNumber;
+            return "OTP sent successfully ";
+
         } catch (Exception e) {
-            throw new RuntimeException("Failed to send OTP " + e.getMessage());
+            throw new RuntimeException("Failed to send OTP : " + e.getMessage());
+        }
+    }
+
+    public String sendOtpSignUp(String phoneNumber) {
+        try {
+
+            User user = userRepo.findUserByContactNo(phoneNumber);
+
+            if(user != null) {
+                throw new Exception("This number already used");
+            }
+
+            String otp = otpGenerateService.generateOTP();
+
+            //Save or update user login details
+            UserLogin userLogin = userLoginRepo.findById(phoneNumber).orElse(new UserLogin());
+            userLogin.setPhoneNumber(phoneNumber);
+            userLogin.setOtp(otp);
+            userLogin.setVerified(false);
+            userLoginRepo.save(userLogin);
+
+            // Send OTP via SMS
+              twilioSmsService.sendOtp(phoneNumber, otp);
+
+            return "OTP sent successfully ";
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send OTP : " + e.getMessage());
         }
     }
 

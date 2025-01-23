@@ -17,12 +17,21 @@ public class UserLoginController {
     @PostMapping("/send-otp/{phoneNumber}")
     public String sendOtp(@PathVariable("phoneNumber") String phoneNumber) {
         try {
-            return userLoginService.sendOtp(phoneNumber);
+            return userLoginService.sendOtplogin(phoneNumber);
         }
         catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
 
+    @PostMapping("/send-otp/su/{phoneNumber}")
+    public String sendOtpSignUP(@PathVariable("phoneNumber") String phoneNumber) {
+        try {
+            return userLoginService.sendOtpSignUp(phoneNumber);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @PostMapping("/validate-otp")
