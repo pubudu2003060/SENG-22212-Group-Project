@@ -1,69 +1,82 @@
-import React, { useState } from 'react';
+import React, {useState,useEffect,} from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
 import Footer from '../components/Footer';
-
-import { Button, Layout } from 'antd';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import cookies from "js-cookie"
+import {Button, Layout} from 'antd';
+import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
 import "../styles/background.css";
+import {useNavigate} from "react-router-dom";
 
-const { Header, Sider, Content } = Layout;
+const {Header, Sider, Content} = Layout;
 
 function Dashboard() {
-  const [headerTitle, setHeaderTitle] = useState('Dashboard'); // Default title
-  const userName = 'John Doe'; // Replace with user data from login
 
-  const [collapsed, setCollapsed] = useState(false);
+    const navigate = useNavigate();
 
-  return (
-    <>
-      <Layout>
-        <Sider
-          width={250}
-          collapsedWidth={70} // Width when collapsed
-          collapsed={collapsed}
-          collapsible
-          trigger={null}
-          className='background_sidebar'
-        >
-          <Button
-            type="text"
-            className="toggle"
-            onClick={() => setCollapsed(!collapsed)}
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          />
-          <Navbar setHeaderTitle={setHeaderTitle} />
-        </Sider>
+    useEffect(() => {
+        const cookieValue = cookies.get("adminEmail");
+        console.log(cookieValue)
+        if (cookieValue == undefined) {
+            alert("Admin email not found")
+            navigate("/login");
+        }
+    }, []);
 
-        <Layout>
-          <Header className="background_header" >
-            <Headerbar headerTitle={headerTitle} userName={userName} />
-          </Header>
+    const [headerTitle, setHeaderTitle] = useState('Dashboard'); // Default title
+    const userName = 'John Doe'; // Replace with user data from login
 
-          <Content>
-            {/* Color Block with Background Image */}
-            <div 
-              className="background_cover"
-            ></div>
-            <Layout className="background_layout1" >
-              <Content className="background_content1" >
-                fsjyjs
-              </Content>
+    const [collapsed, setCollapsed] = useState(false);
+
+    return (
+        <>
+            <Layout>
+                <Sider
+                    width={250}
+                    collapsedWidth={70} // Width when collapsed
+                    collapsed={collapsed}
+                    collapsible
+                    trigger={null}
+                    className='background_sidebar'
+                >
+                    <Button
+                        type="text"
+                        className="toggle"
+                        onClick={() => setCollapsed(!collapsed)}
+                        icon={collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
+                    />
+                    <Navbar setHeaderTitle={setHeaderTitle}/>
+                </Sider>
+
+                <Layout>
+                    <Header className="background_header">
+                        <Headerbar headerTitle={headerTitle} userName={userName}/>
+                    </Header>
+
+                    <Content>
+                        {/* Color Block with Background Image */}
+                        <div
+                            className="background_cover"
+                        ></div>
+                        <Layout className="background_layout1">
+                            <Content className="background_content1">
+                                fsjyjs
+                            </Content>
+                        </Layout>
+
+                        <Layout className="background_layout2">
+                            <Content className="background_content2">
+                                fsjyjs
+                            </Content>
+                        </Layout>
+                    </Content>
+                </Layout>
             </Layout>
 
-            <Layout className="background_layout2" >
-              <Content className="background_content2">
-                fsjyjs
-              </Content>
-            </Layout>
-          </Content>
-        </Layout>
-      </Layout>
-
-      {/* Footer */}
-      <Footer />
-    </>
-  );
+            {/* Footer */}
+            <Footer/>
+        </>
+    );
 }
 
 export default Dashboard;
