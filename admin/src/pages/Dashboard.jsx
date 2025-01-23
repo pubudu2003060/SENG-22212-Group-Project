@@ -6,7 +6,7 @@ import {Button, Layout} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
 const {Header, Sider, Content} = Layout;
-
+// checking
 function Dashboard() {
     const [headerTitle, setHeaderTitle] = useState('Dashboard'); // Default title
     const userName = 'John Doe'; // Replace with user data from login
