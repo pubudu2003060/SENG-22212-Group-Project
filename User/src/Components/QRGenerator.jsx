@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { QRCodeCanvas } from "qrcode.react";
 import axios from "axios";
 import "../Styles/QRGenerator.css";
 
 function QRGenerator() {
     const navigate = useNavigate();
-    const [qrValue, setQrValue] = useState(""); // Store QR code data
-    const [loading, setLoading] = useState(true); // For loading state
-    const vehicalId = sessionStorage.getItem("vehicleId"); // Retrieve vehicleId from session storage
+    const [qrValue, setQrValue] = useState(""); 
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState(""); // State for error messages
+    const vehicalId = sessionStorage.getItem("vehicleId"); 
 
-    // Fetch QR Code data from API
     useEffect(() => {
         const fetchQrCode = async () => {
             if (!vehicalId) {
-                alert("Vehicle ID not found. Please register your vehicle first.");
+                setError("Vehicle ID not found. Please register your vehicle first.");
                 navigate("/VehicleDetailsForm");
                 return;
             }
@@ -22,10 +21,9 @@ function QRGenerator() {
             try {
                 const response = await axios.get(
                     `http://localhost:8080/api/v1/generateQrCodeByVehicalId/${vehicalId}`,
-                    { responseType: "arraybuffer" } // Get binary data
+                    { responseType: "arraybuffer" }
                 );
 
-                // Convert the byte array to a base64 string
                 const qrCodeBase64 = `data:image/png;base64,${btoa(
                     new Uint8Array(response.data)
                         .reduce((data, byte) => data + String.fromCharCode(byte), "")
@@ -33,7 +31,7 @@ function QRGenerator() {
                 setQrValue(qrCodeBase64);
             } catch (error) {
                 console.error("Error fetching QR code:", error);
-                alert("Failed to generate QR code. Please try again.");
+                setError("Failed to generate QR code. Please try again.");
             } finally {
                 setLoading(false);
             }
@@ -42,7 +40,6 @@ function QRGenerator() {
         fetchQrCode();
     }, [vehicalId, navigate]);
 
-    // Function to download QR code as an image
     const downloadQRCode = () => {
         const downloadLink = document.createElement("a");
         downloadLink.href = qrValue;
@@ -50,7 +47,6 @@ function QRGenerator() {
         downloadLink.click();
     };
 
-    // Function to share the QR code
     const shareQRCode = async () => {
         try {
             const response = await fetch(qrValue);
@@ -63,6 +59,7 @@ function QRGenerator() {
             });
         } catch (error) {
             console.error("Sharing failed", error);
+            setError("Sharing is not supported on this device or browser.");
         }
     };
 
@@ -71,6 +68,8 @@ function QRGenerator() {
             <h1 className="qr-title">Your QR Code</h1>
             {loading ? (
                 <p>Loading QR Code...</p>
+            ) : error ? (
+                <p className="error-message">{error}</p> // Show error message if any
             ) : qrValue ? (
                 <div>
                     <img
