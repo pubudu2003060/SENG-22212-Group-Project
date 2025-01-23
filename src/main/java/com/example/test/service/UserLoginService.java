@@ -57,12 +57,40 @@ public class UserLoginService {
             userLoginRepo.save(userLogin);
 
             // Send OTP via SMS
-          //  twilioSmsService.sendOtp(phoneNumber, otp);
+            twilioSmsService.sendOtp(phoneNumber, otp);
 
-            return "OTP sent successfully "+phoneNumber+" "+otp;
+            return "OTP sent successfully ";
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to send OTP " + e.getMessage());
+            throw new RuntimeException("Failed to send OTP : " + e.getMessage());
+        }
+    }
+
+    public String sendOtpSignUp(String phoneNumber) {
+        try {
+
+            User user = userRepo.findUserByContactNo(phoneNumber);
+
+            if(user != null) {
+                throw new Exception("This number already used");
+            }
+
+            String otp = otpGenerateService.generateOTP();
+
+            //Save or update user login details
+            UserLogin userLogin = userLoginRepo.findById(phoneNumber).orElse(new UserLogin());
+            userLogin.setPhoneNumber(phoneNumber);
+            userLogin.setOtp(otp);
+            userLogin.setVerified(false);
+            userLoginRepo.save(userLogin);
+
+            // Send OTP via SMS
+              twilioSmsService.sendOtp(phoneNumber, otp);
+
+            return "OTP sent successfully ";
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send OTP : " + e.getMessage());
         }
     }
 
