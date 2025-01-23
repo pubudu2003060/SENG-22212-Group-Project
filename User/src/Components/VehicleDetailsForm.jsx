@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; 
+import axios from "axios";
 import "../Styles/Registration.css";
 
 function VehicleDetailsForm() {
@@ -11,19 +11,35 @@ function VehicleDetailsForm() {
         vehicleType: "Car",
         chassisNumber: "",
         fuelType: "Petrol",
+        engineNumber: "",
     });
 
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+    const [vehicleId, setVehicleId] = useState(null);
+
+    useEffect(() => {
+        const storedVehicleId = sessionStorage.getItem("vehicleId");
+        if (storedVehicleId) {
+            setVehicleId(storedVehicleId);
+        }
+    }, []);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
+
+        
+        console.log(`Field changed: ${name}, New value: ${value}`);
+
+      
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
+
         setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
     };
+
 
     const validateForm = () => {
         const newErrors = {};
@@ -36,42 +52,45 @@ function VehicleDetailsForm() {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
-    const handleRegister = async () => {
-        // Validate form inputs
+ 
+   const handleRegister = async () => {
         if (!validateForm()) return;
-    
-        // Get userId from session storage
+
         const userId = sessionStorage.getItem("userId");
         if (!userId) {
             alert("User ID not found. Please register personal details first.");
             navigate("/PersonalDetailsForm");
             return;
         }
-    
-        // Create the data to send
+
         const apiBody = {
-            vehicalNo: formData.vehicleNumber,
-            vehicalType: formData.vehicleType,
             chassiNo: formData.chassisNumber,
+            vehicalType: formData.vehicleType,
+            vehicalNo: formData.vehicleNumber,
+            enginNo: formData.engineNumber,
             fualType: formData.fuelType,
             user: { userId: parseInt(userId) },
         };
-    
+
         try {
-    
-            // Send data to the API
-            await axios.post("http://localhost:8080/api/v1/addvehical", apiBody);
-    
+            setLoading(true);
+            const response = await axios.post(
+                "http://localhost:8080/api/v1/addvehical",
+                apiBody
+            );
+
+            sessionStorage.setItem("vehicleId", response.data.vehicalId);
+            setVehicleId(response.data.vehicalId);
+
             alert("Vehicle registered successfully!");
-            navigate("/QRGenerator"); // Go to the next page
+            navigate("/QRGenerator");
         } catch (error) {
+            console.error("Error details:", error.response || error.message);
             alert("Failed to register vehicle. Please try again.");
         } finally {
-            setLoading(false); // Hide loading state
+            setLoading(false);
         }
     };
-    
 
     const handleBack = () => {
         navigate("/PersonalDetailsForm");
@@ -94,11 +113,10 @@ function VehicleDetailsForm() {
                 />
                 {errors.vehicleNumber && <span className="error-message">{errors.vehicleNumber}</span>}
 
-                <label className="form-label">Vehicle Type:</label>
                 <select
-                    name="vehicleType"
+                    name="vehicleType" 
                     className="vehicle-select"
-                    value={formData.vehicleType}
+                    value={formData.vehicleType} 
                     onChange={handleChange}
                 >
                     <option value="Car">Car</option>
@@ -110,6 +128,7 @@ function VehicleDetailsForm() {
                     <option value="Bus">Bus</option>
                 </select>
 
+
                 <label className="form-label">Chassis Number:</label>
                 <input
                     type="text"
@@ -120,17 +139,26 @@ function VehicleDetailsForm() {
                     onChange={handleChange}
                 />
                 {errors.chassisNumber && <span className="error-message">{errors.chassisNumber}</span>}
-
-                <label className="form-label">Fuel Type:</label>
                 <select
-                    name="fuelType"
+                    name="fuelType" 
                     className="vehicle-select"
-                    value={formData.fuelType}
-                    onChange={handleChange}
+                    value={formData.fuelType} 
+                    onChange={handleChange} 
                 >
                     <option value="Petrol">Petrol</option>
                     <option value="Diesel">Diesel</option>
                 </select>
+
+
+                <label className="form-label">Engine Number:</label>
+                <input
+                    type="text"
+                    name="engineNumber"
+                    className="form-input"
+                    placeholder="Enter your engine number"
+                    value={formData.engineNumber}
+                    onChange={handleChange}
+                />
 
                 <div className="vehicle-buttons">
                     <button type="button" onClick={handleBack} className="form-button">
