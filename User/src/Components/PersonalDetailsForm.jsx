@@ -68,7 +68,7 @@ function PersonalDetailsForm() {
 
     const sendOTP = () => {
         axios
-            .post(`http://localhost:8080/api/v1/login/send-otp?phoneNumber=%2B94${formData.phoneNumber}`)
+            .post(`http://localhost:8080/api/v1/login/send-otp/%2B94${formData.phoneNumber}`)
             .then((response) => {
                 alert("OTP sent successfully!");
                 console.log(response.data)
@@ -117,7 +117,8 @@ function PersonalDetailsForm() {
     
                 // Store userId in session storage
                 sessionStorage.setItem("userId", response.data.userId);
-    
+                sessionStorage.setItem("userPhoneNumber",response.data.phoneNumber)
+
                 alert("Registration successful!");
                 navigate("/VehicleDetailsForm");
             })
