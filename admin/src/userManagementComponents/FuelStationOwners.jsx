@@ -3,17 +3,17 @@ import axios from 'axios';
 import { Input, Select, Pagination } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
 
-import mockData from '../../mockdata.json';
+//import mockData from '../../mockdata.json';
 import "../styles/userManagement.css";
 
 const { Option } = Select;
 
 function FuelStationOwners() {
-    const [stationOwners, setStationOwners] = useState(mockData.stationOwners);
-    const [filteredStationOwners, setFilteredStationOwners] = useState(mockData.stationOwners);
+    //const [stationOwners, setStationOwners] = useState(mockData.stationOwners);
+    //const [filteredStationOwners, setFilteredStationOwners] = useState(mockData.stationOwners);
 
-    //const [stationOwners, setStationOwners] = useState([]);
-    //const [filteredStationOwners, setFilteredStationOwners] = useState([]);
+    const [stationOwners, setStationOwners] = useState([]);
+    const [filteredStationOwners, setFilteredStationOwners] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [filters, setFilters] = useState({ date: "", status: "" });
     
@@ -22,14 +22,15 @@ function FuelStationOwners() {
     const [pageSize, setPageSize] = useState(5); // Number of items per page
 
     // Fetch data from API
-    /*useEffect(() => {
-        axios.get("https://api.example.com/station-owners")
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/v1/getfuelstationowners")
         .then((response) => {
             setStationOwners(response.data);
             setFilteredStationOwners(response.data);
+            console.log(response.data)
         })
         .catch((error) => console.error("Error fetching station owners:", error));
-    }, []);*/
+    }, []);
 
     //Handle search and filter
     useEffect(() => {
@@ -114,11 +115,7 @@ function FuelStationOwners() {
                     <th>NIC</th>
                     <th>Phone</th>
                     <th>Address</th>
-                    <th>Station name</th>
-                    <th>Registration No</th>
-                    <th>Location</th>
-                    <th>Registration Date</th>
-                    <th>Status</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -126,19 +123,15 @@ function FuelStationOwners() {
                     paginatedOwners.map((stationOwner) => (
                         <tr>
                             <td>{stationOwner.name}</td>
-                            <td>{stationOwner.nic}</td>
-                            <td>{stationOwner.phone}</td>
+                            <td>{stationOwner.nicNo}</td>
+                            <td>{stationOwner.contact}</td>
                             <td>{stationOwner.address}</td>
-                            <td>{stationOwner.stationName}</td>
-                            <td>{stationOwner.registrationNo}</td>
-                            <td>{stationOwner.location}</td>
-                            <td>{stationOwner.registrationDate}</td>
-                            <td className={stationOwner.status === 'Active' ? 'Active' : 'Inactive'} >{stationOwner.status}</td>
+
                         </tr>
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="9" style={{ textAlign: "center" }}>
+                        <td colSpan="4" style={{ textAlign: "center" }}>
                             No results found.
                         </td>
                     </tr>
