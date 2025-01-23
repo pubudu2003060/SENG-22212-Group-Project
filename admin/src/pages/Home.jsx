@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Image1 from "../assets/freepik__adjust__13674.png";
 import Footer from "../components/Footer";
+import "../styles/home.css";
 
 function Home() {
   const navigate = useNavigate();
@@ -11,43 +12,31 @@ function Home() {
   };
 
   return (
-    <div className="card card-body px-3 py-3 bg-">
+    <div className="home_card">
       {/* Header */}
-      <header className="bg-primary text-white text-center py-4">
-        <div className="container">
-          <h1 className="display-5 fw-bold">Fuel Quota Management System</h1>
+      <header>
+        <div className="home_header">
+          <h1>Fuel Quota Management System</h1>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container py-4">
-        <div className="row align-items-center justify-content-center">
+      <main className="home_container">
+        <div className="home_row">
           {/* Text Section */}
-          <div className="col-md-5 mb-4 mb-md-0">
-            <h2 className="fw-bold text-primary mb-3">
-              Welcome to the Fuel Quota Management System
-            </h2>
-            <p className="text-secondary mb-4">
-              Manage the fuel crisis efficiently with our easy-to-use platform for vehicle owners, fuel stations, and administrators.
+          <div className="home_text-section">
+            <h2>Welcome to the Fuel Quota Management System</h2>
+            <p>
+              Manage the fuel crisis efficiently with our easy-to-use platform
+              for vehicle owners, fuel stations, and administrators.
             </p>
-            <p className="mb-4">
-              To get start, admins log from here.
-            </p>
-            <button
-              onClick={handleLoginClick}
-              className="btn btn-primary btn-lg"
-            >
-              Go to Login
-            </button>
+            <p>To get started, admins log in from here.</p>
+            <button onClick={handleLoginClick}>Go to Login</button>
           </div>
 
           {/* Image Section */}
-          <div className="col-md-5 text-center">
-            <img
-              src={Image1}
-              alt="fuel management"
-              className="img-fluid"
-            />
+          <div className="home_image-section">
+            <img src={Image1} alt="fuel management" />
           </div>
         </div>
       </main>
