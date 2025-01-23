@@ -134,7 +134,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                       );
                     } else {
-                      Navigator.pushNamed(context, '/nextPage'); // Navigate to the next page
+                      Navigator.pushNamed(context, '/pumpping_fuel_quata'); // Navigate to the next page
                     }
                   },
                   style: ElevatedButton.styleFrom(

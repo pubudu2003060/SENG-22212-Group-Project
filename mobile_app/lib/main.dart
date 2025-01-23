@@ -6,6 +6,7 @@ import 'firstpage.dart';
 import 'dashboard.dart';
 import 'qr_details.dart';
 import 'station_registration.dart';
+import 'pumpping_fuel_quata.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
          '/dashboard': (context) => DashboardScreen(),
          '/qr_details':(context) => DetailsScreen(),
          '/station_registration' : (context) => StationRegisterScreen(),
+         '/pumpping_fuel_quata' : (context) => PumpingFuelQuota(),
     
        },  
 
