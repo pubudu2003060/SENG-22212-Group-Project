@@ -18,7 +18,7 @@ function Navbar({ setHeaderTitle }) {
       '/stationManagement': 'stationManagement', 
       '/userManagement': 'userManagement', 
       '/fuelQuotaManagement': 'fuelQuotaManagement', 
-      '/setting': 'setting' 
+      '/settings': 'settings' 
     }; 
     setSelectedKey(pathMap[location.pathname] || 'dashboard'); 
   }, [location.pathname]);
@@ -30,7 +30,7 @@ function Navbar({ setHeaderTitle }) {
       stationManagement: 'Station Management',
       userManagement: 'User Management',
       fuelQuotaManagement: 'Fuel Quota Management',
-      setting: 'Settings',
+      settings: 'Settings',
     };
 
     setHeaderTitle(titles[key] || 'Dashboard');
@@ -65,8 +65,8 @@ function Navbar({ setHeaderTitle }) {
               <Link to="/fuelQuotaManagement"> Fuel Quota Management </Link>
             </Menu.Item>
 
-            <Menu.Item key="setting" icon={<SettingOutlined />}>
-              <Link to="/Setting"> Setting </Link>
+            <Menu.Item key="settings" icon={<SettingOutlined />}>
+              <Link to="/settings"> Settings </Link>
             </Menu.Item>
         </Menu>
       </div>

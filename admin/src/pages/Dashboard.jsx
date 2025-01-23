@@ -1,63 +1,69 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
+import Footer from '../components/Footer';
 
-import {Button, Layout} from 'antd';
+import { Button, Layout } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import "../styles/background.css";
 
-const {Header, Sider, Content} = Layout;
+const { Header, Sider, Content } = Layout;
 
 function Dashboard() {
-    const [headerTitle, setHeaderTitle] = useState('Dashboard'); // Default title
-    const userName = 'John Doe'; // Replace with user data from login
+  const [headerTitle, setHeaderTitle] = useState('Dashboard'); // Default title
+  const userName = 'John Doe'; // Replace with user data from login
 
-    const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
-    return (
-        <>
-           <Layout>
-                <Sider 
-                width={250} 
-                collapsedWidth={70} // Width when collapsed
-                collapsed={collapsed} 
-                collapsible 
-                trigger = {null}
-                className='sidebar'
-                style={{padding: 0, background: '#fff'}}
-                >
-                
-                <Button 
-                    type="text" 
-                    className="toggle"
-                    onClick = {() => setCollapsed(!collapsed)}
-                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
-                    />   
-                <Navbar setHeaderTitle={setHeaderTitle} />
-                </Sider>
-            
-                <Layout> 
-                    <Header style={{padding: 0, background: '#fff'}}>
-                        <Headerbar headerTitle={headerTitle} userName={userName} /> 
-                    </Header>
+  return (
+    <>
+      <Layout>
+        <Sider
+          width={250}
+          collapsedWidth={70} // Width when collapsed
+          collapsed={collapsed}
+          collapsible
+          trigger={null}
+          className='background_sidebar'
+        >
+          <Button
+            type="text"
+            className="toggle"
+            onClick={() => setCollapsed(!collapsed)}
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          />
+          <Navbar setHeaderTitle={setHeaderTitle} />
+        </Sider>
 
-                    <Content>
-                        <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
-                                fsjyjs
-                            </Content>
-                        </Layout>
+        <Layout>
+          <Header className="background_header" >
+            <Headerbar headerTitle={headerTitle} userName={userName} />
+          </Header>
 
-                        <Layout style={{padding: 0, marginTop: 10, marginLeft: 10}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
-                                fsjyjs
-                            </Content>
-                        </Layout>
+          <Content>
+            {/* Color Block with Background Image */}
+            <div 
+              className="background_cover"
+            ></div>
+            <Layout className="background_layout1" >
+              <Content className="background_content1" >
+                fsjyjs
+              </Content>
+            </Layout>
 
-                    </Content>
-                </Layout>
-            </Layout> 
-        </>
-    );
+            <Layout className="background_layout2" >
+              <Content className="background_content2">
+                fsjyjs
+              </Content>
+            </Layout>
+          </Content>
+        </Layout>
+      </Layout>
+
+      {/* Footer */}
+      <Footer />
+    </>
+  );
 }
 
 export default Dashboard;

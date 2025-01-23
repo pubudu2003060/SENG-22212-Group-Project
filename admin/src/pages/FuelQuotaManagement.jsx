@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
+import Footer from '../components/Footer';
+import SetNewQuota from '../FuelQuotaManagementComponents/SetNewQuota';
 
-import {Button, Layout} from 'antd';
+import {Button, Layout, Row, Col} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import ResetQuota from '../FuelQuotaManagementComponents/ResetQuota';
+import QuotaDetails from '../FuelQuotaManagementComponents/QuotaDetails';
+import "../styles/background.css";
+
 
 const { Sider, Header, Content } = Layout;
 
-function FuelManagement() {
+function FuelQuotaManagement() {
     const [headerTitle, setHeaderTitle] = useState('Fuel Quota Management'); // Default title
     const userName = 'John Doe'; // Replace with user data from login
 
@@ -22,8 +28,7 @@ function FuelManagement() {
                 collapsed={collapsed} 
                 collapsible 
                 trigger = {null}
-                className='sidebar'
-                style={{padding: 0, background: '#fff'}}
+                className='background_sidebar'
                 >
                 
                 <Button 
@@ -36,28 +41,51 @@ function FuelManagement() {
                 </Sider>
             
                 <Layout> 
-                    <Header style={{padding: 0, background: '#fff'}}>
+                    <Header className="background_header" >
                         <Headerbar headerTitle={headerTitle} userName={userName} /> 
                     </Header>
 
                     <Content>
-                        <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
-                                fsjyjs
-                            </Content>
-                        </Layout>
+                        {/* Color Block with Background Image */}
+                        <div 
+                            className="background_cover"
+                        ></div>
 
-                        <Layout style={{padding: 0, marginTop: 10, marginLeft: 10}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
-                                fsjyjs
+                        
+                                {/* Row with two columns */}
+                                <Row  style={{ marginBottom: '10px' }}>
+                                    <Col span={12}>
+                                        <Layout className="background_layout1" style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1'}}>
+                                            <Content className="background_content1">
+                                                <SetNewQuota />
+                                            </Content>
+                                        </Layout>
+                                    </Col>
+
+                                    <Col span={12}>
+                                        <Layout className="background_layout1" style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'}}>
+                                            <Content className="background_content1">
+                                                <ResetQuota />
+                                            </Content>
+                                        </Layout>
+                                    </Col>
+                                </Row>
+                            
+                        
+                        <Layout className="background_layout2">
+                            <Content className="background_content2">
+                                <QuotaDetails />
                             </Content>
                         </Layout>
 
                     </Content>
                 </Layout>
             </Layout>
+
+            {/* Footer */}
+            <Footer />
         </>
     );
     }
 
-export default FuelManagement;
+export default FuelQuotaManagement;
