@@ -1,0 +1,98 @@
+/* home.css */
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Card Container */
+  .home_card {
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  /* Header */
+  .home_header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+  }
+  
+  .home_header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Main Content */
+  main {
+    padding: 2rem 0;
+  }
+  
+  main .home_row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  /* Text Section */
+  main .home_text-section {
+    max-width: 500px;
+    color: #333;
+  }
+  
+  main .home_text-section h2 {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 1rem;
+  }
+  
+  main .home_text-section p {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+  }
+  
+  main .home_text-section button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  main .home_text-section button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Image Section */
+  main .home_image-section {
+    max-width: 500px;
+    text-align: center;
+  }
+  .home_image-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #f1f1f1;
+    color: #333;
+    text-align: center;
+    padding: 1rem 0;
+  }
+  
