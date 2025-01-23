@@ -8,10 +8,10 @@ function VehicleDetailsForm() {
 
     const [formData, setFormData] = useState({
         vehicleNumber: "",
-        vehicleType: "Car",
+        vehicleType: "CAR",
         chassisNumber: "",
-        fuelType: "Petrol",
-        enginNumber: "",
+        fuelType: "PETROL",
+        engineNumber: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -34,6 +34,9 @@ function VehicleDetailsForm() {
         if (!formData.chassisNumber.trim()) {
             newErrors.chassisNumber = "Chassis number is required.";
         }
+        if (!formData.enginNumber.trim()) {
+            newErrors.enginNumber = "Engin number is required.";
+        }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -52,26 +55,30 @@ function VehicleDetailsForm() {
 
         // Create the data to send
         const apiBody = {
-            chassiNo: formData.chassisNumber,
+            chassiNo: formData.chassisNumber, // Ensure it matches expected type
             vehicalType: formData.vehicleType,
-            vehicalNo: formData.vehicleNumber,
-            enginNo: formData.enginNumber,
+            vehicalNo: formData.vehicleNumber, // Ensure it matches expected type
+            enginNo: formData.engineNumber, // Corrected spelling
             fualType: formData.fuelType,
-            user: {userId: parseInt(userId)},
+            user: { userId: parseInt(userId) } // Convert to number if backend expects number
         };
 
         try {
-
             // Send data to the API
-            await axios.post("http://localhost:8080/api/v1/addvehical", apiBody);
+            const response = await axios.post("http://localhost:8080/api/v1/login/addvehical", apiBody);
 
-            alert("Vehicle registered successfully!");
-            navigate("/QRGenerator"); // Go to the next page
+            if (response.status === 200) { // Check HTTP status code
+                alert("Vehicle registered successfully!");
+                navigate("/QRGenerator"); // Go to the next page
+            } else {
+                alert("Failed to register vehicle. Please try again.");
+            }
         } catch (error) {
-            alert("Failed to register vehicle. Please try again.");
+            alert("Can't add vehicle: " + (error.response?.data?.message || error.message));
         } finally {
             setLoading(false); // Hide loading state
         }
+
     };
 
 
@@ -103,13 +110,15 @@ function VehicleDetailsForm() {
                     value={formData.vehicleType}
                     onChange={handleChange}
                 >
-                    <option value="Car">Car</option>
-                    <option value="Three-Wheeler">Three-Wheeler</option>
-                    <option value="Van">Van</option>
-                    <option value="Lorry">Lorry</option>
-                    <option value="Bike">Bike</option>
-                    <option value="Tractor">Tractor</option>
-                    <option value="Bus">Bus</option>
+                    <option value="CAR">Car</option>
+                    <option value="THREEWHEEL">Three-Wheel</option>
+                    <option value="VAN">Van</option>
+                    <option value="LORRY">Lorry</option>
+                    <option value="BIKE">Bike</option>
+                    <option value="TRACTOR">Tractor</option>
+                    <option value="BUS">Bus</option>
+                    <option value="TRUCK">Truck</option>
+                    <option value="OTHER">Other</option>
                 </select>
 
                 <label className="form-label">Chassis Number:</label>
@@ -123,6 +132,17 @@ function VehicleDetailsForm() {
                 />
                 {errors.chassisNumber && <span className="error-message">{errors.chassisNumber}</span>}
 
+                <label className="form-label">Engine Number:</label>
+                <input
+                    type="text"
+                    name="enginNumber"
+                    className={`form-input ${errors.enginNumber ? "error-border" : ""}`}
+                    placeholder="Enter your Engin number"
+                    value={formData.enginNumber}
+                    onChange={handleChange}
+                />
+                {errors.enginNumber && <span className="error-message">{errors.enginNumber}</span>}
+
                 <label className="form-label">Fuel Type:</label>
                 <select
                     name="fuelType"
@@ -130,8 +150,8 @@ function VehicleDetailsForm() {
                     value={formData.fuelType}
                     onChange={handleChange}
                 >
-                    <option value="Petrol">Petrol</option>
-                    <option value="Diesel">Diesel</option>
+                    <option value="PETROL">Petrol</option>
+                    <option value="DIESEL">Diesel</option>
                 </select>
 
                 <div className="vehicle-buttons">
