@@ -125,6 +125,3 @@ class OwnerRegisterScreen extends StatelessWidget {
     );
   }
 }
-
-
-
