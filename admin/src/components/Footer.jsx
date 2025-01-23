@@ -1,11 +1,12 @@
 import React from 'react'
+import "../styles/background.css"
 
 function Footer () {
   return (
     <div>
-      <footer className="bg-primary text-white py-2">
-        <div className="container text-center">
-          <p className="mb-0">
+      <footer >
+        <div >
+          <p >
             &copy; 2025 Fuel Quota Management System. All rights reserved.
           </p>
         </div>

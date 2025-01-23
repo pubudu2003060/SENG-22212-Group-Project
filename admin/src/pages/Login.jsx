@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {Icon} from 'react-icons-kit';
 import {eyeOff} from 'react-icons-kit/feather/eyeOff';
 import {eye} from 'react-icons-kit/feather/eye'
+import "../styles/login.css";
 
 
 function Login() {
@@ -40,26 +41,26 @@ function Login() {
 };
 
   return (
-      <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
-        <div className="card login-card shadow p-4">
-            <h2 className="header text-center mb-2 text-primary "><strong>Login</strong></h2>
-            <div className="card-body">
+      <div className="login-container">
+        <div className="login-card">
+            <h2 className="login-header"><strong>Login</strong></h2>
+            <div className="login-body">
                 <form onSubmit={handleSubmit}>
 
-                    <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Username :</label><br/>
+                    <div className="form-group">
+                        <label htmlFor="email" className="form-label">Username :</label>
                         <input 
                             type="email"
                             name="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="form-control form-control-lg"
+                            className="form-input"
                         />
                     </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Password : </label><br/>
+                    <div className="form-group">
+                        <label htmlFor="password" className="form-label">Password : </label>
                         <div class="input-group">
                             <input 
                                 type={type}
@@ -68,22 +69,22 @@ function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                                 autoComplete="current-password"
-                                className="form-control form-control-lg"
+                                className="form-input"
                             />
-                            <button type="button" className="btn btn-outline" onClick={handleToggle}>
+                            <button type="button" className="toggle-btn" onClick={handleToggle}>
                             <Icon className="absolute" icon={icon} size={20}/>
                             </button>
                         </div>
                     </div>
-                    <div className="d-flex justify-content-between gap-5 align-items-left mb-3">
+                    <div className="form-actions">
                         <div className="form-check">
                             <input type="checkbox" className="form-check-input" id="rememberMe" />
                             <label className="form-check-label" htmlFor="rememberMe">Remember me</label>
                         </div>
-                        <a href="#" className="text-decoration-none">Forgot Password?</a>
+                        <a href="#" className="forgot-password">Forgot Password?</a>
                     </div>
-                    <div class="mt-4 d-grid">
-                        <button type="submit" className="btn btn-primary btn-block">Login</button>
+                    <div class="form-submit">
+                        <button type="submit" className="login-btn">Login</button>
                     </div>
                 </form>
             </div>

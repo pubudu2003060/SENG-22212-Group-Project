@@ -8,6 +8,7 @@ import Profile from '../SettingComponenets/Profile';
 import ChangePassword from '../SettingComponenets/ChangePassword';
 import SettingHeadings from '../SettingComponenets/SettingHeadings';
 import Footer from '../components/Footer';
+import "../styles/login.css";
 
 import '../styles/settings.css';
 
@@ -44,12 +45,16 @@ function Settings() {
 
       {/* Main Content */}
       <Layout>
-        <Header style={{ padding: 0, background: '#fff' }}>
+        <Header className="background_header">
           <Headerbar headerTitle={headerTitle} userName={userName} />
         </Header>
 
         <Content style={{ overflow: 'hidden', margin: '1rem'  }}>
-          <Layout style={{padding: 0, marginTop: 30, marginLeft: 10, height: '100%' }}>
+          {/* Color Block with Background Image */}
+          <div 
+            className="background_cover"
+          ></div>
+          <Layout style={{padding: 0, marginTop: 80, marginLeft: 10, marginRight: 10, position: 'relative', zIndex: 2 }}>
             <Content style={{padding: 20, background: '#fff', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)', flex: 1 }}>
 
               {/* Profile Section */}
