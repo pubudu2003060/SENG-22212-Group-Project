@@ -10,6 +10,8 @@ function Otp() {
   const phoneNumber = location.state?.phoneNumber; // Get the phone number 
   const navigate = useNavigate();
 
+  console.log(phoneNumber)
+
   const handleInputChange = (e, index) => {
     const value = e.target.value; 
     
@@ -57,7 +59,7 @@ function Otp() {
             setError("Invalid OTP. Please try again.");
           }
         } else {
-          setError("Error validating OTP.");
+          setError("Error validating OTP."+response.status);
         }
       } catch (error) {
         setError("An error occurred while validating OTP.");
@@ -93,4 +95,3 @@ function Otp() {
 }
 
 export default Otp;
-
