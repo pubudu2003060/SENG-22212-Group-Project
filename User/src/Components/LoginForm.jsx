@@ -16,6 +16,7 @@ function Login() {
                     method: "POST",
                 });
 
+
                 if (response.ok) {
                     const result = await response.text(); // Get the response text
                     setError(result); // Display the success message
@@ -30,6 +31,7 @@ function Login() {
             setError("Please enter a valid 10-digit phone number.");
         }
     };
+
 
     const handleInputChange = (e) => {
         const value = e.target.value;
