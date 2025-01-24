@@ -14,8 +14,11 @@ class FirstScreen extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              const Color.fromARGB(255, 46, 155, 245), 
-              Colors.purple, 
+              const Color(0xFF135C8A), 
+              const Color(0xFF62E0C3),   
+              const Color(0xFF85EB87),            
+              const Color(0xFF4DA689), 
+              const Color(0xFF135C8A), 
             ],
             begin: Alignment.topLeft, 
             end: Alignment.bottomRight,
