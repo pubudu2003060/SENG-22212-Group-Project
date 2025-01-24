@@ -1,5 +1,8 @@
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import "../Styles/Registration.css";
 
@@ -12,6 +15,7 @@ function VehicleDetailsForm() {
         chassisNumber: "",
         fuelType: "Petrol",
         engineNumber: "",
+
     });
 
     const [errors, setErrors] = useState({});
@@ -26,18 +30,20 @@ function VehicleDetailsForm() {
     }, []);
 
     const handleChange = (event) => {
+
         const { name, value } = event.target;
 
         
         console.log(`Field changed: ${name}, New value: ${value}`);
 
       
+
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
-
         setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+
     };
 
 
@@ -56,6 +62,7 @@ function VehicleDetailsForm() {
    const handleRegister = async () => {
         if (!validateForm()) return;
 
+
         const userId = sessionStorage.getItem("userId");
         if (!userId) {
             alert("User ID not found. Please register personal details first.");
@@ -69,10 +76,11 @@ function VehicleDetailsForm() {
             vehicalNo: formData.vehicleNumber,
             enginNo: formData.engineNumber,
             fualType: formData.fuelType,
-            user: { userId: parseInt(userId) },
+            user: {userId: parseInt(userId)},
         };
 
         try {
+
             setLoading(true);
             const response = await axios.post(
                 "http://localhost:8080/api/v1/addvehical",
