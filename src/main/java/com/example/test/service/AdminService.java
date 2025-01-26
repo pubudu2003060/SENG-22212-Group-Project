@@ -10,13 +10,17 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
-public class AdminService {
+public class AdminService implements UserDetailsService {
+
 
     @Autowired
     private AdminRepo adminrepo;
@@ -44,5 +48,16 @@ public class AdminService {
             return null;
         }
         return modelMapper.map(admin, AdminDTO.class);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        Admin admin=adminrepo.findAdminByUserName(username);
+        if(admin==null){
+            System.out.println("Admin not found");
+            throw new UsernameNotFoundException("admin not found");
+        }
+
     }
 }
