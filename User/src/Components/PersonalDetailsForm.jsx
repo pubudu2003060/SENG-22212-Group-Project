@@ -75,22 +75,19 @@ function PersonalDetailsForm() {
         axios
             .post(`http://localhost:8080/api/v1/login/send-otp/su/%2B94${formData.phoneNumber}`)
             .then((response) => {
+                
+                if(response.status == 200){
+                    alert("OTP sent successfully!");
+                }else {
+                    alert("Otp sent unsuccessfully! ")
 
-                if (response.ok) {
-                    setErrors((prevErrors) => ({
-                        ...prevErrors,
-                        general: "OTP sent successfully!",
-                    }));
                 }
-
 
             })
             .catch((err) => {
-                console.error("Error sending OTP:", err);
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    general: "Failed to send OTP. Please try again.",
-                }));
+
+                alert("Failed to send OTP."+err);
+
             });
     };
 
@@ -112,21 +109,13 @@ function PersonalDetailsForm() {
                 } else {
                     setIsVerified(false);
 
-
-                    setErrors((prevErrors) => ({
-                        ...prevErrors,
-                        OTP: "Invalid OTP. Please try again.",
-                    }));
-
-
+                    alert("Invalid OTP. "+response.data);
                 }
             })
             .catch((err) => {
-                console.error("Error verifying OTP:", err);
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    general: "Failed to verify OTP. Please try again.",
-                }));
+
+                alert("Failed to verify OTP. ");
+
             });
     };
 
@@ -135,7 +124,7 @@ function PersonalDetailsForm() {
             .post("http://localhost:8080/api/v1/adduser", {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
-                contactNo: formData.phoneNumber,
+                contactNo: "+94"+formData.phoneNumber,
                 address: formData.address,
                 identityType: formData.idType,
                 idNo: formData.idNumber,

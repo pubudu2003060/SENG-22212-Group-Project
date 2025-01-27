@@ -9,10 +9,9 @@ function VehicleDetailsForm() {
 
     const [formData, setFormData] = useState({
         vehicleNumber: "",
-        vehicleType: "CAR",
+        vehicleType: "",
         chassisNumber: "",
-
-        fuelType: "PETROL",
+        fuelType: "",
         engineNumber: "",
 
     });
