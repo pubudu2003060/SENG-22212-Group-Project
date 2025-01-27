@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
 import Footer from '../components/Footer';
@@ -8,11 +8,25 @@ import {Button, Layout} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import FuelStationOwners from '../userManagementComponents/FuelStationOwners';
 import "../styles/background.css";
+import cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
 
 
 const { Sider, Header, Content } = Layout;
 
 function UserManagement() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const cookieValue = cookies.get("adminEmail");
+        console.log(cookieValue)
+        if (cookieValue == undefined) {
+            alert("Admin email not found")
+            navigate("/login");
+        }
+    }, []);
+
     const [headerTitle, setHeaderTitle] = useState('User Management'); // Default title
     const userName = 'John Doe'; // Replace with user data from login
 

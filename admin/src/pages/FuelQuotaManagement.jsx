@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
 import Footer from '../components/Footer';
@@ -9,11 +9,26 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import ResetQuota from '../FuelQuotaManagementComponents/ResetQuota';
 import QuotaDetails from '../FuelQuotaManagementComponents/QuotaDetails';
 import "../styles/background.css";
+import cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
 
 
 const { Sider, Header, Content } = Layout;
 
 function FuelQuotaManagement() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const cookieValue = cookies.get("adminEmail");
+        console.log(cookieValue)
+        if (cookieValue == undefined) {
+            alert("Admin email not found")
+            navigate("/login");
+        }
+    }, []);
+
+    
     const [headerTitle, setHeaderTitle] = useState('Fuel Quota Management'); // Default title
     const userName = 'John Doe'; // Replace with user data from login
 

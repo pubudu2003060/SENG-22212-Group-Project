@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Image1 from "../assets/Petrol-Pump-PNG-Transparent-Image.png";
 import logo from "../assets/lastfuel.png";
-import Footer from "../components/Footer";
+//import Footer from "../components/Footer";
 import "../styles/home.css";
 
 function Home() {

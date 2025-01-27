@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { Layout, Button } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons';
+import cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
@@ -15,6 +17,19 @@ import '../styles/settings.css';
 const { Header, Sider, Content } = Layout;
 
 function Settings() {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const cookieValue = cookies.get("adminEmail");
+    console.log(cookieValue)
+    if (cookieValue == undefined) {
+      alert("Admin email not found")
+      navigate("/login");
+    }
+  }, []);
+
+
   const [headerTitle, setHeaderTitle] = useState('Settings'); // Default title
   const userName = 'John Doe'; // Replace with user data from login
 
