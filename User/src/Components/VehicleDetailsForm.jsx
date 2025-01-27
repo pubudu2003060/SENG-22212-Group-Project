@@ -9,9 +9,10 @@ function VehicleDetailsForm() {
 
     const [formData, setFormData] = useState({
         vehicleNumber: "",
-        vehicleType: "Car",
+        vehicleType: "CAR",
         chassisNumber: "",
-        fuelType: "Petrol",
+
+        fuelType: "PETROL",
         engineNumber: "",
 
     });
@@ -53,6 +54,9 @@ function VehicleDetailsForm() {
         if (!formData.chassisNumber.trim()) {
             newErrors.chassisNumber = "Chassis number is required.";
         }
+        if (!formData.enginNumber.trim()) {
+            newErrors.enginNumber = "Engin number is required.";
+        }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -69,15 +73,19 @@ function VehicleDetailsForm() {
         }
 
         const apiBody = {
-            chassiNo: formData.chassisNumber,
+            chassiNo: formData.chassisNumber, // Ensure it matches expected type
             vehicalType: formData.vehicleType,
-            vehicalNo: formData.vehicleNumber,
-            enginNo: formData.engineNumber,
+
+            vehicalNo: formData.vehicleNumber, // Ensure it matches expected type
+            enginNo: formData.engineNumber, // Corrected spelling
+
+
             fualType: formData.fuelType,
-            user: {userId: parseInt(userId)},
+            user: { userId: parseInt(userId) } // Convert to number if backend expects number
         };
 
         try {
+
 
             setLoading(true);
             const response = await axios.post(
@@ -93,9 +101,11 @@ function VehicleDetailsForm() {
         } catch (error) {
             console.error("Error details:", error.response || error.message);
             alert("Failed to register vehicle. Please try again.");
+
         } finally {
             setLoading(false);
         }
+
     };
 
     const handleBack = () => {
@@ -103,7 +113,7 @@ function VehicleDetailsForm() {
     };
 
     return (
-        <div className="form-container">
+        <div className="form-container-v">
             <h1 className="form-title">Vehicle Details Registration</h1>
             <p className="form-subtitle">Please fill in your vehicle details to proceed.</p>
 
@@ -125,13 +135,15 @@ function VehicleDetailsForm() {
                     value={formData.vehicleType} 
                     onChange={handleChange}
                 >
-                    <option value="Car">Car</option>
-                    <option value="Three-Wheeler">Three-Wheeler</option>
-                    <option value="Van">Van</option>
-                    <option value="Lorry">Lorry</option>
-                    <option value="Bike">Bike</option>
-                    <option value="Tractor">Tractor</option>
-                    <option value="Bus">Bus</option>
+                    <option value="CAR">Car</option>
+                    <option value="THREEWHEEL">Three-Wheel</option>
+                    <option value="VAN">Van</option>
+                    <option value="LORRY">Lorry</option>
+                    <option value="BIKE">Bike</option>
+                    <option value="TRACTOR">Tractor</option>
+                    <option value="BUS">Bus</option>
+                    <option value="TRUCK">Truck</option>
+                    <option value="OTHER">Other</option>
                 </select>
 
 
@@ -145,14 +157,29 @@ function VehicleDetailsForm() {
                     onChange={handleChange}
                 />
                 {errors.chassisNumber && <span className="error-message">{errors.chassisNumber}</span>}
+
+
+                <label className="form-label">Engine Number:</label>
+                <input
+                    type="text"
+                    name="enginNumber"
+                    className={`form-input ${errors.enginNumber ? "error-border" : ""}`}
+                    placeholder="Enter your Engin number"
+                    value={formData.enginNumber}
+                    onChange={handleChange}
+                />
+                {errors.enginNumber && <span className="error-message">{errors.enginNumber}</span>}
+
+                <label className="form-label">Fuel Type:</label>
+
                 <select
                     name="fuelType" 
                     className="vehicle-select"
                     value={formData.fuelType} 
                     onChange={handleChange} 
                 >
-                    <option value="Petrol">Petrol</option>
-                    <option value="Diesel">Diesel</option>
+                    <option value="PETROL">Petrol</option>
+                    <option value="DIESEL">Diesel</option>
                 </select>
 
 
