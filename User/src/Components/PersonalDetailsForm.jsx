@@ -114,7 +114,7 @@ function PersonalDetailsForm() {
             .post("http://localhost:8080/api/v1/adduser", {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
-                contactNo: formData.phoneNumber,
+                contactNo: "+94"+formData.phoneNumber,
                 address: formData.address,
                 identityType: formData.idType,
                 idNo: formData.idNumber,
