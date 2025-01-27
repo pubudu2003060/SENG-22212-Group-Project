@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import React, {useEffect, useState } from 'react';
+import {createCookie, useNavigate } from 'react-router-dom';
+import cookies from "js-cookie"
 import {Icon} from 'react-icons-kit';
 import {eyeOff} from 'react-icons-kit/feather/eyeOff';
 import {eye} from 'react-icons-kit/feather/eye'
+import axios from "axios";
 import "../styles/login.css";
 
 
 function Login() {
+    
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -15,19 +17,40 @@ function Login() {
   const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
 
-  let adminEmail = "admin@gmail.com";
-  let adminPassword = "123";
+  /*let adminEmail = "admin@gmail.com";
+  let adminPassword = "123";*/
 
-  function handleSubmit (e){
-    e.preventDefault();
-
-    //validations
-    if (email === adminEmail && password === adminPassword) {
-      navigate('/dashboard'); 
-    } else {
-      alert('Invalid credentials. Please try again.');
+  const fetchdata = async () => {
+    try {
+        const responce = await axios.post("http://localhost:8080/api/v1/adminsignin", {
+            email: email,
+            password: password
+        })
+        let responcedata = responce.data
+        if (responcedata == 1) {
+            navigate('/dashboard');
+        } else if (responcedata == 0) {
+            alert('Invalid credentials. Please try again.');
+        } else {
+            console.error('Login Response:', responcedata);
+            alert('Can\'t Login');
+        }
+    } catch (error) {
+        alert('System Error : ' + error);
     }
-  }
+}
+
+let setcookie = () => {
+    const expTime = 5*60*60;
+   cookies.set("adminEmail", email, {expires: expTime / (60 * 60 * 24)})
+
+}
+
+function handleSubmit(e) {
+    e.preventDefault();
+    setcookie()
+    fetchdata()
+}
 
   //show and hide password
   function handleToggle () {
@@ -61,7 +84,7 @@ function Login() {
 
                     <div className="form-group">
                         <label htmlFor="password" className="form-label">Password : </label>
-                        <div class="input-group">
+                        <div className="input-group">
                             <input 
                                 type={type}
                                 name="password"
@@ -83,7 +106,7 @@ function Login() {
                         </div>
                         <a href="#" className="forgot-password">Forgot Password?</a>
                     </div>
-                    <div class="form-submit">
+                    <div className="form-submit">
                         <button type="submit" className="login-btn">Login</button>
                     </div>
                 </form>
