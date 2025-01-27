@@ -10,8 +10,8 @@ import Profile from '../SettingComponenets/Profile';
 import ChangePassword from '../SettingComponenets/ChangePassword';
 import SettingHeadings from '../SettingComponenets/SettingHeadings';
 import Footer from '../components/Footer';
+import logo from "../assets/lastfuel.png";
 import "../styles/login.css";
-
 import '../styles/settings.css';
 
 const { Header, Sider, Content } = Layout;
@@ -49,12 +49,23 @@ function Settings() {
         className="sidebar"
         style={{padding: 0, background: '#fff' }}
       >
-        <Button
-          type="text"
-          className="toggle"
-          onClick={() => setCollapsed(!collapsed)}
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        />
+
+        <div className="logo-container">
+          <img
+            src={logo}
+            alt="Logo"
+            className={`logo ${collapsed ? 'logo-collapsed' : 'logo-expanded'}`}
+          />
+        </div>
+      
+        <div className="toggle-container">
+          <Button
+            type="text"
+            className="toggle"
+            onClick={() => setCollapsed(!collapsed)}
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          />
+        </div>
         <Navbar setHeaderTitle={setHeaderTitle} />
       </Sider>
 
