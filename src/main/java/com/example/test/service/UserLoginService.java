@@ -57,7 +57,7 @@ public class UserLoginService {
             userLoginRepo.save(userLogin);
 
             // Send OTP via SMS
-            twilioSmsService.sendOtp(phoneNumber, otp);
+         //   twilioSmsService.sendOtp(phoneNumber, otp);
 
             return "OTP sent successfully ";
 
@@ -85,7 +85,7 @@ public class UserLoginService {
             userLoginRepo.save(userLogin);
 
             // Send OTP via SMS
-              twilioSmsService.sendOtp(phoneNumber, otp);
+            //  twilioSmsService.sendOtp(phoneNumber, otp);
 
             return "OTP sent successfully ";
 
@@ -97,6 +97,10 @@ public class UserLoginService {
     public String validateOtp(LoginRequestDto loginRequest) {
         try {
             UserLogin userLogin = userLoginRepo.getUserLoginByPhoneNumber(loginRequest.getPhoneNumber());
+
+            if(userLogin == null) {
+                throw new Exception("Number not found");
+            }
 
             if (userLogin.getOtp().equals(loginRequest.getOtp())) {
                 userLogin.setVerified(true);
