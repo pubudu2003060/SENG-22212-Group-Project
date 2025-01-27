@@ -56,33 +56,41 @@ function Profile() {
 
   return (
     <Form
-      form={form}
-      layout="vertical"
-      onFinish={handleSubmit}
-      size='middle'
-      style={{ width: '75%', marginLeft: '2rem' }}
-    >
-      <Form.Item
-        name="userName"
-        label="Username"
-        rules={[{ required: true, message: 'Username is required!' }]}
+        form={form}
+        layout="vertical"
+        onFinish={handleSubmit}
+        size="middle"
+        style={{ width: "75%", marginLeft: "3rem", gap: "2rem" }}
       >
-        <Input />
-      </Form.Item>
+        <Form.Item
+          name="userName"
+          label="Username"
+          labelCol={{ span: 8 }} 
+          wrapperCol={{ span: 16 }} 
+          style={{ marginBottom: '2rem' }} 
+          rules={[{ required: true, message: 'Username is required!' }]}
+        >
+          <Input />
+        </Form.Item>
 
-      <Form.Item
-        name="email"
-        label="Email"
-        rules={[
-          { required: true, message: 'Email is required!' },
-          { type: 'email', message: 'Please enter a valid email!' },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+        <Form.Item
+          name="email"
+          label="Email"
+          labelCol={{ span: 8 }} 
+          wrapperCol={{ span: 16 }} 
+          style={{ marginBottom: '2rem' }}
+          rules={[
+            { required: true, message: 'Email is required!' },
+            { type: 'email', message: 'Please enter a valid email!' },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
-      <Form.Item>
-        <Row gutter={16}> {/* Adds space between buttons */}
+        <Form.Item
+          style={{marginTop: "4rem"}}
+        >
+          <Row gutter={30}>
             <Col>
               <Button type="primary" htmlType="submit" loading={loading}>
                 Save
@@ -94,8 +102,9 @@ function Profile() {
               </Button>
             </Col>
           </Row>
-      </Form.Item>
-    </Form>
+        </Form.Item>
+      </Form>
+
   );
 }
 

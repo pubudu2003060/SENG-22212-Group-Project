@@ -20,6 +20,13 @@ function Login() {
   /*let adminEmail = "admin@gmail.com";
   let adminPassword = "123";*/
 
+  // Function to store email and username in cookies after successful login
+  const setCookies = (email, userName) => {
+    const expTime = 5 * 60 * 60; // 5 hours expiry time
+    cookies.set("adminEmail", email, { expires: expTime / (60 * 60 * 24) });
+    cookies.set("adminUserName", userName, { expires: expTime / (60 * 60 * 24) }); // Store username
+  };
+
   const fetchdata = async () => {
     try {
         const responce = await axios.post("http://localhost:8080/api/v1/adminsignin", {
@@ -28,7 +35,20 @@ function Login() {
         })
         let responcedata = responce.data
         if (responcedata == 1) {
-            navigate('/dashboard');
+            //fetch admin name
+            const adminResponse = await axios.get("http://localhost:8080/api/v1/getadmin", {
+                headers: {
+                    Authorization: `Bearer ${responcedata.token}`, // Assuming you get a token after successful login
+                },
+            });
+            let adminData = adminResponse.data.find(admin => admin.email === email);;
+            if (adminData && adminData.userName) {
+                // Store email and adminname in cookies
+                setCookies(email, adminData.userName);
+                navigate('/dashboard');
+              } else {
+                alert("Failed to fetch admin details.");
+              }
         } else if (responcedata == 0) {
             alert('Invalid credentials. Please try again.');
         } else {
@@ -40,15 +60,10 @@ function Login() {
     }
 }
 
-let setcookie = () => {
-    const expTime = 5*60*60;
-   cookies.set("adminEmail", email, {expires: expTime / (60 * 60 * 24)})
 
-}
 
 function handleSubmit(e) {
     e.preventDefault();
-    setcookie()
     fetchdata()
 }
 

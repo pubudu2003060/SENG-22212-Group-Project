@@ -30,7 +30,7 @@ function UserManagement() {
     }, []);
 
     const [headerTitle, setHeaderTitle] = useState('User Management'); // Default title
-    const userName = 'John Doe'; // Replace with user data from login
+    //const userName = 'John Doe'; // Replace with user data from login
 
     const [collapsed, setCollapsed] = useState(false);
     const [activeComponent, setActiveComponent] = useState('VehicleOwners');
@@ -68,7 +68,7 @@ function UserManagement() {
             
                 <Layout> 
                     <Header className="background_header">
-                        <Headerbar headerTitle={headerTitle} userName={userName} /> 
+                        <Headerbar headerTitle={headerTitle} /> 
                     </Header>
 
                     <Content>
@@ -96,13 +96,6 @@ function UserManagement() {
                             </Content>
                                 
                         </Layout>
-
-                        <Layout className="background_layout2">
-                            <Content className="background_content2">
-                                
-                            </Content>
-                        </Layout>
-
                     </Content>
                 </Layout>
             </Layout>

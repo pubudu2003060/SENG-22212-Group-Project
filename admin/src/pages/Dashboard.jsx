@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/background.css";
 import logo from "../assets/lastfuel.png";
 
+
 const { Header, Sider, Content } = Layout;
 
 function Dashboard() {
@@ -24,7 +25,7 @@ function Dashboard() {
   }, []);
 
   const [headerTitle, setHeaderTitle] = useState('Dashboard'); // Default title
-  const userName = 'John Doe'; // Replace with user data from login
+  //const userName = 'John Doe'; // Replace with user data from login
 
   const [collapsed, setCollapsed] = useState(false);
 
@@ -61,7 +62,7 @@ function Dashboard() {
 
         <Layout>
           <Header className="background_header">
-            <Headerbar headerTitle={headerTitle} userName={userName} />
+            <Headerbar headerTitle={headerTitle}/>
           </Header>
 
           <Content>

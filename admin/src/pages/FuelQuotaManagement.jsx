@@ -31,7 +31,7 @@ function FuelQuotaManagement() {
 
     
     const [headerTitle, setHeaderTitle] = useState('Fuel Quota Management'); // Default title
-    const userName = 'John Doe'; // Replace with user data from login
+    //const userName = 'John Doe'; // Replace with user data from login
 
     const [collapsed, setCollapsed] = useState(false);
 
@@ -69,7 +69,7 @@ function FuelQuotaManagement() {
             
                 <Layout> 
                     <Header className="background_header" >
-                        <Headerbar headerTitle={headerTitle} userName={userName} /> 
+                        <Headerbar headerTitle={headerTitle}/> 
                     </Header>
 
                     <Content>
