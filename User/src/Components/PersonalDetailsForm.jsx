@@ -75,16 +75,15 @@ function PersonalDetailsForm() {
             .post(`http://localhost:8080/api/v1/login/send-otp/su/%2B94${formData.phoneNumber}`)
             .then((response) => {
 
-                if(response.ok){
+                if(response.status == 200){
                     alert("OTP sent successfully!");
-                    console.log(response.data)
+                }else {
+                    alert("Otp sent unsuccessfully! ")
                 }
-
 
             })
             .catch((err) => {
-                console.error("Error sending OTP:", err);
-                alert("Failed to send OTP. Please try again.");
+                alert("Failed to send OTP."+err);
             });
     };
 
@@ -101,12 +100,12 @@ function PersonalDetailsForm() {
                     alert("OTP verified successfully!");
                 } else {
                     setIsVerified(false);
-                    alert("Invalid OTP. Please try again. ");
+                    alert("Invalid OTP. "+response.data);
                 }
             })
             .catch((err) => {
-                console.error("Error verifying OTP:", err);
-                alert("Failed to verify OTP. Please try again.");
+
+                alert("Failed to verify OTP. ");
             });
     };
     
