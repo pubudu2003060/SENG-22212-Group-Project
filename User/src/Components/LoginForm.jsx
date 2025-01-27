@@ -20,11 +20,10 @@ function Login() {
                     method: "POST",
                 });
 
-
                 if (response.ok) {
-                    const result = await response.text(); // Get the response text
-                    setError(result); // Display the success message
-                    navigate("/Otp", { state: { phoneNumber } }); // Pass phone number to Otp page
+                    const result = await response.text();
+                    setError(result);
+                    navigate("/Otp", { state: { phoneNumber } });
                 } else {
                     setError("Failed to send OTP. Please try again.");
                 }
