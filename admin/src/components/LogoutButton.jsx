@@ -16,7 +16,7 @@ function LogoutButton() {
     sessionStorage.clear();
 
     // Redirect to login page
-    navigate("/login");
+    navigate("/");
   };
 
   return (
