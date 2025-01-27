@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import axios, {AxiosHeaders as Buffer} from "axios";
 import "../Styles/QRGenerator.css";
 
 function QRGenerator() {
     const navigate = useNavigate();
-    const [qrValue, setQrValue] = useState(""); 
-    const [loading, setLoading] = useState(true); 
+    const [qrValue, setQrValue] = useState("");
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(""); // State for error messages
-    const vehicalId = sessionStorage.getItem("vehicleId"); 
+    const vehicalId = sessionStorage.getItem("vehicleId");
 
     useEffect(() => {
         const fetchQrCode = async () => {
@@ -19,16 +19,22 @@ function QRGenerator() {
             }
 
             try {
+                const vehicleId = sessionStorage.getItem("vehicleId");
+
                 const response = await axios.get(
-                    `http://localhost:8080/api/v1/generateQrCodeByVehicalId/${vehicalId}`,
-                    { responseType: "arraybuffer" }
+                    `http://localhost:8080/api/v1/generateQrCode/${vehicleId}`,
+                    { responseType: 'arraybuffer' }
                 );
 
-                const qrCodeBase64 = `data:image/png;base64,${btoa(
+                const base64Image = btoa(
                     new Uint8Array(response.data)
-                        .reduce((data, byte) => data + String.fromCharCode(byte), "")
-                )}`;
-                setQrValue(qrCodeBase64);
+                        .reduce((data, byte) => data + String.fromCharCode(byte), '')
+                );
+
+                const imageUrl = `data:image/png;base64,${base64Image}`;
+                setQrImage(imageUrl);
+                setLoading(false);
+
             } catch (error) {
                 console.error("Error fetching QR code:", error);
                 setError("Failed to generate QR code. Please try again.");
@@ -51,7 +57,7 @@ function QRGenerator() {
         try {
             const response = await fetch(qrValue);
             const blob = await response.blob();
-            const file = new File([blob], "qr-code.png", { type: "image/png" });
+            const file = new File([blob], "qr-code.png", {type: "image/png"});
             await navigator.share({
                 files: [file],
                 title: "QR Code",
@@ -102,7 +108,8 @@ function QRGenerator() {
                             </button>
                         </div>
                         <p className="hint">
-                            Click <strong>FINISH</strong> to go to your dashboard and see all details related to your vehicles.
+                            Click <strong>FINISH</strong> to go to your dashboard and see all details related to your
+                            vehicles.
                         </p>
                     </div>
                 </div>
