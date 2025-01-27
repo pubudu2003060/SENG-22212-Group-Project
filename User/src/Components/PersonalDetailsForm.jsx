@@ -7,8 +7,6 @@ import axios from "axios";
 function PersonalDetailsForm() {
     const navigate = useNavigate();
 
-
-
     const [formData, setFormData] = useState({
         idType: "NIC",
         idNumber: "",
@@ -102,10 +100,7 @@ function PersonalDetailsForm() {
 
                 if (response.data === "OTP verified successfully") {
                     setIsVerified(true);
-                    setErrors((prevErrors) => ({
-                        ...prevErrors,
-                        general: "OTP verified successfully!",
-                    }));
+                    alert("OTP verified successfully")
                 } else {
                     setIsVerified(false);
 
