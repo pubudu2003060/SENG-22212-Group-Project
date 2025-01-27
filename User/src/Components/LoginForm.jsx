@@ -1,5 +1,7 @@
+
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+
 import '../Styles/Login.css';
 
 function Login() {
@@ -8,7 +10,9 @@ function Login() {
     const navigate = useNavigate();
 
     const handleSendOtp = async () => {
+
         setError(""); 
+
 
         if (phoneNumber.length === 10 && !isNaN(phoneNumber)) {
             try {
@@ -26,6 +30,7 @@ function Login() {
                 }
             } catch (exception) {
                 setError("An error occurred while sending OTP. Please try again.");
+
             }
         } else {
             setError("Please enter a valid 10-digit phone number.");

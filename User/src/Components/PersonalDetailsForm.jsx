@@ -7,6 +7,8 @@ import axios from "axios";
 function PersonalDetailsForm() {
     const navigate = useNavigate();
 
+
+
     const [formData, setFormData] = useState({
         idType: "NIC",
         idNumber: "",
@@ -16,6 +18,8 @@ function PersonalDetailsForm() {
         address: "",
         OTP: "",
     });
+
+    console.log(formData.phoneNumber)
 
     const [errors, setErrors] = useState({});
     const [sentOTP, setSentOTP] = useState(""); // Stores the sent OTP
@@ -71,12 +75,14 @@ function PersonalDetailsForm() {
         axios
             .post(`http://localhost:8080/api/v1/login/send-otp/su/%2B94${formData.phoneNumber}`)
             .then((response) => {
+
                 if (response.ok) {
                     setErrors((prevErrors) => ({
                         ...prevErrors,
                         general: "OTP sent successfully!",
                     }));
                 }
+
 
             })
             .catch((err) => {
@@ -106,10 +112,12 @@ function PersonalDetailsForm() {
                 } else {
                     setIsVerified(false);
 
+
                     setErrors((prevErrors) => ({
                         ...prevErrors,
                         OTP: "Invalid OTP. Please try again.",
                     }));
+
 
                 }
             })
@@ -136,12 +144,14 @@ function PersonalDetailsForm() {
                 console.log("User data saved:", response.data);
 
                 sessionStorage.setItem("userId", response.data.userId);
+
                 sessionStorage.setItem("userPhoneNumber", response.data.phoneNumber);
 
                 setErrors((prevErrors) => ({
                     ...prevErrors,
                     general: "Registration successful!",
                 }));
+
                 navigate("/VehicleDetailsForm");
             })
             .catch((err) => {
