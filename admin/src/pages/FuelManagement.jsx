@@ -26,7 +26,7 @@ function FuelManagement() {
     }, []);
     
     const [headerTitle, setHeaderTitle] = useState('Fuel Management'); // Default title
-    const userName = 'John Doe'; // Replace with user data from login
+    //const userName = 'John Doe'; // Replace with user data from login
 
     const [collapsed, setCollapsed] = useState(false);
 
@@ -64,7 +64,7 @@ function FuelManagement() {
             
                 <Layout> 
                     <Header className="background_header">
-                        <Headerbar headerTitle={headerTitle} userName={userName} /> 
+                        <Headerbar headerTitle={headerTitle} /> 
                     </Header>
 
                     <Content>
