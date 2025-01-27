@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
 import Footer from '../components/Footer';
 import "../styles/background.css";
+import logo from "../assets/lastfuel.png";
 
 import {Button, Layout} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -40,13 +41,24 @@ function FuelManagement() {
                 trigger = {null}
                 className='background_sidebar'
                 >
+
+                <div className="logo-container">
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        className={`logo ${collapsed ? 'logo-collapsed' : 'logo-expanded'}`}
+                    />
+                </div>
                 
+                <div className="toggle-container">
                 <Button 
                     type="text" 
                     className="toggle"
                     onClick = {() => setCollapsed(!collapsed)}
                     icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
-                    />   
+                    />
+                </div>
+                
                 <Navbar setHeaderTitle={setHeaderTitle} />
                 </Sider>
             

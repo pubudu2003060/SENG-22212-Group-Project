@@ -11,6 +11,7 @@ import QuotaDetails from '../FuelQuotaManagementComponents/QuotaDetails';
 import "../styles/background.css";
 import cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
+import logo from "../assets/lastfuel.png";
 
 
 const { Sider, Header, Content } = Layout;
@@ -46,12 +47,23 @@ function FuelQuotaManagement() {
                 className='background_sidebar'
                 >
                 
-                <Button 
-                    type="text" 
-                    className="toggle"
-                    onClick = {() => setCollapsed(!collapsed)}
-                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
-                    />   
+                <div className="logo-container">
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        className={`logo ${collapsed ? 'logo-collapsed' : 'logo-expanded'}`}
+                    />
+                </div>
+
+                <div className="toggle-container">
+                    <Button 
+                        type="text" 
+                        className="toggle"
+                        onClick = {() => setCollapsed(!collapsed)}
+                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
+                        />   
+                </div>
+
                 <Navbar setHeaderTitle={setHeaderTitle} />
                 </Sider>
             
