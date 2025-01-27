@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../Styles/Registration.css";
 import axios from "axios";
 
+
 function PersonalDetailsForm() {
     const navigate = useNavigate();
 
@@ -75,41 +76,60 @@ function PersonalDetailsForm() {
             .post(`http://localhost:8080/api/v1/login/send-otp/su/%2B94${formData.phoneNumber}`)
             .then((response) => {
 
-                if(response.ok){
-                    alert("OTP sent successfully!");
-                    console.log(response.data)
+                if (response.ok) {
+                    setErrors((prevErrors) => ({
+                        ...prevErrors,
+                        general: "OTP sent successfully!",
+                    }));
                 }
 
 
             })
             .catch((err) => {
                 console.error("Error sending OTP:", err);
-                alert("Failed to send OTP. Please try again.");
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    general: "Failed to send OTP. Please try again.",
+                }));
             });
     };
 
     const verifyOTP = () => {
         axios
             .post("http://localhost:8080/api/v1/login/validate-otp", {
-                phoneNumber: "+94"+formData.phoneNumber,
+
+                phoneNumber: "+94" + formData.phoneNumber,
                 otp: formData.OTP,
             })
             .then((response) => {
-                console.log(response.data)
+
                 if (response.data === "OTP verified successfully") {
                     setIsVerified(true);
-                    alert("OTP verified successfully!");
+                    setErrors((prevErrors) => ({
+                        ...prevErrors,
+                        general: "OTP verified successfully!",
+                    }));
                 } else {
                     setIsVerified(false);
-                    alert("Invalid OTP. Please try again. ");
+
+
+                    setErrors((prevErrors) => ({
+                        ...prevErrors,
+                        OTP: "Invalid OTP. Please try again.",
+                    }));
+
+
                 }
             })
             .catch((err) => {
                 console.error("Error verifying OTP:", err);
-                alert("Failed to verify OTP. Please try again.");
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    general: "Failed to verify OTP. Please try again.",
+                }));
             });
     };
-    
+
     const saveUserData = () => {
         axios
             .post("http://localhost:8080/api/v1/adduser", {
@@ -122,26 +142,35 @@ function PersonalDetailsForm() {
             })
             .then((response) => {
                 console.log("User data saved:", response.data);
-    
-                // Store userId in session storage
-                sessionStorage.setItem("userId", response.data.userId);
-                sessionStorage.setItem("userPhoneNumber",response.data.phoneNumber)
 
-                alert("Registration successful!");
+                sessionStorage.setItem("userId", response.data.userId);
+
+                sessionStorage.setItem("userPhoneNumber", response.data.phoneNumber);
+
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    general: "Registration successful!",
+                }));
+
                 navigate("/VehicleDetailsForm");
             })
             .catch((err) => {
                 console.error("Error saving user data:", err);
-                alert("Failed to save user data. Please try again.");
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    general: "Failed to save user data. Please try again.",
+                }));
             });
     };
-    
 
     const goToNext = () => {
         if (validateForm() && isVerified) {
             saveUserData();
         } else if (!isVerified) {
-            alert("Please verify your OTP before proceeding.");
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                general: "Please verify your OTP before proceeding.",
+            }));
         }
     };
 
