@@ -15,8 +15,8 @@ function VehicleOwners() {
     const [owners, setOwners] = useState([]);
     const [filteredOwners, setFilteredOwners] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [filters, setFilters] = useState({ date: "", vehicleType: "" });
-    const [vehicleTypes, setVehicleTypes] = useState([]);
+    const [filters, setFilters] = useState({ identityType: "" });
+    const [identityType, setIdentityType] = useState([]);
 
     //pagination
     const [currentPage, setCurrentPage] = useState(1); 
@@ -26,9 +26,13 @@ function VehicleOwners() {
     useEffect(() => {
         axios.get("http://localhost:8080/api/v1/getusers")
             .then((response) => {
-                console.log(response.data); // Confirm the structure here
+                console.log(response.data); 
                 setOwners(response.data || []); // Use fallback if owners is undefined
                 setFilteredOwners(response.data || []);
+
+                // Extract unique identity types
+                const uniqueTypes = Array.from(new Set(response.data.map((owner) => owner.identityType)));
+                setIdentityType(uniqueTypes);
             })
             .catch((error) => console.error("Error fetching data:", error));
 
@@ -43,18 +47,14 @@ function VehicleOwners() {
         if (searchQuery) {
             results = results.filter(
                 (owner) =>
-                    owner.nic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    owner.registrationNo.toLowerCase().includes(searchQuery.toLowerCase())
+                    owner.idNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    owner.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    owner.userId.toString().includes(searchQuery)
             );
         }
 
-        // Filter by Date
-        if (filters.date) {
-            results = results.filter((owner) => owner.registrationDate === filters.date);
-        }
-
-        // Filter by Vehicle Type
-        if (filters.vehicleType) {
+        // Filter by Identity Type
+        if (filters.identityType) {
             results = results.filter((owner) => owner.vehicleType === filters.vehicleType);
         }
 
@@ -82,29 +82,23 @@ function VehicleOwners() {
             <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
                 <Input
                     type="text"
-                    placeholder="Search by NIC or Registration No"
+                    placeholder="Search by Id, Name or Registration No"
                     value={searchQuery}
                     onChange={handleSearchChange}
                     prefix={<SearchOutlined />}
                     style={{ marginRight: "1rem"}}
                 />
-                <Input
-                    type="date"
-                    name="date"
-                    value={filters.date}
-                    onChange={handleFilterChange}
-                    style={{ marginRight: "1rem", width: "20%" }}
-                />
+
                 <Select
-                    name="vehicleType"
-                    value={filters.vehicleType}
-                    onChange={(value) => handleFilterChange({ target: { name: 'vehicleType', value } })}
+                    name="identityType"
+                    value={filters.identityType}
+                    onChange={(value) => handleFilterChange({ target: { name: 'identityType', value } })}
                     style={{ width: 200 }}
-                    placeholder="Filter by Vehicle Type"
+                    placeholder="Filter by Identity Type"
                     suffixIcon={<FilterOutlined />}
                 >
-                    <Option value="">All Vehicle Types</Option>
-                    {vehicleTypes.map((type) => (
+                    <Option value="">All Identity Types</Option>
+                    {identityType.map((type) => (
                         <Option key={type} value={type}>
                             {type}
                         </Option>

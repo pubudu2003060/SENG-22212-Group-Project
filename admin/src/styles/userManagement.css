@@ -30,11 +30,3 @@ input, select {
     border: 1px solid #e8e5e5; /* Border for table cells */ 
     text-align: left; 
 }
-
-.Active {
-    color: green;
-}
-
-.Inactive {
-    color: red;
-}
