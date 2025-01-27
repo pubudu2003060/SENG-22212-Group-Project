@@ -3,19 +3,13 @@ import axios from 'axios';
 import { Input, Select, Pagination } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
 
-//import mockData from '../../mockdata.json';
 import "../styles/userManagement.css";
 
-const { Option } = Select;
-
 function FuelStationOwners() {
-    //const [stationOwners, setStationOwners] = useState(mockData.stationOwners);
-    //const [filteredStationOwners, setFilteredStationOwners] = useState(mockData.stationOwners);
 
     const [stationOwners, setStationOwners] = useState([]);
     const [filteredStationOwners, setFilteredStationOwners] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [filters, setFilters] = useState({ date: "", status: "" });
     
     //pagination
     const [currentPage, setCurrentPage] = useState(1); 
@@ -40,31 +34,16 @@ function FuelStationOwners() {
         if(searchQuery){
             results = results.filter(
                 (stationOwner) => 
-                    stationOwner.nic.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                    stationOwner.registrationNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    stationOwner.location.toLowerCase().includes(searchQuery.toLowerCase())
+                    stationOwner.nicNo.toString().includes(searchQuery) || 
+                    stationOwner.name.toLowerCase().includes(searchQuery.toLowerCase())
             );
         }
 
-        //Filter by date
-        if(filters.date) {
-            results = results.filter((stationOwner) => stationOwner.registrationDate === filters.date);
-        }
-
-        //Filter by status (active, inactive)
-        if(filters.status) {
-            results = results.filter((stationOwner) => stationOwner.status === filters.status);
-        }
-
         setFilteredStationOwners(results);
-    }, [searchQuery, filters, stationOwners]);
+    }, [searchQuery, stationOwners]);
     
     //Handle input changes
     const handleSearchChange = (e) => setSearchQuery(e.target.value);
-    const handleFilterChange = (e) => {
-        const { name, value } = e.target;
-        setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    }
 
     const handlePageChange = (page, pageSize) => { 
         setCurrentPage(page); 
@@ -80,31 +59,12 @@ function FuelStationOwners() {
         <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
             <Input
                 type="text"
-                placeholder="Search by NIC, Registration No or Location"
+                placeholder="Search by NIC or Name"
                 value={searchQuery}
                 onChange={handleSearchChange}
                 prefix={<SearchOutlined />}
                 style={{ marginRight: "1rem"}}
             />
-            <Input
-                type="date"
-                name="date"
-                value={filters.date}
-                onChange={handleFilterChange}
-                style={{ marginRight: "1rem", width: "20%" }}
-            />
-            <Select
-                name="status"
-                value={filters.status}
-                onChange={(value) => handleFilterChange({ target: { name: 'status', value } })}
-                style={{ width: 200 }}
-                placeholder="Filter by Status"
-                suffixIcon={<FilterOutlined />}
-            >
-                <Option value="">Filter by Status</Option>
-                <Option value="Active">Active</Option>
-                <Option value="Inactive">Inactive</Option>
-            </Select>
         </div>
 
         {/* Table */}
