@@ -1,44 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 import '../Styles/Dashboard.css';
 import NavigationBar from '../Components/NavigationBar';
 import WebFooter from '../Components/WebFooter';
 import WebHeader from '../Components/WebHeader';
+import axios from 'axios';
 
 function Dashboard() {
     const navigate = useNavigate();
 
-    const [userData, setUserData] = useState({
-        name: "",
-        vehicles: [],
-    });
-
-    const mockData = {
-        name: "Viduni Niketha",
-        vehicles: [
-            {
-                type: "Car",
-                fuelBalance: "20L",
-                eligibleDays: "Mon, Thu",
-                vehicleNo: "ABC-1234",
-            },
-            {
-                type: "Bike",
-                fuelBalance: "5L",
-                eligibleDays: "Tue",
-                vehicleNo: "XYZ-5678",
-            },
-        ],
-    };
+    const [userData, setUserData] = useState([]);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = true; 
-                if (!response) {
-                    throw new Error("User data not found");
-                }
-                setUserData(mockData);
+                const response = await axios.get("http://localhost:8080/api/v1/getVehicalFualQuata/1");
+                console.log(response.data)
+                setUserData(response.data);
             } catch (e) {
                 console.error("Error fetching user data:", e.message);
                 navigate("/PageNotFound");
@@ -50,14 +28,14 @@ function Dashboard() {
 
     return (
         <div className="dashboard">
-            <WebHeader />
-            <NavigationBar />
+            <WebHeader/>
+            <NavigationBar/>
             <div className="dashboard-body">
                 <h2 id="dashboard-h2">
                     Welcome <span id="dashboard-name">{userData.name}</span>...
                 </h2>
                 <h3 id="dashboard-h3Text">Your Vehicles</h3>
-                <hr id="dashboard-longLine" />
+                <hr id="dashboard-longLine"/>
                 {userData.vehicles.map((vehicle, index) => (
                     <div className="dashboard-vehicleInfo" key={index}>
                         <div>
@@ -73,9 +51,9 @@ function Dashboard() {
                         </div>
                     </div>
                 ))}
-                <hr id="dashboard-smallLine" />
+                <hr id="dashboard-smallLine"/>
             </div>
-            <WebFooter />
+            <WebFooter/>
         </div>
     );
 }
