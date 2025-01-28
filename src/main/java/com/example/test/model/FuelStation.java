@@ -51,5 +51,6 @@ public class FuelStation {
     @JoinColumn(name = "stationOwnerid", referencedColumnName = "stationOwnerid", nullable = false)
     @JsonBackReference
     private FuelStationOwner fuelStationOwner;
-
 }
+
+
