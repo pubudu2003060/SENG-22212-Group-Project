@@ -1,25 +1,44 @@
-
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../Styles/Registration.css";
 
-function VehicleDetailsForm() {
+// Constants
+const VEHICLE_TYPES = {
+    CAR: "CAR",
+    THREEWHEEL: "THREEWHEEL",
+    VAN: "VAN",
+    LORRY: "LORRY",
+    BIKE: "BIKE",
+    TRACTOR: "TRACTOR",
+    BUS: "BUS",
+    TRUCK: "TRUCK",
+    OTHER: "OTHER"
+};
+
+const FUEL_TYPES = {
+    PETROL: "PETROL",
+    DIESEL: "DIESEL"
+};
+
+const INITIAL_FORM_STATE = {
+    vehicleNumber: "",
+    vehicleType: "",
+    chassisNumber: "",
+    fuelType: "",
+    engineNumber: ""
+};
+
+const VehicleDetailsForm = () => {
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        vehicleNumber: "",
-        vehicleType: "Car",
-        chassisNumber: "",
-        fuelType: "Petrol",
-        engineNumber: "",
-
-    });
-
+    // State management
+    const [formData, setFormData] = useState(INITIAL_FORM_STATE);
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [vehicleId, setVehicleId] = useState(null);
 
+    // Load vehicle ID from session storage
     useEffect(() => {
         const storedVehicleId = sessionStorage.getItem("vehicleId");
         if (storedVehicleId) {
@@ -27,39 +46,33 @@ function VehicleDetailsForm() {
         }
     }, []);
 
-    const handleChange = (event) => {
-
-        const { name, value } = event.target;
-
-        
-        console.log(`Field changed: ${name}, New value: ${value}`);
-
-      
-
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-        setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-
-    };
-
-
+    // Form validation rules
     const validateForm = () => {
         const newErrors = {};
-        if (!formData.vehicleNumber.trim()) {
-            newErrors.vehicleNumber = "Vehicle number is required.";
-        }
-        if (!formData.chassisNumber.trim()) {
-            newErrors.chassisNumber = "Chassis number is required.";
-        }
+        const requiredFields = {
+            vehicleNumber: "Vehicle number",
+            chassisNumber: "Chassis number",
+            engineNumber: "Engine number"
+        };
+
+        Object.entries(requiredFields).forEach(([field, label]) => {
+            if (!formData[field]?.trim()) {
+                newErrors[field] = `${label} is required.`;
+            }
+        });
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
- 
-   const handleRegister = async () => {
-        if (!validateForm()) return;
 
+    // Event handlers
+    const handleChange = ({ target: { name, value } }) => {
+        setFormData(prev => ({ ...prev, [name]: value }));
+        setErrors(prev => ({ ...prev, [name]: "" }));
+    };
+
+    const handleRegister = async () => {
+        if (!validateForm()) return;
 
         const userId = sessionStorage.getItem("userId");
         if (!userId) {
@@ -74,109 +87,123 @@ function VehicleDetailsForm() {
             vehicalNo: formData.vehicleNumber,
             enginNo: formData.engineNumber,
             fualType: formData.fuelType,
-            user: {userId: parseInt(userId)},
+            user: { userId: parseInt(userId) }
         };
 
-        try {
+        console.log(apiBody)
 
+        try {
             setLoading(true);
             const response = await axios.post(
-                "http://localhost:8080/api/v1/addvehical",
+                "http://localhost:8080/api/v1/login/addvehical",
                 apiBody
             );
 
-            sessionStorage.setItem("vehicleId", response.data.vehicalId);
-            setVehicleId(response.data.vehicalId);
-
-            alert("Vehicle registered successfully!");
-            navigate("/QRGenerator");
+            if (response.status === 200) {
+                const { vehicleId } = response.data;
+                sessionStorage.setItem("vehicleId", vehicleId);
+                setVehicleId(vehicleId);
+                alert("Vehicle registered successfully!");
+                navigate("/QRGenerator");
+            }
         } catch (error) {
-            console.error("Error details:", error.response || error.message);
-            alert("Failed to register vehicle. Please try again.");
+            const errorMessage = error.response?.data?.message || "Failed to register vehicle. Please try again.";
+            console.error("Registration error:", error);
+            alert(errorMessage);
         } finally {
             setLoading(false);
         }
     };
 
-    const handleBack = () => {
-        navigate("/PersonalDetailsForm");
-    };
+    // Form field component
+    const FormField = ({ label, name, type = "text", options, error }) => (
+        <>
+            <label className="form-label">{label}:</label>
+            {type === "select" ? (
+                <select
+                    name={name}
+                    className="vehicle-select"
+                    value={formData[name]}
+                    onChange={handleChange}
+                >
+                    {Object.entries(options).map(([value, label]) => (
+                        <option key={value} value={value}>
+                            {label}
+                        </option>
+                    ))}
+                </select>
+            ) : (
+                <input
+                    type="text"
+                    name={name}
+                    className={`form-input ${error ? "error-border" : ""}`}
+                    placeholder={`Enter your ${label.toLowerCase()}`}
+                    value={formData[name]}
+                    onChange={handleChange}
+                />
+            )}
+            {error && <span className="error-message">{error}</span>}
+        </>
+    );
 
     return (
-        <div className="form-container">
+        <div className="form-container-v">
             <h1 className="form-title">Vehicle Details Registration</h1>
             <p className="form-subtitle">Please fill in your vehicle details to proceed.</p>
 
-            <form>
-                <label className="form-label">Vehicle Number:</label>
-                <input
-                    type="text"
+            <form onSubmit={(e) => e.preventDefault()}>
+                <FormField
+                    label="Vehicle Number"
                     name="vehicleNumber"
-                    className={`form-input ${errors.vehicleNumber ? "error-border" : ""}`}
-                    placeholder="Enter your vehicle number"
-                    value={formData.vehicleNumber}
-                    onChange={handleChange}
+                    error={errors.vehicleNumber}
                 />
-                {errors.vehicleNumber && <span className="error-message">{errors.vehicleNumber}</span>}
 
-                <select
-                    name="vehicleType" 
-                    className="vehicle-select"
-                    value={formData.vehicleType} 
-                    onChange={handleChange}
-                >
-                    <option value="Car">Car</option>
-                    <option value="Three-Wheeler">Three-Wheeler</option>
-                    <option value="Van">Van</option>
-                    <option value="Lorry">Lorry</option>
-                    <option value="Bike">Bike</option>
-                    <option value="Tractor">Tractor</option>
-                    <option value="Bus">Bus</option>
-                </select>
+                <FormField
+                    label="Vehicle Type"
+                    name="vehicleType"
+                    type="select"
+                    options={VEHICLE_TYPES}
+                />
 
-
-                <label className="form-label">Chassis Number:</label>
-                <input
-                    type="text"
+                <FormField
+                    label="Chassis Number"
                     name="chassisNumber"
-                    className={`form-input ${errors.chassisNumber ? "error-border" : ""}`}
-                    placeholder="Enter your chassis number"
-                    value={formData.chassisNumber}
-                    onChange={handleChange}
+                    error={errors.chassisNumber}
                 />
-                {errors.chassisNumber && <span className="error-message">{errors.chassisNumber}</span>}
-                <select
-                    name="fuelType" 
-                    className="vehicle-select"
-                    value={formData.fuelType} 
-                    onChange={handleChange} 
-                >
-                    <option value="Petrol">Petrol</option>
-                    <option value="Diesel">Diesel</option>
-                </select>
 
-
-                <label className="form-label">Engine Number:</label>
-                <input
-                    type="text"
+                <FormField
+                    label="Engine Number"
                     name="engineNumber"
-                    className="form-input"
-                    placeholder="Enter your engine number"
-                    value={formData.engineNumber}
-                    onChange={handleChange}
+                    error={errors.engineNumber}
+                />
+
+                <FormField
+                    label="Fuel Type"
+                    name="fuelType"
+                    type="select"
+                    options={FUEL_TYPES}
                 />
 
                 <div className="vehicle-buttons">
-                    <button type="button" onClick={handleBack} className="form-button">
+                    <button
+                        type="button"
+                        onClick={() => navigate("/PersonalDetailsForm")}
+                        className="form-button"
+                    >
                         Back
                     </button>
-                    <button type="button" onClick={handleRegister} className="form-button" disabled={loading}>
+                    <button
+                        type="submit"
+                        onClick={handleRegister}
+                        className="form-button"
+                        disabled={loading}
+                    >
                         {loading ? "Registering..." : "Register"}
                     </button>
                 </div>
             </form>
         </div>
     );
-}
+};
 
 export default VehicleDetailsForm;

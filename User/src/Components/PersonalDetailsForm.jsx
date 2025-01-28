@@ -17,6 +17,8 @@ function PersonalDetailsForm() {
         OTP: "",
     });
 
+    console.log(formData.phoneNumber)
+
     const [errors, setErrors] = useState({});
     const [sentOTP, setSentOTP] = useState(""); // Stores the sent OTP
     const [isVerified, setIsVerified] = useState(false); // Tracks verification status
@@ -71,20 +73,19 @@ function PersonalDetailsForm() {
         axios
             .post(`http://localhost:8080/api/v1/login/send-otp/su/%2B94${formData.phoneNumber}`)
             .then((response) => {
-                if (response.ok) {
-                    setErrors((prevErrors) => ({
-                        ...prevErrors,
-                        general: "OTP sent successfully!",
-                    }));
+                
+                if(response.status == 200){
+                    alert("OTP sent successfully!");
+                }else {
+                    alert("Otp sent unsuccessfully! ")
+
                 }
 
             })
             .catch((err) => {
-                console.error("Error sending OTP:", err);
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    general: "Failed to send OTP. Please try again.",
-                }));
+
+                alert("Failed to send OTP."+err);
+
             });
     };
 
@@ -99,26 +100,17 @@ function PersonalDetailsForm() {
 
                 if (response.data === "OTP verified successfully") {
                     setIsVerified(true);
-                    setErrors((prevErrors) => ({
-                        ...prevErrors,
-                        general: "OTP verified successfully!",
-                    }));
+                    alert("OTP verified successfully")
                 } else {
                     setIsVerified(false);
 
-                    setErrors((prevErrors) => ({
-                        ...prevErrors,
-                        OTP: "Invalid OTP. Please try again.",
-                    }));
-
+                    alert("Invalid OTP. "+response.data);
                 }
             })
             .catch((err) => {
-                console.error("Error verifying OTP:", err);
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    general: "Failed to verify OTP. Please try again.",
-                }));
+
+                alert("Failed to verify OTP. ");
+
             });
     };
 
@@ -127,7 +119,7 @@ function PersonalDetailsForm() {
             .post("http://localhost:8080/api/v1/adduser", {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
-                contactNo: formData.phoneNumber,
+                contactNo: "+94"+formData.phoneNumber,
                 address: formData.address,
                 identityType: formData.idType,
                 idNo: formData.idNumber,
@@ -136,12 +128,14 @@ function PersonalDetailsForm() {
                 console.log("User data saved:", response.data);
 
                 sessionStorage.setItem("userId", response.data.userId);
+
                 sessionStorage.setItem("userPhoneNumber", response.data.phoneNumber);
 
                 setErrors((prevErrors) => ({
                     ...prevErrors,
                     general: "Registration successful!",
                 }));
+
                 navigate("/VehicleDetailsForm");
             })
             .catch((err) => {
