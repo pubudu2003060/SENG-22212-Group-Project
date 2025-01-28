@@ -37,7 +37,7 @@ function QRGenerator() {
 
             } catch (error) {
                 console.error("Error fetching QR code:", error);
-                setError("Failed to generate QR code. Please try again.");
+                setError("Failed to generate QR code. Please try again. ");
             } finally {
                 setLoading(false);
             }
