@@ -28,7 +28,6 @@ function Otp() {
         }
     };
 
-
     const handleVerifyOtp = async () => {
         const enteredOtp = otp.join(""); // Combine the OTP digits into a single string
 
@@ -47,6 +46,7 @@ function Otp() {
                 });
 
                 const result = await response.json();
+                console.log(result)
                 if (response.ok) {
                     alert("Login Successfull!");
                     sessionStorage.setItem("userId", result.userId)

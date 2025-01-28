@@ -7,6 +7,7 @@ import WebHeader, { getSessionData } from '../Components/WebHeader';
 import axios from 'axios';
 
 function Dashboard() {
+
     const { userId, userContactNumber, firstName, lastName } = getSessionData();
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
@@ -22,7 +23,7 @@ function Dashboard() {
                 console.log(userData)
             } catch (error) {
                 console.error("Error fetching user data:", error.message);
-                navigate("/PageNotFound");
+
             } finally {
                 setIsLoading(false);
             }
