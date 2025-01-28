@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
-import { Button, Layout, Select, Input, Table } from 'antd';
+import { Button, Layout, Select, Input, Table, DatePicker, Row, Col } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import "../styles/FuelManagement.css"; // Assuming CSS file is in the styles folder
 
 const { Sider, Header, Content } = Layout;
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 
 function FuelManagement() {
     const [headerTitle, setHeaderTitle] = useState('Fuel Management');
@@ -46,15 +48,14 @@ function FuelManagement() {
     ];
 
     return (
-        <Layout>
+        <Layout className="fuel-management-layout">
             <Sider 
                 width={250} 
                 collapsedWidth={70} 
                 collapsed={collapsed} 
                 collapsible 
                 trigger={null} 
-                className='sidebar' 
-                style={{ padding: 0, background: '#fff' }}
+                className='sidebar'
             >
                 <Button 
                     type="text" 
@@ -66,23 +67,42 @@ function FuelManagement() {
             </Sider>
 
             <Layout>
-                <Header style={{ padding: 0, background: '#fff' }}>
+                <Header className="headerbar">
                     <Headerbar headerTitle={headerTitle} userName={userName} />
                 </Header>
 
-                <Content style={{ padding: '20px' }}>
-                    <div style={{ marginBottom: '20px', display: 'flex', gap: '20px' }}>
-                        <Select placeholder="Select Station" style={{ width: 200 }}>
-                            <Option value="stationA">Station A</Option>
-                            <Option value="stationB">Station B</Option>
-                        </Select>
-                        <Select placeholder="Select Vehicle Type" style={{ width: 200 }}>
-                            <Option value="car">Car</Option>
-                            <Option value="truck">Truck</Option>
-                        </Select>
-                        <Input placeholder="Search by Vehicle Registration No" style={{ width: 300 }} />
+                <Content className="content">
+                    <div className="filter-box">
+                        <Row gutter={[16, 16]} className="filter-row">
+                            <Col span={6}>
+                                <label>Date Range</label>
+                                <RangePicker className="filter-input" />
+                            </Col>
+                            <Col span={6}>
+                                <label>Station</label>
+                                <Select placeholder="Select Station" className="filter-input">
+                                    <Option value="stationA">Station A</Option>
+                                    <Option value="stationB">Station B</Option>
+                                </Select>
+                            </Col>
+                            <Col span={6}>
+                                <label>Vehicle Type</label>
+                                <Select placeholder="Select Vehicle Type" className="filter-input">
+                                    <Option value="car">Car</Option>
+                                    <Option value="truck">Truck</Option>
+                                </Select>
+                            </Col>
+                            <Col span={6}>
+                                <label>Search by Vehicle Reg. No</label>
+                                <Input placeholder="Enter Registration No" className="filter-input" />
+                            </Col>
+                        </Row>
+                        <Row className="button-row">
+                            <Button type="default" className="reset-button">Reset</Button>
+                            <Button type="primary" className="apply-button">Apply</Button>
+                        </Row>
                     </div>
-                    <Table columns={columns} dataSource={data} pagination={{ pageSize: 5 }} />
+                    <Table columns={columns} dataSource={data} pagination={{ pageSize: 5 }} className="fuel-management-table" />
                 </Content>
             </Layout>
         </Layout>
@@ -90,72 +110,3 @@ function FuelManagement() {
 }
 
 export default FuelManagement;
-
-
-
-
-
-// import React, { useState } from 'react';
-// import Navbar from '../components/Navbar';
-// import Headerbar from '../components/Headerbar';
-
-// import {Button, Layout} from 'antd';
-// import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-
-// const { Sider, Header, Content } = Layout;
-
-// function FuelManagement() {
-//     const [headerTitle, setHeaderTitle] = useState('Fuel Management'); // Default title
-//     const userName = 'John Doe'; // Replace with user data from login
-
-//     const [collapsed, setCollapsed] = useState(false);
-
-//     return (
-//         <>
-//            <Layout>
-//                 <Sider 
-//                 width={250} 
-//                 collapsedWidth={70} // Width when collapsed
-//                 collapsed={collapsed} 
-//                 collapsible 
-//                 trigger = {null}
-//                 className='sidebar'
-//                 style={{padding: 0, background: '#fff'}}
-//                 >
-                
-//                 <Button 
-//                     type="text" 
-//                     className="toggle"
-//                     onClick = {() => setCollapsed(!collapsed)}
-//                     icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
-//                     />   
-//                 <Navbar setHeaderTitle={setHeaderTitle} />
-//                 </Sider>
-            
-//                 <Layout> 
-//                     <Header style={{padding: 0, background: '#fff'}}>
-//                         <Headerbar headerTitle={headerTitle} userName={userName} /> 
-//                     </Header>
-
-//                     <Content>
-//                         <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
-//                             <Content style={{padding: 20, background: '#fff'}}>
-//                                 fsjyjs
-//                             </Content>
-//                         </Layout>
-
-//                         <Layout style={{padding: 0, marginTop: 10, marginLeft: 10}}>
-//                             <Content style={{padding: 20, background: '#fff'}}>
-//                                 fsjyj
-//                             </Content>
-//                         </Layout>
-
-//                     </Content>
-//                 </Layout>
-//             </Layout>
-//         </>
-//     );
-//     }
-
-// export default FuelManagement;
-
