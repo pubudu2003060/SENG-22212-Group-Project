@@ -24,7 +24,7 @@ public interface CustomerFuelQuotaRepo extends JpaRepository<CustomerFuelQuota, 
     CustomerFuelQuota getCustomerFuelQuotaByVehical_VehicalId(int vehicalVehicalId);
 
     @Query("SELECT c FROM CustomerFuelQuota c JOIN c.vehical v WHERE v.vehicalType = :vehicleType")
-    List<CustomerFuelQuota> findByVehicleType(@Param("vehicleType") String vehicleType);
+    List<CustomerFuelQuota> findByVehicleType(@Param("vehicleType") VehicalType vehicleType);
 
     @Query("SELECT c.eligibleFuelQuota FROM CustomerFuelQuota c JOIN c.vehical v WHERE v.vehicalType = :vehicleType")
     Integer findEligibleFuelCapacityByVehicleType(@Param("vehicleType") VehicalType vehicleType);

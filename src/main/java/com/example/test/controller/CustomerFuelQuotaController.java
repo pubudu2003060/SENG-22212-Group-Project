@@ -28,7 +28,7 @@ public class CustomerFuelQuotaController {
     }
 
     @PutMapping("/updateFuelQuotaByVehicleType")
-    public String updateCustomerFuelQuota(@RequestParam("vehicleType") String vehicleType, @RequestParam("fuelQuantity") Integer fuelQuantity) {
+    public String updateCustomerFuelQuota(@RequestParam("vehicleType") VehicalType vehicleType, @RequestParam("fuelQuantity") Integer fuelQuantity) {
         return customerFualQuataService.updateFuelQuota(vehicleType,fuelQuantity);
     }
 
