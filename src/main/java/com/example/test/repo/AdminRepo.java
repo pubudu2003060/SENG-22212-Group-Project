@@ -13,3 +13,5 @@ public interface AdminRepo extends JpaRepository<Admin,Integer> {
 
 
 }
+//plain text ->hash1->hash2
+//bcrypt
