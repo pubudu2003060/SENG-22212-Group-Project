@@ -8,11 +8,10 @@ import '../styles/StationManagement.css';
 const { Sider, Header, Content } = Layout;
 
 function StationManagement() {
-    const [headerTitle, setHeaderTitle] = useState('Station Management'); // Default title
-    const userName = 'John Doe'; // Replace with user data from login
+    const [headerTitle, setHeaderTitle] = useState('Station Management');
+    const userName = 'John Doe';
     const [collapsed, setCollapsed] = useState(false);
 
-    // Table data
     const columns = [
         { title: 'Station Number', dataIndex: 'stationNumber', key: 'stationNumber' },
         { title: 'Station Name', dataIndex: 'stationName', key: 'stationName' },
@@ -31,30 +30,9 @@ function StationManagement() {
     ];
 
     const data = [
-        {
-            key: '1',
-            stationNumber: '001',
-            stationName: 'Station A',
-            owner: 'Alice Smith',
-            location: 'Colombo',
-            registeredDate: '2023-01-15',
-        },
-        {
-            key: '2',
-            stationNumber: '002',
-            stationName: 'Station B',
-            owner: 'John Doe',
-            location: 'Gampaha',
-            registeredDate: '2023-02-10',
-        },
-        {
-            key: '3',
-            stationNumber: '003',
-            stationName: 'Station C',
-            owner: 'Jane Roe',
-            location: 'Kandy',
-            registeredDate: '2023-03-05',
-        },
+        { key: '1', stationNumber: '001', stationName: 'Station A', owner: 'Alice Smith', location: 'Colombo', registeredDate: '2023-01-15' },
+        { key: '2', stationNumber: '002', stationName: 'Station B', owner: 'John Doe', location: 'Gampaha', registeredDate: '2023-02-10' },
+        { key: '3', stationNumber: '003', stationName: 'Station C', owner: 'Jane Roe', location: 'Kandy', registeredDate: '2023-03-05' },
     ];
 
     return (
@@ -85,7 +63,7 @@ function StationManagement() {
                 <Content className="content">
                     <div className="statistics-container">
                         <Row gutter={16}>
-                            <Col span={12}>
+                            <Col xs={24} sm={12} lg={12}>
                                 <Card>
                                     <Statistic
                                         title="Active Stations"
@@ -94,7 +72,7 @@ function StationManagement() {
                                     />
                                 </Card>
                             </Col>
-                            <Col span={12}>
+                            <Col xs={24} sm={12} lg={12}>
                                 <Card>
                                     <Statistic
                                         title="Inactive Stations"
