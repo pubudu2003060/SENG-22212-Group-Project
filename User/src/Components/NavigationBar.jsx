@@ -20,6 +20,7 @@ function NavigationBar() {
                             onClick={() => navigate("/vehicle-info")}>Vehicle Fuel Infomation
                     </button>
                     <button className={getButtonClass("/profile")} onClick={() => navigate("/profile")}>Profile</button>
+                    <button className={getButtonClass("/VehicleDetailsForm")} onClick={() => navigate("/VehicleDetailsForm")}>Add vehical</button>
                 </div>
                 <button className="nav-btn logout-btn" onClick={() => {
                     sessionStorage.removeItem("userId")
