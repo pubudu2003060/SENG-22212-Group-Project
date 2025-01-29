@@ -35,13 +35,12 @@ public class UserLoginController {
     }
 
     @PostMapping("/validate-otp")
-    public String validateOtp(@RequestBody LoginRequestDto loginRequest) {
+    public Object validateOtp(@RequestBody LoginRequestDto loginRequest) {
         try {
             return userLoginService.validateOtp(loginRequest);
         }catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-
     }
 
     @PostMapping("/makecall/{phoneNumber}")

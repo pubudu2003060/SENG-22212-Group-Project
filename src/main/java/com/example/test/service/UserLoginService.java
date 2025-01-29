@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import java.net.URISyntaxException;
-import java.util.List;
 
 @Service
 @Transactional
@@ -94,7 +93,7 @@ public class UserLoginService {
         }
     }
 
-    public String validateOtp(LoginRequestDto loginRequest) {
+    public Object validateOtp(LoginRequestDto loginRequest) {
         try {
             UserLogin userLogin = userLoginRepo.getUserLoginByPhoneNumber(loginRequest.getPhoneNumber());
 
@@ -105,7 +104,8 @@ public class UserLoginService {
             if (userLogin.getOtp().equals(loginRequest.getOtp())) {
                 userLogin.setVerified(true);
                 userLoginRepo.save(userLogin);
-                return "OTP verified successfully";
+                User user = userRepo.getUserByContactNo(loginRequest.getPhoneNumber());
+                return user;
             } else {
                 return "Invalid OTP";
             }
