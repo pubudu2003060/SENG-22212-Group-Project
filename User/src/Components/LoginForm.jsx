@@ -21,7 +21,7 @@ function Login() {
 
                 if (response.ok) {
                     const result = await response.text();
-                    setError(result);
+                    alert(result);
                     navigate("/Otp", { state: { phoneNumber } });
                 } else {
                     setError("Failed to send OTP. Please try again.");
