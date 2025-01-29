@@ -3,33 +3,41 @@ import axios from 'axios';
 import { Input, Select, Pagination } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
 
-import mockData from "../../mockdata.json";
+//import mockData from "../../mockdata.json";
 import "../styles/userManagement.css";
 
 const { Option } = Select;
 
 function VehicleOwners() {
-    const [owners, setOwners] = useState(mockData.owners);
-    const [filteredOwners, setFilteredOwners] = useState(mockData.owners);
+    //const [owners, setOwners] = useState(mockData.owners);
+    //const [filteredOwners, setFilteredOwners] = useState(mockData.owners);
 
-    // const [owners, setOwners] = useState([]);
-    // const [filteredOwners, setFilteredOwners] = useState([]);
+    const [owners, setOwners] = useState([]);
+    const [filteredOwners, setFilteredOwners] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [filters, setFilters] = useState({ date: "", vehicleType: "" });
+    const [filters, setFilters] = useState({ identityType: "" });
+    const [identityType, setIdentityType] = useState([]);
 
     //pagination
     const [currentPage, setCurrentPage] = useState(1); 
     const [pageSize, setPageSize] = useState(5); // Number of items per page
 
-    // Fetch data from API
-    /*useEffect(() => {
-        axios.get("https://api.example.com/vehicle-owners")
+    // Fetch data from API 
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/v1/getusers")
             .then((response) => {
-                setOwners(response.data);
-                setFilteredOwners(response.data);
+                console.log(response.data); 
+                setOwners(response.data || []); // Use fallback if owners is undefined
+                setFilteredOwners(response.data || []);
+
+                // Extract unique identity types
+                const uniqueTypes = Array.from(new Set(response.data.map((owner) => owner.identityType)));
+                setIdentityType(uniqueTypes);
             })
-            .catch((error) => console.error("Error fetching vehicle owners:", error));
-    }, []);*/
+            .catch((error) => console.error("Error fetching data:", error));
+
+    }, []);
+    
 
     // Handle search and filter
     useEffect(() => {
@@ -39,18 +47,14 @@ function VehicleOwners() {
         if (searchQuery) {
             results = results.filter(
                 (owner) =>
-                    owner.nic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    owner.registrationNo.toLowerCase().includes(searchQuery.toLowerCase())
+                    owner.idNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    owner.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    owner.userId.toString().includes(searchQuery)
             );
         }
 
-        // Filter by Date
-        if (filters.date) {
-            results = results.filter((owner) => owner.registrationDate === filters.date);
-        }
-
-        // Filter by Vehicle Type
-        if (filters.vehicleType) {
+        // Filter by Identity Type
+        if (filters.identityType) {
             results = results.filter((owner) => owner.vehicleType === filters.vehicleType);
         }
 
@@ -78,63 +82,59 @@ function VehicleOwners() {
             <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
                 <Input
                     type="text"
-                    placeholder="Search by NIC or Registration No"
+                    placeholder="Search by Id, Name or Registration No"
                     value={searchQuery}
                     onChange={handleSearchChange}
                     prefix={<SearchOutlined />}
                     style={{ marginRight: "1rem"}}
                 />
-                <Input
-                    type="date"
-                    name="date"
-                    value={filters.date}
-                    onChange={handleFilterChange}
-                    style={{ marginRight: "1rem", width: "20%" }}
-                />
+
                 <Select
-                    name="vehicleType"
-                    value={filters.vehicleType}
-                    onChange={(value) => handleFilterChange({ target: { name: 'vehicleType', value } })}
+                    name="identityType"
+                    value={filters.identityType}
+                    onChange={(value) => handleFilterChange({ target: { name: 'identityType', value } })}
                     style={{ width: 200 }}
-                    placeholder="Filter by Vehicle Type"
+                    placeholder="Filter by Identity Type"
                     suffixIcon={<FilterOutlined />}
                 >
-                    <Option value="">All Vehicle Types</Option>
-                    <Option value="Car">Car</Option>
-                    <Option value="Motorcycle">Motorcycle</Option>
-                    <Option value="Truck">Truck</Option>
+                    <Option value="">All Identity Types</Option>
+                    {identityType.map((type) => (
+                        <Option key={type} value={type}>
+                            {type}
+                        </Option>
+                    ))}
                 </Select>
             </div>
 
             {/* Table */}
             <table border="1" className="ownersTable">
                 <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>NIC</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Vehicle Type</th>
-                        <th>Registration No</th>
-                        <th>Registration Date</th>
-                    </tr>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Identity Number</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Registration No</th>
+
+                </tr>
                 </thead>
                 <tbody>
                     {paginatedOwners.length > 0 ? ( 
                         paginatedOwners.map((owner) => (
-                            <tr key={owner.registrationNo}>
-                                <td>{owner.name}</td>
-                                <td>{owner.nic}</td>
-                                <td>{owner.phone}</td>
+                            <tr key={owner.userId}>
+                                <td>{owner.firstName}</td>
+                                <td>{owner.lastName}</td>
+                                <td>{owner.idNo + " (" + owner.identityType + ")"}</td>
+                                <td>{owner.contactNo}</td>
                                 <td>{owner.address}</td>
-                                <td>{owner.vehicleType}</td>
-                                <td>{owner.registrationNo}</td>
-                                <td>{owner.registrationDate}</td>
+                                <td>{owner.userId}</td>
+
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="7" style={{ textAlign: "center" }}>
+                            <td colSpan="6" style={{ textAlign: "center" }}>
                                 No results found.
                             </td>
                         </tr>

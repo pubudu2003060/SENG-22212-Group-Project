@@ -1,15 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
+import Footer from '../components/Footer';
 import { Button, Layout, Table, Avatar, Row, Col, Card, Statistic } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons';
+import "../styles/background.css";
+import cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
+import logo from "../assets/lastfuel.png";
+
 import '../styles/StationManagement.css';
 
 const { Sider, Header, Content } = Layout;
 
-function StationManagement() {
-    const [headerTitle, setHeaderTitle] = useState('Station Management');
-    const userName = 'John Doe';
+function FuelManagement() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const cookieValue = cookies.get("adminEmail");
+        console.log(cookieValue)
+        if (cookieValue == undefined) {
+            alert("Admin email not found")
+            navigate("/login");
+        }
+    }, []);
+    
+    const [headerTitle, setHeaderTitle] = useState('Station Management'); // Default title
+    //const userName = 'John Doe'; // Replace with user data from login
+
     const [collapsed, setCollapsed] = useState(false);
 
     const columns = [
@@ -36,31 +55,45 @@ function StationManagement() {
     ];
 
     return (
-        <Layout className="station-management-layout">
-            <Sider
-                width={250}
-                collapsedWidth={70}
-                collapsed={collapsed}
-                collapsible
-                trigger={null}
-                className="sidebar"
-            >
-                <Button
-                    type="text"
-                    className="toggle"
-                    onClick={() => setCollapsed(!collapsed)}
-                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                />
+        <>
+           <Layout>
+                <Sider 
+                width={250} 
+                collapsedWidth={70} // Width when collapsed
+                collapsed={collapsed} 
+                collapsible 
+                trigger = {null}
+                className='background_sidebar'
+                >
+
+                <div className="logo-container">
+                    <img
+                       src={logo}
+                       alt="Logo"
+                       className={`logo ${collapsed ? 'logo-collapsed' : 'logo-expanded'}`}
+                    />
+                </div>
+                
+                <div className="toggle-container">
+                    <Button 
+                        type="text" 
+                        className="toggle"
+                        onClick = {() => setCollapsed(!collapsed)}
+                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
+                    />
+                </div>   
                 <Navbar setHeaderTitle={setHeaderTitle} />
-            </Sider>
+                </Sider>
+            
+                <Layout> 
+                    <Header className="background_header">
+                        <Headerbar headerTitle={headerTitle} /> 
+                    </Header>
 
-            <Layout>
-                <Header className="headerbar">
-                    <Headerbar headerTitle={headerTitle} userName={userName} />
-                    <Avatar size={40} icon={<UserOutlined />} className="profile-icon" />
-                </Header>
-
-                <Content className="content">
+                    <Content>
+                        <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
+                            <Content style={{padding: 20, background: '#fff'}}>
+                            <Content className="content">
                     <div className="statistics-container">
                         <Row gutter={16}>
                             <Col xs={24} sm={12} lg={12}>
@@ -93,8 +126,19 @@ function StationManagement() {
                         />
                     </div>
                 </Content>
+                            </Content>
+                        </Layout>
+
+                        <Layout style={{padding: 0, marginTop: 10, marginLeft: 10}}>
+                            <Content style={{padding: 20, background: '#fff'}}>
+                                fsjyjs
+                            </Content>
+                        </Layout>
+
+                    </Content>
+                </Layout>
             </Layout>
-        </Layout>
+        </>
     );
 }
 

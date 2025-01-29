@@ -1,0 +1,116 @@
+.background_sidebar {
+    padding: 0; 
+    background: #fff;
+}
+
+.background_header {
+    padding: 0;
+    background: #fff;
+    position: relative; 
+    z-index: 10;
+}
+
+.background_cover {
+    background: linear-gradient(to right, #fafafa,#0f6f87, #033c54);
+    /*background-image: url('https://media.istockphoto.com/id/1655140679/vector/abstract-black-green-and-teal-geometric-rectangle-vector-background.jpg?s=612x612&w=0&k=20&c=fwUKF1fIxBJEWBcnw1iso2fvGZs1865EtI8NpbIAYy0='); 
+    background-repeat: no-repeat; 
+    background-size: cover;
+    background-position: center;*/
+    height: 30%; 
+    width: calc(100% - 20px); 
+    position: absolute; 
+    top: 0; 
+    z-index: 1; 
+}
+
+.background_layout1 {
+    padding: 0;
+    margin-top: 100px;
+    margin-left: 20px; 
+    margin-right: 20px; 
+    position: relative; 
+    z-index: 2;
+}
+
+.background_content1 {
+    padding: 50px;
+    background: #fff;
+    max-height: 70vh;
+}
+
+.background_layout2 {
+    padding: 0;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px; 
+}
+
+.background_content2 {
+    padding: 20px;
+    background: #fff;
+}
+
+.logo-container {
+    width: 100%; 
+    height: 150px;
+    text-align: right; 
+    padding: 0; 
+    background-color: #fff; 
+  }
+  
+  .logo {
+    transition: all 0.4s ease; /* Smooth resizing transition */
+  }
+  
+  .logo-expanded {
+    width: 80%; 
+    max-width: 200px; 
+    height: auto; 
+  }
+  
+  .logo-collapsed {
+    position: relative;
+    top: 50px;
+    text-align: left;
+    max-width: 100%; 
+    height: auto;
+  }
+  
+  .toggle-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .toggle {
+    text-align: right;
+  }
+/* Footer */
+footer {
+    background-color: #185880;
+    color: #fffcfc;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    bottom: 0; 
+    width: 100%;
+  }
+
+  .profile-container {
+    display: flex; 
+    align-items: center;
+    padding: 1rem;
+}
+
+.profileIcon {
+    font-size: 50px; 
+    color: #fff; 
+    background-color: #1890ff; 
+    border-radius: 50%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 60px; 
+    height: 60px; 
+    margin-right: 20px;
+}
+  
