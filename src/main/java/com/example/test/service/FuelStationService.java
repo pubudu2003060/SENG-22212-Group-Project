@@ -2,7 +2,7 @@ package com.example.test.service;
 
 import com.example.test.dto.FuelStationDTO;
 import com.example.test.dto.FuelStationManagementDTO;
-import com.example.test.dto.FuelStationOwnerDTO;
+import com.example.test.enump.Status;
 import com.example.test.model.*;
 import com.example.test.repo.FuelStationRepo;
 import jakarta.transaction.Transactional;
@@ -11,7 +11,6 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.example.test.controller;
 
 import com.example.test.dto.CustomerFuelQuotaDTO;
 import com.example.test.dto.ScannedQRCodeDTO;
-import com.example.test.model.VehicalType;
+import com.example.test.enump.VehicalType;
 import com.example.test.service.CustomerFualQuataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

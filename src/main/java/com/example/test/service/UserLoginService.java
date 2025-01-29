@@ -4,6 +4,7 @@ import com.example.test.dto.CustomerFuelQuotaDTO;
 import com.example.test.dto.LoginRequestDto;
 import com.example.test.dto.QrcodeDTO;
 import com.example.test.dto.VehicalDTO;
+import com.example.test.enump.VehicalEligibleData;
 import com.example.test.model.CustomerFuelQuota;
 import com.example.test.model.User;
 import com.example.test.model.UserLogin;
@@ -123,12 +124,14 @@ public class UserLoginService {
     }
 
     public VehicalDTO registerVehicalDetails(VehicalDTO vehicalDTO){
+
+
         VehicalDTO vehicalDTO1 = vehicalService.addVehical(vehicalDTO);
 
         CustomerFuelQuotaDTO customerFuelQuotadto = new CustomerFuelQuotaDTO();
-        customerFuelQuotadto.setEligibleDays("sunday,monday");
-        customerFuelQuotadto.setEligibleFuelQuota(50000);
-        customerFuelQuotadto.setRemainFuel(50000);
+        customerFuelQuotadto.setEligibleDays(VehicalEligibleData.getEligibleDays(vehicalDTO1.getVehicalType()));
+        customerFuelQuotadto.setEligibleFuelQuota(VehicalEligibleData.getEligibleFuelQuota(vehicalDTO1.getVehicalType()));
+        customerFuelQuotadto.setRemainFuel(VehicalEligibleData.getEligibleFuelQuota(vehicalDTO1.getVehicalType()));
         customerFuelQuotadto.setUsedFuelQuota(0);
         customerFuelQuotadto.setUser(vehicalDTO.getUser());
         customerFuelQuotadto.setVehical(modelMapper.map(vehicalDTO1, Vehical.class));
