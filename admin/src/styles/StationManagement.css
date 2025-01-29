@@ -1,0 +1,37 @@
+/* Sidebar */
+@media (max-width: 767px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 9999;
+    }
+    .toggle {
+        display: block;
+    }
+}
+
+/* Statistics Container */
+.statistics-container .ant-card {
+    margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    .statistics-container .ant-card {
+        margin-bottom: 8px;
+    }
+}
+
+/* Table */
+@media (max-width: 768px) {
+    .station-management-table {
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .station-management-table .ant-table-thead th {
+        font-size: 12px;
+    }
+}
