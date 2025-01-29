@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState , useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
 import Footer from '../components/Footer';
 import "../styles/background.css";
+import logo from "../assets/lastfuel.png";
 
 import {Button, Layout} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -23,9 +24,9 @@ function FuelManagement() {
             navigate("/login");
         }
     }, []);
-
+    
     const [headerTitle, setHeaderTitle] = useState('Fuel Management'); // Default title
-    const userName = 'John Doe'; // Replace with user data from login
+    //const userName = 'John Doe'; // Replace with user data from login
 
     const [collapsed, setCollapsed] = useState(false);
 
@@ -40,19 +41,30 @@ function FuelManagement() {
                 trigger = {null}
                 className='background_sidebar'
                 >
+
+                <div className="logo-container">
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        className={`logo ${collapsed ? 'logo-collapsed' : 'logo-expanded'}`}
+                    />
+                </div>
                 
+                <div className="toggle-container">
                 <Button 
                     type="text" 
                     className="toggle"
                     onClick = {() => setCollapsed(!collapsed)}
                     icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
-                    />   
+                    />
+                </div>
+                
                 <Navbar setHeaderTitle={setHeaderTitle} />
                 </Sider>
             
                 <Layout> 
                     <Header className="background_header">
-                        <Headerbar headerTitle={headerTitle} userName={userName} /> 
+                        <Headerbar headerTitle={headerTitle} /> 
                     </Header>
 
                     <Content>

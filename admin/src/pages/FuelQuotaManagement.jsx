@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState , useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
 import Footer from '../components/Footer';
@@ -11,6 +11,7 @@ import QuotaDetails from '../FuelQuotaManagementComponents/QuotaDetails';
 import "../styles/background.css";
 import cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
+import logo from "../assets/lastfuel.png";
 
 
 const { Sider, Header, Content } = Layout;
@@ -28,9 +29,9 @@ function FuelQuotaManagement() {
         }
     }, []);
 
-
+    
     const [headerTitle, setHeaderTitle] = useState('Fuel Quota Management'); // Default title
-    const userName = 'John Doe'; // Replace with user data from login
+    //const userName = 'John Doe'; // Replace with user data from login
 
     const [collapsed, setCollapsed] = useState(false);
 
@@ -46,18 +47,29 @@ function FuelQuotaManagement() {
                 className='background_sidebar'
                 >
                 
-                <Button 
-                    type="text" 
-                    className="toggle"
-                    onClick = {() => setCollapsed(!collapsed)}
-                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
-                    />   
+                <div className="logo-container">
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        className={`logo ${collapsed ? 'logo-collapsed' : 'logo-expanded'}`}
+                    />
+                </div>
+
+                <div className="toggle-container">
+                    <Button 
+                        type="text" 
+                        className="toggle"
+                        onClick = {() => setCollapsed(!collapsed)}
+                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
+                        />   
+                </div>
+
                 <Navbar setHeaderTitle={setHeaderTitle} />
                 </Sider>
             
                 <Layout> 
                     <Header className="background_header" >
-                        <Headerbar headerTitle={headerTitle} userName={userName} /> 
+                        <Headerbar headerTitle={headerTitle}/> 
                     </Header>
 
                     <Content>

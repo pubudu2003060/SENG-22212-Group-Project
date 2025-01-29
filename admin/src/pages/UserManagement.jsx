@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState , useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
 import Footer from '../components/Footer';
@@ -10,6 +10,8 @@ import FuelStationOwners from '../userManagementComponents/FuelStationOwners';
 import "../styles/background.css";
 import cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
+import logo from "../assets/lastfuel.png";
+
 
 
 const { Sider, Header, Content } = Layout;
@@ -27,9 +29,8 @@ function UserManagement() {
         }
     }, []);
 
-
     const [headerTitle, setHeaderTitle] = useState('User Management'); // Default title
-    const userName = 'John Doe'; // Replace with user data from login
+    //const userName = 'John Doe'; // Replace with user data from login
 
     const [collapsed, setCollapsed] = useState(false);
     const [activeComponent, setActiveComponent] = useState('VehicleOwners');
@@ -45,19 +46,29 @@ function UserManagement() {
                 trigger = {null}
                 className='background_sidebar'
                 >
+
+                <div className="logo-container">
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        className={`logo ${collapsed ? 'logo-collapsed' : 'logo-expanded'}`}
+                    />
+                </div>
                 
-                <Button 
-                    type="text" 
-                    className="toggle"
-                    onClick = {() => setCollapsed(!collapsed)}
-                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
-                    />   
+                <div className="toggle-container">
+                    <Button 
+                        type="text" 
+                        className="toggle"
+                        onClick = {() => setCollapsed(!collapsed)}
+                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
+                        /> 
+                </div>  
                 <Navbar setHeaderTitle={setHeaderTitle} />
                 </Sider>
             
                 <Layout> 
                     <Header className="background_header">
-                        <Headerbar headerTitle={headerTitle} userName={userName} /> 
+                        <Headerbar headerTitle={headerTitle} /> 
                     </Header>
 
                     <Content>
@@ -85,13 +96,6 @@ function UserManagement() {
                             </Content>
                                 
                         </Layout>
-
-                        <Layout className="background_layout2">
-                            <Content className="background_content2">
-                                
-                            </Content>
-                        </Layout>
-
                     </Content>
                 </Layout>
             </Layout>
