@@ -1,16 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { Layout, Button, Select, Input, Table, Row, Col, Card, Statistic } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
+import Footer from '../components/Footer';
+import SetNewQuota from '../FuelQuotaManagementComponents/SetNewQuota';
+
+import {Button, Layout, Row, Col} from 'antd';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import ResetQuota from '../FuelQuotaManagementComponents/ResetQuota';
+import QuotaDetails from '../FuelQuotaManagementComponents/QuotaDetails';
+import "../styles/background.css";
+import cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
+import logo from "../assets/lastfuel.png";
+
 import '../styles/FuelQuotaManagement.css';
 
 const { Sider, Header, Content } = Layout;
 const { Option } = Select;
 
-function FuelQuotaManagement() {
+function FuelQuotaQuotaManagement() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const cookieValue = cookies.get("adminEmail");
+        console.log(cookieValue)
+        if (cookieValue == undefined) {
+            alert("Admin email not found")
+            navigate("/login");
+        }
+    }, []);
+
+    
     const [headerTitle, setHeaderTitle] = useState('Fuel Quota Management');
-    const userName = 'John Doe'; // Replace with user data from login
+    //const userName = 'John Doe'; // Replace with user data from login
     const [collapsed, setCollapsed] = useState(false);
 
     // Table data
@@ -28,30 +53,45 @@ function FuelQuotaManagement() {
     ];
 
     return (
-        <Layout>
-            <Sider
-                width={250}
-                collapsedWidth={70}
-                collapsed={collapsed}
-                collapsible
-                trigger={null}
-                className="sidebar"
-            >
-                <Button
-                    type="text"
-                    className="toggle"
-                    onClick={() => setCollapsed(!collapsed)}
-                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                />
+        <>
+           <Layout>
+                <Sider 
+                width={250} 
+                collapsedWidth={70} // Width when collapsed
+                collapsed={collapsed} 
+                collapsible 
+                trigger = {null}
+                className='background_sidebar'
+                >
+                
+                <div className="logo-container">
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        className={`logo ${collapsed ? 'logo-collapsed' : 'logo-expanded'}`}
+                    />
+                </div>
+
+                <div className="toggle-container">
+                    <Button 
+                        type="text" 
+                        className="toggle"
+                        onClick = {() => setCollapsed(!collapsed)}
+                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
+                        />   
+                </div>
+
                 <Navbar setHeaderTitle={setHeaderTitle} />
-            </Sider>
+                </Sider>
+            
+                <Layout> 
+                    <Header className="background_header">
+                        <Headerbar headerTitle={headerTitle}/> 
+                    </Header>
 
-            <Layout>
-                <Header className="headerbar">
-                    <Headerbar headerTitle={headerTitle} userName={userName} />
-                </Header>
-
-                <Content className="content">
+                    <Content>
+                        <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
+                        <Content className="content">
                     <Row gutter={16}>
                         <Col xs={24} md={12}>
                             <Card title="Set New Quota" className="quota-card">
@@ -115,8 +155,18 @@ function FuelQuotaManagement() {
                         </Row>
                     </div>
                 </Content>
+                        </Layout>
+
+                        <Layout style={{padding: 0, marginTop: 10, marginLeft: 10}}>
+                            <Content style={{padding: 20, background: '#fff'}}>
+                                fsjyjs
+                            </Content>
+                        </Layout>
+
+                    </Content>
+                </Layout>
             </Layout>
-        </Layout>
+        </>
     );
 }
 

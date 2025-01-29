@@ -1,6 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Image1 from "../assets/freepik__adjust__13674.png";
+import Image1 from "../assets/Petrol-Pump-PNG-Transparent-Image.png";
+import logo from "../assets/lastfuel.png";
+//import Footer from "../components/Footer";
+import "../styles/home.css";
 
 function Home() {
   const navigate = useNavigate();
@@ -10,56 +13,41 @@ function Home() {
   };
 
   return (
-    <div className="card card-body px-3 py-3 bg-">
-      {/* Header */}
-      <header className="bg-primary text-white text-center py-4">
-        <div className="container">
-          <h1 className="display-5 fw-bold">Fuel Quota Management System</h1>
-        </div>
-      </header>
+    <>
+    <div className="home_card">
 
-      {/* Main Content */}
-      <main className="container py-4">
-        <div className="row align-items-center justify-content-center">
+      {/*logo */}
+      <div className="logo">
+        <img src={logo} alt="Logo" />
+      </div>
+
+      <div className="home_row">
+        <div className="main">
+          {/* Header */}
+          <header>
+            <div className="home_header">
+              <h1>Fuel Quota</h1><h2>Management System</h2>
+            </div>
+          </header>
+
           {/* Text Section */}
-          <div className="col-md-5 mb-4 mb-md-0">
-            <h2 className="fw-bold text-primary mb-3">
-              Welcome to the Fuel Quota Management System
-            </h2>
-            <p className="text-secondary mb-4">
-              Manage the fuel crisis efficiently with our easy-to-use platform for vehicle owners, fuel stations, and administrators.
+          <div className="home_text-section">
+            <p>
+                Manage the fuel crisis efficiently with our easy-to-use platform
+                for vehicle owners, fuel stations, and administrators.
             </p>
-            <p className="mb-4">
-              To get start, admins log from here.
-            </p>
-            <button
-              onClick={handleLoginClick}
-              className="btn btn-primary btn-lg"
-            >
-              Go to Login
-            </button>
-          </div>
-
-          {/* Image Section */}
-          <div className="col-md-5 text-center">
-            <img
-              src={Image1}
-              alt="fuel management"
-              className="img-fluid"
-            />
+            <p>To get started, admins log in from here.</p>
+            <button onClick={handleLoginClick}>Go to Login</button>
           </div>
         </div>
-      </main>
 
-      {/* Footer */}
-      <footer className="bg-primary text-white py-2">
-        <div className="container text-center">
-          <p className="mb-0">
-            &copy; 2025 Fuel Quota Management System. All rights reserved.
-          </p>
+        {/* Image Section */}
+        <div className="home_image-section">
+          <img src={Image1} alt="fuel management" />
         </div>
-      </footer>
+      </div>
     </div>
+    </>
   );
 }
 

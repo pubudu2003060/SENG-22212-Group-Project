@@ -1,0 +1,109 @@
+/* Card Container */
+.home_card {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(to right, #fafafa,#0f6f87, #033c54);
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Logo */
+.logo {
+  width: 150px;
+  margin: 20px auto;
+  position: absolute;
+}
+
+.logo img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+/* Header */
+.home_header {
+  color: white;
+  text-align: left;
+  padding: 2rem 0;
+  margin-left: 80px;
+}
+
+.home_header h1, .home_header h2 {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  background: linear-gradient(to right, #0d505e, #272626);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.home_header h1 {
+  font-size: 3.5rem;
+  margin: 150px 0 0 0;
+}
+
+.home_header h2 {
+  font-size: 3.5rem;
+}
+
+/* Main Content */
+.home_row {
+  display: flex;
+  align-items: center;
+  padding: 2rem;
+}
+
+.main {
+  max-width: 50%;
+  margin-top: 30px;
+}
+
+.home_text-section {
+  color: #333;
+}
+
+.home_text-section p {
+  width: 70%;
+  font-size: 1rem;
+  color: #222425;
+  margin: 0 0 1rem 5rem;
+}
+
+.home_text-section button {
+  background-color: #128db2;
+  color: white;
+  border: none;
+  margin-left: 50%;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.home_text-section button:hover {
+  background-color: #066f7a;
+}
+
+/* Image Section */
+.home_image-section {
+  max-width: 70%;
+  text-align: center;
+  flex: 1; 
+}
+
+.home_image-section img {
+  width: 100%; /* Adjust this percentage to your desired size */
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

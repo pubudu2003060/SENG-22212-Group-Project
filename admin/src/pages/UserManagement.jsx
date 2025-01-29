@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
+import Footer from '../components/Footer';
 import VehicleOwners from '../userManagementComponents/VehicleOwners'
 
 import {Button, Layout} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import FuelStationOwners from '../userManagementComponents/FuelStationOwners';
+import "../styles/background.css";
+import cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
+import logo from "../assets/lastfuel.png";
+
+
 
 const { Sider, Header, Content } = Layout;
 
 function UserManagement() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const cookieValue = cookies.get("adminEmail");
+        console.log(cookieValue)
+        if (cookieValue == undefined) {
+            alert("Admin email not found")
+            navigate("/login");
+        }
+    }, []);
+
     const [headerTitle, setHeaderTitle] = useState('User Management'); // Default title
-    const userName = 'John Doe'; // Replace with user data from login
+    //const userName = 'John Doe'; // Replace with user data from login
 
     const [collapsed, setCollapsed] = useState(false);
     const [activeComponent, setActiveComponent] = useState('VehicleOwners');
@@ -25,27 +44,40 @@ function UserManagement() {
                 collapsed={collapsed} 
                 collapsible 
                 trigger = {null}
-                className='sidebar'
-                style={{padding: 0, background: '#fff'}}
+                className='background_sidebar'
                 >
+
+                <div className="logo-container">
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        className={`logo ${collapsed ? 'logo-collapsed' : 'logo-expanded'}`}
+                    />
+                </div>
                 
-                <Button 
-                    type="text" 
-                    className="toggle"
-                    onClick = {() => setCollapsed(!collapsed)}
-                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
-                    />   
+                <div className="toggle-container">
+                    <Button 
+                        type="text" 
+                        className="toggle"
+                        onClick = {() => setCollapsed(!collapsed)}
+                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
+                        /> 
+                </div>  
                 <Navbar setHeaderTitle={setHeaderTitle} />
                 </Sider>
             
                 <Layout> 
-                    <Header style={{padding: 0, background: '#fff'}}>
-                        <Headerbar headerTitle={headerTitle} userName={userName} /> 
+                    <Header className="background_header">
+                        <Headerbar headerTitle={headerTitle} /> 
                     </Header>
 
                     <Content>
-                        <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
+                        {/* Color Block with Background Image */}
+                        <div 
+                            className="background_cover"
+                        ></div>
+                        <Layout className="background_layout1">
+                            <Content className="background_content1">
                                 <div style={{ display: 'flex', justifyContent: 'right', marginBottom: '0.5rem' }}> 
                                     <Button 
                                         type={activeComponent === 'VehicleOwners' ? 'primary' : 'default'} 
@@ -64,16 +96,12 @@ function UserManagement() {
                             </Content>
                                 
                         </Layout>
-
-                        <Layout style={{padding: 0, marginTop: 10, marginLeft: 10}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
-                                
-                            </Content>
-                        </Layout>
-
                     </Content>
                 </Layout>
             </Layout>
+
+            {/* Footer */}
+            <Footer />
         </>
     );
     }
