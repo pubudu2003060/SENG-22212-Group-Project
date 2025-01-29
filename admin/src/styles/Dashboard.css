@@ -1,0 +1,60 @@
+.dashboard-layout {
+    height: 100vh;
+    background: #f5f5f5;
+}
+
+.sidebar {
+    background: #001529;
+    color: #fff;
+}
+
+.toggle {
+    margin: 16px;
+    color: #fff;
+    font-size: 18px;
+}
+
+.dashboard-header {
+    background: #fff;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.settings-button {
+    color: #555;
+}
+
+.dashboard-content {
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    margin: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card {
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-card .ant-card-head-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.dashboard-card .ant-card-body {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1890ff;
+}
