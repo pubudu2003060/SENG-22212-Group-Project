@@ -156,7 +156,7 @@ class StationRegisterScreen extends StatelessWidget {
                   /*if (_formKey.currentState!.validate()) {
                     Navigator.pushNamed(context, '/success');
                   }*/
-                  Navigator.pushNamed(context, '/qr_details');
+                  Navigator.pushNamed(context, '/qr_scanner');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 64, 146, 198),
