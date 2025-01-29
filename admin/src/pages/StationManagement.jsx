@@ -2,14 +2,14 @@ import React, { useState , useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
 import Footer from '../components/Footer';
-import { Button, Layout, Table, Avatar, Row, Col, Card, Statistic } from 'antd';
-import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons';
+
+import {Button, Layout, Table, Avatar, Row, Col, Card, Statistic } from 'antd';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import "../styles/background.css";
 import cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
 import logo from "../assets/lastfuel.png";
 
-import '../styles/StationManagement.css';
 
 const { Sider, Header, Content } = Layout;
 
@@ -54,6 +54,7 @@ function FuelManagement() {
         { key: '3', stationNumber: '003', stationName: 'Station C', owner: 'Jane Roe', location: 'Kandy', registeredDate: '2023-03-05' },
     ];
 
+
     return (
         <>
            <Layout>
@@ -91,55 +92,53 @@ function FuelManagement() {
                     </Header>
 
                     <Content>
-                        <Layout style={{padding: 0, marginTop: 40, marginLeft: 10}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
-                            <Content className="content">
-                    <div className="statistics-container">
-                        <Row gutter={16}>
-                            <Col xs={24} sm={12} lg={12}>
-                                <Card>
-                                    <Statistic
-                                        title="Active Stations"
-                                        value={10}
-                                        valueStyle={{ color: '#3f8600' }}
-                                    />
-                                </Card>
-                            </Col>
-                            <Col xs={24} sm={12} lg={12}>
-                                <Card>
-                                    <Statistic
-                                        title="Inactive Stations"
-                                        value={2}
-                                        valueStyle={{ color: '#cf1322' }}
-                                    />
-                                </Card>
-                            </Col>
-                        </Row>
-                    </div>
+                        {/* Color Block with Background Image */}
+                        <div 
+                            className="background_cover"
+                        ></div>
+                        <Layout className="background_layout1">
+                            <Content className="background_content1">
+                                <div className="statistics-container">
+                                    <Row gutter={16}>
+                                        <Col xs={24} sm={12} lg={12}>
+                                            <Card>
+                                                <Statistic
+                                                    title="Active Stations"
+                                                    value={10}
+                                                    valueStyle={{ color: '#3f8600' }}
+                                                />
+                                            </Card>
+                                        </Col>
+                                        <Col xs={24} sm={12} lg={12}>
+                                            <Card>
+                                                <Statistic
+                                                    title="Inactive Stations"
+                                                    value={2}
+                                                    valueStyle={{ color: '#cf1322' }}
+                                                />
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                </div>
 
-                    <div className="table-container">
-                        <Table
-                            columns={columns}
-                            dataSource={data}
-                            pagination={{ pageSize: 5 }}
-                            className="station-management-table"
-                        />
-                    </div>
-                </Content>
+                                <div className="table-container">
+                                    <Table
+                                        columns={columns}
+                                        dataSource={data}
+                                        pagination={{ pageSize: 5 }}
+                                        className="station-management-table"
+                                    />
+                                </div>
                             </Content>
                         </Layout>
-
-                        <Layout style={{padding: 0, marginTop: 10, marginLeft: 10}}>
-                            <Content style={{padding: 20, background: '#fff'}}>
-                                fsjyjs
-                            </Content>
-                        </Layout>
-
                     </Content>
                 </Layout>
             </Layout>
+
+            {/* Footer */}
+            <Footer />
         </>
     );
-}
+    }
 
-export default StationManagement;
+export default FuelManagement;

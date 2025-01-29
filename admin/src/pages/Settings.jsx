@@ -42,7 +42,7 @@ function Settings() {
 
   return (
     <>
-      <Layout >
+      <Layout style={{height: "100vh"}}>
         {/* Main Sidebar */}
         <Sider
           width={250}
