@@ -49,25 +49,39 @@ function Dashboard() {
                 <h3 id="dashboard-h3Text">Your Vehicles</h3>
                 <hr id="dashboard-longLine" />
 
-                {userData?.vehicles?.map((vehicle, index) => (
+                {userData?.map((vehicle, index) => (
                     <div className="dashboard-vehicleInfo" key={index}>
                         <div>
-                            <p id="dashboard-p">Vehicle Type: {vehicle.type}</p>
-                            <p id="dashboard-p">Fuel Balance: {vehicle.fuelBalance}</p>
+                            <p id="dashboard-p">Vehicle Type: {vehicle.vehicalType}</p>
+                            <p id="dashboard-p">Eligible Fuel Quata: {vehicle.eligibleFuelQuota}</p>
+                            <p id="dashboard-p">Remain Fuel Quata: {vehicle.remainFuel}</p>
                             <p id="dashboard-p">Eligible Days: {vehicle.eligibleDays}</p>
                         </div>
                         <div>
-                            <p id="dashboard-p">Vehicle No: {vehicle.vehicleNo}</p>
+                            <p id="dashboard-p">Vehicle No: {vehicle.vehicalNo}</p>
                             <p id="dashboard-p">
-                                <a href="#">View</a> QR Code
+                                <button
+                                    onClick={() => navigate("/QRGenerator", {state: {vehicalNo: vehicle.vehicalNo}})}
+                                    style={{
+                                        backgroundColor: "#d90032",
+                                        color: "white",
+                                        padding: "8px 12px",
+                                        fontSize: "14px",
+                                        border: "none",
+                                        borderRadius: "5px",
+                                        cursor: "pointer",
+                                    }}
+                                >
+                                    View
+                                </button> QR Code
                             </p>
                         </div>
                     </div>
                 ))}
 
-                <hr id="dashboard-smallLine" />
+                <hr id="dashboard-smallLine"/>
             </div>
-            <WebFooter />
+            <WebFooter/>
         </div>
     );
 }

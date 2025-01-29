@@ -1,25 +1,41 @@
 import '../Styles/VehicleInfomation.css';
 import NavigationBar from '../Components/NavigationBar';
 import WebFooter from '../Components/WebFooter';
-import WebHeader from '../Components/WebHeader';
+import WebHeader, {getSessionData} from '../Components/WebHeader';
+import React, {useEffect, useState} from "react";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function VehicleInfomation() {
-    const vehicleData = [
-        {
-            vehicleNo: "ABC1234",
-            vehicleType: "Car",
-            chassisNo: "CH123456789",
-            engineNo: "EN987654321",
-            fuelType: "Petrol"
-        },
-        {
-            vehicleNo: "XYZ5678",
-            vehicleType: "Motor Bicycle",
-            chassisNo: "CH987654321",
-            engineNo: "EN123456789",
-            fuelType: "Diesel"
+
+    const { userId, userContactNumber, firstName, lastName } = getSessionData();
+    const navigate = useNavigate();
+    const [vehicleData, setVehicleData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                setIsLoading(true);
+                const url = `http://localhost:8080/api/v1/getBuyQuotosByVehical/${userId}`;
+                const response = await axios.get(url);
+                setVehicleData(response.data);
+            } catch (error) {
+                console.error("Error fetching user data:", error.message);
+
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (userId) {
+            fetchUserData();
         }
-    ];
+    }, [userId, navigate]);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="vehicle">
@@ -27,25 +43,25 @@ function VehicleInfomation() {
             <NavigationBar />
             <div className="vehicle-body">
                 <div id="vehicle-interBody">
-                    <h2 id="vehicle-subHeading">Vehicle Details</h2>
+                    <h2 id="vehicle-subHeading">Vehicle Fuel Details</h2>
                     <table className="vehicle-table" >
                         <thead>
                             <tr>
                                 <th>Vehicle No</th>
                                 <th>Vehicle Type</th>
-                                <th>Chassis No</th>
-                                <th>Engine No</th>
+                                <th>Amount</th>
+                                <th>Date</th>
                                 <th>Fuel Type</th>
                             </tr>
                         </thead>
                         <tbody>
                             {vehicleData.map((vehicle, index) => (
                                 <tr key={index}>
-                                    <td>{vehicle.vehicleNo}</td>
-                                    <td>{vehicle.vehicleType}</td>
-                                    <td>{vehicle.chassisNo}</td>
-                                    <td>{vehicle.engineNo}</td>
-                                    <td>{vehicle.fuelType}</td>
+                                    <td>{vehicle.vehicalNo}</td>
+                                    <td>{vehicle.vehicalType}</td>
+                                    <td>{vehicle.amount}</td>
+                                    <td>{vehicle.date}</td>
+                                    <td>{vehicle.fualType}</td>
                                 </tr>
                             ))}
                         </tbody>

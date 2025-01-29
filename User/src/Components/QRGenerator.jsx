@@ -2,25 +2,28 @@ import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios, {AxiosHeaders as Buffer} from "axios";
 import "../Styles/QRGenerator.css";
+import {useLocation} from "react-router-dom";
 
 function QRGenerator() {
     const navigate = useNavigate();
     const [qrValue, setQrValue] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(""); // State for error messages
-    const vehicalId = sessionStorage.getItem("vehicleId");
+    const location = useLocation();
+    const vehicleId = location.state?.vehicalNo; // Fix spelling and syntax
+    console.log(vehicleId)
 
     useEffect(() => {
         const fetchQrCode = async () => {
-            if (!vehicalId) {
+            if (!vehicleId) {
                 setError("Vehicle ID not found. Please register your vehicle first.");
-                navigate("/VehicleDetailsForm");
+                console.log(vehicleId)
+               // navigate("/VehicleDetailsForm");
                 return;
             }
 
             try {
-                const vehicleId = sessionStorage.getItem("vehicleId");
-
+                // Use the vehicleId from location state, not sessionStorage
                 const response = await axios.get(
                     `http://localhost:8080/api/v1/generateQrCode/${vehicleId}`,
                     { responseType: 'arraybuffer' }
@@ -32,19 +35,19 @@ function QRGenerator() {
                 );
 
                 const imageUrl = `data:image/png;base64,${base64Image}`;
-                setQrImage(imageUrl);
+                setQrValue(imageUrl); // Use correct state setter
                 setLoading(false);
 
             } catch (error) {
                 console.error("Error fetching QR code:", error);
-                setError("Failed to generate QR code. Please try again. ");
+                setError("Failed to generate QR code. Please try again.");
             } finally {
                 setLoading(false);
             }
         };
 
         fetchQrCode();
-    }, [vehicalId, navigate]);
+    }, [vehicleId]); // Remove navigate from dependencies
 
     const downloadQRCode = () => {
         const downloadLink = document.createElement("a");

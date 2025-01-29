@@ -11,7 +11,7 @@ function WebHeader() {
     let firstName = sessionStorage.getItem("firstName");
     let lastName = sessionStorage.getItem("lastName");
 
-    if(userId === null){
+    if(userId === null || userId === undefined){
         navigate("/login")
     }
 
@@ -35,4 +35,6 @@ export const getSessionData = () => ({
     userContactNumber: sessionStorage.getItem("userContactNumber"),
     firstName: sessionStorage.getItem("firstName"),
     lastName: sessionStorage.getItem("lastName"),
+    address:sessionStorage.getItem("address"),
+    idNo:sessionStorage.getItem("idNo")
 });

@@ -53,13 +53,15 @@ function Otp() {
                     sessionStorage.setItem("userContactNumber",result.contactNo)
                     sessionStorage.setItem("firstName",result.firstName)
                     sessionStorage.setItem("lastName",result.lastName)
+                    sessionStorage.setItem("address",result.address)
+                    sessionStorage.setItem("idNo",result.idNo)
                     navigate("/Dashboard");
 
                 } else {
-                    setError("Error validating OTP." + response.status);
+                    setError("Error validating OTP." );
                 }
             } catch (error) {
-                setError("An error occurred while validating OTP." + error);
+                setError("An error occurred while validating OTP.");
             }
         } else {
             setError("Please enter a valid 4-digit OTP.");
