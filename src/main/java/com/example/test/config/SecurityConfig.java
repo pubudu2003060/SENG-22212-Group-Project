@@ -33,7 +33,11 @@ public class SecurityConfig {
 //
       return http
         .csrf(customizer->customizer.disable())
-        .authorizeHttpRequests(request ->request.anyRequest().authenticated()) //By this no one can access the page without authentication
+        .authorizeHttpRequests(request ->request
+                //the URL s inside the requestmatcher should not authenticated
+                .requestMatchers("api/v1/adminsignin","api/v1/addadmin")
+                .permitAll()
+                .anyRequest().authenticated()) //By this no one can access the page without authentication
         .formLogin(Customizer.withDefaults()) // this says for form login just go with the default way.otherwise although we give the login details it do not work
 
         .httpBasic(Customizer.withDefaults()) // to check with the postman we want to give this line to give the rest api access.otherwise it show a html code
