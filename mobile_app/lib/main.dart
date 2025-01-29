@@ -3,6 +3,7 @@ import 'login.dart';
 import 'ownerregister.dart';
 import 'mainpage.dart';
 import 'firstpage.dart';
+import 'qr_scanner.dart';
 import 'qr_details.dart';
 import 'station_registration.dart';
 import 'pumpping_fuel_quata.dart';
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
          '/mainpage': (context) => MainScreen(),
          '/login': (context) => LoginScreen(),
          '/ownerregister': (context) => OwnerRegisterScreen(),
-         '/qr_details':(context) => DetailsScreen(),
+         '/qr_scanner': (context) => QRScannerScreen(),
+         '/qr_details':(context) => DetailsScreen(vehicleNumber: ''),
          '/station_registration' : (context) => StationRegisterScreen(),
          '/pumpping_fuel_quata' : (context) => PumpingFuelQuota(),
     
