@@ -3,14 +3,11 @@ import Navbar from '../components/Navbar';
 import Headerbar from '../components/Headerbar';
 import Footer from '../components/Footer';
 import cookies from "js-cookie";
-import { Button, Layout } from 'antd';
+import { Button, Layout, Card, Row, Col } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import "../styles/background.css";
 import logo from "../assets/lastfuel.png";
-
-import { Button, Layout, Card, Row, Col } from 'antd';
-import { MenuFoldOutlined, MenuUnfoldOutlined, SettingOutlined } from '@ant-design/icons';
 import "../styles/Dashboard.css"; // If the CSS file is in a "styles" folder one level up
 
 
@@ -72,8 +69,9 @@ function Dashboard() {
           <Content>
             {/* Color Block with Background Image */}
             <div className="background_cover"></div>
-            <Layout className="background_layout1" >
-            <Row gutter={[16, 16]}>
+            <Layout className="background_layout1">
+              <Content className="background_content1">
+              <Row gutter={[16, 16]}>
                         <Col span={8}>
                             <Card className="dashboard-card" title="Total Active Fuel Stations" bordered={false}>100</Card>
                         </Col>
@@ -95,11 +93,9 @@ function Dashboard() {
                             <Card className="dashboard-card" title="Remaining Stock Details" bordered={false}>15000 Liters</Card>
                         </Col>
                     </Row>
+              </Content>
             </Layout>
 
-            <Layout className="background_layout2">
-              <Content className="background_content2">fsjyjs</Content>
-            </Layout>
           </Content>
         </Layout>
       </Layout>

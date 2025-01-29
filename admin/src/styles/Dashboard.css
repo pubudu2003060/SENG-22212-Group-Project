@@ -4,14 +4,10 @@
 }
 
 .sidebar {
+    height: 80vh;
+    max-height: 80vh; 
     background: #001529;
     color: #fff;
-}
-
-.toggle {
-    margin: 16px;
-    color: #fff;
-    font-size: 18px;
 }
 
 .dashboard-header {
