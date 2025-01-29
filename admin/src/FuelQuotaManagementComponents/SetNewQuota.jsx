@@ -13,7 +13,7 @@ function SetNewQuota() {
   const [currentQuota, setCurrentQuota] = useState(null);
   const [newQuota, setNewQuota] = useState("");
 
-  // Fetch eligible fuel quotas for vehicle type from API
+  // Fetch all unique vehicle types
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/v1/getallcustomerquota")
@@ -39,16 +39,19 @@ function SetNewQuota() {
   const handleSelectChange = (value) => {
     setFilters((prevFilters) => ({ ...prevFilters, vehicleType: value }));
 
-    // Find the selected vehicle type and update its quota
-    const selectedVehicle = vehicleTypes.find(
-      (type) => type.vehicalType === value
-    );
+    // Fetch the current quota for the selected vehicle type
+    axios
+      .get(`http://localhost:8080/api/v1/getFuelQuotaByVehicleType`, {
+        params: { vehicalType: value },
+      })
+      .then((response) => {
+        setCurrentQuota(response.data || "Not available");
+      })
+      .catch((error) => {
+        console.error("Error fetching fuel quota:", error);
+        setCurrentQuota(null);
+      });
 
-    if (selectedVehicle) {
-      setCurrentQuota(selectedVehicle.eligibleFuelQuota || "Not available");
-    } else {
-      setCurrentQuota(null);
-    }
     setNewQuota(""); // Clear the new quota input
   };
 
@@ -70,40 +73,27 @@ function SetNewQuota() {
       return;
     }
 
-    const selectedVehicle = vehicleTypes.find(
-      (type) => type.vehicalType === filters.vehicleType
-    );
-
-    if (selectedVehicle) {
-      try {
-        // API call to update the quota in the database
-        const response = await axios.post(
-          "http://localhost:8080/api/v1/updateCustomerFuelQuota",
-          {
-            vehicleType: selectedVehicle.vehicalType,
-            newQuota: Number(newQuota),
-          }
-        );
-
-        if (response.status === 200) {
-          message.success("Fuel quota updated successfully.");
-          // Update local state
-          setVehicleTypes((prevTypes) =>
-            prevTypes.map((type) =>
-              type.vehicalId === selectedVehicle.vehicalId
-                ? { ...type, eligibleFuelQuota: Number(newQuota) }
-                : type
-            )
-          );
-          setCurrentQuota(Number(newQuota));
-          setNewQuota("");
-        } else {
-          message.error("Failed to update fuel quota. Please try again.");
+    try {
+      // API call to update the quota in the database using URL parameters
+      const response = await axios.put(
+        `http://localhost:8080/api/v1/updateFuelQuotaByVehicleType`,
+        {
+          vehicleType: filters.vehicleType.toUpperCase(), // Move these from params to body
+          fuelQuantity: Number(newQuota),
         }
-      } catch (error) {
-        console.error("Error updating fuel quota:", error);
+      );
+      console.log(response); // Log the entire response object
+
+      if (response.status === 200) {
+        message.success("Fuel quota updated successfully.");
+        setCurrentQuota(Number(newQuota));
+        setNewQuota("");
+      } else {
         message.error("Failed to update fuel quota. Please try again.");
       }
+    } catch (error) {
+      console.error("Error updating fuel quota:", error);
+      message.error("Failed to update fuel quota. Please try again.");
     }
   };
 
