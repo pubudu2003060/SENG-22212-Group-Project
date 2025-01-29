@@ -101,6 +101,9 @@ const VehicleDetailsForm = () => {
                     <button type="submit" onClick={handleRegister} disabled={loading}>
                         {loading ? "Registering..." : "Register"}
                     </button>
+                    <button type="submit" onClick={()=>navigate('/dashboard')} >
+                        Dashboard
+                    </button>
                 </div>
             </form>
         </div>
