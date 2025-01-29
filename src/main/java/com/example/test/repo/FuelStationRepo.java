@@ -1,5 +1,6 @@
 package com.example.test.repo;
 
+import com.example.test.enump.Status;
 import com.example.test.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

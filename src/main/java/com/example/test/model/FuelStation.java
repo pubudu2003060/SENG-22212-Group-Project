@@ -1,5 +1,9 @@
 package com.example.test.model;
 
+import com.example.test.enump.EligibleFuelCapacity;
+import com.example.test.enump.FuelType;
+import com.example.test.enump.StationType;
+import com.example.test.enump.Status;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

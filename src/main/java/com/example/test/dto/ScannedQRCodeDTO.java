@@ -1,7 +1,6 @@
 package com.example.test.dto;
 
-import com.example.test.model.Vehical;
-import com.example.test.model.VehicalType;
+import com.example.test.enump.VehicalType;
 import lombok.*;
 
 @Data

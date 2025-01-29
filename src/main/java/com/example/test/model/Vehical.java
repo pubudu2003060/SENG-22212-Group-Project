@@ -1,5 +1,7 @@
 package com.example.test.model;
 
+import com.example.test.enump.FuelType;
+import com.example.test.enump.VehicalType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
