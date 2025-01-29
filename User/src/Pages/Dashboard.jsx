@@ -20,7 +20,6 @@ function Dashboard() {
                 const url = `http://localhost:8080/api/v1/getVehicalFualQuata/${userId}`;
                 const response = await axios.get(url);
                 setUserData(response.data);
-                console.log(userData)
             } catch (error) {
                 console.error("Error fetching user data:", error.message);
 
@@ -49,17 +48,20 @@ function Dashboard() {
                 <h3 id="dashboard-h3Text">Your Vehicles</h3>
                 <hr id="dashboard-longLine" />
 
+
                 {userData?.map((vehicle, index) => (
                     <div className="dashboard-vehicleInfo" key={index}>
                         <div>
                             <p id="dashboard-p">Vehicle Type: {vehicle.vehicalType}</p>
                             <p id="dashboard-p">Eligible Fuel Quata: {vehicle.eligibleFuelQuota}</p>
                             <p id="dashboard-p">Remain Fuel Quata: {vehicle.remainFuel}</p>
+
                             <p id="dashboard-p">Eligible Days: {vehicle.eligibleDays}</p>
                         </div>
                         <div>
                             <p id="dashboard-p">Vehicle No: {vehicle.vehicalNo}</p>
                             <p id="dashboard-p">
+
                                 <button
                                     onClick={() => navigate("/QRGenerator", {state: {vehicalNo: vehicle.vehicalNo}})}
                                     style={{
@@ -74,6 +76,7 @@ function Dashboard() {
                                 >
                                     View
                                 </button> QR Code
+
                             </p>
                         </div>
                     </div>

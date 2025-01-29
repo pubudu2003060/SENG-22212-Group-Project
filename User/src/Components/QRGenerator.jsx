@@ -2,12 +2,15 @@ import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios, {AxiosHeaders as Buffer} from "axios";
 import "../Styles/QRGenerator.css";
+
 import {useLocation} from "react-router-dom";
+
 
 function QRGenerator() {
     const navigate = useNavigate();
     const [qrValue, setQrValue] = useState("");
     const [loading, setLoading] = useState(true);
+
     const [error, setError] = useState(""); // State for error messages
     const location = useLocation();
     const vehicleId = location.state?.vehicalNo; // Fix spelling and syntax
@@ -24,6 +27,7 @@ function QRGenerator() {
 
             try {
                 // Use the vehicleId from location state, not sessionStorage
+
                 const response = await axios.get(
                     `http://localhost:8080/api/v1/generateQrCode/${vehicleId}`,
                     { responseType: 'arraybuffer' }
@@ -35,6 +39,7 @@ function QRGenerator() {
                 );
 
                 const imageUrl = `data:image/png;base64,${base64Image}`;
+
                 setQrValue(imageUrl); // Use correct state setter
                 setLoading(false);
 
@@ -48,6 +53,7 @@ function QRGenerator() {
 
         fetchQrCode();
     }, [vehicleId]); // Remove navigate from dependencies
+
 
     const downloadQRCode = () => {
         const downloadLink = document.createElement("a");
