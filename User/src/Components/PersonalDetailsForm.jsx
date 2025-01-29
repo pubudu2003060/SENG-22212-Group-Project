@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import "../Styles/Registration.css";
 import axios from "axios";
 
@@ -17,24 +17,23 @@ function PersonalDetailsForm() {
         OTP: "",
     });
 
-    console.log(formData.phoneNumber)
 
     const [errors, setErrors] = useState({});
     const [sentOTP, setSentOTP] = useState(""); // Stores the sent OTP
     const [isVerified, setIsVerified] = useState(false); // Tracks verification status
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
-        setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+        setErrors((prevErrors) => ({...prevErrors, [name]: ""}));
     };
 
     const validateForm = () => {
         const newErrors = {};
-        const { idType, idNumber, phoneNumber, firstName, lastName, address } = formData;
+        const {idType, idNumber, phoneNumber, firstName, lastName, address} = formData;
 
         if (idType === "NIC") {
             const oldNicRegex = /^\d{9}[Vv]$/;
@@ -73,10 +72,10 @@ function PersonalDetailsForm() {
         axios
             .post(`http://localhost:8080/api/v1/login/send-otp/su/%2B94${formData.phoneNumber}`)
             .then((response) => {
-                
-                if(response.status == 200){
+
+                if (response.status == 200) {
                     alert("OTP sent successfully!");
-                }else {
+                } else {
                     alert("Otp sent unsuccessfully! ")
 
                 }
@@ -84,7 +83,7 @@ function PersonalDetailsForm() {
             })
             .catch((err) => {
 
-                alert("Failed to send OTP."+err);
+                alert("Failed to send OTP.");
 
             });
     };
@@ -92,20 +91,20 @@ function PersonalDetailsForm() {
     const verifyOTP = () => {
         axios
             .post("http://localhost:8080/api/v1/login/validate-otp", {
-
                 phoneNumber: "+94" + formData.phoneNumber,
                 otp: formData.OTP,
             })
+
             .then((response) => {
 
-                if (response.data === "OTP verified successfully") {
+                if (response.data !== "Invalid OTP") {
                     setIsVerified(true);
                     alert("OTP verified successfully")
                 } else {
                     setIsVerified(false);
-
-                    alert("Invalid OTP. "+response.data);
+                    alert("Invalid OTP. ");
                 }
+
             })
             .catch((err) => {
 
@@ -119,7 +118,7 @@ function PersonalDetailsForm() {
             .post("http://localhost:8080/api/v1/adduser", {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
-                contactNo: "+94"+formData.phoneNumber,
+                contactNo: "+94" + formData.phoneNumber,
                 address: formData.address,
                 identityType: formData.idType,
                 idNo: formData.idNumber,
@@ -127,9 +126,14 @@ function PersonalDetailsForm() {
             .then((response) => {
                 console.log("User data saved:", response.data);
 
-                sessionStorage.setItem("userId", response.data.userId);
+                const result = response.data
 
-                sessionStorage.setItem("userPhoneNumber", response.data.phoneNumber);
+                sessionStorage.setItem("userId", result.userId)
+                sessionStorage.setItem("userContactNumber",result.contactNo)
+                sessionStorage.setItem("firstName",result.firstName)
+                sessionStorage.setItem("lastName",result.lastName)
+                sessionStorage.setItem("address",result.address)
+                sessionStorage.setItem("idNo",result.idNo)
 
                 setErrors((prevErrors) => ({
                     ...prevErrors,
