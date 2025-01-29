@@ -18,7 +18,7 @@ public class BuyQuatoVehicleDTO {
     private Date date;
     private int vehicalId;
     private VehicalType vehicalType;
-    private int vehicalNo;
+    private String vehicalNo;
     private FuelType fualType;
 
 }
