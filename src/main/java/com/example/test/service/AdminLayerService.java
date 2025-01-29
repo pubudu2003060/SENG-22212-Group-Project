@@ -6,6 +6,9 @@ import com.example.test.dto.BuyquotaFuelStationDTO;
 import com.example.test.model.BuyQuota;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,6 +28,9 @@ public class  AdminLayerService {
     private UserService userService;
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public Map<String, Double> getBuyQuotasDataByFuelType(String fuelType) {
 
@@ -72,13 +78,13 @@ public class  AdminLayerService {
         return buyQuotaService.countByFuelTypeByDate(fuelType,date);
     }
 
-    public int adminSignIn(AdminSignInDTO adminSignInDTO){
-        AdminDTO adminDTO = adminService.getAdminByUserNameAndPassword(adminSignInDTO);
+    public String adminSignIn(AdminSignInDTO adminSignInDTO){
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(adminSignInDTO.getUserName(),adminSignInDTO.getPassword()));
 
-        if(adminDTO == null){
-            return 0;
+        if(authentication.isAuthenticated()){
+            return generateToken();
         }else{
-            return 1;
+            return "fail";
         }
     }
 
