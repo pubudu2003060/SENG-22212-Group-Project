@@ -62,8 +62,8 @@ public class CustomerFualQuataService {
 
 
 
-    public String updateFuelQuota(String fuelType,int newFuelQuota){
-        List<CustomerFuelQuota> customerFuelQuotaList = customerFuelQuotaRepo.findByVehicleType(fuelType);
+    public String updateFuelQuota(VehicalType vehicleType,int newFuelQuota){
+        List<CustomerFuelQuota> customerFuelQuotaList = customerFuelQuotaRepo.findByVehicleType(vehicleType);
         for(CustomerFuelQuota customerFuelQuota : customerFuelQuotaList){
             customerFuelQuota.setEligibleFuelQuota(newFuelQuota);
             customerFuelQuotaRepo.save(customerFuelQuota);
@@ -71,7 +71,7 @@ public class CustomerFualQuataService {
 
         }
 
-        return "Updated fuel quota to" + newFuelQuota +"for"+customerFuelQuotaList.size()+"vehicle of type"+fuelType+".";
+        return "Updated fuel quota to" + newFuelQuota +"for"+customerFuelQuotaList.size()+"vehicle of type"+vehicleType+".";
 
     }
 

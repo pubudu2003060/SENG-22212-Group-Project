@@ -1,9 +1,6 @@
 package com.example.test.service;
 
-import com.example.test.dto.CustomerFuelQuotaDTO;
-import com.example.test.dto.LoginRequestDto;
-import com.example.test.dto.QrcodeDTO;
-import com.example.test.dto.VehicalDTO;
+import com.example.test.dto.*;
 import com.example.test.enump.VehicalEligibleData;
 import com.example.test.model.CustomerFuelQuota;
 import com.example.test.model.User;
@@ -11,12 +8,18 @@ import com.example.test.model.UserLogin;
 import com.example.test.model.Vehical;
 import com.example.test.repo.UserLoginRepo;
 import com.example.test.repo.UserRepo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -123,11 +126,49 @@ public class UserLoginService {
         }
     }
 
-    public VehicalDTO registerVehicalDetails(VehicalDTO vehicalDTO){
+    private List<VehicleMockDataDTO> loadMockData() {
+        ObjectMapper objectMapper = new ObjectMapper();
 
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("mock_vehicles.json")) {
+            if (inputStream == null) {
+                throw new RuntimeException("Mock vehicle data file not found!");
+            }
 
+            // Read JSON into List of VehicleMockDataDTO
+            List<VehicleMockDataDTO> mockDataList = objectMapper.readValue(
+                    inputStream, new TypeReference<List<VehicleMockDataDTO>>() {}
+            );
+
+            // Convert to DTO using ModelMapper (Optional)
+            return mockDataList.stream()
+                    .map(vehicle -> modelMapper.map(vehicle, VehicleMockDataDTO.class))
+                    .collect(Collectors.toList());
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading mock vehicle data", e);
+        }
+    }
+
+    public VehicalDTO registerVehicalDetails(VehicalDTO vehicalDTO) {
+        // Load mock data
+        List<VehicleMockDataDTO> mockVehicles = loadMockData();
+
+        // Check if the new vehicle exists in mock data
+        boolean isDuplicate = mockVehicles.stream().anyMatch(mockVehicle ->
+                mockVehicle.getChassiNo().equals(vehicalDTO.getChassiNo()) &&
+                        mockVehicle.getVehicalNo().equals(vehicalDTO.getVehicalNo()) &&
+                        mockVehicle.getEnginNo().equals(vehicalDTO.getEnginNo()) &&
+                        mockVehicle.getVehicalType().equals(vehicalDTO.getVehicalType())
+        );
+
+        if (!isDuplicate) {
+            throw new RuntimeException("Vehicle do not exists!");
+        }
+
+        // If not found in mock data, proceed with registration
         VehicalDTO vehicalDTO1 = vehicalService.addVehical(vehicalDTO);
 
+        // Create CustomerFuelQuotaDTO
         CustomerFuelQuotaDTO customerFuelQuotadto = new CustomerFuelQuotaDTO();
         customerFuelQuotadto.setEligibleDays(VehicalEligibleData.getEligibleDays(vehicalDTO1.getVehicalType()));
         customerFuelQuotadto.setEligibleFuelQuota(VehicalEligibleData.getEligibleFuelQuota(vehicalDTO1.getVehicalType()));
@@ -136,17 +177,19 @@ public class UserLoginService {
         customerFuelQuotadto.setUser(vehicalDTO.getUser());
         customerFuelQuotadto.setVehical(modelMapper.map(vehicalDTO1, Vehical.class));
 
+        // Save Customer Fuel Quota
         CustomerFuelQuotaDTO customerFuelQuotadto1 = customerFualQuataService.saveCustomerFuelQuota(customerFuelQuotadto);
 
+        // Generate QR Code
         QrcodeDTO qrcodeDTO = new QrcodeDTO();
         qrcodeDTO.setContent("this is a new one");
-        qrcodeDTO.setCustomerFualQuata(modelMapper.map(customerFuelQuotadto1,CustomerFuelQuota.class));
+        qrcodeDTO.setCustomerFualQuata(modelMapper.map(customerFuelQuotadto1, CustomerFuelQuota.class));
 
         qrcodeService.addQrcode(qrcodeDTO);
 
         return vehicalDTO1;
-
     }
+
 
 
 }
