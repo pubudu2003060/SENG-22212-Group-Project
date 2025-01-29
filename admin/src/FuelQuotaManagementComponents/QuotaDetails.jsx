@@ -16,7 +16,7 @@ function QuotaDetails() {
     const [pageSize, setPageSize] = useState(5);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/getcustomerquota")
+        axios.get("http://localhost:8080/api/v1/getallcustomerquota")
             .then((response) => {
                 const data = response.data || [];
                 setQuota(data);

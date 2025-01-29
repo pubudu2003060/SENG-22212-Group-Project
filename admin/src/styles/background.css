@@ -11,10 +11,11 @@
 }
 
 .background_cover {
-    background-image: url('https://media.istockphoto.com/id/1655140679/vector/abstract-black-green-and-teal-geometric-rectangle-vector-background.jpg?s=612x612&w=0&k=20&c=fwUKF1fIxBJEWBcnw1iso2fvGZs1865EtI8NpbIAYy0='); 
+    background: linear-gradient(to right, #fafafa,#0f6f87, #033c54);
+    /*background-image: url('https://media.istockphoto.com/id/1655140679/vector/abstract-black-green-and-teal-geometric-rectangle-vector-background.jpg?s=612x612&w=0&k=20&c=fwUKF1fIxBJEWBcnw1iso2fvGZs1865EtI8NpbIAYy0='); 
     background-repeat: no-repeat; 
     background-size: cover;
-    background-position: center;
+    background-position: center;*/
     height: 30%; 
     width: calc(100% - 20px); 
     position: absolute; 
@@ -32,8 +33,9 @@
 }
 
 .background_content1 {
-    padding: 20px;
+    padding: 50px;
     background: #fff;
+    max-height: 70vh;
 }
 
 .background_layout2 {
@@ -47,3 +49,68 @@
     padding: 20px;
     background: #fff;
 }
+
+.logo-container {
+    width: 100%; 
+    height: 150px;
+    text-align: right; 
+    padding: 0; 
+    background-color: #fff; 
+  }
+  
+  .logo {
+    transition: all 0.4s ease; /* Smooth resizing transition */
+  }
+  
+  .logo-expanded {
+    width: 80%; 
+    max-width: 200px; 
+    height: auto; 
+  }
+  
+  .logo-collapsed {
+    position: relative;
+    top: 50px;
+    text-align: left;
+    max-width: 100%; 
+    height: auto;
+  }
+  
+  .toggle-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .toggle {
+    text-align: right;
+  }
+/* Footer */
+footer {
+    background-color: #185880;
+    color: #fffcfc;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    bottom: 0; 
+    width: 100%;
+  }
+
+  .profile-container {
+    display: flex; 
+    align-items: center;
+    padding: 1rem;
+}
+
+.profileIcon {
+    font-size: 50px; 
+    color: #fff; 
+    background-color: #1890ff; 
+    border-radius: 50%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 60px; 
+    height: 60px; 
+    margin-right: 20px;
+}
+  

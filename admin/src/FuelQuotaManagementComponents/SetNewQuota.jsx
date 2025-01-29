@@ -16,7 +16,7 @@ function SetNewQuota() {
   // Fetch eligible fuel quotas for vehicle type from API
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/v1/getcustomerquota")
+      .get("http://localhost:8080/api/v1/getallcustomerquota")
       .then((response) => {
         // Transform data into the required format
         const transformedData = response.data.map((item) => ({
@@ -78,7 +78,7 @@ function SetNewQuota() {
       try {
         // API call to update the quota in the database
         const response = await axios.post(
-          "http://localhost:8080/api/v1/addcustomerquota",
+          "http://localhost:8080/api/v1/updateCustomerFuelQuota",
           {
             vehicleType: selectedVehicle.vehicalType,
             newQuota: Number(newQuota),

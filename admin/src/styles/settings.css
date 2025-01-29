@@ -1,18 +1,1 @@
-.profile-container {
-    display: flex; 
-    align-items: center;
-    padding: 1rem;
-}
 
-.profileIcon {
-    font-size: 50px; 
-    color: #fff; 
-    background-color: #1890ff; 
-    border-radius: 50%; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    width: 60px; 
-    height: 60px; 
-    margin-right: 20px;
-}
