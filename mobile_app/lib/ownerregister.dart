@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert'; 
 
 class OwnerRegisterScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -10,6 +12,7 @@ class OwnerRegisterScreen extends StatelessWidget {
 
   OwnerRegisterScreen({super.key});
 
+  
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Owner name is required';
@@ -31,11 +34,13 @@ class OwnerRegisterScreen extends StatelessWidget {
     if (value == null || value.isEmpty) {
       return 'NIC is required';
     }
-    if (!RegExp(r'^\d{12}$').hasMatch(value)) {
-      return 'NIC must be a 12-digit number';
+  
+    if (!RegExp(r'^\d{9}$').hasMatch(value)) {
+      return 'NIC must be exactly 9 digits';
     }
     return null;
   }
+
   String? _validatePhone(String? value) {
     if (value == null || value.isEmpty) {
       return 'Phone number is required';
@@ -44,6 +49,51 @@ class OwnerRegisterScreen extends StatelessWidget {
       return 'Phone number must be 10 digits';
     }
     return null;
+  }
+
+  
+  Future<void> _submitForm(BuildContext context) async {
+    final String name = nameController.text;
+    final String address = addressController.text;
+    final String phoneNo = phoneNoController.text;
+    final String nic = nicController.text;
+
+    
+    final url = Uri.parse(
+        'http://10.0.2.2:8080/api/v1/addfuelstationowner'); 
+
+   
+    final body = json.encode({
+      'name': name,
+      'contact': phoneNo, 
+      'address': address, 
+      'nicNo': nic, 
+    });
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+
+     
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+       
+        Navigator.pushNamed(context, '/station_registration');
+      } else {
+      
+        throw Exception('Failed to register owner: ${response.body}');
+      }
+    } catch (error) {
+      print('Error: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $error')),
+      );
+    }
   }
 
   @override
@@ -86,6 +136,7 @@ class OwnerRegisterScreen extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
                 validator: _validateNIC,
+                keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 20.0),
               TextFormField(
@@ -95,15 +146,15 @@ class OwnerRegisterScreen extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
                 validator: _validatePhone,
+                keyboardType: TextInputType.phone,
               ),
               const SizedBox(height: 60.0),
-              
               ElevatedButton(
                 onPressed: () {
-                  /*if (_formKey.currentState!.validate()) {                    
-                    Navigator.pushNamed(context, '/vehicle_registration');
-                  }*/
-                  Navigator.pushNamed(context, '/station_registration');
+                  if (_formKey.currentState!.validate()) {
+                   
+                    _submitForm(context);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 64, 146, 198),
