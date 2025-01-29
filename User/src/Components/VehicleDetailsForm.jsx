@@ -1,209 +1,104 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../Styles/Registration.css";
+import "../Styles/vehicalRegistration.css"
 
-// Constants
-const VEHICLE_TYPES = {
-    CAR: "CAR",
-    THREEWHEEL: "THREEWHEEL",
-    VAN: "VAN",
-    LORRY: "LORRY",
-    BIKE: "BIKE",
-    TRACTOR: "TRACTOR",
-    BUS: "BUS",
-    TRUCK: "TRUCK",
-    OTHER: "OTHER"
-};
-
-const FUEL_TYPES = {
-    PETROL: "PETROL",
-    DIESEL: "DIESEL"
-};
-
-const INITIAL_FORM_STATE = {
-    vehicleNumber: "",
-    vehicleType: "CAR",
-    chassisNumber: "",
-    fuelType: "PETROL",
-    engineNumber: ""
-};
+const VEHICLE_TYPES = ["CAR", "THREEWHEEL", "VAN", "LORRY", "BIKE", "TRACTOR", "BUS", "TRUCK", "OTHER"];
+const FUEL_TYPES = ["PETROL", "DIESEL"];
 
 const VehicleDetailsForm = () => {
+
     const navigate = useNavigate();
 
-    // State management
-    const [formData, setFormData] = useState(INITIAL_FORM_STATE);
-    const [errors, setErrors] = useState({});
-    const [loading, setLoading] = useState(false);
-    const [vehicleId, setVehicleId] = useState(null);
+    const [formData, setFormData] = useState({
+        vehicleNumber: "",
+        vehicleType: "",
+        chassisNumber: "",
+        fuelType: "",
+        engineNumber: ""
+    });
 
-    // Form validation rules
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({});
+
+    const handleChange = ({ target: { name, value } }) => {
+        setFormData(prev => ({ ...prev, [name]: value }));
+        setErrors(prev => ({ ...prev, [name]: "" }));
+    };
+
     const validateForm = () => {
         const newErrors = {};
-        const requiredFields = {
-            vehicleNumber: "Vehicle number",
-            chassisNumber: "Chassis number",
-            engineNumber: "Engine number",
-            vehicleType: "Vehicle type",
-            fuelType: "Fuel type"
-        };
-
-        Object.entries(requiredFields).forEach(([field, label]) => {
-            if (!formData[field]?.trim()) {
-                newErrors[field] = `${label} is required.`;
-            }
+        ["vehicleNumber", "chassisNumber", "engineNumber"].forEach(field => {
+            if (!formData[field].trim()) newErrors[field] = "Required";
         });
-
-        // Additional validation for vehicle number format
-        if (formData.vehicleNumber && !/^[A-Z0-9-]+$/.test(formData.vehicleNumber)) {
-            newErrors.vehicleNumber = "Invalid vehicle number format";
-        }
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    // Event handlers
-    const handleChange = ({ target: { name, value } }) => {
-        setFormData(prev => ({...prev, [name]: value}));
-        if (errors[name]) {
-            setErrors(prev => ({...prev, [name]: ""}));
-        }
-    };
+    const userId = sessionStorage.getItem("userId");
 
+    if (!userId){
+         alert("User ID not found. Please register personal details first.");
+         navigate("/")
+    }
+
+    // Handle form submission
     const handleRegister = async () => {
         if (!validateForm()) return;
 
-        const userId = sessionStorage.getItem("userId");
-
-        if (!userId) {
-            alert("User ID not found. Please register personal details first.");
-            navigate("/PersonalDetailsForm");
-            return;
-        }
-
-        const apiBody = {
-            chassiNo: formData.chassisNumber,
-            vehicalType: formData.vehicleType, // Match the property name with backend
-            vehicalNo: formData.vehicleNumber,
-            enginNo: formData.engineNumber,
-            fualType: formData.fuelType, // Match the property name with backend
-            user: { userId: parseInt(userId) }
-        };
-
         try {
             setLoading(true);
-            const response = await axios.post(
-                "http://localhost:8080/api/v1/login/addvehical",
-                apiBody
-            );
-
-            if (response.status === 200) {
-                const newVehicleId = response.data.vehicalId;
-                setVehicleId(newVehicleId);
-                sessionStorage.setItem("vehicleId", newVehicleId);
-                alert("Vehicle registered successfully!");
-                navigate('/QRGenerator', {
-                    state: {
-                        vehicalId: newVehicleId
-                    }
-                });
-            }
+            const response = await axios.post("http://localhost:8080/api/v1/login/addvehical", {
+                chassiNo: formData.chassisNumber,
+                vehicalType: formData.vehicleType,
+                vehicalNo: formData.vehicleNumber,
+                enginNo: formData.engineNumber,
+                fualType: formData.fuelType,
+                user: { userId: parseInt(userId) }
+            });
+            alert("Vehicle registered successfully!");
+            navigate("/QRGenerator");
         } catch (error) {
-            const errorMessage = error.response?.data?.message || "Failed to register vehicle. Please try again.";
-            console.error("Registration error:", error);
-            alert(errorMessage);
+            alert("Failed to register vehicle. Please try again.");
+        } finally {
             setLoading(false);
         }
     };
 
-    // Form field component with improved error handling
-    const FormField = ({ label, name, type = "text", options, error }) => (
-        <div className="form-field">
-            <label className="form-label">{label}:</label>
-            {type === "select" ? (
-                <select
-                    name={name}
-                    className={`vehicle-select ${error ? "error-border" : ""}`}
-                    value={formData[name]}
-                    onChange={handleChange}
-                >
-                    <option value="">Select {label}</option>
-                    {Object.entries(options).map(([value, label]) => (
-                        <option key={value} value={value}>
-                            {label}
-                        </option>
-                    ))}
-                </select>
-            ) : (
-                <input
-                    type="text"
-                    name={name}
-                    className={`form-input ${error ? "error-border" : ""}`}
-                    placeholder={`Enter your ${label.toLowerCase()}`}
-                    value={formData[name]}
-                    onChange={handleChange}
-                />
-            )}
-            {error && <span className="error-message">{error}</span>}
-        </div>
-    );
-
     return (
         <div className="form-container-v">
             <h1 className="form-title">Vehicle Details Registration</h1>
-            <p className="form-subtitle">Please fill in your vehicle details to proceed.</p>
-
             <form onSubmit={(e) => e.preventDefault()}>
-                <FormField
-                    label="Vehicle Number"
-                    name="vehicleNumber"
-                    error={errors.vehicleNumber}
-                />
+                {[
+                    { label: "Vehicle Number", name: "vehicleNumber" },
+                    { label: "Chassis Number", name: "chassisNumber" },
+                    { label: "Engine Number", name: "engineNumber" }
+                ].map(({ label, name }) => (
+                    <div key={name}>
+                        <label>{label}:</label>
+                        <input type="text" name={name} value={formData[name]} onChange={handleChange} />
+                        {errors[name] && <span className="error-message">{errors[name]}</span>}
+                    </div>
+                ))}
 
-                <FormField
-                    label="Vehicle Type"
-                    name="vehicleType"
-                    type="select"
-                    options={VEHICLE_TYPES}
-                    error={errors.vehicleType}
-                />
-
-                <FormField
-                    label="Chassis Number"
-                    name="chassisNumber"
-                    error={errors.chassisNumber}
-                />
-
-                <FormField
-                    label="Engine Number"
-                    name="engineNumber"
-                    error={errors.engineNumber}
-                />
-
-                <FormField
-                    label="Fuel Type"
-                    name="fuelType"
-                    type="select"
-                    options={FUEL_TYPES}
-                    error={errors.fuelType}
-                />
+                {[
+                    { label: "Vehicle Type", name: "vehicleType", options: VEHICLE_TYPES },
+                    { label: "Fuel Type", name: "fuelType", options: FUEL_TYPES }
+                ].map(({ label, name, options }) => (
+                    <div key={name}>
+                        <label>{label}:</label>
+                        <select name={name} value={formData[name]} onChange={handleChange}>
+                            <option value="">Select {label}</option>
+                            {options.map(option => (
+                                <option key={option} value={option}>{option}</option>
+                            ))}
+                        </select>
+                    </div>
+                ))}
 
                 <div className="vehicle-buttons">
-                    <button
-                        type="button"
-                        onClick={() => navigate("/PersonalDetailsForm")}
-                        className="form-button"
-                    >
-                        Back
-                    </button>
-                    <button
-                        type="submit"
-                        onClick={handleRegister}
-                        className="form-button"
-                        disabled={loading}
-                    >
+                    <button type="submit" onClick={handleRegister} disabled={loading}>
                         {loading ? "Registering..." : "Register"}
                     </button>
                 </div>

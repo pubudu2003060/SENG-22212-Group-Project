@@ -79,7 +79,9 @@ function QRGenerator() {
     };
 
     return (
-        <div className="qr-container">
+
+        <div className="qr-container"  style={{position: "relative"}}>
+
             <h1 className="qr-title">Your QR Code</h1>
             {loading ? (
                 <p>Loading QR Code...</p>
@@ -125,6 +127,23 @@ function QRGenerator() {
             ) : (
                 <p>Failed to load QR code. Please try again later.</p>
             )}
+            <button
+                onClick={() => navigate("/dashboard")}
+                style={{
+                    position: "absolute",
+                    bottom: "10px",
+                    right: "10px",
+                    padding: "10px 20px",
+                    backgroundColor: "#007bff",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer"
+                }}
+            >
+                Dashboard
+            </button>
+
         </div>
     );
 }
