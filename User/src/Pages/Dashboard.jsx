@@ -49,6 +49,7 @@ function Dashboard() {
                 <hr id="dashboard-longLine" />
 
 
+
                 {userData?.map((vehicle, index) => (
                     <div className="dashboard-vehicleInfo" key={index}>
                         <div>
@@ -56,11 +57,13 @@ function Dashboard() {
                             <p id="dashboard-p">Eligible Fuel Quata: {vehicle.eligibleFuelQuota}</p>
                             <p id="dashboard-p">Remain Fuel Quata: {vehicle.remainFuel}</p>
 
+
                             <p id="dashboard-p">Eligible Days: {vehicle.eligibleDays}</p>
                         </div>
                         <div>
                             <p id="dashboard-p">Vehicle No: {vehicle.vehicalNo}</p>
                             <p id="dashboard-p">
+
 
                                 <button
                                     onClick={() => navigate("/QRGenerator", {state: {vehicalNo: vehicle.vehicalNo}})}
