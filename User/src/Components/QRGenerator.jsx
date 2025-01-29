@@ -5,32 +5,32 @@ import "../Styles/QRGenerator.css";
 
 import {useLocation} from "react-router-dom";
 
-
 function QRGenerator() {
+
     const navigate = useNavigate();
     const [qrValue, setQrValue] = useState("");
     const [loading, setLoading] = useState(true);
 
-    const [error, setError] = useState(""); // State for error messages
+    const [error, setError] = useState("");
     const location = useLocation();
-    const vehicleId = location.state?.vehicalNo; // Fix spelling and syntax
-    console.log(vehicleId)
+    const vehicleId = location.state?.vehicalNo;
 
     useEffect(() => {
         const fetchQrCode = async () => {
+
             if (!vehicleId) {
                 setError("Vehicle ID not found. Please register your vehicle first.");
                 console.log(vehicleId)
-               // navigate("/VehicleDetailsForm");
+                navigate("/VehicleDetailsForm");
                 return;
             }
+            console.log(`http://localhost:8080/api/v1/generateQrCodeByVehicalId/${vehicleId}`)
 
             try {
-                // Use the vehicleId from location state, not sessionStorage
 
                 const response = await axios.get(
-                    `http://localhost:8080/api/v1/generateQrCode/${vehicleId}`,
-                    { responseType: 'arraybuffer' }
+                    `http://localhost:8080/api/v1/generateQrCodeByVehicalId/${vehicleId}`,
+                    {responseType: 'arraybuffer'}
                 );
 
                 const base64Image = btoa(
@@ -80,13 +80,13 @@ function QRGenerator() {
 
     return (
 
-        <div className="qr-container"  style={{position: "relative"}}>
+        <div className="qr-container" style={{position: "relative"}}>
 
             <h1 className="qr-title">Your QR Code</h1>
             {loading ? (
                 <p>Loading QR Code...</p>
             ) : error ? (
-                <p className="error-message">{error}</p> // Show error message if any
+                <p className="error-message">{error}</p>
             ) : qrValue ? (
                 <div>
                     <img
@@ -104,22 +104,9 @@ function QRGenerator() {
                                 Share
                             </button>
                         </div>
-                        <div className="qr-buttons-row">
-                            <button
-                                onClick={() => navigate("/VehicleDetailsForm")}
-                                className="qr-button"
-                            >
-                                Back
-                            </button>
-                            <button
-                                onClick={() => navigate("/Dashboard")}
-                                className="qr-button finish-button"
-                            >
-                                Finish
-                            </button>
-                        </div>
+
                         <p className="hint">
-                            Click <strong>FINISH</strong> to go to your dashboard and see all details related to your
+                            Click <strong>Dashboard</strong> to go to your dashboard and see all details related to your
                             vehicles.
                         </p>
                     </div>
@@ -127,6 +114,7 @@ function QRGenerator() {
             ) : (
                 <p>Failed to load QR code. Please try again later.</p>
             )}
+
             <button
                 onClick={() => navigate("/dashboard")}
                 style={{

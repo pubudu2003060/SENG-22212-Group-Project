@@ -58,7 +58,7 @@ const VehicleDetailsForm = () => {
                 user: { userId: parseInt(userId) }
             });
             alert("Vehicle registered successfully!");
-            navigate("/QRGenerator");
+            navigate("/QRGenerator",{state:{vehicalNo:formData.vehicleNumber}});
         } catch (error) {
             alert("Failed to register vehicle. Please try again.");
         } finally {
