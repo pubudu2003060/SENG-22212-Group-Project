@@ -1,0 +1,81 @@
+/* Sidebar */
+.sidebar {
+    background: #fff;
+    padding-top: 20px;
+}
+
+.toggle {
+    font-size: 20px;
+    padding: 10px;
+}
+
+/* Header */
+.headerbar {
+    background: #fff;
+    padding: 0 20px;
+}
+
+/* Content */
+.content {
+    padding: 20px;
+    background: #f4f7fb;
+}
+
+/* Quota Card */
+.quota-card {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quota-card .ant-card-body {
+    padding: 20px;
+}
+
+.quota-card .ant-btn {
+    width: 48%;
+}
+
+/* Table Card */
+.table-card {
+    margin-top: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.table-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* Footer Info */
+.footer-info {
+    margin-top: 30px;
+}
+
+.ant-statistic-title {
+    font-size: 16px;
+}
+
+.ant-statistic-content-value {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .quota-card {
+        margin-bottom: 10px;
+    }
+    .table-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .table-actions .ant-input,
+    .table-actions .ant-select {
+        margin-bottom: 10px;
+    }
+}
