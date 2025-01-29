@@ -1,10 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class LoginScreen extends StatelessWidget {
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController regNoController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  LoginScreen({super.key});
+  final _formKey = GlobalKey<FormState>();
+
+  String? _validateRegNo(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Fuel station registration number is required';
+    }
+    if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
+      return 'Registration number must be alphanumeric';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
+
+  Future<void> _submitForm(BuildContext context) async {
+    if (!_formKey.currentState!.validate()) {      
+      return;
+    }
+
+    final url = Uri.parse('http://10.0.2.2:8080/api/v1/loginfuelstation');
+
+    final body = json.encode({
+      'regNo': regNoController.text,      
+      'password': passwordController.text
+    });
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        Navigator.pushNamed(context, '/qr_scanner');
+      } else {
+        throw Exception('Failed to login: ${response.body}');
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $error')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,57 +76,51 @@ class LoginScreen extends StatelessWidget {
 
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: regNoController,
-              decoration: InputDecoration(
-                labelText: 'Registration No',
-                border: OutlineInputBorder(),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                controller: regNoController,
+                decoration: InputDecoration(
+                  labelText: 'Registration No',
+                  border: OutlineInputBorder(),
+                ),
+                validator: _validateRegNo,
               ),
-            ),
-            SizedBox(height: 16.0),
-
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
+              SizedBox(height: 16.0),
+          
+              TextFormField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
+                validator: _validatePassword,
               ),
-            ),
-            SizedBox(height: 60.0),
-
-            ElevatedButton(
-              onPressed: () {
-                final regNo = regNoController.text;
-                final password = passwordController.text;
-
-                if (regNo.isEmpty || password.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Please fill all fields')),
-                  );
-                } else {                  
-                  Navigator.pushNamed(context, '/dashboard');
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 64, 146, 198), 
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+              SizedBox(height: 60.0),
+          
+              ElevatedButton(
+                onPressed: () => _submitForm(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                ),
+                child: const Text('Login', style: TextStyle(color: Colors.white)),
               ),
-              child: Text('Login'),
-            ),
-
-            SizedBox(height: 16.0),
-            
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/ownerregister');
-              },
-              child: const Text('Register'),
-            ),
-          ],
+          
+              SizedBox(height: 16.0),
+              
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/ownerregister');
+                },
+                child: const Text('Register'),
+              ),
+            ],
+          ),
         ),
       ),
     );
