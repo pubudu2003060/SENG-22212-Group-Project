@@ -28,6 +28,11 @@ function Otp() {
         }
     };
 
+    const handleClearOtp = () => {
+        setOtp(["", "", "", ""]);
+        setError(""); // Clear any error message
+    };
+
     const handleVerifyOtp = async () => {
         const enteredOtp = otp.join(""); // Combine the OTP digits into a single string
 
@@ -88,6 +93,9 @@ function Otp() {
             {error && <p className="error-message">{error}</p>}
             <button onClick={handleVerifyOtp} className="btn send-otp">
                 Verify OTP
+            </button>
+            <button onClick={handleClearOtp} className="btn clear-otp">
+                Clear OTP
             </button>
         </div>
     );

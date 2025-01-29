@@ -38,6 +38,7 @@ body {
     justify-content: center;
     gap: 10px;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 .qr-buttons-row{
     display: flex;
