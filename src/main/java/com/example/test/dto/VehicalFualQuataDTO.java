@@ -12,7 +12,7 @@ public class VehicalFualQuataDTO {
 
     private int vehicalId;
     private VehicalType vehicalType;
-    private int vehicalNo;
+    private String vehicalNo;
     private int customerFuelQuotaId;
     private String eligibleDays;
     private int eligibleFuelQuota;

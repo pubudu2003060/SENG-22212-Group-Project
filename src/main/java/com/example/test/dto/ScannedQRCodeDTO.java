@@ -11,7 +11,7 @@ import lombok.*;
 
 public class ScannedQRCodeDTO {
 
-    private int vehicleNo;
+    private String vehicleNo;
     private VehicalType vehicalType;
     private int remainFuel;
     private String eligibleDays;
