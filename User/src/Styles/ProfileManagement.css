@@ -1,0 +1,129 @@
+.profile{
+    margin: 0;
+    padding: 0;
+    width: 100vw;  
+    height: 100vh; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    box-sizing: border-box;
+}
+.profile-body{
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; 
+}
+
+@media(min-width:791px){
+    .profile-body{
+        padding: 4em 5em;
+    }
+}
+
+#profile-profileBody{
+    background-color: #E3F2FD;
+    padding: 3em 8em 5em 8em;
+    width: 80%; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 10px; 
+    margin: 3em 6em;
+}
+
+#profile-profileBody input[type="text"]{
+    width: 100%; 
+    padding: 0.6em; 
+    margin-top: -1em; 
+    margin-bottom: 1em;
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    box-sizing: border-box; 
+}
+
+#profile-profileBody input[id="OTP"]{
+    width: 50%;     
+}
+
+.ProfileInfo{
+    width: 100%;
+}
+
+#profile-verify-btn, #profile-confirm-btn{
+    color: white;
+    background-color: green; 
+    border: none; 
+    padding: 1em 3em; 
+    border-radius: 5px; 
+    float: right; 
+    cursor: pointer;
+    margin-right: 1em;
+    margin-top: 1em;
+}
+
+#profile-confirm-btn{
+    float: none;
+    margin-top: 0;     
+}
+
+#profile-verify-btn{
+    margin-top: -1em;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin-top: 4em;
+    margin-bottom: 2em;
+}
+
+#profile-cancel-btn,
+#profile-save-btn {
+    color: white;
+    background-color: green; 
+    border: none; 
+    padding: 1em 2em; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    margin-top: 2em;
+}
+
+#profile-cancel-btn {
+    background-color: grey; 
+    margin-right: 1em; 
+}
+
+#profile-save-btn {
+    margin-left: 1em; 
+}
+
+.profile-footer-btn{
+    display: flex;
+    justify-content: center; 
+    gap: 1em; 
+    margin-top: 2em; 
+}
+
+.profile-p{
+    margin-top: 10px;
+}
+
+#profile-user img{
+    width: 4em;
+    height: 4em;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+}
+.profile h4{
+    margin-top: 0;
+    margin-bottom: 2em;
+}
+
+#profile-user{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-form-group label{
+    margin-bottom: 0em;
+}
