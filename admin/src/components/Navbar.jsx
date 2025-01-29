@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
 import { Menu } from 'antd';
-import {
-  HomeOutlined,
-  AreaChartOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  AppstoreOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
-import '../styles/navbar.css';
+import { HomeOutlined, AreaChartOutlined, ShopOutlined, TeamOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
+
+import '../styles/navbar.css'; // Import custom CSS
 import LogoutButton from './LogoutButton';
 
 function Navbar({ setHeaderTitle }) {
