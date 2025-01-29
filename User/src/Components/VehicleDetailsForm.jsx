@@ -23,9 +23,9 @@ const FUEL_TYPES = {
 
 const INITIAL_FORM_STATE = {
     vehicleNumber: "",
-    vehicleType: "",
+    vehicleType: "CAR",
     chassisNumber: "",
-    fuelType: "",
+    fuelType: "PETROL",
     engineNumber: ""
 };
 
@@ -38,21 +38,15 @@ const VehicleDetailsForm = () => {
     const [loading, setLoading] = useState(false);
     const [vehicleId, setVehicleId] = useState(null);
 
-    // Load vehicle ID from session storage
-    useEffect(() => {
-        const storedVehicleId = sessionStorage.getItem("vehicleId");
-        if (storedVehicleId) {
-            setVehicleId(storedVehicleId);
-        }
-    }, []);
-
     // Form validation rules
     const validateForm = () => {
         const newErrors = {};
         const requiredFields = {
             vehicleNumber: "Vehicle number",
             chassisNumber: "Chassis number",
-            engineNumber: "Engine number"
+            engineNumber: "Engine number",
+            vehicleType: "Vehicle type",
+            fuelType: "Fuel type"
         };
 
         Object.entries(requiredFields).forEach(([field, label]) => {
@@ -61,20 +55,28 @@ const VehicleDetailsForm = () => {
             }
         });
 
+        // Additional validation for vehicle number format
+        if (formData.vehicleNumber && !/^[A-Z0-9-]+$/.test(formData.vehicleNumber)) {
+            newErrors.vehicleNumber = "Invalid vehicle number format";
+        }
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     // Event handlers
     const handleChange = ({ target: { name, value } }) => {
-        setFormData(prev => ({ ...prev, [name]: value }));
-        setErrors(prev => ({ ...prev, [name]: "" }));
+        setFormData(prev => ({...prev, [name]: value}));
+        if (errors[name]) {
+            setErrors(prev => ({...prev, [name]: ""}));
+        }
     };
 
     const handleRegister = async () => {
         if (!validateForm()) return;
 
         const userId = sessionStorage.getItem("userId");
+
         if (!userId) {
             alert("User ID not found. Please register personal details first.");
             navigate("/PersonalDetailsForm");
@@ -83,14 +85,12 @@ const VehicleDetailsForm = () => {
 
         const apiBody = {
             chassiNo: formData.chassisNumber,
-            vehicalType: formData.vehicleType,
+            vehicalType: formData.vehicleType, // Match the property name with backend
             vehicalNo: formData.vehicleNumber,
             enginNo: formData.engineNumber,
-            fualType: formData.fuelType,
+            fualType: formData.fuelType, // Match the property name with backend
             user: { userId: parseInt(userId) }
         };
-
-        console.log(apiBody)
 
         try {
             setLoading(true);
@@ -100,32 +100,36 @@ const VehicleDetailsForm = () => {
             );
 
             if (response.status === 200) {
-                const { vehicleId } = response.data;
-                sessionStorage.setItem("vehicleId", vehicleId);
-                setVehicleId(vehicleId);
+                const newVehicleId = response.data.vehicalId;
+                setVehicleId(newVehicleId);
+                sessionStorage.setItem("vehicleId", newVehicleId);
                 alert("Vehicle registered successfully!");
-                navigate("/QRGenerator");
+                navigate('/QRGenerator', {
+                    state: {
+                        vehicalId: newVehicleId
+                    }
+                });
             }
         } catch (error) {
             const errorMessage = error.response?.data?.message || "Failed to register vehicle. Please try again.";
             console.error("Registration error:", error);
             alert(errorMessage);
-        } finally {
             setLoading(false);
         }
     };
 
-    // Form field component
+    // Form field component with improved error handling
     const FormField = ({ label, name, type = "text", options, error }) => (
-        <>
+        <div className="form-field">
             <label className="form-label">{label}:</label>
             {type === "select" ? (
                 <select
                     name={name}
-                    className="vehicle-select"
+                    className={`vehicle-select ${error ? "error-border" : ""}`}
                     value={formData[name]}
                     onChange={handleChange}
                 >
+                    <option value="">Select {label}</option>
                     {Object.entries(options).map(([value, label]) => (
                         <option key={value} value={value}>
                             {label}
@@ -143,7 +147,7 @@ const VehicleDetailsForm = () => {
                 />
             )}
             {error && <span className="error-message">{error}</span>}
-        </>
+        </div>
     );
 
     return (
@@ -163,6 +167,7 @@ const VehicleDetailsForm = () => {
                     name="vehicleType"
                     type="select"
                     options={VEHICLE_TYPES}
+                    error={errors.vehicleType}
                 />
 
                 <FormField
@@ -182,6 +187,7 @@ const VehicleDetailsForm = () => {
                     name="fuelType"
                     type="select"
                     options={FUEL_TYPES}
+                    error={errors.fuelType}
                 />
 
                 <div className="vehicle-buttons">

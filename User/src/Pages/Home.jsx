@@ -5,7 +5,14 @@ import WebFooter from "../Components/WebFooter";
 
 function HomePage() {
     const navigate = useNavigate();
-    const [isRegistered, setIsRegistered] = useState(true); 
+    const [isRegistered, setIsRegistered] = useState(true);
+
+    sessionStorage.removeItem("userId")
+    sessionStorage.removeItem("userContactNumber")
+    sessionStorage.removeItem("firstName")
+    sessionStorage.removeItem("lastName")
+    sessionStorage.removeItem("address")
+    sessionStorage.removeItem("idNo")
 
     const goToLogin = () => {
         navigate("/LoginForm");
