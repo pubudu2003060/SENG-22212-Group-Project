@@ -2,11 +2,15 @@ package com.example.test.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
 
-public class UserPrincipal {
+
+public class UserPrincipal implements UserDetails {
+
     private UserLogin userLogin; // Assume you have a User entity class
 
     public UserPrincipal(UserLogin userLogin) {
@@ -19,8 +23,6 @@ public class UserPrincipal {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-
-    @Override
     public String getPhoneNumber() {
         return userLogin.getPhoneNumber(); // Assuming user has phoneNumber as unique identifier
     }
@@ -39,4 +41,14 @@ public class UserPrincipal {
     public boolean isCredentialsNonExpired() {
         return true;
     }
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
 }
