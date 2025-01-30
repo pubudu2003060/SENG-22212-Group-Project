@@ -182,7 +182,7 @@ public class UserLoginService {
 
         // Generate QR Code
         QrcodeDTO qrcodeDTO = new QrcodeDTO();
-        qrcodeDTO.setContent("this is a new one");
+        qrcodeDTO.setContent(Integer.toString(customerFuelQuotadto1.getCustomerFuelQuotaId()));
         qrcodeDTO.setCustomerFualQuata(modelMapper.map(customerFuelQuotadto1, CustomerFuelQuota.class));
 
         qrcodeService.addQrcode(qrcodeDTO);
