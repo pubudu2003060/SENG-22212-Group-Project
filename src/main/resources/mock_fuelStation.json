@@ -1,0 +1,22 @@
+[
+  {
+    "stationType": "CEYPETCO",
+    "registeredId": 101,
+    "fuelType": "PETROL"
+  },
+  {
+    "stationType": "IOC",
+    "registeredId": 102,
+    "fuelType": "DIESEL"
+  },
+  {
+    "stationType": "CEYNOPEC",
+    "registeredId": 103,
+    "fuelType": "BOTH"
+  },
+  {
+    "stationType": "OTHER",
+    "registeredId": 104,
+    "fuelType": "PETROL"
+  }
+]
