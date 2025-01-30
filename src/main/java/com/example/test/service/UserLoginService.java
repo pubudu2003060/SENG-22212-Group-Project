@@ -4,12 +4,12 @@ import com.example.test.dto.CustomerFuelQuotaDTO;
 import com.example.test.dto.LoginRequestDto;
 import com.example.test.dto.QrcodeDTO;
 import com.example.test.dto.VehicalDTO;
-import com.example.test.model.CustomerFuelQuota;
-import com.example.test.model.UserLogin;
-import com.example.test.model.Vehical;
+import com.example.test.model.*;
 import com.example.test.repo.UserLoginRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
@@ -101,6 +101,7 @@ public class UserLoginService {
         return vehicalDTO1;
 
     }
+
 
 
 }
