@@ -1,0 +1,128 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; /* Ensure no horizontal overflow */
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    background-color: #055555;
+    color: white;
+    padding: 10px; /* Adjust padding to ensure proper spacing */
+    box-sizing: border-box;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.top-bar img {
+    height: 150px;
+    width: auto;
+}
+
+.top-bar h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.5rem;
+    text-align: center;
+    color: white;
+    margin-left: 350px;
+    letter-spacing: 0.2rem;
+    word-spacing: 0.5rem;
+}
+
+.home-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    padding-top: 160px; /* Space below the fixed top bar */
+    box-sizing: border-box;
+    background-image: url('images/fuelstation.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.text-container {
+    background-color: rgba(255, 255, 255, 0.742);
+    padding: 60px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    justify-content: center;
+    min-width: 600px;
+    border-color: #d1d1d1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top: 500px;
+    margin-bottom: 80px;
+    animation: slideInFromTop 1s ease-out;
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.main-title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.5rem;
+    color: #1b262c;
+    margin-bottom: 10px;
+    justify-items: center;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #121212;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-home {
+    background-color: white;
+    color: #055555;
+    border: 2px solid #055555;
+    padding: 20px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-home:hover {
+    background-color: #055555 !important;
+    border: #0a3d3d !important;
+    color: white;
+}
+
+.info-text {
+    font-size: 1rem;
+    color: #202020;
+    margin-bottom: 22px;
+    font-style: italic;
+    font-weight: bold;
+}
