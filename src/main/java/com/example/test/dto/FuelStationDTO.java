@@ -19,10 +19,9 @@ public class FuelStationDTO {
     private Status status;
     private StationType stationType;
     private int registeredId;
-    private int capacity;
     private EligibleFuelCapacity eligibleFuelCapacity;
+    private int capacity;
     private FuelType fuelType;
-    private String username;
     private String password;
     private FuelStationOwner fuelStationOwner;
 

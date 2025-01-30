@@ -20,7 +20,7 @@ public class FuelStationLayerController {
 
     @GetMapping("/loginfuelstation")
     public boolean loginFuelStation(@RequestBody FuelStationLoginDTO fuelStationLoginDTO) {
-        return fuelStationService.loginFuelStation(fuelStationLoginDTO.getUsername(), fuelStationLoginDTO.getPassword());
+        return fuelStationService.loginFuelStation(fuelStationLoginDTO.getRegisteredId(), fuelStationLoginDTO.getPassword());
     }
 
 }
