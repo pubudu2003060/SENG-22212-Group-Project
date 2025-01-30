@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
          '/ownerregister': (context) => OwnerRegisterScreen(),
          '/qr_scanner': (context) => QRScannerScreen(),
          '/qr_details':(context) => DetailsScreen(vehicleNumber: ''),
-         '/station_registration' : (context) => StationRegisterScreen(),
+         '/station_registration' : (context) => StationRegisterScreen(stationOwnerId:-1,),
          '/pumpping_fuel_quata' : (context) => PumpingFuelQuota(),
     
        },  
