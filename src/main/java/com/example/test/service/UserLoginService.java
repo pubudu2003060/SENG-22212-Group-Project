@@ -47,7 +47,7 @@ public class UserLoginService {
             userLoginRepo.save(userLogin);
 
             // Send OTP via SMS
-            twilioSmsService.sendOtp(phoneNumber, otp);
+            //twilioSmsService.sendOtp(phoneNumber, otp);
 
             return "OTP sent successfully "+phoneNumber;
         } catch (Exception e) {

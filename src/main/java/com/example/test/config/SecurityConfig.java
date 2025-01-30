@@ -1,6 +1,7 @@
 package com.example.test.config;
 
 import com.example.test.Filter.JwtFilter;
+import com.example.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,9 @@ public class SecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
 
+    @Autowired
+    private UserService userService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //
@@ -41,8 +45,10 @@ public class SecurityConfig {
         .authorizeHttpRequests(request ->request
 
                 //the URL s inside the requestmatcher should not authenticated
-                .requestMatchers("api/v1/adminsignin","api/v1/addadmin")
+                .requestMatchers("/api/v1/adminsignin","/api/v1/addadmin","/api/v1/adduser","/api/v1/login/send-otp/**","/api/v1/login/validate-otp","/api/v1/loginfuelstation")
                 .permitAll()
+                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/v1/user/**").hasRole("USER")
                 .anyRequest().authenticated()) //By this no one can access the page without authentication
         .formLogin(Customizer.withDefaults()) // this says for form login just go with the default way.otherwise although we give the login details it do not work
 

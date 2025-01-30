@@ -7,6 +7,7 @@ import com.example.test.repo.AdminRepo;
 import com.example.test.repo.UserLoginRepo;
 import com.example.test.repo.UserRepo;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -18,6 +19,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,12 +62,13 @@ public class JWTService {
         claims.put("role", "ADMIN");//include the role in the
         claims.put("username", userName);
 
+        Date now = new Date();
+        Date expirationTime = new Date(now.getTime() + 86400000);
         return Jwts.builder()
                 .setClaims(claims)
-                .addClaims(claims)
                 .setSubject(userName)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+60*60*30))//30min expiration
+                .setIssuedAt(now)
+                .setExpiration(expirationTime)//30min expiration
                 .signWith(getKey())//to sign in it needs the key
                 .compact();
 
@@ -86,10 +89,9 @@ public class JWTService {
 
         return Jwts.builder()
                 .setClaims(claims)
-                .addClaims(claims)
                 .setSubject(phoneNumber)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+60*60*30))//30min expiration
+                .setExpiration(new Date(System.currentTimeMillis()+30*60*10000))//30min expiration
                 .signWith(getKey())//to sign in it needs the key
                 .compact();
 
@@ -123,11 +125,20 @@ public class JWTService {
     }
 
     public Claims extractClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getKey())
+                    .setAllowedClockSkewSeconds(3600)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        }
+        catch (ExpiredJwtException e) {
+            throw new ExpiredJwtException(e.getHeader(), e.getClaims(), "Expired JWT token", e);
+        }catch (Exception e) {
+            // Handle invalid signature
+            throw new RuntimeException("Invalid JWT signature", e);
+        }
     }
 
     public boolean validateToken(String token,String identifier) {
