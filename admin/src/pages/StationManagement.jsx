@@ -9,6 +9,9 @@ import "../styles/background.css";
 import cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
 import logo from "../assets/lastfuel.png";
+import CountOfStations from '../StationManagementComponents/CountOfStations';
+import ActiveStations from '../StationManagementComponents/ActiveStations';
+import InactiveStations from '../StationManagementComponents/InactiveStations';
 
 
 const { Sider, Header, Content } = Layout;
@@ -30,30 +33,7 @@ function FuelManagement() {
     //const userName = 'John Doe'; // Replace with user data from login
 
     const [collapsed, setCollapsed] = useState(false);
-
-    const columns = [
-        { title: 'Station Number', dataIndex: 'stationNumber', key: 'stationNumber' },
-        { title: 'Station Name', dataIndex: 'stationName', key: 'stationName' },
-        { title: 'Owner', dataIndex: 'owner', key: 'owner' },
-        { title: 'Location', dataIndex: 'location', key: 'location' },
-        { title: 'Registered Date', dataIndex: 'registeredDate', key: 'registeredDate' },
-        {
-            title: 'Action',
-            key: 'action',
-            render: (_, record) => (
-                <Button type="primary" danger>
-                    Disable
-                </Button>
-            ),
-        },
-    ];
-
-    const data = [
-        { key: '1', stationNumber: '001', stationName: 'Station A', owner: 'Alice Smith', location: 'Colombo', registeredDate: '2023-01-15' },
-        { key: '2', stationNumber: '002', stationName: 'Station B', owner: 'John Doe', location: 'Gampaha', registeredDate: '2023-02-10' },
-        { key: '3', stationNumber: '003', stationName: 'Station C', owner: 'Jane Roe', location: 'Kandy', registeredDate: '2023-03-05' },
-    ];
-
+    const [activeComponent, setActiveComponent] = useState('ActiveStations');
 
     return (
         <>
@@ -97,40 +77,29 @@ function FuelManagement() {
                             className="background_cover"
                         ></div>
                         <Layout className="background_layout1">
-                            <Content className="background_content1">
-                                <div className="statistics-container">
-                                    <Row gutter={16}>
-                                        <Col xs={24} sm={12} lg={12}>
-                                            <Card>
-                                                <Statistic
-                                                    title="Active Stations"
-                                                    value={10}
-                                                    valueStyle={{ color: '#3f8600' }}
-                                                />
-                                            </Card>
-                                        </Col>
-                                        <Col xs={24} sm={12} lg={12}>
-                                            <Card>
-                                                <Statistic
-                                                    title="Inactive Stations"
-                                                    value={2}
-                                                    valueStyle={{ color: '#cf1322' }}
-                                                />
-                                            </Card>
-                                        </Col>
-                                    </Row>
-                                </div>
+                            <CountOfStations />
+                        </Layout>
 
-                                <div className="table-container">
-                                    <Table
-                                        columns={columns}
-                                        dataSource={data}
-                                        pagination={{ pageSize: 5 }}
-                                        className="station-management-table"
-                                    />
+                        <Layout className="background_layout2">
+                            <Content className="background_content2">
+                               <div style={{ display: 'flex', justifyContent: 'right', marginBottom: '0.5rem' }}> 
+                                    <Button 
+                                        type={activeComponent === 'ActiveStations' ? 'primary' : 'default'} 
+                                        onClick={() => setActiveComponent('ActiveStations')} 
+                                        style={{ marginRight: '1rem' }}
+                                        > Active Stations 
+                                    </Button> 
+                                    <Button 
+                                        type={activeComponent === 'InactiveStations' ? 'primary' : 'default'} 
+                                        onClick={() => setActiveComponent('InactiveStations')} 
+                                        > Inactive Stations
+                                    </Button> 
                                 </div>
+                                {activeComponent === 'ActiveStations' && <ActiveStations />} 
+                                {activeComponent === 'InactiveStations' && <InactiveStations />}
                             </Content>
                         </Layout>
+
                     </Content>
                 </Layout>
             </Layout>

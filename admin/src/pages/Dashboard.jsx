@@ -6,6 +6,7 @@ import cookies from "js-cookie";
 import { Button, Layout, Card, Row, Col } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 import "../styles/background.css";
 import logo from "../assets/lastfuel.png";
 import "../styles/Dashboard.css"; // If the CSS file is in a "styles" folder one level up
@@ -26,10 +27,52 @@ function Dashboard() {
   }, []);
 
   const [headerTitle, setHeaderTitle] = useState('Dashboard'); // Default title
-  //const userName = 'John Doe'; // Replace with user data from login
-
   const [collapsed, setCollapsed] = useState(false);
 
+  //Total active stations
+  const [totalActiveFuelStations, setTotalActiveFuelStations] = useState(0); 
+
+  useEffect(() => {
+    // Fetch the total active fuel stations from the API
+    axios.get('http://localhost:8080/api/v1/getTotalActiveFuelStations')
+      .then(response => {
+        setTotalActiveFuelStations(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data); // Update state with fetched data
+      })
+      .catch(error => {
+        console.error('Error fetching total active fuel stations:', error);
+      });
+  }, []);
+  
+  //Total vehicles
+  const [totalVehicles, setTotalVehicles] = useState(0); 
+
+  useEffect(() => {
+    // Fetch the total vehicles from the API
+    axios.get('http://localhost:8080/api/v1/getTotalVehicles')
+      .then(response => {
+        setTotalVehicles(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data); // Update state with fetched data
+      })
+      .catch(error => {
+        console.error('Error fetching total vehicles:', error);
+      });
+  }, []);
+
+
+  //Low fuel stations
+  const [totalLowFuelStations, setTotalLowFuelStations] = useState(0); 
+
+  useEffect(() => {
+    // Fetch the total LowFuelStations from the API
+    axios.get('http://localhost:8080/api/v1/findFuelStationCapacityBelow8000')
+      .then(response => {
+        setTotalLowFuelStations(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data); // Update state with fetched data
+      })
+      .catch(error => {
+        console.error('Error fetching total low fuel stations:', error);
+      });
+  }, []);
+
+  
   return (
     <>
       <Layout>
@@ -71,26 +114,21 @@ function Dashboard() {
             <div className="background_cover"></div>
             <Layout className="background_layout1">
               <Content className="background_content1">
-              <Row gutter={[16, 16]}>
+                  <Row gutter={[16, 16]} style={{marginTop: "80px"}}>
                         <Col span={8}>
-                            <Card className="dashboard-card" title="Total Active Fuel Stations" bordered={false}>100</Card>
+                            <Card className="dashboard-card" title="Total Active Fuel Stations" bordered={false}>
+                              {totalActiveFuelStations}
+                            </Card>
                         </Col>
                         <Col span={8}>
-                            <Card className="dashboard-card" title="Total Vehicles Registered" bordered={false}>2000</Card>
+                            <Card className="dashboard-card" title="Total Vehicles Registered" bordered={false}>
+                              {totalVehicles}
+                            </Card>
                         </Col>
                         <Col span={8}>
-                            <Card className="dashboard-card" title="Total Fuel Distribution" bordered={false}>50000 Liters</Card>
-                        </Col>
-                    </Row>
-                    <Row gutter={[16, 16]} style={{ marginTop: 20 }}>
-                        <Col span={8}>
-                            <Card className="dashboard-card" title="Low Fuel Stations" bordered={false}>5</Card>
-                        </Col>
-                        <Col span={8}>
-                            <Card className="dashboard-card" title="Active Registered Vehicles" bordered={false}>1800</Card>
-                        </Col>
-                        <Col span={8}>
-                            <Card className="dashboard-card" title="Remaining Stock Details" bordered={false}>15000 Liters</Card>
+                          <Card className="dashboard-card" title="Low Fuel Stations" bordered={false}>
+                              {totalLowFuelStations}
+                          </Card>
                         </Col>
                     </Row>
               </Content>
