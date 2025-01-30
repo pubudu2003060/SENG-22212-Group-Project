@@ -1,0 +1,71 @@
+.dashboard-layout {
+    height: 100vh;
+    background: #f5f5f5;
+}
+
+.sidebar {
+    height: 80vh;
+    max-height: 80vh; 
+    background: #001529;
+    color: #fff;
+}
+
+.dashboard-header {
+    background: #fff;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.settings-button {
+    color: #555;
+}
+
+.dashboard-content {
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    margin: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card {
+    border-radius: 12px;
+    text-align: center;
+    background: #ffffff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease; 
+    padding: 20px; 
+    border-top: 5px solid #1890ff; 
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+}
+
+.dashboard-card .ant-card-head-title {
+    font-size: 18px; 
+    font-weight: 600; 
+    color: #333; 
+}
+
+.dashboard-card .ant-card-body {
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #1890ff; 
+}
+
+.card-active-stations {
+    border-top-color: #52c41a; 
+}
+
+.card-total-vehicles {
+    border-top-color: #1890ff; 
+}
+
+.card-low-fuel-stations {
+    border-top-color: #ff4d4f; 
+}
