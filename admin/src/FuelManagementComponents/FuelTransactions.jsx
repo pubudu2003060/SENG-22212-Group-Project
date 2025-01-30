@@ -64,6 +64,7 @@ function FuelTransactions() {
             ))}
           </Select>
         </Col>
+        <Col span={6} />
         <Col span={8}>
           <DatePicker
             onChange={handleDateChange}

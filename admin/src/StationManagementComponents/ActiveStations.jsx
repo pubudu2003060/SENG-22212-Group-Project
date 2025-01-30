@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Input, Select, Pagination, Button, Modal } from 'antd';
+import { Input, Select, Pagination } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
-
+import UpdateStationStatus from './UpdateStationStatus';
+import StationDetails from './StationsDetails';
 import "../styles/StationManagement.css";
 
 const { Option } = Select;
@@ -15,8 +16,6 @@ function ActiveFuelStations() {
     const [locations, setLocations] = useState([]);
     const [stationTypes, setStationTypes] = useState([]);
     const [fuelTypes, setFuelTypes] = useState([]);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedStation, setSelectedStation] = useState(null);
 
     // Pagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -81,23 +80,6 @@ function ActiveFuelStations() {
     const handlePageChange = (page, pageSize) => {
         setCurrentPage(page);
         setPageSize(pageSize);
-    };
-
-    const showModal = (station) => {
-        setSelectedStation(station);
-        setIsModalVisible(true);
-    };
-
-    const handleOk = () => {
-        // Handle the deactivation logic here, e.g., make an API call to deactivate the station
-        console.log("Deactivating station:", selectedStation);
-        setIsModalVisible(false);
-        setSelectedStation(null);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-        setSelectedStation(null);
     };
 
     const paginatedStations = filteredStations.slice((currentPage - 1) * pageSize, currentPage * pageSize);
@@ -179,6 +161,7 @@ function ActiveFuelStations() {
                         <th>Fuel Type</th>
                         <th>Owner's Name</th>
                         <th>Owner's Contact</th>
+                        <th>Details</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -195,13 +178,16 @@ function ActiveFuelStations() {
                                 <td>{station.fuelStationOwner.name}</td>
                                 <td>{station.fuelStationOwner.contact}</td>
                                 <td>
-                                    <Button
-                                        type="primary"
-                                        onClick={() => showModal(station)}
-                                        className="station-deactivate-btn"
-                                    >
-                                        Deactivate
-                                    </Button>
+                                    <StationDetails stationId={station.stationId} />
+                                </td>
+                                <td>
+                                    <UpdateStationStatus
+                                        station={station}
+                                        onUpdate={(stationId, newStatus) => {
+                                            // Handle the update action if needed in the parent component
+                                            console.log(`Station ${stationId} updated to ${newStatus}`);
+                                        }}
+                                    />
                                 </td>
                             </tr>
                         ))
@@ -225,17 +211,6 @@ function ActiveFuelStations() {
                 style={{ marginTop: "1rem", textAlign: "right" }}
             />
 
-            {/* Modal for confirmation */}
-            <Modal
-                title="Deactivate Station"
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-            >
-                <p>Are you sure you want to deactivate this station?</p>
-                <p><strong>Registered ID:</strong> {selectedStation?.registeredId}</p>
-                <p><strong>Owner's Name:</strong> {selectedStation?.fuelStationOwner.name}</p>
-            </Modal>
         </div>
     );
 }
