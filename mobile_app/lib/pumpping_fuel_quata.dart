@@ -45,13 +45,24 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
   }
 
   // Function to calculate the remaining fuel after pumping
-  int calculateRemainingFuel() {
-    double pumpedFuel = double.tryParse(fuelLitersController.text) ?? 0;
-    return (widget.remainFuel - pumpedFuel).toInt();
+ int calculateRemainingFuel() {
+  double pumpedFuel = double.tryParse(fuelLitersController.text) ?? 0;
+  int remain = (widget.remainFuel - pumpedFuel).toInt();
+
+  if (remain < 0) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Pumped fuel is more than remaining fuel.')),
+    );
+    return 0; // Return the initial value of remaining fuel
+  } else {
+    return remain;
   }
+}
+
 
   // Function to update the fuel data via HTTP
-  Future<void> updateFuelData(int customerFuelQuotaId, int newRemainFuel) async {
+  Future<void> updateFuelData(
+      int customerFuelQuotaId, int newRemainFuel) async {
     print(customerFuelQuotaId.toString() + " " + newRemainFuel.toString());
 
     // Update the fuel data
@@ -68,8 +79,15 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
           const SnackBar(content: Text('Fuel data updated successfully.')),
         );
 
+        final prefs = await SharedPreferences.getInstance();
+
+        int? customerFuelQuotaId = prefs.getInt('customerFuelQuotaId');
+        int? pumpedFuel = prefs.getInt('pumpedFuel');
+        String? registeredId = prefs.getString('registeredId');
+        String? fuelType = prefs.getString('fuelType');
+
         // Now, add the buy quote
-        addBuyQuota(customerFuelQuotaId);
+        addBuyQuota(customerFuelQuotaId! ,pumpedFuel! ,registeredId!,fuelType!);
 
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -83,23 +101,32 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error occurred while updating fuel data.')),
+        const SnackBar(
+            content: Text('Error occurred while updating fuel data.')),
       );
     }
   }
 
   // Function to add buy quota via HTTP
-  Future<void> addBuyQuota(int customerFuelQuotaId) async {
+
+  Future<void> saveData() async {
+    int pumpedFuel = int.tryParse(fuelLitersController.text) ?? 0;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('customerFuelQuotaId', widget.customerFuelQuotaId);
+    await prefs.setInt('pumpedFuel', pumpedFuel);
+  }
+
+  Future<void> addBuyQuota(int customerFuelQuotaId ,int amount ,String registeredId,String fuelType ) async {
     // Create the payload for adding the buy quota
     final payload = {
-      'customerFuelQuotaId': customerFuelQuotaId.toString(),
-      'amount': fuelLitersController.text, // You can modify this to fit your logic
-      'registeredId': '101', // This should come from your app logic or saved data
-      'fuelType': 'PETROL' // This should also be dynamic or based on user input
+      'customerFuelQuotaId':customerFuelQuotaId ,
+      'amount':amount ,
+      'registeredId':registeredId,
+      'fuelType': fuelType
     };
 
     // Send the POST request to add the buy quota
-    final url = Uri.parse('http://localhost:8080/api/v1/addbuyquotes');
+    final url = Uri.parse('http://192.168.1.173:8080/api/v1/addbuyquotes');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -124,34 +151,13 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
     }
   }
 
-  Future<void> saveData() async {
-    int pumpedFuel = int.tryParse(fuelLitersController.text) ?? 0;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('customerFuelQuotaId', widget.customerFuelQuotaId);
-    await prefs.setInt('pumpedFuel', pumpedFuel);
-  }
-
-  Future<void> fetchData() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    int? customerFuelQuotaId = prefs.getInt('customerFuelQuotaId');
-    int? pumpedFuel = prefs.getInt('pumpedFuel');
-    String? registeredId = prefs.getString('registeredId');
-    String? fuelType = prefs.getString('fuelType');
-
-    // Handle the retrieved data
-
-    print('Customer Fuel Quota ID: $customerFuelQuotaId');
-    print('Pumped Fuel: $pumpedFuel');
-    print('Registered ID: $registeredId');
-    print('Fuel Type: $fuelType');
-  }
-
   @override
   Widget build(BuildContext context) {
     saveData();
-    fetchData();
-    print(widget.customerFuelQuotaId.toString() + " yyyy " + widget.remainFuel.toString());
+  
+    print(widget.customerFuelQuotaId.toString() +
+        " yyyy " +
+        widget.remainFuel.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pumping Fuel Quota'),
@@ -216,8 +222,10 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
                 } else {
                   // Calculate remaining fuel
                   int newRemainFuel = calculateRemainingFuel();
-                  // Update fuel data via HTTP
+                if(newRemainFuel != 0){
                   updateFuelData(widget.customerFuelQuotaId, newRemainFuel);
+                }
+                  
                 }
               },
               style: ElevatedButton.styleFrom(
