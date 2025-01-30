@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, DatePicker, Select, Row, Col } from 'antd';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -12,6 +13,7 @@ function FuelTransactions() {
     return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   });
   const [transactionsCount, setTransactionsCount] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/v1/getbuyquotes')
@@ -25,8 +27,9 @@ function FuelTransactions() {
       })
       .catch(error => {
         console.error('Error fetching fuel types:', error);
+        navigate("/details-not-found");
       });
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (selectedFuelType && selectedDate) {
@@ -36,9 +39,10 @@ function FuelTransactions() {
         })
         .catch(error => {
           console.error('Error fetching transactions count:', error);
+          navigate("/details-not-found");
         });
     }
-  }, [selectedFuelType, selectedDate]);
+  }, [selectedFuelType, selectedDate, navigate]);
 
   const handleDateChange = (date, dateString) => {
     setSelectedDate(dateString);

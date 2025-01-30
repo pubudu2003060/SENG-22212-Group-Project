@@ -10,6 +10,7 @@ import FuelQuotaManagement from "./pages/FuelQuotaManagement";
 import Settings from "./pages/Settings";
 import { AdminProvider } from "./components/Context";
 import LogoutButton from "./components/LogoutButton";
+import DetailsNotFound from "./errorPages/DetailsNotFound";
 
 function App() {
  
@@ -27,6 +28,7 @@ function App() {
           <Route path="/fuelQuotaManagement" element={<FuelQuotaManagement />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/logoutButton" element={<LogoutButton />} />
+          <Route path="/details-not-found" element={<DetailsNotFound />} />
         </Routes>
       </Router>
       </AdminProvider>

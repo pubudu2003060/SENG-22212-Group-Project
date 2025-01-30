@@ -4,6 +4,7 @@ import { Input, Select, Pagination } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
 import UpdateStationStatus from './UpdateStationStatus';
 import StationDetails from './StationsDetails';
+import { useNavigate } from 'react-router-dom';
 import "../styles/StationManagement.css";
 
 const { Option } = Select;
@@ -16,6 +17,7 @@ function ActiveFuelStations() {
     const [locations, setLocations] = useState([]);
     const [stationTypes, setStationTypes] = useState([]);
     const [fuelTypes, setFuelTypes] = useState([]);
+    const navigate = useNavigate();
 
     // Pagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -23,22 +25,29 @@ function ActiveFuelStations() {
 
     // Fetch data from API
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/filterByStatus?status=ACTIVE")
-            .then((response) => {
-                console.log(response.data);
-                setStations(response.data || []); // Use fallback if stations is undefined
-                setFilteredStations(response.data || []);
-
-                // Extract unique filters
-                const uniqueLocations = Array.from(new Set(response.data.map((station) => station.location)));
-                const uniqueStationTypes = Array.from(new Set(response.data.map((station) => station.stationType)));
-                const uniqueFuelTypes = Array.from(new Set(response.data.map((station) => station.fuelType)));
-                setLocations(uniqueLocations);
-                setStationTypes(uniqueStationTypes);
-                setFuelTypes(uniqueFuelTypes);
-            })
-            .catch((error) => console.error("Error fetching data:", error));
-    }, []);
+        const fetchStations = async () => {
+          try {
+            const response = await axios.get("http://localhost:8080/api/v1/filterByStatus?status=ACTIVE");
+            console.log(response.data);
+            setStations(response.data || []); // Use fallback if stations is undefined
+            setFilteredStations(response.data || []);
+      
+            // Extract unique filters
+            const uniqueLocations = Array.from(new Set(response.data.map((station) => station.location)));
+            const uniqueStationTypes = Array.from(new Set(response.data.map((station) => station.stationType)));
+            const uniqueFuelTypes = Array.from(new Set(response.data.map((station) => station.fuelType)));
+            setLocations(uniqueLocations);
+            setStationTypes(uniqueStationTypes);
+            setFuelTypes(uniqueFuelTypes);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+            navigate("/details-not-found");
+          }
+        };
+      
+        fetchStations();
+      }, [navigate]);
+      
 
     // Handle search and filter
     useEffect(() => {

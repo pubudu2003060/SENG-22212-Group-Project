@@ -5,11 +5,10 @@ import Footer from '../components/Footer';
 import "../styles/background.css";
 import logo from "../assets/lastfuel.png";
 
-import {Button, Layout, Card, Select, Input, Table, DatePicker, Row, Col} from 'antd';
+import {Button, Layout, Card, Row, Col} from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
-import axios from 'axios'
 import "../styles/FuelManagement.css"; // Assuming CSS file is in the styles folder
 import TotalFuelDistributed from '../FuelManagementComponents/TotalFuelDistributed';
 import FuelTransactions from '../FuelManagementComponents/FuelTransactions';

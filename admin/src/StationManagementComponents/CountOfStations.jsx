@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Row, Col, Card, Statistic } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 function CountOfStations() {
     const [activeCount, setActiveCount] = useState(0);
     const [inactiveCount, setInactiveCount] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get("http://localhost:8080/api/v1/getfuelstations")
@@ -16,8 +18,11 @@ function CountOfStations() {
                 setActiveCount(activeStations.length);
                 setInactiveCount(inactiveStations.length);
             })
-            .catch((error) => console.error("Error fetching data:", error));
-    }, []);
+            .catch((error) => {
+                console.error("Error fetching data:", error)
+                navigate("/details-not-found");
+            });
+    }, [navigate]);
 
     return (
         <div className="statistics-container">

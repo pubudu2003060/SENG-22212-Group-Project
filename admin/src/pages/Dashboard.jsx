@@ -38,8 +38,9 @@ function Dashboard() {
       })
       .catch(error => {
         console.error('Error fetching total active fuel stations:', error);
+        navigate("/details-not-found");
       });
-  }, []);
+  }, [navigate]);
   
   // Total vehicles
   const [totalVehicles, setTotalVehicles] = useState(0);
@@ -51,8 +52,9 @@ function Dashboard() {
       })
       .catch(error => {
         console.error('Error fetching total vehicles:', error);
+        navigate("/details-not-found");
       });
-  }, []);
+  }, [navigate]);
 
   // Low fuel stations
   const [totalLowFuelStations, setTotalLowFuelStations] = useState(0);
@@ -64,8 +66,9 @@ function Dashboard() {
       })
       .catch(error => {
         console.error('Error fetching total low fuel stations:', error);
+        navigate("/details-not-found");
       });
-  }, []);
+  }, [navigate]);
 
   return (
     <>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Input, Select, message, Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 import "../styles/fuelQuotaManagement.css";
 
@@ -12,12 +13,14 @@ function SetNewQuota() {
   const [filters, setFilters] = useState({ vehicleType: "" });
   const [currentQuota, setCurrentQuota] = useState(null);
   const [newQuota, setNewQuota] = useState("");
+  const navigate = useNavigate();
 
   // Fetch all unique vehicle types
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/v1/getallcustomerquota")
-      .then((response) => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/v1/getallcustomerquota");
+  
         // Transform data into the required format
         const transformedData = response.data.map((item) => ({
           vehicalId: item.vehical.vehicalId,
@@ -25,36 +28,42 @@ function SetNewQuota() {
           eligibleFuelQuota: item.eligibleFuelQuota,
         }));
         setVehicleTypes(transformedData);
-
+  
         // Extract unique vehicle types
         const uniqueTypes = Array.from(
           new Set(transformedData.map((item) => item.vehicalType))
         );
         setUniqueVehicleTypes(uniqueTypes);
-      })
-      .catch((error) => console.error("Error fetching eligible fuel quotas:", error));
-  }, []);
+  
+      } catch (error) {
+        console.error("Error fetching eligible fuel quotas:", error);
+        navigate("/details-not-found");
+      }
+    };
+  
+    fetchData();
+  }, [navigate]);
+  
 
   // Update `currentQuota` when a vehicle type is selected
-  const handleSelectChange = (value) => {
+  const handleSelectChange = async (value) => {
     setFilters((prevFilters) => ({ ...prevFilters, vehicleType: value }));
-
-    // Fetch the current quota for the selected vehicle type
-    axios
-      .get(`http://localhost:8080/api/v1/getFuelQuotaByVehicleType`, {
+  
+    try {
+      // Fetch the current quota for the selected vehicle type
+      const response = await axios.get("http://localhost:8080/api/v1/getFuelQuotaByVehicleType", {
         params: { vehicalType: value },
-      })
-      .then((response) => {
-        setCurrentQuota(response.data || "Not available");
-      })
-      .catch((error) => {
-        console.error("Error fetching fuel quota:", error);
-        setCurrentQuota(null);
       });
-
+      setCurrentQuota(response.data || "Not available");
+    } catch (error) {
+      console.error("Error fetching fuel quota:", error);
+      setCurrentQuota(null);
+      navigate("/details-not-found");
+    }
+  
     setNewQuota(""); // Clear the new quota input
   };
-
+  
   // Handle new quota input change
   const handleInputChange = (e) => {
     setNewQuota(e.target.value);
