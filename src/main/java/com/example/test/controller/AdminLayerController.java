@@ -40,7 +40,7 @@ public class AdminLayerController {
     }
 
     @PostMapping("/adminsignin")
-    public int getAdminByUsernameandPassword(@RequestBody AdminSignInDTO adminSignInDTO) {
+    public String getAdminByUsernameandPassword(@RequestBody AdminSignInDTO adminSignInDTO) {
         return adminLayerService.adminSignIn(adminSignInDTO);
     }
 
