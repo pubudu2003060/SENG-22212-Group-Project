@@ -1,0 +1,72 @@
+{
+  "vehicleType": [
+    {
+      "id": 1,
+      "name": "Car",
+      "fuelQuota": 50
+    },
+    {
+      "id": 2,
+      "name": "Motorbike",
+      "fuelQuota": 15
+    },
+    {
+      "id": 3,
+      "name": "Truck",
+      "fuelQuota": 100
+    },
+    {
+      "id": 4,
+      "name": "Bus",
+      "fuelQuota": 120
+    },
+    {
+      "id": 5,
+      "name": "Van",
+      "fuelQuota": 70
+    }
+  ],
+
+  "quotas": [
+    {
+      "registrationNo": "ABC1234",
+      "ownerName": "John Doe",
+      "vehicleType": "Car",
+      "currentFuelQuota": 40,
+      "usedFuelQuota": 40,
+      "lastUpdateDate": "2025-01-10"
+    },
+    {
+      "registrationNo": "DEF5678",
+      "ownerName": "Jane Smith",
+      "vehicleType": "Motorbike",
+      "currentFuelQuota": 10,
+      "usedFuelQuota": 5,
+      "lastUpdateDate": "2025-01-12"
+    },
+    {
+      "registrationNo": "GHI9101",
+      "ownerName": "Alice Johnson",
+      "vehicleType": "Van",
+      "currentFuelQuota": 60,
+      "usedFuelQuota": 30,
+      "lastUpdateDate": "2025-01-09"
+    },
+    {
+      "registrationNo": "JKL2345",
+      "ownerName": "Bob Brown",
+      "vehicleType": "Truck",
+      "currentFuelQuota": 100,
+      "usedFuelQuota": 50,
+      "lastUpdateDate": "2025-01-11"
+    },
+    {
+      "registrationNo": "MNO6789",
+      "ownerName": "Charlie Green",
+      "vehicleType": "SUV",
+      "currentFuelQuota": 50,
+      "usedFuelQuota": 25,
+      "lastUpdateDate": "2025-01-13"
+    }
+  ]
+}
