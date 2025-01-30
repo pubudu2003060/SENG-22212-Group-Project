@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,9 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     ApplicationContext context;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
@@ -40,14 +44,26 @@ public class JwtFilter extends OncePerRequestFilter {
             username=jwtService.extractUserName(token);
         }
         if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
+
+            //Dynamically load user details
             UserDetails userDeatils=context.getBean(AdminService.class).loadUserByUsername(username);
 
+            //Validate JWT token
             if(jwtService.validateToken(token,userDeatils)){
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDeatils, null, userDeatils.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                //adding the token in the chain
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                String role=jwtService.extractClaims(token,claims->claims.get("role",String.class));
+
+                //check API based on role
+                if(isAuthorizedForEndpoint(request.getRequestURI(),role)){
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(userDeatils, null, userDeatils.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    //adding the token in the chain
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                }else{
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN,"Access denied for requested API");
+                    return;//stop further processing
+                }
 
 
 
@@ -55,4 +71,18 @@ public class JwtFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
+
+    private boolean isAuthorizedForEndpoint(String requestURI, String role) {
+        if(requestURI.startsWith("/api/v1/admin") && "ADMIN".equals(role)) {
+            return true;
+        }
+        if(requestURI.startsWith("/api/v1/user") && "USER".equals(role)) {
+            return true;
+        }
+        if(requestURI.startsWith("/api/v1")) {
+            return true;
+        }
+        return false;
+    }
+
 }
