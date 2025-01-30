@@ -62,7 +62,7 @@ class OwnerRegisterScreen extends StatelessWidget {
     final body = json.encode({
       'firstName': firstName,
       'lastName': lastName,
-      'contact': "+94"+phoneNo,
+      'contact': "+94" + phoneNo,
       'address': address,
       'nicNo': nic,
     });
@@ -78,7 +78,13 @@ class OwnerRegisterScreen extends StatelessWidget {
       print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
-        Navigator.pushNamed(context, '/station_registration');
+        final responseData = jsonDecode(response.body);
+        final int registerId =responseData["stationOwnerid"];
+        Navigator.pushNamed(
+          context,
+          '/station_registration',
+          arguments: registerId, 
+        );
       } else {
         throw Exception('Failed to register owner: ${response.body}');
       }
@@ -104,7 +110,7 @@ class OwnerRegisterScreen extends StatelessWidget {
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [   
+            children: [
               TextFormField(
                 controller: firstNameController,
                 decoration: const InputDecoration(

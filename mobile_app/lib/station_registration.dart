@@ -3,9 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class StationRegisterScreen extends StatefulWidget {
-  final int stationOwnerId;
-
-  const StationRegisterScreen({super.key, required this.stationOwnerId});
+  static const routeName = '/station_registration';
+  
+  const StationRegisterScreen({super.key, required int stationOwnerId});
 
   @override
   _StationRegisterScreenState createState() => _StationRegisterScreenState();
@@ -71,7 +71,7 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
     return null;
   }
 
-  Future<void> _submitForm(BuildContext context) async {
+  Future<void> _submitForm(BuildContext context, int ownerId) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -80,16 +80,14 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
 
     final body = json.encode({
       'location': addressController.text,
-      'status': 'ACTIVE', // Always ACTIVE
+      'status': 'ACTIVE', 
       'stationType': selectedStationType,
       'registeredId': int.parse(regNoController.text),
       'eligibleFuelCapacity': selectedCapacity,
       'capacity': capacityController.text,
       'fuelType': selectedFuelType,
       'password': passwordController.text,
-      'fuelStationOwner': {
-        'stationOwnerid': widget.stationOwnerId
-      }
+      'fuelStationOwner': {'stationOwnerid': ownerId}
     });
 
     try {
@@ -98,6 +96,9 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
         headers: {'Content-Type': 'application/json'},
         body: body,
       );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         Navigator.pushNamed(context, '/qr_scanner');
@@ -113,6 +114,8 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ownerId = ModalRoute.of(context)!.settings.arguments as int;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Station Registration'),
@@ -149,16 +152,26 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
                   border: OutlineInputBorder(),
                 ),
                 items: const [
-                  DropdownMenuItem(value: 'SMALL_5000_10000', child: Text('Small (5,000L - 10,000L)')),
-                  DropdownMenuItem(value: 'MEDIUM_15000_40000', child: Text('Medium (15,000L - 40,000L)')),
-                  DropdownMenuItem(value: 'LARGE_40000_100000', child: Text('Large (40,000L - 100,000L)')),
+                  DropdownMenuItem(
+                      value: 'SMALL_5000_10000',
+                      child: Text('Small (5,000L - 10,000L)')),
+                  DropdownMenuItem(
+                      value: 'MEDIUM_10000_15000',
+                      child: Text('Medium (10,000L - 15,000L)')),
+                  DropdownMenuItem(
+                      value: 'LARGE_15000_20000',
+                      child: Text('Large (15,000L - 20,000L)')),
+                  DropdownMenuItem(
+                      value: 'LARGE_20000_40000',
+                      child: Text('Large (20,000L - 40,000L)'))
                 ],
                 onChanged: (value) => setState(() => selectedCapacity = value),
-                validator: (value) => value == null ? 'Please select a capacity' : null,
+                validator: (value) =>
+                    value == null ? 'Please select a capacity' : null,
               ),
               const SizedBox(height: 20.0),
               TextFormField(
-                controller: addressController,
+                controller: capacityController,
                 decoration: const InputDecoration(
                   labelText: 'Current Capacity',
                   border: OutlineInputBorder(),
@@ -177,7 +190,8 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
                   DropdownMenuItem(value: 'BOTH', child: Text('Both')),
                 ],
                 onChanged: (value) => setState(() => selectedFuelType = value),
-                validator: (value) => value == null ? 'Please select a fuel type' : null,
+                validator: (value) =>
+                    value == null ? 'Please select a fuel type' : null,
               ),
               const SizedBox(height: 20.0),
               DropdownButtonFormField<String>(
@@ -187,12 +201,13 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
                 ),
                 items: const [
                   DropdownMenuItem(value: 'IOC', child: Text('IOC')),
-                  DropdownMenuItem(value: 'CYPETCO', child: Text('Cypetco')),
-                  DropdownMenuItem(value: 'CYNOPEC', child: Text('Cynopec')),
+                  DropdownMenuItem(value: 'CEYPETCO', child: Text('Cypetco')),
+                  DropdownMenuItem(value: 'CEYNOPEC', child: Text('Cynopec')),
                   DropdownMenuItem(value: 'OTHER', child: Text('Other')),
                 ],
                 onChanged: (value) => setState(() => selectedStationType = value),
-                validator: (value) => value == null ? 'Please select a station type' : null,
+                validator: (value) =>
+                    value == null ? 'Please select a station type' : null,
               ),
               const SizedBox(height: 20.0),
               TextFormField(
@@ -216,12 +231,14 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
               ),
               const SizedBox(height: 40.0),
               ElevatedButton(
-                onPressed: () => _submitForm(context),
+                onPressed: () => _submitForm(context, ownerId),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                 ),
-                child: const Text('Register', style: TextStyle(color: Colors.white)),
+                child: const Text('Register',
+                    style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
