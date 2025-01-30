@@ -16,4 +16,5 @@ public interface UserLoginRepo extends JpaRepository<UserLogin, String> {
     UserLogin getUserLoginByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 
 
+    String phoneNumber(String phoneNumber);
 }
