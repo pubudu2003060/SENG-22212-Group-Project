@@ -58,6 +58,9 @@ public class JwtFilter extends OncePerRequestFilter {
                 userDetails = context.getBean(AdminService.class).loadUserByUsername(identifier); // Still using username for Admin
             } else if ("USER".equals(role)) {
                 userDetails = context.getBean(UserService.class).loadUserByPhoneNumber(identifier); // Using phoneNumber for User
+            } else if ("FUELSTATION".equals(role)) {
+                userDetails = context.getBean(UserService.class).loadUserByFuelStationIdentifier(identifier); // Assuming FuelStation has a unique identifier
+
             } else {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid role in token");
                 return; // Stop further processing
@@ -99,6 +102,9 @@ try {
             return true;
         }
         if(requestURI.startsWith("/api/v1/user") && "USER".equals(role)) {
+            return true;
+        }
+        if (requestURI.startsWith("/api/v1/fuelstation") && "FUELSTATION".equals(role)) {
             return true;
         }
         if(requestURI.startsWith("/api/v1")) {
