@@ -64,6 +64,13 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Fuel data updated successfully.')),
         );
+
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/qr_scanner',
+          (route) => false,  // This removes all previous routes
+        );
+        
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to update fuel data.')),
