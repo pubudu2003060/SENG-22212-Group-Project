@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Card, List, Typography } from 'antd';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const { Title } = Typography;
 
 function FuelTypes() {
   const [fuelTypes, setFuelTypes] = useState([]);
+  const navigate = useNavigate();
   
   useEffect(() => {
     axios.get('http://localhost:8080/api/v1/getbuyquotes')
@@ -16,8 +18,9 @@ function FuelTypes() {
       })
       .catch(error => {
         console.error('Error fetching fuel types:', error);
+        navigate("/details-not-found");
       });
-  }, []);
+  }, [navigate]);
 
   return (
     <Card

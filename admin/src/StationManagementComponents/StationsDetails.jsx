@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Modal, Spin, message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 function StationDetails({ stationId }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [stationDetails, setStationDetails] = useState(null);
+    const navigate = useNavigate();
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -21,6 +23,7 @@ function StationDetails({ stationId }) {
             .catch(error => {
                 message.error("Failed to fetch station details");
                 console.error("Error fetching station details:", error);
+                navigate("/details-not-found");
             })
             .finally(() => {
                 setLoading(false);

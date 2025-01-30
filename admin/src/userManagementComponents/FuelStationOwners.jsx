@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
-import { Input, Select, Pagination } from 'antd';
-import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
+import { Input, Pagination } from 'antd';
+import { SearchOutlined} from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 import "../styles/userManagement.css";
 
@@ -10,6 +11,7 @@ function FuelStationOwners() {
     const [stationOwners, setStationOwners] = useState([]);
     const [filteredStationOwners, setFilteredStationOwners] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate();
     
     //pagination
     const [currentPage, setCurrentPage] = useState(1); 
@@ -17,14 +19,20 @@ function FuelStationOwners() {
 
     // Fetch data from API
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/getfuelstationowners")
-        .then((response) => {
+        const fetchStationOwners = async () => {
+          try {
+            const response = await axios.get("http://localhost:8080/api/v1/getfuelstationowners");
             setStationOwners(response.data);
             setFilteredStationOwners(response.data);
-            console.log(response.data)
-        })
-        .catch((error) => console.error("Error fetching station owners:", error));
-    }, []);
+            console.log(response.data);
+          } catch (error) {
+            console.error("Error fetching station owners:", error);
+            navigate("/details-not-found");
+          }
+        };
+        fetchStationOwners();
+      }, [navigate]);
+      
 
     //Handle search and filter
     useEffect(() => {

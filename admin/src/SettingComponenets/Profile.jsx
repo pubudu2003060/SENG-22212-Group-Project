@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Button, Form, Input, message, Row, Col } from 'antd';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Context from '../components/Context';
 
 function Profile() {
-  const loggedInEmail = 'admin@fuelapp.com'; // Example logged-in user email
+  const { adminData } = useContext(Context) // Access the global state
+  const loggedInEmail = adminData.email; 
   const [form] = Form.useForm(); // Ant Design Form instance
-  const [loading, setLoading] = useState(false); // To show loading state
-  const [adminData, setAdminData] = useState(null); // To store fetched admin data
+  const [loading, setLoading] = useState(false); 
+  const [adminDataForProfile, setAdminDataForProfile] = useState(null); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch admin data when component mounts
@@ -14,16 +18,17 @@ function Profile() {
       .then((response) => {
         const admin = response.data.find(admin => admin.email === loggedInEmail);
         if (admin) {
-          setAdminData(admin); // Save the fetched data to the state
+          setAdminDataForProfile(admin);
           form.setFieldsValue({
-            userName: admin.userName, // Set username
-            email: admin.email, // Set email
+            userName: admin.userName, 
+            email: admin.email, 
           });
         }
       })
       .catch((error) => {
         console.error('Error fetching admin data:', error);
         message.error('Failed to fetch data');
+        navigate("/details-not-found");
       });
   }, [loggedInEmail, form]);
 
@@ -36,7 +41,7 @@ function Profile() {
     axios.put(`http://localhost:8080/api/v1/updateadmin/${loggedInEmail}`, updatedAdmin)
       .then(() => {
         message.success('Profile updated successfully!');
-        setAdminData(updatedAdmin); // Update the stored data after successful update
+        setAdminDataForProfile(updatedAdmin); // Update the stored data after successful update
       })
       .catch(() => {
         message.error('Failed to update profile');
@@ -46,10 +51,10 @@ function Profile() {
 
   // Reset the form to its initial state (fetched data)
   const handleReset = () => {
-    if (adminData) {
+    if (adminDataForProfile) {
       form.setFieldsValue({
-        userName: adminData.userName,
-        email: adminData.email,
+        userName: adminDataForProfile.userName,
+        email: adminDataForProfile.email,
       });
     }
   };

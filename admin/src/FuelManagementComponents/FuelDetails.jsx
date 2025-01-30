@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Select, Input, DatePicker, Row, Col } from 'antd';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -16,6 +17,7 @@ function FuelDetails() {
     fuelType: '',
     regNo: '',
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,11 +58,12 @@ function FuelDetails() {
         setVehicleTypes(uniqueFuelTypes);
       } catch (error) {
         console.error('Error fetching data:', error);
+        navigate("/details-not-found");
       }
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const handleFilterChange = (field, value) => {
     setFilters(prevFilters => ({ ...prevFilters, [field]: value }));
