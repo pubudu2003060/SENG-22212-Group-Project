@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    final url = Uri.parse('http://localhost:8080/api/v1/loginfuelstation');
+    final url = Uri.parse('http://192.168.1.173:8080/api/v1/loginfuelstation');
 
     final body = json.encode({
       'registeredId': regNoController.text,

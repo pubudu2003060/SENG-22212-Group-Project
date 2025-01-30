@@ -76,7 +76,7 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
       return;
     }
 
-    final url = Uri.parse('http://localhost:8080/api/v1/addfuelstation');
+    final url = Uri.parse('http://192.168.1.173:8080/api/v1/addfuelstation');
 
     final body = json.encode({
       'location': addressController.text,

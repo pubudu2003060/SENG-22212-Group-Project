@@ -18,25 +18,24 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
   }
 
   void _onKeyPressed(String value) {
-  setState(() {
-    if (value == "x") {
-      // Remove the last character if the text is not empty
-      if (fuelLitersController.text.isNotEmpty) {
-        fuelLitersController.text = fuelLitersController.text
-            .substring(0, fuelLitersController.text.length - 1);
-      }
-    } else if (value == ".") {
-      // Add decimal only if it doesn't already exist
-      if (!fuelLitersController.text.contains(".")) {
+    setState(() {
+      if (value == "x") {
+        // Remove the last character if the text is not empty
+        if (fuelLitersController.text.isNotEmpty) {
+          fuelLitersController.text = fuelLitersController.text
+              .substring(0, fuelLitersController.text.length - 1);
+        }
+      } else if (value == ".") {
+        // Add decimal only if it doesn't already exist
+        if (!fuelLitersController.text.contains(".")) {
+          fuelLitersController.text += value;
+        }
+      } else {
+        // Append the pressed key to the text
         fuelLitersController.text += value;
       }
-    } else {
-      // Append the pressed key to the text
-      fuelLitersController.text += value;
-    }
-  });
-}
-
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +54,8 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
             Container(
               padding: const EdgeInsets.all(30.0),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.2),
+                color:
+                    const Color.fromARGB(255, 255, 255, 255).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(8.0),
                 border: Border.all(color: Colors.blue, width: 2.0),
               ),
@@ -71,7 +71,8 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
                   // Display the entered fuel liters
                   TextField(
                     controller: fuelLitersController,
-                    keyboardType: TextInputType.none, // Disable default keyboard
+                    keyboardType:
+                        TextInputType.none, // Disable default keyboard
                     focusNode: _focusNode,
                     readOnly: true, // Prevent editing via default keyboard
                     decoration: const InputDecoration(
@@ -96,7 +97,8 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
               onPressed: () {
                 if (fuelLitersController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Please fill in the fuel liters.')),
+                    const SnackBar(
+                        content: Text('Please fill in the fuel liters.')),
                   );
                 } else {
                   // Action for submit
@@ -124,10 +126,18 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
 
   Widget _buildCustomKeyboard() {
     final List<String> keys = [
-      "1", "2", "3",
-      "4", "5", "6",
-      "7", "8", "9",
-      ".", "0", "x",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      ".",
+      "0",
+      "x",
     ];
 
     return Container(

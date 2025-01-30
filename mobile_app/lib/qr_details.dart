@@ -1,45 +1,46 @@
 import 'package:flutter/material.dart';
 
 class DetailsScreen extends StatefulWidget {
-  final String vehicleNumber;
-  DetailsScreen({Key? key, required this.vehicleNumber}) : super(key: key);
+  final String firstName;
+  final String lastName;
+  final String idNo;
+  final String vehicalType;
+  final String vehicalNo;
+  final String fualType;
+  final String eligibleDays;
+  final int eligibleFuelQuota;
+  final int remainFuel;
+
+  const DetailsScreen({
+    Key? key,
+    required this.firstName,
+    required this.lastName,
+    required this.idNo,
+    required this.vehicalType,
+    required this.vehicalNo,
+    required this.fualType,
+    required this.eligibleDays,
+    required this.eligibleFuelQuota,
+    required this.remainFuel,
+    required String vehicleNumber,
+  }) : super(key: key);
 
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  final TextEditingController fuelQuotaController = TextEditingController();
-  final TextEditingController eligibleDatesController = TextEditingController();
-  final TextEditingController vehicleNumberController = TextEditingController();
-  final TextEditingController vehicleTypeController = TextEditingController();
-
   bool isEligible = false;
 
   @override
   void initState() {
     super.initState();
-    _fetchDataFromBackend();
-  }
-
-  void _fetchDataFromBackend() {
-    setState(() {
-      fuelQuotaController.text = '10';
-      eligibleDatesController.text = '2025-01-22';
-      vehicleNumberController.text = 'AB-1234';
-      vehicleTypeController.text = 'Car';
-      _checkEligibility();
-    });
+    _checkEligibility();
   }
 
   void _checkEligibility() {
-    final fuelQuota = int.tryParse(fuelQuotaController.text) ?? 0;
-    final eligibleDate = DateTime.tryParse(eligibleDatesController.text);
-    final today = DateTime.now();
-
     setState(() {
-      isEligible = fuelQuota > 0 &&
-          (eligibleDate != null && eligibleDate.isBefore(today));
+      isEligible = widget.remainFuel > 0;
     });
   }
 
@@ -51,8 +52,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         backgroundColor: const Color.fromARGB(255, 80, 171, 227),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(
-            top: 70.0, bottom: 16.0, left: 16.0, right: 16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -61,90 +61,53 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 Expanded(
                   child: _buildColoredBox(
                       'Remain Fuel Quota',
-                      fuelQuotaController.text,
+                      '${widget.remainFuel}',
                       isEligible ? Colors.green : Colors.red),
                 ),
                 SizedBox(width: 30.0),
                 Expanded(
                   child: _buildColoredBox(
-                      'Eligible Dates',
-                      eligibleDatesController.text,
-                      isEligible ? Colors.green : Colors.red),
+                      'Eligible Days', widget.eligibleDays, Colors.blue),
                 ),
               ],
             ),
-            SizedBox(height: 30.0),
-            TextField(
-              controller: vehicleNumberController,
-              decoration: InputDecoration(
-                labelText: 'Vehicle Number',
-                labelStyle:
-                    TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                border: OutlineInputBorder(),
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              ),
-              readOnly: true,
-            ),
-            SizedBox(height: 30.0),
-            TextField(
-              controller: vehicleTypeController,
-              decoration: InputDecoration(
-                labelText: 'Vehicle Type',
-                labelStyle:
-                    TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                border: OutlineInputBorder(),
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              ),
-              readOnly: true,
-            ),
+            SizedBox(height: 20.0),
+            _buildInfoTile('First Name', widget.firstName),
+            _buildInfoTile('Last Name', widget.lastName),
+            _buildInfoTile('ID No', widget.idNo),
+            _buildInfoTile('Vehicle Number', widget.vehicalNo),
+            _buildInfoTile('Vehicle Type', widget.vehicalType),
+            _buildInfoTile('Fuel Type', widget.fualType),
+            _buildInfoTile(
+                'Eligible Fuel Quota', '${widget.eligibleFuelQuota} L'),
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: () =>
+                      Navigator.pushReplacementNamed(context, '/qr_scanner'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   ),
                   child: Text(
                     'Cancel',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.0,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 15.0),
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    final fuelQuota =
-                        int.tryParse(fuelQuotaController.text) ?? 0;
-
-                    if (fuelQuota == 0) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Fuel quota is 0. Cannot proceed.'),
-                        ),
-                      );
-                    } else {
-                      Navigator.pushNamed(context,
-                          '/pumpping_fuel_quata'); // Navigate to the next page
-                    }
-                  },
+                  onPressed: isEligible
+                      ? () =>
+                          Navigator.pushNamed(context, '/pumpping_fuel_quata')
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 64, 146, 198),
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   ),
                   child: Text(
                     'Confirm',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.0,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 15.0),
                   ),
                 ),
               ],
@@ -166,16 +129,29 @@ class _DetailsScreenState extends State<DetailsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600),
-          ),
+          Text(label,
+              style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600)),
           SizedBox(height: 8.0),
-          Text(
-            value,
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-          ),
+          Text(value,
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)),
         ],
+      ),
+    );
+  }
+
+  Widget _buildInfoTile(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: TextField(
+        readOnly: true,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        ),
+        controller: TextEditingController(text: value),
       ),
     );
   }

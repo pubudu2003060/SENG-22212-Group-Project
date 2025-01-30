@@ -57,7 +57,7 @@ class OwnerRegisterScreen extends StatelessWidget {
     final String phoneNo = phoneNoController.text;
     final String nic = nicController.text;
 
-    final url = Uri.parse('http://localhost:8080/api/v1/addfuelstationowner');
+    final url = Uri.parse('http://192.168.1.173:8080/api/v1/addfuelstationowner');
 
     final body = json.encode({
       'firstName': firstName,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'qr_details.dart';  
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'qr_details.dart';
 
 class QRScannerScreen extends StatefulWidget {
   const QRScannerScreen({super.key});
@@ -10,157 +12,106 @@ class QRScannerScreen extends StatefulWidget {
 }
 
 class _QRScannerScreenState extends State<QRScannerScreen> {
-  final TextEditingController vehicleNumberController = TextEditingController();
   final MobileScannerController cameraController = MobileScannerController();
-
   bool isProcessing = false;
-  bool isScanning = false; 
+
+  @override
+  void dispose() {
+    cameraController.dispose(); // Remove camera access when leaving the page
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('QR Scanner'),
-        actions: [          
+        automaticallyImplyLeading: false,
+        actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
-              setState(() {                
-                isScanning = false;
-                vehicleNumberController.clear();
+              setState(() {
+                isProcessing = false;
+                cameraController.start(); // Restart camera if needed
               });
             },
           ),
         ],
       ),
       body: Stack(
-        children: [          
-          Positioned(
-            top: 70,
-            left: MediaQuery.of(context).size.width * 0.05,
-            right: MediaQuery.of(context).size.width * 0.05,
-            child: Container(
-              color: Colors.black.withOpacity(isScanning ? 1 : 0.5), 
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.6,
-              child: MobileScanner(
-                controller: cameraController,
-                onDetect: (BarcodeCapture barcodeCapture) {
-                  if (isProcessing) return;
-                  setState(() => isProcessing = true);
+        children: [
+          // QR Scanner
+          Positioned.fill(
+            child: MobileScanner(
+              controller: cameraController,
+              onDetect: (BarcodeCapture barcodeCapture) async {
+                if (isProcessing) return;
+                setState(() => isProcessing = true);
 
-                  final barcode = barcodeCapture.barcodes.first;
-                  if (barcode.rawValue != null && barcode.rawValue!.isNotEmpty) {
-                    final vehicleNumber = _extractVehicleNumber(barcode.rawValue!);
-                    if (vehicleNumber != null) {
-                      setState(() {
-                        vehicleNumberController.text = vehicleNumber;
-                      });
-                      _showSnackBar("Scanned: $vehicleNumber");
-                    } else {
-                      _showSnackBar("Invalid QR Code format!");
-                    }
-                  } else {
-                    _showSnackBar("No QR Code detected!");
-                  }
+                final barcode = barcodeCapture.barcodes.first;
+                if (barcode.rawValue != null && _isInteger(barcode.rawValue!)) {
+                  final customerFuelQuotaId = barcode.rawValue!;
+                  cameraController.stop(); // Stop camera once QR is read
 
+                  _fetchDetailsAndNavigate(customerFuelQuotaId);
+                } else {
+                  _showSnackBar("Invalid QR Code! Vehical not found!.");
                   setState(() => isProcessing = false);
-                },
-              ),
+                }
+              },
             ),
-          ),
-
-          if (!isScanning)
-            Positioned.fill(
-              top: MediaQuery.of(context).size.height * 0,
-              child: Container(
-                color: Colors.black.withOpacity(0.2), 
-                child: Center(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 64, 146, 198),
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 33),
-                    ),
-                    onPressed: () {
-                      setState(() => isScanning = true);
-                    },
-                    child: const Text(
-                      "SCAN",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          
-          Positioned(
-            bottom: 80,
-            left: 16,
-            right: 16,
-            child: vehicleNumberController.text.isEmpty
-                ? TextField(
-                    controller: vehicleNumberController,
-                    readOnly: true,
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      labelText: "Scanned Vehicle Number",
-                      border: OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                  )
-                : GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailsScreen(
-                            vehicleNumber: vehicleNumberController.text,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          vehicleNumberController.text,
-                          style: const TextStyle(fontSize: 16, color: Colors.black),
-                        ),
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16,
-                          color: Colors.blue,
-                        ),
-                      ],
-                    ),
-                  ),
           ),
         ],
       ),
     );
   }
 
-  String? _extractVehicleNumber(String rawValue) {
+  // Check if the scanned QR is an integer
+  bool _isInteger(String value) {
+    return RegExp(r'^\d+$').hasMatch(value);
+  }
+
+  // Fetch details from API and navigate to next page
+  Future<void> _fetchDetailsAndNavigate(String customerFuelQuotaId) async {
+    final url = Uri.parse(
+        "http://192.168.1.173:8080/api/v1/getDetailsbycfcid?customerFuelQuotaId=$customerFuelQuotaId");
+
     try {
-      final parts = rawValue.split(',');
-      for (var part in parts) {
-        if (part.trim().startsWith("Vehicle No:")) {
-          return part.split(':')[1].trim();
-        }
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        print(data);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailsScreen(
+              firstName: data['firstName'],
+              lastName: data['lastName'],
+              idNo: data['idNo'],
+              vehicalType: data['vehicalType'],
+              vehicalNo: data['vehicalNo'],
+              fualType: data['fualType'],
+              eligibleDays: data['eligibleDays'],
+              eligibleFuelQuota: data['eligibleFuelQuota'],
+              remainFuel: data['remainFuel'],
+              vehicleNumber: '',
+            ),
+          ),
+        );
+      } else {
+        _showSnackBar("Failed to fetch details.");
+        setState(() => isProcessing = false);
       }
-    } catch (e) {
-      debugPrint("Error parsing QR code: $e");
+    } catch (error) {
+      _showSnackBar("Error: $error");
+      setState(() => isProcessing = false);
     }
-    return null;
   }
 
   void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 }
