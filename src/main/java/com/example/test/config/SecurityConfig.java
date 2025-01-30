@@ -45,10 +45,11 @@ public class SecurityConfig {
         .authorizeHttpRequests(request ->request
 
                 //the URL s inside the requestmatcher should not authenticated
-                .requestMatchers("/api/v1/adminsignin","/api/v1/addadmin","/api/v1/adduser","/api/v1/login/send-otp/**","/api/v1/login/validate-otp","/api/v1/loginfuelstation")
+                .requestMatchers("/api/v1/adminsignin","/api/v1/addadmin","/api/v1/adduser","/api/v1/login/send-otp/**","/api/v1/login/validate-otp","/api/v1/loginfuelstation","/api/v1/addfuelstationowner","/api/v1/addfuelstation","/api/v1/login/addvehical")
                 .permitAll()
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/v1/user/**").hasRole("USER")
+                .requestMatchers("/api/v1/fuelstation/**").hasRole("FUELSTATION")
                 .anyRequest().authenticated()) //By this no one can access the page without authentication
         .formLogin(Customizer.withDefaults()) // this says for form login just go with the default way.otherwise although we give the login details it do not work
 
