@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   @override
@@ -36,14 +35,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _submitForm(BuildContext context) async {
-    if (!_formKey.currentState!.validate()) {      
+    if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    final url = Uri.parse('http://10.0.2.2:8080/api/v1/loginfuelstation');
+    final url = Uri.parse('http://localhost:8080/api/v1/loginfuelstation');
 
     final body = json.encode({
-      'regNo': regNoController.text,      
+      'registeredId': regNoController.text,
       'password': passwordController.text
     });
 
@@ -53,8 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
         headers: {'Content-Type': 'application/json'},
         body: body,
       );
-
-      if (response.statusCode == 200) {
+      print(response.body);
+      if (response.body == 'true') {
         Navigator.pushNamed(context, '/qr_scanner');
       } else {
         throw Exception('Failed to login: ${response.body}');
@@ -73,7 +72,6 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text('Login'),
         backgroundColor: const Color.fromARGB(255, 80, 171, 227),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -90,7 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: _validateRegNo,
               ),
               SizedBox(height: 16.0),
-          
               TextFormField(
                 controller: passwordController,
                 obscureText: true,
@@ -101,18 +98,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: _validatePassword,
               ),
               SizedBox(height: 60.0),
-          
               ElevatedButton(
                 onPressed: () => _submitForm(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                 ),
-                child: const Text('Login', style: TextStyle(color: Colors.white)),
+                child:
+                    const Text('Login', style: TextStyle(color: Colors.white)),
               ),
-          
               SizedBox(height: 16.0),
-              
               TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/ownerregister');
