@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/pumpping_fuel_quata.dart';
 
 class DetailsScreen extends StatefulWidget {
   final String firstName;
@@ -10,6 +11,7 @@ class DetailsScreen extends StatefulWidget {
   final String eligibleDays;
   final int eligibleFuelQuota;
   final int remainFuel;
+  final int customerFuelQuotaId;
 
   const DetailsScreen({
     Key? key,
@@ -22,7 +24,7 @@ class DetailsScreen extends StatefulWidget {
     required this.eligibleDays,
     required this.eligibleFuelQuota,
     required this.remainFuel,
-    required String vehicleNumber,
+    required this.customerFuelQuotaId,
   }) : super(key: key);
 
   @override
@@ -46,9 +48,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+print(widget.customerFuelQuotaId.toString()+"rrr "  +widget.remainFuel.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Details'),
+        automaticallyImplyLeading: false,
         backgroundColor: const Color.fromARGB(255, 80, 171, 227),
       ),
       body: Padding(
@@ -78,9 +82,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
             _buildInfoTile('Vehicle Number', widget.vehicalNo),
             _buildInfoTile('Vehicle Type', widget.vehicalType),
             _buildInfoTile('Fuel Type', widget.fualType),
-            _buildInfoTile(
-                'Eligible Fuel Quota', '${widget.eligibleFuelQuota} L'),
-            Spacer(),
+            _buildInfoTile('Eligible Fuel Quota', '${widget.eligibleFuelQuota} L'),
+                
+            SizedBox(height: 120), // Add a smaller gap instead of Spacer
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -89,7 +94,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       Navigator.pushReplacementNamed(context, '/qr_scanner'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                   ),
                   child: Text(
                     'Cancel',
@@ -98,12 +103,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
                 ElevatedButton(
                   onPressed: isEligible
-                      ? () =>
-                          Navigator.pushNamed(context, '/pumpping_fuel_quata')
+                      ? () {
+
+Navigator.pushReplacement(
+                            context,
+                             MaterialPageRoute(
+            builder: (context) => PumpingFuelQuota(
+ remainFuel: widget.remainFuel,
+                              customerFuelQuotaId:widget.customerFuelQuotaId
+            ),),);
+           
+                        }
                       : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 64, 146, 198),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                   ),
                   child: Text(
                     'Confirm',
