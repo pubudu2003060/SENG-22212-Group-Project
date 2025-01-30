@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert'; 
+import 'dart:convert';
 
 class OwnerRegisterScreen extends StatelessWidget {
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController phoneNoController = TextEditingController();
   final TextEditingController nicController = TextEditingController();
@@ -12,13 +13,12 @@ class OwnerRegisterScreen extends StatelessWidget {
 
   OwnerRegisterScreen({super.key});
 
-  
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Owner name is required';
+      return 'This field is required';
     }
-    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-      return 'Owner name must contain only letters';
+    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+      return 'Must contain only letters';
     }
     return null;
   }
@@ -34,9 +34,8 @@ class OwnerRegisterScreen extends StatelessWidget {
     if (value == null || value.isEmpty) {
       return 'NIC is required';
     }
-  
-    if (!RegExp(r'^\d{9}$').hasMatch(value)) {
-      return 'NIC must be exactly 9 digits';
+    if (!RegExp(r'^\d{12}$').hasMatch(value)) {
+      return 'NIC must be exactly 12 digits';
     }
     return null;
   }
@@ -51,23 +50,21 @@ class OwnerRegisterScreen extends StatelessWidget {
     return null;
   }
 
-  
   Future<void> _submitForm(BuildContext context) async {
-    final String name = nameController.text;
+    final String firstName = firstNameController.text;
+    final String lastName = lastNameController.text;
     final String address = addressController.text;
     final String phoneNo = phoneNoController.text;
     final String nic = nicController.text;
 
-    
-    final url = Uri.parse(
-        'http://10.0.2.2:8080/api/v1/addfuelstationowner'); 
+    final url = Uri.parse('http://localhost:8080/api/v1/addfuelstationowner');
 
-   
     final body = json.encode({
-      'name': name,
-      'contact': phoneNo, 
-      'address': address, 
-      'nicNo': nic, 
+      'firstName': firstName,
+      'lastName': lastName,
+      'contact': "+94"+phoneNo,
+      'address': address,
+      'nicNo': nic,
     });
 
     try {
@@ -77,15 +74,12 @@ class OwnerRegisterScreen extends StatelessWidget {
         body: body,
       );
 
-     
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
-       
         Navigator.pushNamed(context, '/station_registration');
       } else {
-      
         throw Exception('Failed to register owner: ${response.body}');
       }
     } catch (error) {
@@ -110,11 +104,20 @@ class OwnerRegisterScreen extends StatelessWidget {
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: [   
               TextFormField(
-                controller: nameController,
+                controller: firstNameController,
                 decoration: const InputDecoration(
-                  labelText: 'Name',
+                  labelText: 'First Name',
+                  border: OutlineInputBorder(),
+                ),
+                validator: _validateName,
+              ),
+              const SizedBox(height: 20.0),
+              TextFormField(
+                controller: lastNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Last Name',
                   border: OutlineInputBorder(),
                 ),
                 validator: _validateName,
@@ -152,7 +155,6 @@ class OwnerRegisterScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                   
                     _submitForm(context);
                   }
                 },
