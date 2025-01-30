@@ -1,12 +1,16 @@
 package com.example.test.service;
 
 import com.example.test.dto.UserDto;
+import com.example.test.model.Admin;
+import com.example.test.model.AdminPrincipal;
 import com.example.test.model.User;
 import com.example.test.repo.UserRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,5 +59,15 @@ public class UserService {
         }
 
     }
+
+    public UserDetails loadUserByPhoneNumber(String phoneNumber) {
+        User user = userRepo.getUserByContactNo(phoneNumber);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with phone number: " + phoneNumber);
+        }
+        return new UserPrincipal(user); // Return UserPrincipal
+    }
+
+
 
 }
