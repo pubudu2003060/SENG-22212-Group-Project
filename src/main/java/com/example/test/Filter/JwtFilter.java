@@ -4,6 +4,7 @@ import com.example.test.model.UserLogin;
 import com.example.test.service.AdminService;
 import com.example.test.service.JWTService;
 import com.example.test.service.UserService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,24 +62,33 @@ public class JwtFilter extends OncePerRequestFilter {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid role in token");
                 return; // Stop further processing
             }
+try {
+    //Validate JWT token and check role-based authorization
+    if (jwtService.validateToken(token, identifier) && isAuthorizedForEndpoint(request.getRequestURI(), role)) {
 
-            //Validate JWT token and check role-based authorization
-            if(jwtService.validateToken(token,identifier)&& isAuthorizedForEndpoint(request.getRequestURI(),role)){
+        //check API based on role
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        //adding the token in the chain
+        SecurityContextHolder.getContext().setAuthentication(authToken);
 
-                //check API based on role
-                    UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    //adding the token in the chain
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
-
-                }else{
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN,"Access denied for requested API");
-                    return;//stop further processing
-                }
+    } else {
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied for requested API");
+        return;//stop further processing
+    }
 
 
-
+}catch(ExpiredJwtException e){
+    response.getWriter().write("JWT Token has expired. Please log in again.");
+    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+    return;
+            }catch (Exception e) {
+    // Handle other exceptions (e.g., invalid token)
+    response.getWriter().write("Invalid token.");
+    response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400 Bad Request
+    return;
+}
 
         }
         filterChain.doFilter(request, response);

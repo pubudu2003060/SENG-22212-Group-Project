@@ -21,12 +21,12 @@ public class AdminLayerController {
     @Autowired
     private AdminLayerService adminLayerService;
 
-    @GetMapping("/getBuyQuotasDataByFuelType/{fualType}")
+    @GetMapping("admin/getBuyQuotasDataByFuelType/{fualType}")
     public Map<String, Double> getBuyQuotasDataByFuelType(@PathVariable("fualType") String fuelType) {
         return adminLayerService.getBuyQuotasDataByFuelType(fuelType);
     }
 
-    @GetMapping("/tranctionscountByFuelTypeandDate/{fuelType}/{date}")
+    @GetMapping("admin/tranctionscountByFuelTypeandDate/{fuelType}/{date}")
     public int tranctionscountByFuelTypeandDate(
             @PathVariable("fuelType") String fuelType,
             @PathVariable("date") String dateString) {
@@ -44,7 +44,7 @@ public class AdminLayerController {
         return adminLayerService.adminSignIn(adminSignInDTO);
     }
 
-    @GetMapping("/getfuelstationbuyquoto")
+    @GetMapping("admin/getfuelstationbuyquoto")
     public List<BuyquotaFuelStationDTO> getFuelStationBuyQuoto() {
         return adminLayerService.getFuelStationBuyQuoto();
     }

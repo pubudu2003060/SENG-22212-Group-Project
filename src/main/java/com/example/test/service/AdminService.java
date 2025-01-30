@@ -36,6 +36,9 @@ public class AdminService implements UserDetailsService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    JWTService jwtService;
+
     public List<AdminDTO> getAllAdmin() {
         List<Admin> adminList = adminrepo.findAll();
         return modelMapper.map(adminList, new TypeToken<List<AdminDTO>>() {
