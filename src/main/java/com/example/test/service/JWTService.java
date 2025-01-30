@@ -1,7 +1,11 @@
 package com.example.test.service;
 
+import com.example.test.dto.LoginRequestDto;
 import com.example.test.model.Admin;
+import com.example.test.model.UserLogin;
 import com.example.test.repo.AdminRepo;
+import com.example.test.repo.UserLoginRepo;
+import com.example.test.repo.UserRepo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,10 +27,13 @@ import java.util.function.Function;
 @Service
 public class JWTService {
     private final AdminRepo adminRepo;
+    private final UserLoginRepo userLoginRepo;
+    private final UserLoginService userLoginService;
     //nota safe way
     private String secretKey = "";
 
-    public JWTService(AdminRepo adminRepo) {
+    public JWTService(AdminRepo adminRepo, UserRepo userRepo, UserLoginRepo userLoginRepo, OtpGenerateService otpGenerateService, UserLoginService userLoginService) {
+
         //generate the key
         try {
             KeyGenerator keyGen=KeyGenerator.getInstance("HmacSHA256");
@@ -36,19 +43,23 @@ public class JWTService {
             throw new RuntimeException(e);
         }
         this.adminRepo = adminRepo;
+        this.userLoginService = userLoginService;
+        this.userLoginRepo = userLoginRepo;
     }
 
-    public String generateToken(String userName) {
-        Admin admin = adminRepo.findAdminByUserName(userName);
-        String role="USER";//default role
+    public String generateAdminToken(String userName) {
 
-        if(admin != null){
-            role="ADMIN";//asign the role based on the admin
+        Admin admin = adminRepo.findAdminByUserName(userName);
+
+        if(admin == null){
+            throw new RuntimeException("Admin not found");
         }
 
         //generate toke for every time that is logging
-        Map<String, Object> claims = new HashMap<String, Object>();
-        claims.put("role", role);//include the role in the claim
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", "ADMIN");//include the role in the
+        claims.put("username", userName);
+
         return Jwts.builder()
                 .setClaims(claims)
                 .addClaims(claims)
@@ -59,6 +70,31 @@ public class JWTService {
                 .compact();
 
     }
+
+    public String generateUserToken(String phoneNumber) {
+
+        UserLogin userLogin = userLoginRepo.getUserLoginByPhoneNumber(phoneNumber);
+
+        if(userLogin == null){
+            throw new RuntimeException("User not found");
+        }
+
+        //generate toke for every time that is logging
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", "USER");//include the role in the
+        claims.put("phoneNumber", phoneNumber);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .addClaims(claims)
+                .setSubject(phoneNumber)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis()+60*60*30))//30min expiration
+                .signWith(getKey())//to sign in it needs the key
+                .compact();
+
+    }
+
     private SecretKey getKey() {
         //covert the secretKey string into bytes
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -66,8 +102,19 @@ public class JWTService {
 
     }
 
-    public String extractUserName(String token) {
+    public boolean verifyUserOTP(LoginRequestDto loginRequestDto) {
+        String validationResponse = userLoginService.validateOtp(loginRequestDto);
+
+        // Interpret the response string and convert it to boolean
+        return "OTP verified successfully".equalsIgnoreCase(validationResponse);
+    }
+
+    public String extractSubject(String token) {
         return extractClaims(token, Claims::getSubject);
+    }
+
+    public String extractRole(String token) {
+        return extractClaims(token, claims -> claims.get("role", String.class));
     }
 
     public <T> T extractClaims(String token, Function<Claims, T> claimResolver) {
@@ -83,9 +130,9 @@ public class JWTService {
                 .getBody();
     }
 
-    public boolean validateToken(String token, UserDetails userDeatils) {
-        final String userName=extractUserName(token);
-        return (userName.equals(userDeatils.getUsername()) && !isTokenExpired(token));
+    public boolean validateToken(String token,String identifier) {
+        final String extractedSubject=extractSubject(token);
+        return (extractedSubject.equals(identifier) && !isTokenExpired(token));
     }
 
     private boolean isTokenExpired(String token) {
