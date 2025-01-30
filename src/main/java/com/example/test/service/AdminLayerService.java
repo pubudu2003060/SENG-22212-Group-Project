@@ -85,7 +85,7 @@ public class  AdminLayerService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(adminSignInDTO.getUserName(),adminSignInDTO.getPassword()));
 
         if(authentication.isAuthenticated()){
-            return jwtService.generateToken(adminSignInDTO.getUserName());
+            return jwtService.generateAdminToken(adminSignInDTO.getUserName());
         }else{
             return "fail";
         }
