@@ -23,15 +23,58 @@
     }
 }
 
-/* Table */
-@media (max-width: 768px) {
-    .station-management-table {
-        overflow-x: auto;
-    }
+/* Table Wrapper for Responsiveness */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Add horizontal scroll on smaller screens */
 }
 
-@media (max-width: 600px) {
-    .station-management-table .ant-table-thead th {
-        font-size: 12px;
-    }
+/* Table */
+.stationsTable {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+}
+
+.stationsTable thead {
+    background-color: #d6d4d4;
+}
+
+.stationsTable tbody tr:hover {
+    background-color: #f3f0f0;
+}
+
+.stationsTable th, .stationsTable td {
+    padding: 0.75rem;
+    border: 1px solid #e8e5e5;
+    text-align: left;
+}
+
+.station-heading {
+    margin: 1.5rem;
+}
+
+input, select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin: 1.5rem;
+}
+
+.station-deactivate-btn {
+    background-color: #cf1322;
+    border-color: #cf1322;
+}
+
+.station-deactivate-btn:hover {
+    background-color: #dd4e5a;
+}
+
+.station-activate-btn {
+    background-color: #13a822;
+    border-color: #13a822;
+}
+
+.station-activate-btn:hover {
+    background-color: #3ebc4a;
 }

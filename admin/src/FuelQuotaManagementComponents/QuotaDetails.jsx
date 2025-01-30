@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Input, Select, Pagination, Button } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import "../styles/fuelQuotaManagement.css";
 
 const { Option } = Select;
@@ -14,24 +15,30 @@ function QuotaDetails() {
     const [uniqueVehicleTypes, setUniqueVehicleTypes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/getallcustomerquota")
-            .then((response) => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get("http://localhost:8080/api/v1/getallcustomerquota");
                 const data = response.data || [];
                 setQuota(data);
                 setFilteredQuota(data);
-
+    
                 // Extract unique vehicle types
                 const uniqueTypes = Array.from(
-                    new Set(data.map(
-                        (item) => item.vehical.vehicalType)
-                    )
+                    new Set(data.map((item) => item.vehical.vehicalType))
                 );
                 setUniqueVehicleTypes(uniqueTypes);
-            })
-            .catch((error) => console.error("Error fetching data:", error));
-    }, []);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                navigate("/details-not-found");
+            }
+        };
+    
+        fetchData();
+    }, [navigate]);
+    
 
     useEffect(() => {
         let results = quota;
@@ -128,7 +135,6 @@ function QuotaDetails() {
                         <th>Eligible Days</th>
                         <th>Eligible Fuel Quota (L)</th>
                         <th>Remaining Fuel Quota (L)</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -143,11 +149,6 @@ function QuotaDetails() {
                                 <td>{q.eligibleDays}</td>
                                 <td>{q.eligibleFuelQuota}L</td>
                                 <td>{q.remainFuel}L</td>
-                                <td>
-                                    <Button>
-                                        Send
-                                    </Button>
-                                </td>
                             </tr>
                         ))
                     ) : (

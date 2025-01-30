@@ -34,7 +34,7 @@
 }
 
 .menu-bar {
-    height: 50vh;
+    height: 70vh;
     margin-top: 2rem;
     display: flex;
     flex-direction: column;
@@ -52,3 +52,7 @@
     margin-top: 15px;
     background-color: #fff;
 }
+
+.ant-menu-item .anticon-logout {
+    color: red; 
+  }

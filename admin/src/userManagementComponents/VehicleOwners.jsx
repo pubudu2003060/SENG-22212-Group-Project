@@ -2,21 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Input, Select, Pagination } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
-//import mockData from "../../mockdata.json";
 import "../styles/userManagement.css";
 
 const { Option } = Select;
 
 function VehicleOwners() {
-    //const [owners, setOwners] = useState(mockData.owners);
-    //const [filteredOwners, setFilteredOwners] = useState(mockData.owners);
 
     const [owners, setOwners] = useState([]);
     const [filteredOwners, setFilteredOwners] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [filters, setFilters] = useState({ identityType: "" });
     const [identityType, setIdentityType] = useState([]);
+    const navigate = useNavigate();
 
     //pagination
     const [currentPage, setCurrentPage] = useState(1); 
@@ -24,21 +23,25 @@ function VehicleOwners() {
 
     // Fetch data from API 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/getusers")
-            .then((response) => {
-                console.log(response.data); 
-                setOwners(response.data || []); // Use fallback if owners is undefined
-                setFilteredOwners(response.data || []);
-
-                // Extract unique identity types
-                const uniqueTypes = Array.from(new Set(response.data.map((owner) => owner.identityType)));
-                setIdentityType(uniqueTypes);
-            })
-            .catch((error) => console.error("Error fetching data:", error));
-
-    }, []);
+        const fetchUsers = async () => {
+          try {
+            const response = await axios.get("http://localhost:8080/api/v1/getusers");
+            console.log(response.data); 
+            setOwners(response.data || []); // Use fallback if owners is undefined
+            setFilteredOwners(response.data || []);
+      
+            // Extract unique identity types
+            const uniqueTypes = Array.from(new Set(response.data.map((owner) => owner.identityType)));
+            setIdentityType(uniqueTypes);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+            navigate("/details-not-found");
+          }
+        };
+        fetchUsers();
+      }, [navigate]);
+      
     
-
     // Handle search and filter
     useEffect(() => {
         let results = owners;
