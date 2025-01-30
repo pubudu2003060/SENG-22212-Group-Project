@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StationRegisterScreen extends StatefulWidget {
   static const routeName = '/station_registration';
@@ -101,6 +102,7 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
       print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
+        await saveData(regNoController.text);
         Navigator.pushNamed(context, '/qr_scanner');
       } else {
         throw Exception('Failed to register fuel station: ${response.body}');
@@ -111,6 +113,11 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
       );
     }
   }
+
+  Future<void> saveData(String registeredId) async {
+ final prefs = await SharedPreferences.getInstance();
+ await prefs.setString('registeredId', registeredId);
+}
 
   @override
   Widget build(BuildContext context) {

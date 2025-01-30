@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/pumpping_fuel_quata.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailsScreen extends StatefulWidget {
   final String firstName;
@@ -46,9 +47,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
     });
   }
 
+  Future<void> saveData() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('fuelType', widget.fualType);
+  }
+
   @override
   Widget build(BuildContext context) {
-print(widget.customerFuelQuotaId.toString()+"rrr "  +widget.remainFuel.toString());
+    saveData();
+    print(widget.customerFuelQuotaId.toString() +
+        "rrr " +
+        widget.remainFuel.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Details'),
@@ -82,8 +91,9 @@ print(widget.customerFuelQuotaId.toString()+"rrr "  +widget.remainFuel.toString(
             _buildInfoTile('Vehicle Number', widget.vehicalNo),
             _buildInfoTile('Vehicle Type', widget.vehicalType),
             _buildInfoTile('Fuel Type', widget.fualType),
-            _buildInfoTile('Eligible Fuel Quota', '${widget.eligibleFuelQuota} L'),
-                
+            _buildInfoTile(
+                'Eligible Fuel Quota', '${widget.eligibleFuelQuota} L'),
+
             SizedBox(height: 120), // Add a smaller gap instead of Spacer
 
             Row(
@@ -104,15 +114,15 @@ print(widget.customerFuelQuotaId.toString()+"rrr "  +widget.remainFuel.toString(
                 ElevatedButton(
                   onPressed: isEligible
                       ? () {
-
-Navigator.pushReplacement(
+                          Navigator.pushReplacement(
                             context,
-                             MaterialPageRoute(
-            builder: (context) => PumpingFuelQuota(
- remainFuel: widget.remainFuel,
-                              customerFuelQuotaId:widget.customerFuelQuotaId
-            ),),);
-           
+                            MaterialPageRoute(
+                              builder: (context) => PumpingFuelQuota(
+                                  remainFuel: widget.remainFuel,
+                                  customerFuelQuotaId:
+                                      widget.customerFuelQuotaId),
+                            ),
+                          );
                         }
                       : null,
                   style: ElevatedButton.styleFrom(
