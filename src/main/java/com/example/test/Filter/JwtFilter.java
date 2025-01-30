@@ -1,5 +1,6 @@
 package com.example.test.Filter;
 
+import com.example.test.model.UserLogin;
 import com.example.test.service.AdminService;
 import com.example.test.service.JWTService;
 import com.example.test.service.UserService;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
+
 //For every request in the filterchain this OncePerRequestFilter only once
 public class JwtFilter extends OncePerRequestFilter {
 
