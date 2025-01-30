@@ -14,6 +14,7 @@ class StationRegisterScreen extends StatefulWidget {
 class _StationRegisterScreenState extends State<StationRegisterScreen> {
   final TextEditingController regNoController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  final TextEditingController capacityController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
@@ -36,6 +37,16 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
   String? _validateAddress(String? value) {
     if (value == null || value.isEmpty) {
       return 'Address is required';
+    }
+    return null;
+  }
+
+  String? _validateCapacity(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Capacity is required';
+    }
+    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+      return 'Capacity must be numeric';
     }
     return null;
   }
@@ -73,7 +84,7 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
       'stationType': selectedStationType,
       'registeredId': int.parse(regNoController.text),
       'eligibleFuelCapacity': selectedCapacity,
-      'capacity': 50000,
+      'capacity': capacityController.text,
       'fuelType': selectedFuelType,
       'password': passwordController.text,
       'fuelStationOwner': {
@@ -134,7 +145,7 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
               const SizedBox(height: 20.0),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
-                  labelText: 'Fuel Station Capacity',
+                  labelText: 'Eligible Fuel Station Capacity',
                   border: OutlineInputBorder(),
                 ),
                 items: const [
@@ -144,6 +155,15 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
                 ],
                 onChanged: (value) => setState(() => selectedCapacity = value),
                 validator: (value) => value == null ? 'Please select a capacity' : null,
+              ),
+              const SizedBox(height: 20.0),
+              TextFormField(
+                controller: addressController,
+                decoration: const InputDecoration(
+                  labelText: 'Current Capacity',
+                  border: OutlineInputBorder(),
+                ),
+                validator: _validateCapacity,
               ),
               const SizedBox(height: 20.0),
               DropdownButtonFormField<String>(
