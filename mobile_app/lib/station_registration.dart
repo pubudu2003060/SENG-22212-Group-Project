@@ -3,7 +3,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class StationRegisterScreen extends StatefulWidget {
-  const StationRegisterScreen({super.key});
+  final int stationOwnerId;
+
+  const StationRegisterScreen({super.key, required this.stationOwnerId});
+
   @override
   _StationRegisterScreenState createState() => _StationRegisterScreenState();
 }
@@ -24,8 +27,8 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
     if (value == null || value.isEmpty) {
       return 'Fuel station registration number is required';
     }
-    if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
-      return 'Registration number must be alphanumeric';
+    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+      return 'Registration number must be numeric';
     }
     return null;
   }
@@ -36,19 +39,6 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
     }
     return null;
   }
-
-  final List<String> fuelCapacityOptions = ['5000L', '10000L', '15000L'];
-
-  final List<Map<String, String>> fuelTypeOptions = [
-    {'value': 'petrol', 'label': 'Petrol'},
-    {'value': 'diesel', 'label': 'Diesel'},
-    {'value': 'both', 'label': 'Both'},
-  ];
-
-  final List<Map<String, String>> stationTypeOptions = [
-    {'value': 'government', 'label': 'Government'},
-    {'value': 'private', 'label': 'Private'},
-  ];
 
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
@@ -71,19 +61,24 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
   }
 
   Future<void> _submitForm(BuildContext context) async {
-    if (!_formKey.currentState!.validate()) {      
+    if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    final url = Uri.parse('http://10.0.2.2:8080/api/v1/addfuelstation');
+    final url = Uri.parse('http://localhost:8080/api/v1/addfuelstation');
 
     final body = json.encode({
-      'regNo': regNoController.text,
-      'address': addressController.text,
-      'capacity': selectedCapacity,
-      'fuelType': selectedFuelType,
+      'location': addressController.text,
+      'status': 'ACTIVE', // Always ACTIVE
       'stationType': selectedStationType,
-      'password': passwordController.text
+      'registeredId': int.parse(regNoController.text),
+      'eligibleFuelCapacity': selectedCapacity,
+      'capacity': 50000,
+      'fuelType': selectedFuelType,
+      'password': passwordController.text,
+      'fuelStationOwner': {
+        'stationOwnerid': widget.stationOwnerId
+      }
     });
 
     try {
@@ -96,7 +91,7 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
       if (response.statusCode == 200) {
         Navigator.pushNamed(context, '/qr_scanner');
       } else {
-        throw Exception('Failed to register owner: ${response.body}');
+        throw Exception('Failed to register fuel station: ${response.body}');
       }
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -120,6 +115,7 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
             children: [
               TextFormField(
                 controller: regNoController,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   labelText: 'Fuel Station Registration Number',
                   border: OutlineInputBorder(),
@@ -142,9 +138,9 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
                   border: OutlineInputBorder(),
                 ),
                 items: const [
-                  DropdownMenuItem(value: 'small', child: Text('Small (5,000L - 15,000L)')),
-                  DropdownMenuItem(value: 'medium', child: Text('Medium (15,000L - 40,000L)')),
-                  DropdownMenuItem(value: 'large', child: Text('Large (40,000L - 100,000L)')),
+                  DropdownMenuItem(value: 'SMALL_5000_10000', child: Text('Small (5,000L - 10,000L)')),
+                  DropdownMenuItem(value: 'MEDIUM_15000_40000', child: Text('Medium (15,000L - 40,000L)')),
+                  DropdownMenuItem(value: 'LARGE_40000_100000', child: Text('Large (40,000L - 100,000L)')),
                 ],
                 onChanged: (value) => setState(() => selectedCapacity = value),
                 validator: (value) => value == null ? 'Please select a capacity' : null,
@@ -156,9 +152,9 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
                   border: OutlineInputBorder(),
                 ),
                 items: const [
-                  DropdownMenuItem(value: 'diesel', child: Text('Diesel')),
-                  DropdownMenuItem(value: 'petrol', child: Text('Petrol')),
-                  DropdownMenuItem(value: 'both', child: Text('Both')),
+                  DropdownMenuItem(value: 'DIESEL', child: Text('Diesel')),
+                  DropdownMenuItem(value: 'PETROL', child: Text('Petrol')),
+                  DropdownMenuItem(value: 'BOTH', child: Text('Both')),
                 ],
                 onChanged: (value) => setState(() => selectedFuelType = value),
                 validator: (value) => value == null ? 'Please select a fuel type' : null,
@@ -170,10 +166,10 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
                   border: OutlineInputBorder(),
                 ),
                 items: const [
-                  DropdownMenuItem(value: 'cypetco', child: Text('Cypetco')),
-                  DropdownMenuItem(value: 'ioc', child: Text('IOC')),
-                  DropdownMenuItem(value: 'cynopec', child: Text('Cynopec')),
-                  DropdownMenuItem(value: 'other', child: Text('Other')),
+                  DropdownMenuItem(value: 'IOC', child: Text('IOC')),
+                  DropdownMenuItem(value: 'CYPETCO', child: Text('Cypetco')),
+                  DropdownMenuItem(value: 'CYNOPEC', child: Text('Cynopec')),
+                  DropdownMenuItem(value: 'OTHER', child: Text('Other')),
                 ],
                 onChanged: (value) => setState(() => selectedStationType = value),
                 validator: (value) => value == null ? 'Please select a station type' : null,
