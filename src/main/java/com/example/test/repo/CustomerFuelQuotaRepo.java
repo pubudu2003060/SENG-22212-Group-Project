@@ -44,4 +44,6 @@ public interface CustomerFuelQuotaRepo extends JpaRepository<CustomerFuelQuota, 
     Object updateCustomerFueeldata(@Param("customerFuelQuotaId") int customerFuelQuotaId, @Param("remainFuel") int remainFuel);
 
 
+    CustomerFuelQuota getCustomerFuelQuotaByCustomerFuelQuotaId(int customerFuelQuotaId);
+
 }

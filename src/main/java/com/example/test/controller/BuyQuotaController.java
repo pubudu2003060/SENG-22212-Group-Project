@@ -1,6 +1,8 @@
 package com.example.test.controller;
 
+import com.example.test.dto.BQDetailsDTO;
 import com.example.test.dto.BuyQuotaDTO;
+import com.example.test.model.BuyQuota;
 import com.example.test.service.BuyQuotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,7 @@ public class BuyQuotaController {
     }
 
     @PostMapping("/addbuyquotes")
-    public BuyQuotaDTO saveBuyQuota(@RequestBody BuyQuotaDTO buyQuotaDTO) {
-        return buyQuotaService.saveBuyQuota(buyQuotaDTO);
+    public BuyQuota saveBuyQuota(@RequestBody BQDetailsDTO  buyQuotaDTO) {
+        return buyQuotaService.saveBQuyQuota(buyQuotaDTO);
     }
 }

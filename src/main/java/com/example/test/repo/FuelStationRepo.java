@@ -23,4 +23,6 @@ public interface FuelStationRepo extends JpaRepository<FuelStation, Integer> {
     @Query("SELECT s FROM FuelStation s WHERE s.capacity < 8000")
     List<FuelStation> findStationsWithCapacityBelow8000();
 
+    FuelStation getFuelStationByRegisteredId(int registeredId);
+
 }
