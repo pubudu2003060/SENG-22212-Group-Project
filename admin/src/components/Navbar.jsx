@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { Menu } from 'antd';
-import { HomeOutlined, AreaChartOutlined, ShopOutlined, TeamOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
+import { HomeOutlined, AreaChartOutlined, ShopOutlined, TeamOutlined, AppstoreOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 
 import '../styles/navbar.css'; // Import custom CSS
 import LogoutButton from './LogoutButton';
 
-function Navbar({ setHeaderTitle }) {
+function Navbar({collapsed, setHeaderTitle }) {
   const location = useLocation();
 
   // Dynamically initialize selectedKey based on current path
@@ -57,27 +57,29 @@ function Navbar({ setHeaderTitle }) {
         selectedKeys={[selectedKey]} // Ensure selectedKey always matches the path
       >
         <Menu.Item key="dashboard" icon={<HomeOutlined />}>
-          <Link to="/dashboard"> Dashboard </Link>
+          <Link to="/dashboard"> {collapsed ? '' : 'Dashboard'} </Link>
         </Menu.Item>
         <Menu.Item key="fuelManagement" icon={<AreaChartOutlined />}>
-          <Link to="/fuelManagement"> Fuel Management </Link>
+          <Link to="/fuelManagement"> {collapsed ? '' : 'Fuel Management'} </Link>
         </Menu.Item>
         <Menu.Item key="stationManagement" icon={<ShopOutlined />}>
-          <Link to="/stationManagement"> Station Management </Link>
+          <Link to="/stationManagement"> {collapsed ? '' : 'Station Management'} </Link>
         </Menu.Item>
         <Menu.Item key="userManagement" icon={<TeamOutlined />}>
-          <Link to="/userManagement"> User Management </Link>
+          <Link to="/userManagement"> {collapsed ? '' : 'User Management'} </Link>
         </Menu.Item>
         <Menu.Item key="fuelQuotaManagement" icon={<AppstoreOutlined />}>
-          <Link to="/fuelQuotaManagement"> Fuel Quota Management </Link>
+          <Link to="/fuelQuotaManagement"> {collapsed ? '' : 'Fuel Quota Management'} </Link>
         </Menu.Item>
         <Menu.Item key="settings" icon={<SettingOutlined />}>
-          <Link to="/settings"> Settings </Link>
+          <Link to="/settings"> {collapsed ? '' : 'Settings'} </Link>
+        </Menu.Item>
+
+        {/* Logout Item */}
+        <Menu.Item key="logout" icon={collapsed ? <LogoutOutlined /> : null }>
+          {collapsed ? <LogoutOutlined/> : <><LogoutOutlined /><LogoutButton/></>}
         </Menu.Item>
       </Menu>
-    </div>
-    <div>
-      <LogoutButton />
     </div>
   </>
   );

@@ -23,11 +23,9 @@ function LogoutButton() {
     <button
       onClick={handleLogout}
       style={{
-        display: "flex",
         alignItems: "center",
-        gap: "8px",
         padding: "5px 20px",
-        margin: "20px",
+        marginLeft: "25px",
         fontSize: "16px",
         color: "white",
         backgroundColor: "#ff4d4f", // Ant Design red color
@@ -39,7 +37,6 @@ function LogoutButton() {
       onMouseEnter={(e) => (e.target.style.backgroundColor = "#ff7875")} // Hover color
       onMouseLeave={(e) => (e.target.style.backgroundColor = "#ff4d4f")} // Default color
     >
-      <LogoutOutlined />
       Logout
     </button>
   );
