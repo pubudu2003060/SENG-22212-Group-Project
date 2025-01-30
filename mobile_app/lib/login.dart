@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
+
+Future<void> saveData(String registeredId) async {
+ final prefs = await SharedPreferences.getInstance();
+ await prefs.setString('registeredId', registeredId);
+}
+
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController regNoController = TextEditingController();
@@ -46,6 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
       'password': passwordController.text
     });
 
+
+
     try {
       final response = await http.post(
         url,
@@ -54,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       print(response.body);
       if (response.body == 'true') {
+        await saveData(regNoController.text);
         Navigator.pushNamed(context, '/qr_scanner');
       } else {
         throw Exception('Failed to login: ${response.body}');
@@ -65,8 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
