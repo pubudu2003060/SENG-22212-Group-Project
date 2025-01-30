@@ -87,6 +87,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
           context,
           MaterialPageRoute(
             builder: (context) => DetailsScreen(
+              customerFuelQuotaId: int.parse(customerFuelQuotaId),
               firstName: data['firstName'],
               lastName: data['lastName'],
               idNo: data['idNo'],
@@ -96,7 +97,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               eligibleDays: data['eligibleDays'],
               eligibleFuelQuota: data['eligibleFuelQuota'],
               remainFuel: data['remainFuel'],
-              vehicleNumber: '',
+            
             ),
           ),
         );

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class PumpingFuelQuota extends StatefulWidget {
-  const PumpingFuelQuota({super.key});
+  final int remainFuel;
+  final int customerFuelQuotaId;
+
+
+  const PumpingFuelQuota(
+    {super.key, required this.remainFuel, required this.customerFuelQuotaId});
 
   @override
   _PumpingFuelQuotaState createState() => _PumpingFuelQuotaState();
@@ -37,8 +44,41 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
     });
   }
 
+  // Function to calculate the remaining fuel after pumping
+  int calculateRemainingFuel() {
+    double pumpedFuel = double.tryParse(fuelLitersController.text) ?? 0;
+    return (widget.remainFuel - pumpedFuel).toInt();
+  }
+
+  // Function to update the fuel data via HTTP
+  Future<void> updateFuelData(int customerFuelQuotaId, int newRemainFuel) async {
+         print(customerFuelQuotaId.toString()+" "+newRemainFuel.toString());
+    final url = Uri.parse('http://192.168.1.173:8080/api/v1/updateCustomerFueeldata/$customerFuelQuotaId/$newRemainFuel');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      // Parse the response body
+      final result = json.decode(response.body);
+   
+      if (result.toString() == '1') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Fuel data updated successfully.')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to update fuel data.')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error occurred while updating fuel data.')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(widget.customerFuelQuotaId.toString()+" yyyy "+widget.remainFuel.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pumping Fuel Quota'),
@@ -101,8 +141,10 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
                         content: Text('Please fill in the fuel liters.')),
                   );
                 } else {
-                  // Action for submit
-                  Navigator.pushNamed(context, '/qr_details');
+                  // Calculate remaining fuel
+                  int newRemainFuel = calculateRemainingFuel();
+                  // Update fuel data via HTTP
+                  updateFuelData(widget.customerFuelQuotaId, newRemainFuel);
                 }
               },
               style: ElevatedButton.styleFrom(
