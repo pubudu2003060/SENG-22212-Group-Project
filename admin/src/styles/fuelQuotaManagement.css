@@ -1,33 +1,81 @@
-.quota_container {
-    padding: 1rem;
+/* Sidebar */
+.sidebar {
+    background: #fff;
+    padding-top: 20px;
 }
 
-.quota_header {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
+.toggle {
+    font-size: 20px;
+    padding: 10px;
+}
+
+/* Header */
+.headerbar {
+    background: #fff;
+    padding: 0 20px;
+}
+
+/* Content */
+.content {
+    padding: 20px;
+    background: #f4f7fb;
+}
+
+/* Quota Card */
+.quota-card {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quota-card .ant-card-body {
+    padding: 20px;
+}
+
+.quota-card .ant-btn {
+    width: 48%;
+}
+
+/* Table Card */
+.table-card {
+    margin-top: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.table-actions {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
 }
-  
-.quota-details_table {
-    align-content: center;
-    width: 100%; 
-    border-collapse: collapse; /* Standard border style */ 
-    border: 1px solid #ccc; /* Border for the table */ 
-    text-align: left;
-    margin: 0 auto;
+
+/* Footer Info */
+.footer-info {
+    margin-top: 30px;
 }
 
-.quota-details_table thead {
-    background-color: #d6d4d4;
+.ant-statistic-title {
+    font-size: 16px;
 }
 
-.quota-details_table tbody tr :hover {
-    background-color: #f3f0f0;
+.ant-statistic-content-value {
+    font-size: 20px;
+    font-weight: bold;
 }
 
-.quota-details_table th, .quota-details_table td {
-    padding: 0.25rem; 
-    border: 1px solid #e8e5e5; /* Border for table cells */ 
-    text-align: left; 
+/* Responsive Design */
+@media (max-width: 768px) {
+    .quota-card {
+        margin-bottom: 10px;
+    }
+    .table-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .table-actions .ant-input,
+    .table-actions .ant-select {
+        margin-bottom: 10px;
+    }
 }
