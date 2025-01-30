@@ -18,8 +18,6 @@ import FuelDetails from '../FuelManagementComponents/FuelDetails';
 
 
 const { Sider, Header, Content } = Layout;
-//const { Option } = Select;
-//const { RangePicker } = DatePicker;
 
 function FuelManagement() {
 
@@ -105,7 +103,7 @@ function FuelManagement() {
                             
                         </Layout>
 
-                        <Layout className="background_layout2">
+                        <Layout className="background_layout2" style={{ boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}}>
                             <Content className="background_content2">
                                 <FuelDetails />
                             </Content>

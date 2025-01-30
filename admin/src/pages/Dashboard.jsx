@@ -6,11 +6,10 @@ import cookies from "js-cookie";
 import { Button, Layout, Card, Row, Col } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from 'axios';
 import "../styles/background.css";
 import logo from "../assets/lastfuel.png";
-import "../styles/Dashboard.css"; // If the CSS file is in a "styles" folder one level up
-
+import "../styles/Dashboard.css";
 
 const { Header, Sider, Content } = Layout;
 
@@ -26,59 +25,54 @@ function Dashboard() {
     }
   }, []);
 
-  const [headerTitle, setHeaderTitle] = useState('Dashboard'); // Default title
+  const [headerTitle, setHeaderTitle] = useState('Dashboard');
   const [collapsed, setCollapsed] = useState(false);
 
-  //Total active stations
-  const [totalActiveFuelStations, setTotalActiveFuelStations] = useState(0); 
+  // Total active stations
+  const [totalActiveFuelStations, setTotalActiveFuelStations] = useState(0);
 
   useEffect(() => {
-    // Fetch the total active fuel stations from the API
     axios.get('http://localhost:8080/api/v1/getTotalActiveFuelStations')
       .then(response => {
-        setTotalActiveFuelStations(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data); // Update state with fetched data
+        setTotalActiveFuelStations(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data);
       })
       .catch(error => {
         console.error('Error fetching total active fuel stations:', error);
       });
   }, []);
   
-  //Total vehicles
-  const [totalVehicles, setTotalVehicles] = useState(0); 
+  // Total vehicles
+  const [totalVehicles, setTotalVehicles] = useState(0);
 
   useEffect(() => {
-    // Fetch the total vehicles from the API
     axios.get('http://localhost:8080/api/v1/getTotalVehicles')
       .then(response => {
-        setTotalVehicles(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data); // Update state with fetched data
+        setTotalVehicles(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data);
       })
       .catch(error => {
         console.error('Error fetching total vehicles:', error);
       });
   }, []);
 
-
-  //Low fuel stations
-  const [totalLowFuelStations, setTotalLowFuelStations] = useState(0); 
+  // Low fuel stations
+  const [totalLowFuelStations, setTotalLowFuelStations] = useState(0);
 
   useEffect(() => {
-    // Fetch the total LowFuelStations from the API
     axios.get('http://localhost:8080/api/v1/findFuelStationCapacityBelow8000')
       .then(response => {
-        setTotalLowFuelStations(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data); // Update state with fetched data
+        setTotalLowFuelStations(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data);
       })
       .catch(error => {
         console.error('Error fetching total low fuel stations:', error);
       });
   }, []);
 
-  
   return (
     <>
       <Layout>
         <Sider
           width={250}
-          collapsedWidth={70} // Width when collapsed
+          collapsedWidth={70}
           collapsed={collapsed}
           collapsible
           trigger={null}
@@ -106,39 +100,36 @@ function Dashboard() {
 
         <Layout>
           <Header className="background_header">
-            <Headerbar headerTitle={headerTitle}/>
+            <Headerbar headerTitle={headerTitle} />
           </Header>
 
           <Content>
-            {/* Color Block with Background Image */}
             <div className="background_cover"></div>
             <Layout className="background_layout1">
               <Content className="background_content1">
-                  <Row gutter={[16, 16]} style={{marginTop: "80px"}}>
-                        <Col span={8}>
-                            <Card className="dashboard-card" title="Total Active Fuel Stations" bordered={false}>
-                              {totalActiveFuelStations}
-                            </Card>
-                        </Col>
-                        <Col span={8}>
-                            <Card className="dashboard-card" title="Total Vehicles Registered" bordered={false}>
-                              {totalVehicles}
-                            </Card>
-                        </Col>
-                        <Col span={8}>
-                          <Card className="dashboard-card" title="Low Fuel Stations" bordered={false}>
-                              {totalLowFuelStations}
-                          </Card>
-                        </Col>
-                    </Row>
+                <Row gutter={[16, 16]} style={{ marginTop: "80px" }}>
+                  <Col span={8}>
+                    <Card className="dashboard-card card-active-stations" title="Total Active Fuel Stations" bordered={false}>
+                      {totalActiveFuelStations}
+                    </Card>
+                  </Col>
+                  <Col span={8}>
+                    <Card className="dashboard-card card-total-vehicles" title="Total Vehicles Registered" bordered={false}>
+                      {totalVehicles}
+                    </Card>
+                  </Col>
+                  <Col span={8}>
+                    <Card className="dashboard-card card-low-fuel-stations" title="Low Fuel Stations" bordered={false}>
+                      {totalLowFuelStations}
+                    </Card>
+                  </Col>
+                </Row>
               </Content>
             </Layout>
-
           </Content>
         </Layout>
       </Layout>
 
-      {/* Footer */}
       <Footer />
     </>
   );

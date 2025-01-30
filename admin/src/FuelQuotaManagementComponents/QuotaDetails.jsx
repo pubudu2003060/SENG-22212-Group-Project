@@ -128,7 +128,6 @@ function QuotaDetails() {
                         <th>Eligible Days</th>
                         <th>Eligible Fuel Quota (L)</th>
                         <th>Remaining Fuel Quota (L)</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -143,11 +142,6 @@ function QuotaDetails() {
                                 <td>{q.eligibleDays}</td>
                                 <td>{q.eligibleFuelQuota}L</td>
                                 <td>{q.remainFuel}L</td>
-                                <td>
-                                    <Button>
-                                        Send
-                                    </Button>
-                                </td>
                             </tr>
                         ))
                     ) : (

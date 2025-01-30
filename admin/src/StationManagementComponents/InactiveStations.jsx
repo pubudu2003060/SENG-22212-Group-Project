@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Input, Select, Pagination, Button, Modal } from 'antd';
+import { Input, Select, Pagination } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
-
+import UpdateStationStatus from './UpdateStationStatus';
 import "../styles/StationManagement.css";
+import StationDetails from './StationsDetails';
 
 const { Option } = Select;
 
@@ -15,8 +16,6 @@ function InactiveFuelStations() {
     const [locations, setLocations] = useState([]);
     const [stationTypes, setStationTypes] = useState([]);
     const [fuelTypes, setFuelTypes] = useState([]);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedStation, setSelectedStation] = useState(null);
 
     // Pagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -81,23 +80,6 @@ function InactiveFuelStations() {
     const handlePageChange = (page, pageSize) => {
         setCurrentPage(page);
         setPageSize(pageSize);
-    };
-
-    const showModal = (station) => {
-        setSelectedStation(station);
-        setIsModalVisible(true);
-    };
-
-    const handleOk = () => {
-        // Handle the activation logic here, e.g., make an API call to activate the station
-        console.log("Activating station:", selectedStation);
-        setIsModalVisible(false);
-        setSelectedStation(null);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-        setSelectedStation(null);
     };
 
     const paginatedStations = filteredStations.slice((currentPage - 1) * pageSize, currentPage * pageSize);
@@ -179,6 +161,7 @@ function InactiveFuelStations() {
                         <th>Fuel Type</th>
                         <th>Owner's Name</th>
                         <th>Owner's Contact</th>
+                        <th>Details</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -195,13 +178,16 @@ function InactiveFuelStations() {
                                 <td>{station.fuelStationOwner.name}</td>
                                 <td>{station.fuelStationOwner.contact}</td>
                                 <td>
-                                    <Button 
-                                        type="primary" 
-                                        onClick={() => showModal(station)}
-                                        className="station-activate-btn"
-                                    >
-                                        Activate
-                                    </Button>
+                                    <StationDetails stationId={station.stationId} />
+                                </td>
+                                <td>
+                                    <UpdateStationStatus
+                                        station={station}
+                                        onUpdate={(stationId, newStatus) => {
+                                            // Handle the update action if needed in the parent component
+                                            console.log(`Station ${stationId} updated to ${newStatus}`);
+                                        }}
+                                    />
                                 </td>
                             </tr>
                         ))
@@ -226,17 +212,6 @@ function InactiveFuelStations() {
                 style={{ marginTop: "1rem", textAlign: "right" }}
             />
 
-            {/* Modal for confirmation */}
-            <Modal
-                title="Activate Station"
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-            >
-                <p>Are you sure you want to activate this station?</p>
-                <p><strong>Registered ID:</strong> {selectedStation?.registeredId}</p>
-                <p><strong>Owner's Name:</strong> {selectedStation?.fuelStationOwner.name}</p>
-            </Modal>
         </div>
     );
 }
