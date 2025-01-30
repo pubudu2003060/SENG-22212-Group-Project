@@ -54,6 +54,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     saveData();
     print(widget.customerFuelQuotaId.toString() +
         "rrr " +
