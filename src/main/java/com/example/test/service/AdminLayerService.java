@@ -32,6 +32,9 @@ public class  AdminLayerService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JWTService jwtService;
+
     public Map<String, Double> getBuyQuotasDataByFuelType(String fuelType) {
 
         List<BuyQuota> buyQuotaList = buyQuotaService.getBuyQuotasByFuelType(fuelType);
@@ -82,7 +85,7 @@ public class  AdminLayerService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(adminSignInDTO.getUserName(),adminSignInDTO.getPassword()));
 
         if(authentication.isAuthenticated()){
-            return generateToken();
+            return jwtService.generateToken(adminSignInDTO.getUserName());
         }else{
             return "fail";
         }
