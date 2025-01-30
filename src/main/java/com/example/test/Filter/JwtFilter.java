@@ -2,6 +2,7 @@ package com.example.test.Filter;
 
 import com.example.test.service.AdminService;
 import com.example.test.service.JWTService;
+import com.example.test.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,26 +37,34 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         String token=null;
-        String username=null;
+        String identifier=null;
 
         if(authHeader != null && authHeader.startsWith("Bearer ")) {
             //to ommit fist 6 indexes that belongs to the Bearer,we begin with index 7
             token = authHeader.substring(7);
-            username=jwtService.extractUserName(token);
+            identifier=jwtService.extractSubject(token);
         }
-        if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
-
+        if(identifier !=null && SecurityContextHolder.getContext().getAuthentication()==null) {
+            String role=jwtService.extractClaims(token,claims->claims.get("role",String.class));
             //Dynamically load user details
-            UserDetails userDeatils=context.getBean(AdminService.class).loadUserByUsername(username);
+            UserDetails userDetails=null;
 
-            //Validate JWT token
-            if(jwtService.validateToken(token,userDeatils)){
-                String role=jwtService.extractClaims(token,claims->claims.get("role",String.class));
+            // Load user details dynamically based on the role
+            if ("ADMIN".equals(role)) {
+                userDetails = context.getBean(AdminService.class).loadUserByUsername(identifier); // Still using username for Admin
+            } else if ("USER".equals(role)) {
+                userDetails = context.getBean(UserService.class).loadUserByPhoneNumber(identifier); // Using phoneNumber for User
+            } else {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid role in token");
+                return; // Stop further processing
+            }
+
+            //Validate JWT token and check role-based authorization
+            if(jwtService.validateToken(token,identifier)&& isAuthorizedForEndpoint(request.getRequestURI(),role)){
 
                 //check API based on role
-                if(isAuthorizedForEndpoint(request.getRequestURI(),role)){
                     UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(userDeatils, null, userDeatils.getAuthorities());
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     //adding the token in the chain
                     SecurityContextHolder.getContext().setAuthentication(authToken);
@@ -67,7 +76,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
 
 
-            }
+
         }
         filterChain.doFilter(request, response);
     }
