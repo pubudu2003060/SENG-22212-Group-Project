@@ -1,23 +1,18 @@
 package com.example.test.dto;
 
 import com.example.test.enump.FuelType;
-import com.example.test.enump.StationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BuyquotaFuelStationDTO {
+public class BQDetailsDTO {
 
-    private int bqId;
+    private int customerFuelQuotaId;
     private int amount;
-    private Date date;
+    private int registeredId;
     private FuelType fuelType;
-    private int stationId;
-    private StationType stationType;
 
 }

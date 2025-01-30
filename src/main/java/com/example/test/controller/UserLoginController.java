@@ -21,15 +21,25 @@ public class UserLoginController {
     @PostMapping("/send-otp/{phoneNumber}")
     public String sendOtp(@PathVariable("phoneNumber") String phoneNumber) {
         try {
-            return userLoginService.sendOtp(phoneNumber);
+            return userLoginService.sendOtplogin(phoneNumber);
         }
         catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
 
+    @PostMapping("/send-otp/su/{phoneNumber}")
+    public String sendOtpSignUP(@PathVariable("phoneNumber") String phoneNumber) {
+        try {
+            return userLoginService.sendOtpSignUp(phoneNumber);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @PostMapping("/validate-otp")
+
     public String validateOtp(@RequestBody LoginRequestDto loginRequest) {
         String result= userLoginService.validateOtp(loginRequest);
         if ("OTP verified successfully".equals(result)) {
@@ -38,6 +48,7 @@ public class UserLoginController {
         } else {
             // Return the message if OTP validation failed
             return result;
+
         }
     }
 

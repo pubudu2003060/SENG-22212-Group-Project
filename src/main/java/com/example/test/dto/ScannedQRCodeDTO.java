@@ -1,7 +1,6 @@
 package com.example.test.dto;
 
-import com.example.test.model.Vehical;
-import com.example.test.model.VehicalType;
+import com.example.test.enump.VehicalType;
 import lombok.*;
 
 @Data
@@ -12,7 +11,7 @@ import lombok.*;
 
 public class ScannedQRCodeDTO {
 
-    private int vehicleNo;
+    private String vehicleNo;
     private VehicalType vehicalType;
     private int remainFuel;
     private String eligibleDays;
