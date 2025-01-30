@@ -58,4 +58,13 @@ public class CustomerFuelQuotaController {
         }
     }
 
+    @GetMapping("/updateCustomerFueeldata/{customerFuelQuotaId}/{remainFuel}")
+    public Object updateCustomerFueeldata(@PathVariable int customerFuelQuotaId,@PathVariable int remainFuel) {
+        try {
+            return customerFualQuataService.updateCustomerFueeldata(customerFuelQuotaId, remainFuel);
+        } catch (Exception e) {
+            return "Error updating customer fuel quota: "+e.getMessage();
+        }
+    }
+
 }

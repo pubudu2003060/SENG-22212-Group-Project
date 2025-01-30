@@ -108,5 +108,14 @@ public class CustomerFualQuataService {
         }
     }
 
+    public Object updateCustomerFueeldata(int customerFuelQuotaId, int remainFuel) {
+        try {
+            Object object = customerFuelQuotaRepo.updateCustomerFueeldata(customerFuelQuotaId, remainFuel);
+            return object;
+        } catch (Exception e) {
+            return "Error updating customer fuel quota"+e.getMessage();
+        }
+    }
+
 
 }
