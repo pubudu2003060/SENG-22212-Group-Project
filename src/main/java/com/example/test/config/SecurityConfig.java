@@ -1,5 +1,6 @@
 package com.example.test.config;
 
+import com.example.test.Filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity//this says don't go with the default way.Just go with the way I provide
@@ -28,12 +30,16 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private JwtFilter jwtFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //
       return http
         .csrf(customizer->customizer.disable())
         .authorizeHttpRequests(request ->request
+
                 //the URL s inside the requestmatcher should not authenticated
                 .requestMatchers("api/v1/adminsignin","api/v1/addadmin")
                 .permitAll()
@@ -43,6 +49,7 @@ public class SecurityConfig {
         .httpBasic(Customizer.withDefaults()) // to check with the postman we want to give this line to give the rest api access.otherwise it show a html code
         .sessionManagement(session->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // without doing this we can access to login form  using browser bcz for every request it needs the credentials
+              .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
       .build();
 
       //but in the above method when we refresh it create a new session id.So in everytime we have to sign in
