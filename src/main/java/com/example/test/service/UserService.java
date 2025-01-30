@@ -1,9 +1,8 @@
 package com.example.test.service;
 
 import com.example.test.dto.UserDto;
-import com.example.test.model.Admin;
-import com.example.test.model.AdminPrincipal;
-import com.example.test.model.User;
+import com.example.test.model.*;
+import com.example.test.repo.UserLoginRepo;
 import com.example.test.repo.UserRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -25,6 +24,8 @@ public class UserService {
 
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private UserLoginRepo userLoginRepo;
 
     public List<UserDto> getAllUsers() {
         List<User> userList = userRepo.findAll();
@@ -59,14 +60,16 @@ public class UserService {
         }
 
     }
-
     public UserDetails loadUserByPhoneNumber(String phoneNumber) {
-        User user = userRepo.getUserByContactNo(phoneNumber);
-        if (user == null) {
+        UserLogin userLogin = userLoginRepo.getUserLoginByPhoneNumber(phoneNumber);
+        if (userLogin == null) {
             throw new UsernameNotFoundException("User not found with phone number: " + phoneNumber);
         }
-        return new UserPrincipal(user); // Return UserPrincipal
+        UserPrincipal userPrincipal = new UserPrincipal(userLogin);
+        return userPrincipal; // Return UserPrincipal
     }
+
+
 
 
 
