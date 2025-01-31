@@ -2,6 +2,7 @@ package com.example.test.Filter;
 
 import com.example.test.model.UserLogin;
 import com.example.test.service.AdminService;
+import com.example.test.service.FuelStationService;
 import com.example.test.service.JWTService;
 import com.example.test.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -59,7 +60,7 @@ public class JwtFilter extends OncePerRequestFilter {
             } else if ("USER".equals(role)) {
                 userDetails = context.getBean(UserService.class).loadUserByPhoneNumber(identifier); // Using phoneNumber for User
             } else if ("FUELSTATION".equals(role)) {
-                userDetails = context.getBean(UserService.class).loadUserByFuelStationIdentifier(identifier); // Assuming FuelStation has a unique identifier
+                userDetails = context.getBean(FuelStationService.class).loadUserByUsername(identifier); // Assuming FuelStation has a unique identifier
 
             } else {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid role in token");
