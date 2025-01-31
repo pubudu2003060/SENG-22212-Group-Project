@@ -21,8 +21,7 @@ public class FuelStationDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        FuelStation fuelStation = fuelStationRepo.findByUsernameAndRole(username, "FUELSTATION")
-                .orElseThrow(() -> new UsernameNotFoundException("Fuel Station not found"));
+        FuelStation fuelStation = fuelStationRepo.findByUsernameAndRole(username, "FUELSTATION");
         return new org.springframework.security.core.userdetails.User(
                 fuelStation.getUsername(),
                 fuelStation.getPassword(),

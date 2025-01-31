@@ -3,6 +3,7 @@ package com.example.test.Security.config;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +19,7 @@ public class AuthProviderConfig {
     public AuthProviderConfig(
             @Qualifier("adminDetailsService")UserDetailsService adminDetailsService,
             @Qualifier("userDetailsServiceImp")UserDetailsService userDetailsService,
-            @Qualifier("fuelStationDetailsService")UserDetailsService fuelStationDetailsService,
+            @Qualifier("fuelStationDetailsService") UserDetailsService fuelStationDetailsService,
                               PasswordEncoder passwordEncoder) {
         this.adminDetailsService = adminDetailsService;
         this.userDetailsService = userDetailsService;
