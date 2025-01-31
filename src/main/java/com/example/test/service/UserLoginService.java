@@ -46,7 +46,7 @@ public class UserLoginService {
         try {
 
             User user = userRepo.findUserByContactNo(phoneNumber);
-            if(user == null) {
+            if (user == null) {
                 throw new Exception("User not found");
             }
 
@@ -59,8 +59,14 @@ public class UserLoginService {
             userLogin.setVerified(false);
             userLoginRepo.save(userLogin);
 
-            // Send OTP via SMS
-         //   twilioSmsService.sendOtp(phoneNumber, otp);
+            String longOtpMessage = "Dear User, \n\n"
+                    + "Thank you for using our service. We are sending you the OTP for authentication. Please use the following code to complete your verification process. "
+                    + "Your OTP code is: " + otp + ". \n\n"
+                    + "This OTP is valid for 5 minutes. If you did not request this, please ignore this message. "
+                    + "For more information, visit our website or contact support.";
+
+            //Send OTP via SMS
+            //twilioSmsService.sendMessage(phoneNumber, longOtpMessage);
 
             return "OTP sent successfully ";
 
@@ -74,7 +80,7 @@ public class UserLoginService {
 
             User user = userRepo.findUserByContactNo(phoneNumber);
 
-            if(user != null) {
+            if (user != null) {
                 throw new Exception("This number already used");
             }
 
@@ -87,8 +93,14 @@ public class UserLoginService {
             userLogin.setVerified(false);
             userLoginRepo.save(userLogin);
 
-            // Send OTP via SMS
-            //  twilioSmsService.sendOtp(phoneNumber, otp);
+            String longOtpMessage = "Dear User, \n\n"
+                    + "Thank you for using our service. We are sending you the OTP for authentication. Please use the following code to complete your verification process. "
+                    + "Your OTP code is: " + otp + ". \n\n"
+                    + "This OTP is valid for 5 minutes. If you did not request this, please ignore this message. "
+                    + "For more information, visit our website or contact support.";
+
+            //Send OTP via SMS
+            //twilioSmsService.sendMessage(phoneNumber, longOtpMessage);
 
             return "OTP sent successfully ";
 
@@ -101,7 +113,7 @@ public class UserLoginService {
         try {
             UserLogin userLogin = userLoginRepo.getUserLoginByPhoneNumber(loginRequest.getPhoneNumber());
 
-            if(userLogin == null) {
+            if (userLogin == null) {
                 throw new Exception("Number not found");
             }
 
@@ -118,9 +130,9 @@ public class UserLoginService {
         }
     }
 
-    public void sendCall(String phoneNumber){
+    public void sendCall(String phoneNumber) {
         try {
-            twilioSmsService.sendCall(phoneNumber,otpGenerateService.generateOTP());
+            twilioSmsService.sendCall(phoneNumber, otpGenerateService.generateOTP());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -136,7 +148,8 @@ public class UserLoginService {
 
             // Read JSON into List of VehicleMockDataDTO
             List<VehicleMockDataDTO> mockDataList = objectMapper.readValue(
-                    inputStream, new TypeReference<List<VehicleMockDataDTO>>() {}
+                    inputStream, new TypeReference<List<VehicleMockDataDTO>>() {
+                    }
             );
 
             // Convert to DTO using ModelMapper (Optional)
@@ -189,7 +202,6 @@ public class UserLoginService {
 
         return vehicalDTO1;
     }
-
 
 
 }
