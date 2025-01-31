@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface UserRepo extends JpaRepository<User,Integer> {
 
     User getUserByContactNo(String phoneNumber);
+
+
 }
