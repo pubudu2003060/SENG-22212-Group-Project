@@ -50,7 +50,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
         String token = null;
-        String identifier = null;
+        String identifier = null;//this should be strung and fuel station id
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7); // Omit "Bearer " prefix

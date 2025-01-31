@@ -7,10 +7,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-@Qualifier("fuelStationDetailsService")
+@Service
 public class FuelStationDetailsService implements UserDetailsService {
     private final FuelStationRepo fuelStationRepo;
 
@@ -20,8 +22,8 @@ public class FuelStationDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        FuelStation fuelStation = fuelStationRepo.findByUsernameAndRole(username, "FUELSTATION");
+    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+        FuelStation fuelStation = fuelStationRepo.findById(Integer.parseInt(id)).orElseThrow(() -> new IllegalArgumentException("Station not found with ID:" + id));
         return new org.springframework.security.core.userdetails.User(
                 fuelStation.getUsername(),
                 fuelStation.getPassword(),
