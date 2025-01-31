@@ -1,8 +1,8 @@
 package com.example.test.service;
 
+import com.example.test.Security.Services.JWTService;
 import com.example.test.dto.FuelStationDTO;
 import com.example.test.dto.FuelStationManagementDTO;
-import com.example.test.dto.FuelStationOwnerDTO;
 import com.example.test.model.*;
 import com.example.test.repo.FuelStationRepo;
 import jakarta.transaction.Transactional;
@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class FuelStationService implements UserDetailsService {
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
-    @Lazy//not to create object immediately as started,just create only when it is needed
+    //not to create object immediately as started,just create only when it is needed
     private AuthenticationManager authenticationManager;
     @Autowired
     private JWTService jwtService;
@@ -96,16 +95,5 @@ public class FuelStationService implements UserDetailsService {
         }.getType());
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        FuelStation fuelStation=fuelStationRepo.findFuelStationByUsername(username);
-        if(fuelStation==null){
-            System.out.println("fuel station not found");
-            throw new UsernameNotFoundException("fuel station not found");
-        }
-
-        return new FuelStationPrincipal(fuelStation);
-    }
 
 }

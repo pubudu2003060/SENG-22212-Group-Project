@@ -1,9 +1,9 @@
-package com.example.test.model;
+package com.example.test.Security.principals;
 
+import com.example.test.model.UserLogin;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;

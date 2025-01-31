@@ -2,8 +2,7 @@ package com.example.test.controller;
 
 import com.example.test.dto.LoginRequestDto;
 import com.example.test.dto.VehicalDTO;
-import com.example.test.model.UserLogin;
-import com.example.test.service.JWTService;
+import com.example.test.Security.Services.JWTService;
 import com.example.test.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

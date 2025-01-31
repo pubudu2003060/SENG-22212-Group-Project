@@ -1,14 +1,17 @@
 package com.example.test.service;
 
-import com.example.test.dto.AdminDTO;
+import com.example.test.Security.Services.JWTService;
 import com.example.test.dto.AdminSignInDTO;
 import com.example.test.dto.BuyquotaFuelStationDTO;
 import com.example.test.model.BuyQuota;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -81,16 +84,21 @@ public class  AdminLayerService {
         return buyQuotaService.countByFuelTypeByDate(fuelType,date);
     }
 
-    public String adminSignIn(AdminSignInDTO adminSignInDTO){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(adminSignInDTO.getUserName(),adminSignInDTO.getPassword()));
+    public String adminSignIn(AdminSignInDTO adminSignInDTO) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(adminSignInDTO.getUserName(), adminSignInDTO.getPassword())
+            );
 
-        if(authentication.isAuthenticated()){
-            return jwtService.generateAdminToken(adminSignInDTO.getUserName());
-        }else{
-            return "fail";
+            if (authentication.isAuthenticated()) {
+                return jwtService.generateAdminToken(adminSignInDTO.getUserName());
+            } else {
+                throw new BadCredentialsException("Invalid credentials");
+            }
+        } catch (AuthenticationException e) {
+            return "Authentication failed: " + e.getMessage();
         }
     }
-
 
     public List<BuyquotaFuelStationDTO> getFuelStationBuyQuoto() {
         return buyQuotaService.getFuelStationBuyQuoto();
