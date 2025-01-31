@@ -29,7 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity//this says don't go with the default way.Just go with the way I provide
 public class SecurityConfig {
 
-    @Qualifier("fuelStationService")
+
     @Autowired
     private UserDetailsService userDetailsService;
 
