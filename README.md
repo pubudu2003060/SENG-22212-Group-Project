@@ -168,13 +168,6 @@ Ensure you have the following installed before getting started:
 
 ---
 
-## API Documentation
-- **User Portal**: [User_API_Document]
-- **Admin Portal**: [Admin_API_Document]
-- **Mobile App (Fuel Stations)**: [Mobile_App_API_Document]
-
----
-
 ## Team Members
 - **SE/2021/003** - Dilakshan
 - **SE/2021/017** - Nethsarani J.A.R
