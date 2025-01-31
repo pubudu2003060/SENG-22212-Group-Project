@@ -3,6 +3,7 @@ package com.example.test.config;
 import com.example.test.Filter.JwtFilter;
 import com.example.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity//this says don't go with the default way.Just go with the way I provide
 public class SecurityConfig {
 
+    @Qualifier("fuelStationService")
     @Autowired
     private UserDetailsService userDetailsService;
 
