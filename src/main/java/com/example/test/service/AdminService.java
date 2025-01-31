@@ -47,19 +47,21 @@ public class AdminService {
         return modelMapper.map(admin, AdminDTO.class);
     }
 
-    public Admin updatePassword(int adminId, String newPassword) throws Exception {
-        Optional<Admin> optionalAdmin = adminrepo.findById(adminId);
+    public Admin updatePassword(String email, String newPassword) throws Exception {
+        Admin optionalAdmin = adminrepo.findAdminByEmail(email);
 
-        if (optionalAdmin.isPresent()) {
-            Admin admin = optionalAdmin.get();
+        if (optionalAdmin != null) {
+            Admin admin = optionalAdmin;
 
             // Check if new password is the same as the existing password
-            if (admin.getPassword().matches(newPassword)) {
+            if (admin.getPassword().equals(newPassword)) {
                 throw new Exception("New password cannot be the same as the old password.");
+            }else {
+                admin.setPassword(newPassword); // Encrypt new password
+                return adminrepo.save(admin);
             }
 
-            admin.setPassword(newPassword); // Encrypt new password
-            return adminrepo.save(admin);
+
         } else {
             throw new Exception("Admin not found.");
         }

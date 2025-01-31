@@ -10,4 +10,6 @@ public interface AdminRepo extends JpaRepository<Admin,Integer> {
 
     Admin getAdminByEmailAndPassword(String email, String password);
 
+    Admin findAdminByEmail(String email);
+
 }

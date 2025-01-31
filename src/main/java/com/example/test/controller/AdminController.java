@@ -26,10 +26,10 @@ public class AdminController {
         return adminService.saveAdmin(adminDTO);
     }
 
-    @PutMapping("/update-password/{adminId}")
-    public String updatePassword(@PathVariable int adminId, @RequestBody ChangeAdminPasswordDTO changeAdminPasswordDTO) {
+    @PutMapping("/update-password")
+    public String updatePassword(@RequestBody ChangeAdminPasswordDTO changeAdminPasswordDTO) {
         try {
-            adminService.updatePassword(adminId, changeAdminPasswordDTO.getNewPassword());
+            adminService.updatePassword(changeAdminPasswordDTO.getEmail(), changeAdminPasswordDTO.getNewPassword());
             return "Password updated successfully!";
         } catch (Exception e) {
             return "Error: " + e.getMessage();
