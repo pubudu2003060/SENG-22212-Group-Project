@@ -54,10 +54,10 @@ public class AdminService implements UserDetailsService {
     }
 
     public AdminDTO getAdminByUserNameAndPassword(AdminSignInDTO adminSignInDTO){
-        String email = adminSignInDTO.getEmail();
+        String userName = adminSignInDTO.getUserName();
         String password = adminSignInDTO.getPassword();
 
-        Admin admin = adminrepo.getAdminByEmailAndPassword(email, password);
+        Admin admin = adminrepo.getAdminByUserNameAndPassword(userName, password);
         if(admin == null){
             return null;
         }
