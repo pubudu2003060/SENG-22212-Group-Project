@@ -42,7 +42,7 @@ public class CustomerFuelQuotaController {
         return customerFualQuataService.getScannedDetails(customerFuelQuotaId);
     }
 
-    @PutMapping("/allocateFuel")
+    @PutMapping("fuelstation/allocateFuel")
     public String allocateFuel(@RequestParam int customerFuelQuotaId, @RequestParam int allocatedFuel) {
         return customerFualQuataService.allocateFuel(customerFuelQuotaId,allocatedFuel);
 
