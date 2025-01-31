@@ -3,6 +3,7 @@ package com.example.test.Security.config;
 import com.example.test.Security.Filter.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -18,9 +19,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
+
     private final JwtFilter jwtFilter;
+
     private final AuthenticationProvider adminAuthProvider;
+
     private final AuthenticationProvider userAuthProvider;
+
     private final AuthenticationProvider fuelStationAuthProvider;
 
     public SecurityConfig(JwtFilter jwtFilter,

@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public interface FuelStationRepo extends JpaRepository<FuelStation, Integer> {
 
-    FuelStation findByUsernameAndRole(String username, String role);
 
     @Override
     Optional<FuelStation> findById(Integer id);
