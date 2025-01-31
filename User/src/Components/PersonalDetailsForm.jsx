@@ -69,23 +69,28 @@ function PersonalDetailsForm() {
     };
 
     const sendOTP = () => {
-        axios
-            .post(`http://localhost:8080/api/v1/login/send-otp/su/%2B94${formData.phoneNumber}`)
-            .then((response) => {
+        if(formData.phoneNumber.trim() != "" && formData.phoneNumber.length == 10 && /^07\d{8}$/.test(formData.phoneNumber)){
+            axios
+                .post(`http://localhost:8080/api/v1/login/send-otp/su/%2B94${formData.phoneNumber}`)
+                .then((response) => {
 
-                if (response.status == 200) {
-                    alert("OTP sent successfully!");
-                } else {
-                    alert("Otp sent unsuccessfully! ")
+                    if (response.status == 200) {
+                        alert("OTP sent successfully!");
+                    } else {
+                        alert("Otp sent unsuccessfully! ")
 
-                }
+                    }
 
-            })
-            .catch((err) => {
+                })
+                .catch((err) => {
 
-                alert("Failed to send OTP.");
+                    alert("Failed to send OTP.");
 
-            });
+                });
+        }else {
+            alert("please enter a phone Number")
+        }
+
     };
 
     const verifyOTP = () => {
@@ -144,10 +149,7 @@ function PersonalDetailsForm() {
             })
             .catch((err) => {
                 console.error("Error saving user data:", err);
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    general: "Failed to save user data. Please try again.",
-                }));
+                alert("Failed to save user data. Please try again.")
             });
     };
 
