@@ -43,6 +43,7 @@ function TotalFuelDistributed() {
       axios.get(`http://localhost:8080/api/v1/getBuyQuotasDataByFuelType/${selectedFuelType}`)
         .then(response => {
           setFuelDistribution(response.data); // Update fuel distribution data
+          console.log(response.data)
         })
         .catch(error => {
           console.error('Error fetching fuel data:', error);

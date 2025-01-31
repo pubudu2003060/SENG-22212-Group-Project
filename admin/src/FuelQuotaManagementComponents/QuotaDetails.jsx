@@ -128,13 +128,13 @@ function QuotaDetails() {
                 <thead>
                     <tr>
                         <th>Vehicle Registration No</th>
-                        <th>Vehicle Type</th>
-                        <th>Fuel Type</th>
-                        <th>Owner's Name</th>
-                        <th>NIC</th>
-                        <th>Eligible Days</th>
-                        <th>Eligible Fuel Quota (L)</th>
-                        <th>Remaining Fuel Quota (L)</th>
+                        <th>Vehicle Type    </th>
+                        <th>Fuel Type    </th>
+                        <th>Owner Name    </th>
+                        <th>NIC    </th>
+                        <th>Eligible Days    </th>
+                        <th>Eligible Fuel Quota (L)    </th>
+                        <th>Remaining Fuel Quota (L)    </th>
                     </tr>
                 </thead>
                 <tbody>

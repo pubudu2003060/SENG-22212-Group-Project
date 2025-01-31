@@ -43,7 +43,7 @@ function Login() {
             });
             let adminData = adminResponse.data.find(admin => admin.email === email);;
             if (adminData && adminData.userName) {
-                // Store email and adminname in cookies
+
                 setCookies(email, adminData.userName);
                 navigate('/dashboard');
               } else {
