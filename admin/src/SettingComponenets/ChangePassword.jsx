@@ -14,10 +14,12 @@ function ChangePassword() {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/api/v1/changePassword', {
-        currentPassword,
-        newPassword,
-      });
+      const response = await axios.put('http://localhost:8080/api/v1/update-password/1',
+      {
+        newPassword: newPassword
+      }
+
+      );
 
       if (response.status === 200) {
         message.success('Password changed successfully.');

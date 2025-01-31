@@ -97,14 +97,7 @@ function Profile() {
         >
           <Row gutter={30}>
             <Col>
-              <Button type="primary" htmlType="submit" loading={loading}>
-                Save
-              </Button>
-            </Col>
-            <Col>
-              <Button type="default" onClick={handleReset} loading={loading}>
-                Reset
-              </Button>
+
             </Col>
           </Row>
         </Form.Item>

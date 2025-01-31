@@ -78,22 +78,26 @@ function FuelStationOwners() {
         {/* Table */}
         <table border="1" className="ownersTable">
             <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>NIC</th>
-                    <th>Phone</th>
-                    <th>Address</th>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>NIC</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Registration No</th>
 
-                </tr>
+            </tr>
             </thead>
             <tbody>
                 {paginatedOwners.length > 0 ? ( 
                     paginatedOwners.map((stationOwner) => (
                         <tr>
-                            <td>{stationOwner.name}</td>
+                            <td>{stationOwner.firstName}</td>
+                            <td>{stationOwner.lastName}</td>
                             <td>{stationOwner.nicNo}</td>
                             <td>{stationOwner.contact}</td>
                             <td>{stationOwner.address}</td>
+                            <td>{stationOwner.stationOwnerid}</td>
 
                         </tr>
                     ))
