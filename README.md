@@ -178,6 +178,3 @@ Ensure you have the following installed before getting started:
 
 ---
 
-## Contact & Support
-Project Link: [GitHub Repository](https://github.com/pubudu2003060/SENG-22212-Group-Project.git)
-
