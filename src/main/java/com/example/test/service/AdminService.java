@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -44,5 +45,23 @@ public class AdminService {
             return null;
         }
         return modelMapper.map(admin, AdminDTO.class);
+    }
+
+    public Admin updatePassword(int adminId, String newPassword) throws Exception {
+        Optional<Admin> optionalAdmin = adminrepo.findById(adminId);
+
+        if (optionalAdmin.isPresent()) {
+            Admin admin = optionalAdmin.get();
+
+            // Check if new password is the same as the existing password
+            if (admin.getPassword().matches(newPassword)) {
+                throw new Exception("New password cannot be the same as the old password.");
+            }
+
+            admin.setPassword(newPassword); // Encrypt new password
+            return adminrepo.save(admin);
+        } else {
+            throw new Exception("Admin not found.");
+        }
     }
 }

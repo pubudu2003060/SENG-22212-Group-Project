@@ -5,6 +5,7 @@ import com.example.test.dto.BQDetailsDTO;
 import com.example.test.dto.BuyQuatoVehicleDTO;
 import com.example.test.dto.BuyQuotaDTO;
 import com.example.test.dto.BuyquotaFuelStationDTO;
+import com.example.test.enump.FuelType;
 import com.example.test.model.BuyQuota;
 import com.example.test.model.CustomerFuelQuota;
 import com.example.test.model.FuelStation;
@@ -55,7 +56,7 @@ public class BuyQuotaService {
         return buyQuotaRepo.getBuyQuotosByVehical(customerId);
     }
 
-    public List<BuyQuota> getBuyQuotasByFuelType(String fuelType) {
+    public List<BuyQuota> getBuyQuotasByFuelType(FuelType fuelType) {
         List<BuyQuota> buyQuotaList = buyQuotaRepo.getBuyQuotasByFuelType(fuelType);
         return buyQuotaList;
     }

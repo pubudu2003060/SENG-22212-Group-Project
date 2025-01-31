@@ -2,6 +2,7 @@ package com.example.test.controller;
 
 import com.example.test.dto.AdminSignInDTO;
 import com.example.test.dto.BuyquotaFuelStationDTO;
+import com.example.test.enump.FuelType;
 import com.example.test.service.AdminLayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,7 +23,7 @@ public class AdminLayerController {
     private AdminLayerService adminLayerService;
 
     @GetMapping("/getBuyQuotasDataByFuelType/{fualType}")
-    public Map<String, Double> getBuyQuotasDataByFuelType(@PathVariable("fualType") String fuelType) {
+    public Map<String, Double> getBuyQuotasDataByFuelType(@PathVariable("fualType") FuelType fuelType) {
         return adminLayerService.getBuyQuotasDataByFuelType(fuelType);
     }
 
