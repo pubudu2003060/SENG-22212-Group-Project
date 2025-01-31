@@ -104,7 +104,7 @@ public class JWTService {
     }
 
     public String generateFuelStationToken(String username) {
-        FuelStation fuelStation = fuelStationRepo.findFuelStationByUserName(username);
+        FuelStation fuelStation = fuelStationRepo.findFuelStationByUsername(username);
 
         if (fuelStation == null) {
             throw new RuntimeException("Fuel Station not found");
