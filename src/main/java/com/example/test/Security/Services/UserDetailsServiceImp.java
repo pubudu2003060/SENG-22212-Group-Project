@@ -21,11 +21,11 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
         @Override
         public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
-            User user = userRepo.getUserByContactNo(phoneNumber);
+            com.example.test.model.User user = userRepo.getUserByContactNo(phoneNumber);
 
             // Since there is no password, use an empty string
             return new org.springframework.security.core.userdetails.User(
-                    user.getUsername(),
+                    user.getFirstName(),
                     "", // No password
                     List.of(new SimpleGrantedAuthority("ROLE_USER"))
             );
@@ -33,4 +33,4 @@ public class UserDetailsServiceImp implements UserDetailsService {
     }
 
 
-}
+
