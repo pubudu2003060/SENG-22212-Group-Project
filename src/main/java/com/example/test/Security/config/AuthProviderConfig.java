@@ -1,5 +1,6 @@
 package com.example.test.Security.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,9 +15,10 @@ public class AuthProviderConfig {
     private final UserDetailsService fuelStationDetailsService;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthProviderConfig(UserDetailsService adminDetailsService,
-                              UserDetailsService userDetailsService,
-                              UserDetailsService fuelStationDetailsService,
+    public AuthProviderConfig(
+            @Qualifier("adminDetailsService")UserDetailsService adminDetailsService,
+            @Qualifier("userDetailsServiceImp")UserDetailsService userDetailsService,
+            @Qualifier("fuelStationDetailsService")UserDetailsService fuelStationDetailsService,
                               PasswordEncoder passwordEncoder) {
         this.adminDetailsService = adminDetailsService;
         this.userDetailsService = userDetailsService;
