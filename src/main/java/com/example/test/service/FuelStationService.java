@@ -13,6 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class FuelStationService {
+public class FuelStationService implements UserDetailsService {
 
     @Autowired
     private FuelStationRepo fuelStationRepo;
@@ -123,6 +126,18 @@ public class FuelStationService {
         List<FuelStation> lowFuelStationList = fuelStationRepo.findStationsWithCapacityBelow8000();
         return modelMapper.map(lowFuelStationList, new TypeToken<List<FuelStationDTO>>() {
         }.getType());
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        FuelStation fuelStation=fuelStationRepo.findFuelStationByUserName(username);
+        if(fuelStation==null){
+            System.out.println("fuel station not found");
+            throw new UsernameNotFoundException("fuel station not found");
+        }
+
+        return new FuelStationPrincipal(fuelStation);
     }
 
 }
