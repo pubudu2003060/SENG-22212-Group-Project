@@ -36,12 +36,12 @@ public class UserLayerController {
     }
 
     @GetMapping("/generateQrCodeByVehicalId/{vehicalid}")
-    public byte[] generateQrCodeByVehicalId(@PathVariable("vehicalid") String vehicalId) {
+    public byte[] generateQrCodeByVehicalId(@PathVariable("vehicalid") int vehicalId) {
         return userLayerService.generateQrCode(vehicalId);
     }
 
     @GetMapping("/generateQRCodeImageByVehicalId/{vehicalid}")
-    public String generateQRCodeImage(@PathVariable("vehicalid") String vehicalId) {
+    public String generateQRCodeImage(@PathVariable("vehicalid") int vehicalId) {
         return userLayerService.generateQRCodeImage(vehicalId);
     }
 

@@ -1,25 +1,17 @@
 package com.example.test.service;
 
 
-import com.example.test.dto.BQDetailsDTO;
 import com.example.test.dto.BuyQuatoVehicleDTO;
 import com.example.test.dto.BuyQuotaDTO;
 import com.example.test.dto.BuyquotaFuelStationDTO;
 import com.example.test.model.BuyQuota;
-import com.example.test.model.CustomerFuelQuota;
-import com.example.test.model.FuelStation;
 import com.example.test.repo.BuyQuotaRepo;
-import com.example.test.repo.CustomerFuelQuotaRepo;
-import com.example.test.repo.FuelStationRepo;
-import com.example.test.repo.VehicalRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,12 +24,6 @@ public class BuyQuotaService {
     private BuyQuotaRepo buyQuotaRepo;
 
     @Autowired
-    private CustomerFuelQuotaRepo customerFuelQuotaRepo;
-
-    @Autowired
-    private FuelStationRepo fuelStationRepo;
-
-    @Autowired
     private ModelMapper modelMapper;
 
     public List<BuyQuotaDTO> getAllbuyquota() {
@@ -47,8 +33,8 @@ public class BuyQuotaService {
     }
 
     public BuyQuotaDTO saveBuyQuota(BuyQuotaDTO buyQuotaDTO) {
-        BuyQuota buyQuota = buyQuotaRepo.save(modelMapper.map(buyQuotaDTO, BuyQuota.class));
-        return modelMapper.map(buyQuota, BuyQuotaDTO.class);
+        buyQuotaRepo.save(modelMapper.map(buyQuotaDTO, BuyQuota.class));
+        return buyQuotaDTO;
     }
 
     public List<BuyQuatoVehicleDTO> getBuyQuotosByVehical(int customerId) {
@@ -69,7 +55,7 @@ public class BuyQuotaService {
         List<BuyQuota> buyQuota = buyQuotaRepo.findAll();
         List<BuyquotaFuelStationDTO> buyquotaFuelStationDTOList = new ArrayList<>();
 
-        for (BuyQuota buyQuota1 : buyQuota) {
+        for(BuyQuota buyQuota1:buyQuota){
             BuyquotaFuelStationDTO buyquotaFuelStationDTO = new BuyquotaFuelStationDTO();
 
             buyquotaFuelStationDTO.setBqId(buyQuota1.getBqId());
@@ -85,25 +71,5 @@ public class BuyQuotaService {
         return buyquotaFuelStationDTOList;
     }
 
-
-    public BuyQuota saveBQuyQuota(@RequestBody BQDetailsDTO bqDetailsDTO) {
-
-
-        BuyQuotaDTO buyQuotaDTO1 = new BuyQuotaDTO();
-
-        buyQuotaDTO1.setAmount(bqDetailsDTO.getAmount());
-        buyQuotaDTO1.setDate(new Date());
-        buyQuotaDTO1.setFuelType(bqDetailsDTO.getFuelType());
-        FuelStation fuelStation = fuelStationRepo.getFuelStationByRegisteredId(bqDetailsDTO.getRegisteredId());
-        buyQuotaDTO1.setFuelStation(fuelStation);
-        CustomerFuelQuota  customerFuelQuota = customerFuelQuotaRepo.getCustomerFuelQuotaByCustomerFuelQuotaId(bqDetailsDTO.getCustomerFuelQuotaId());
-        buyQuotaDTO1.setVehical(customerFuelQuota.getVehical());
-        buyQuotaDTO1.setUser(customerFuelQuota.getUser());
-
-        BuyQuota buyQuota = buyQuotaRepo.save(modelMapper.map(buyQuotaDTO1, BuyQuota.class));
-
-
-        return buyQuota;
-    }
 
 }

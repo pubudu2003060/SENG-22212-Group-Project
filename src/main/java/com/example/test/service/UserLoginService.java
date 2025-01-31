@@ -1,29 +1,20 @@
 package com.example.test.service;
 
-
-
+import com.example.test.dto.CustomerFuelQuotaDTO;
+import com.example.test.dto.LoginRequestDto;
+import com.example.test.dto.QrcodeDTO;
+import com.example.test.dto.VehicalDTO;
 import com.example.test.model.*;
-
-import com.example.test.dto.*;
-import com.example.test.enump.VehicalEligibleData;
-
-
 import com.example.test.repo.UserLoginRepo;
-import com.example.test.repo.UserRepo;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -43,17 +34,9 @@ public class UserLoginService {
     private ModelMapper modelMapper;
     @Autowired
     private QrcodeService qrcodeService;
-    @Autowired
-    private UserRepo userRepo;
 
-    public String sendOtplogin(String phoneNumber) {
+    public String sendOtp(String phoneNumber) {
         try {
-
-            User user = userRepo.findUserByContactNo(phoneNumber);
-            if(user == null) {
-                throw new Exception("User not found");
-            }
-
             String otp = otpGenerateService.generateOTP();
 
             //Save or update user login details
@@ -64,57 +47,22 @@ public class UserLoginService {
             userLoginRepo.save(userLogin);
 
             // Send OTP via SMS
-         //   twilioSmsService.sendOtp(phoneNumber, otp);
+            //twilioSmsService.sendOtp(phoneNumber, otp);
 
-            return "OTP sent successfully ";
-
+            return "OTP sent successfully "+phoneNumber;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to send OTP : " + e.getMessage());
+            throw new RuntimeException("Failed to send OTP " + e.getMessage());
         }
     }
 
-    public String sendOtpSignUp(String phoneNumber) {
-        try {
-
-            User user = userRepo.findUserByContactNo(phoneNumber);
-
-            if(user != null) {
-                throw new Exception("This number already used");
-            }
-
-            String otp = otpGenerateService.generateOTP();
-
-            //Save or update user login details
-            UserLogin userLogin = userLoginRepo.findById(phoneNumber).orElse(new UserLogin());
-            userLogin.setPhoneNumber(phoneNumber);
-            userLogin.setOtp(otp);
-            userLogin.setVerified(false);
-            userLoginRepo.save(userLogin);
-
-            // Send OTP via SMS
-          //  twilioSmsService.sendOtp(phoneNumber, otp);
-
-            return "OTP sent successfully ";
-
-
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to send OTP : " + e.getMessage());
-        }
-    }
-
-    public Object validateOtp(LoginRequestDto loginRequest) {
+    public String validateOtp(LoginRequestDto loginRequest) {
         try {
             UserLogin userLogin = userLoginRepo.getUserLoginByPhoneNumber(loginRequest.getPhoneNumber());
-
-            if(userLogin == null) {
-                throw new Exception("Number not found");
-            }
 
             if (userLogin.getOtp().equals(loginRequest.getOtp())) {
                 userLogin.setVerified(true);
                 userLoginRepo.save(userLogin);
-                User user = userRepo.getUserByContactNo(loginRequest.getPhoneNumber());
-                return user;
+                return "OTP verified successfully";
             } else {
                 return "Invalid OTP";
             }
@@ -131,68 +79,27 @@ public class UserLoginService {
         }
     }
 
-    private List<VehicleMockDataDTO> loadMockData() {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("mock_vehicles.json")) {
-            if (inputStream == null) {
-                throw new RuntimeException("Mock vehicle data file not found!");
-            }
-
-            // Read JSON into List of VehicleMockDataDTO
-            List<VehicleMockDataDTO> mockDataList = objectMapper.readValue(
-                    inputStream, new TypeReference<List<VehicleMockDataDTO>>() {}
-            );
-
-            // Convert to DTO using ModelMapper (Optional)
-            return mockDataList.stream()
-                    .map(vehicle -> modelMapper.map(vehicle, VehicleMockDataDTO.class))
-                    .collect(Collectors.toList());
-
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading mock vehicle data", e);
-        }
-    }
-
-    public VehicalDTO registerVehicalDetails(VehicalDTO vehicalDTO) {
-        // Load mock data
-        List<VehicleMockDataDTO> mockVehicles = loadMockData();
-
-        // Check if the new vehicle exists in mock data
-        boolean isDuplicate = mockVehicles.stream().anyMatch(mockVehicle ->
-                mockVehicle.getChassiNo().equals(vehicalDTO.getChassiNo()) &&
-                        mockVehicle.getVehicalNo().equals(vehicalDTO.getVehicalNo()) &&
-                        mockVehicle.getEnginNo().equals(vehicalDTO.getEnginNo()) &&
-                        mockVehicle.getVehicalType().equals(vehicalDTO.getVehicalType())
-        );
-
-        if (!isDuplicate) {
-            throw new RuntimeException("Vehicle do not exists!");
-        }
-
-        // If not found in mock data, proceed with registration
+    public VehicalDTO registerVehicalDetails(VehicalDTO vehicalDTO){
         VehicalDTO vehicalDTO1 = vehicalService.addVehical(vehicalDTO);
 
-        // Create CustomerFuelQuotaDTO
         CustomerFuelQuotaDTO customerFuelQuotadto = new CustomerFuelQuotaDTO();
-        customerFuelQuotadto.setEligibleDays(VehicalEligibleData.getEligibleDays(vehicalDTO1.getVehicalType()));
-        customerFuelQuotadto.setEligibleFuelQuota(VehicalEligibleData.getEligibleFuelQuota(vehicalDTO1.getVehicalType()));
-        customerFuelQuotadto.setRemainFuel(VehicalEligibleData.getEligibleFuelQuota(vehicalDTO1.getVehicalType()));
+        customerFuelQuotadto.setEligibleDays("sunday,monday");
+        customerFuelQuotadto.setEligibleFuelQuota(50000);
+        customerFuelQuotadto.setRemainFuel(50000);
         customerFuelQuotadto.setUsedFuelQuota(0);
         customerFuelQuotadto.setUser(vehicalDTO.getUser());
         customerFuelQuotadto.setVehical(modelMapper.map(vehicalDTO1, Vehical.class));
 
-        // Save Customer Fuel Quota
         CustomerFuelQuotaDTO customerFuelQuotadto1 = customerFualQuataService.saveCustomerFuelQuota(customerFuelQuotadto);
 
-        // Generate QR Code
         QrcodeDTO qrcodeDTO = new QrcodeDTO();
-        qrcodeDTO.setContent(Integer.toString(customerFuelQuotadto1.getCustomerFuelQuotaId()));
-        qrcodeDTO.setCustomerFualQuata(modelMapper.map(customerFuelQuotadto1, CustomerFuelQuota.class));
+        qrcodeDTO.setContent("this is a new one");
+        qrcodeDTO.setCustomerFualQuata(modelMapper.map(customerFuelQuotadto1,CustomerFuelQuota.class));
 
         qrcodeService.addQrcode(qrcodeDTO);
 
         return vehicalDTO1;
+
     }
 
 
