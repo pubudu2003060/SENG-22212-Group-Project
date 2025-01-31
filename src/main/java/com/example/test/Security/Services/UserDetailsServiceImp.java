@@ -25,7 +25,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
             // Since there is no password, use an empty string
             return new org.springframework.security.core.userdetails.User(
-                    user.getUsername(),
+                    "",
                     "", // No password
                     List.of(new SimpleGrantedAuthority("ROLE_USER"))
             );
