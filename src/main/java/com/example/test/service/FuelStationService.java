@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,6 +33,7 @@ public class FuelStationService implements UserDetailsService {
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
+    @Lazy//not to create object immediately as started,just create only when it is needed
     private AuthenticationManager authenticationManager;
     @Autowired
     private JWTService jwtService;
@@ -97,7 +99,7 @@ public class FuelStationService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        FuelStation fuelStation=fuelStationRepo.findFuelStationByUserName(username);
+        FuelStation fuelStation=fuelStationRepo.findFuelStationByUsername(username);
         if(fuelStation==null){
             System.out.println("fuel station not found");
             throw new UsernameNotFoundException("fuel station not found");
