@@ -10,6 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,6 +31,10 @@ public class FuelStationService implements UserDetailsService {
     private FuelStationOwnerService fuelStationOwnerService;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JWTService jwtService;
 
     public List<FuelStationManagementDTO> getAllFuelStations() {
         List<FuelStation> fuelStationList = fuelStationRepo.findAll();
@@ -67,8 +74,14 @@ public class FuelStationService implements UserDetailsService {
         }
     }
 
-    public boolean loginFuelStation(String username, String password) {
-        return fuelStationRepo.existsFuelStationByUsernameAndPassword(username, password);
+    public String loginFuelStation(String username, String password) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
+
+        if(authentication.isAuthenticated()){
+            return jwtService.generateAdminToken(username);
+        }else{
+            return "fail";
+        }
     }
 
     public Long getTotalActiveStations() {
