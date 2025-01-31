@@ -1,8 +1,9 @@
 package com.example.test.controller;
 
 import com.example.test.dto.CustomerFuelQuotaDTO;
+import com.example.test.dto.QrCodeScanDetailsDTO;
 import com.example.test.dto.ScannedQRCodeDTO;
-import com.example.test.model.VehicalType;
+import com.example.test.enump.VehicalType;
 import com.example.test.service.CustomerFualQuataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,9 @@ public class CustomerFuelQuotaController {
 
     @PutMapping("/updateFuelQuotaByVehicleType")
     public String updateCustomerFuelQuota(@RequestParam("vehicleType") VehicalType vehicleType, @RequestParam("fuelQuantity") Integer fuelQuantity) {
-        return customerFualQuataService.updateFuelQuota(vehicleType,fuelQuantity);
+
+        return customerFualQuataService.updateFuelQuota(vehicleType, fuelQuantity);
+
     }
 
     @GetMapping("/getFuelQuotaByVehicleType")
@@ -44,7 +47,26 @@ public class CustomerFuelQuotaController {
 
     @PutMapping("/allocateFuel")
     public String allocateFuel(@RequestParam int customerFuelQuotaId, @RequestParam int allocatedFuel) {
-        return customerFualQuataService.allocateFuel(customerFuelQuotaId,allocatedFuel);
-
+        return customerFualQuataService.allocateFuel(customerFuelQuotaId, allocatedFuel);
     }
+
+    @GetMapping("/getDetailsbycfcid")
+    public Object getDetailsbycfcid(@RequestParam("customerFuelQuotaId") int customerFuelQuotaId) {
+        try {
+            Object object = customerFualQuataService.getDetailsbycfcid(customerFuelQuotaId);
+            return object;
+        } catch (Exception e) {
+            return "Error getting data"+e.getMessage();
+        }
+    }
+
+    @GetMapping("/updateCustomerFueeldata/{customerFuelQuotaId}/{remainFuel}")
+    public Object updateCustomerFueeldata(@PathVariable int customerFuelQuotaId,@PathVariable int remainFuel) {
+        try {
+            return customerFualQuataService.updateCustomerFueeldata(customerFuelQuotaId, remainFuel);
+        } catch (Exception e) {
+            return "Error updating customer fuel quota: "+e.getMessage();
+        }
+    }
+
 }
