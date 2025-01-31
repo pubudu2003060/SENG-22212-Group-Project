@@ -14,19 +14,26 @@ import java.util.List;
 public class AdminDetailsService implements UserDetailsService {
 
 
-    private final AdminRepo adminRepo;
+        private final AdminRepo adminRepo;
 
-    public AdminDetailsService(AdminRepo adminRepo) {
-        this.adminRepo = adminRepo;
-    }
+        public AdminDetailsService(AdminRepo adminRepo) {
+            this.adminRepo = adminRepo;
+        }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Admin admin = adminRepo.findByUsernameAndRole(username, "ADMIN");
-        return new org.springframework.security.core.userdetails.User(
-                admin.getUserName(),
-                admin.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))
-        );
-    }
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            Admin admin = adminRepo.findAdminByUserName(username);
+
+            String role = "ADMIN"; // Static role assignment for now
+
+            // Add custom logic here to fetch roles dynamically if needed
+
+            return new org.springframework.security.core.userdetails.User(
+                    admin.getUserName(),
+                    admin.getPassword(),
+                    List.of(new SimpleGrantedAuthority("ROLE_" + role))
+            );
+        }
+
+
 }
