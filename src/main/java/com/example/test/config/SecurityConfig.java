@@ -67,31 +67,6 @@ public class SecurityConfig {
 
 
         }
-//        @Bean
-//    public UserDetailsService userDetailsService() {
-//      //indirectly Inmemmory is implementing user details service.Directly we cant return userDetails service
-//            //as it want to create interface then the steps we want to follow might be long
-//
-//            UserDetails user1= User
-//                    .withDefaultPasswordEncoder()
-//                    .username("rashmika")
-//                    .password("rash")
-//                    .roles("FUELSTATION")
-//                    .build();
-//
-//            UserDetails user2= User
-//                    .withDefaultPasswordEncoder()
-//                    .username("sarala")
-//                    .password("salan")
-//                    .roles("ADMIN")
-//                    .build();
-//      return  new InMemoryUserDetailsManager(user1, user2);
-//
-//      //if we run at this stage it will not allow us to access the page.As now it is not working with the default way.
-//            // It behaves in the way we provided
-//
-//
-//        }
 
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
