@@ -12,21 +12,25 @@ import java.util.List;
 
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
-   private UserRepo userRepo;
 
-   public UserDetailsServiceImp(UserRepo userRepo) {
-       this.userRepo = userRepo;
-   }
+        private final UserRepo userRepo;
 
+        public UserDetailsServiceImp(UserRepo userRepo) {
+            this.userRepo = userRepo;
+        }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsernameAndRole(username, "USER")
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_USER"))
-        );
+        @Override
+        public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
+            User user = userRepo.getUserByContactNo(phoneNumber);
+
+            // Since there is no password, use an empty string
+            return new org.springframework.security.core.userdetails.User(
+                    user.getUsername(),
+                    "", // No password
+                    List.of(new SimpleGrantedAuthority("ROLE_USER"))
+            );
+        }
     }
+
+
 }

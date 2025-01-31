@@ -1,11 +1,15 @@
 package com.example.test.Security.Filter;
 
 import com.example.test.Security.Services.JWTService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,14 +29,16 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JWTService jwtService;
     private final ApplicationContext context;
 
+
     @Autowired
+    @Qualifier("userDetailsServiceImp")
     @Lazy
     private final UserDetailsService userDetailsService;
 
     private static final Logger logger = Logger.getLogger(JwtFilter.class.getName());
 
 
-    public JwtFilter(JWTService jwtService, ApplicationContext context, @Lazy UserDetailsService userDetailsService) {
+    public JwtFilter(JWTService jwtService, ApplicationContext context, @Lazy @Qualifier("userDetailsServiceImp") UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.context = context;
         this.userDetailsService = userDetailsService;
@@ -96,10 +102,10 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private void handleTokenException(HttpServletResponse response, Exception e) throws IOException {
-        if (e instanceof io.jsonwebtoken.ExpiredJwtException) {
+        if (e instanceof ExpiredJwtException) {
             response.getWriter().write("JWT Token has expired. Please log in again.");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        } else if (e instanceof io.jsonwebtoken.MalformedJwtException || e instanceof io.jsonwebtoken.SignatureException) {
+        } else if (e instanceof MalformedJwtException || e instanceof SignatureException) {
             response.getWriter().write("Invalid token.");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } else {

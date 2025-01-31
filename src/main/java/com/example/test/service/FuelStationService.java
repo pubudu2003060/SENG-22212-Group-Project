@@ -23,7 +23,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class FuelStationService implements UserDetailsService {
+public class FuelStationService {
 
     @Autowired
     private FuelStationRepo fuelStationRepo;
