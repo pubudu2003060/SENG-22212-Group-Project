@@ -2,8 +2,10 @@ package com.example.test.service;
 
 import com.example.test.dto.LoginRequestDto;
 import com.example.test.model.Admin;
+import com.example.test.model.FuelStation;
 import com.example.test.model.UserLogin;
 import com.example.test.repo.AdminRepo;
+import com.example.test.repo.FuelStationRepo;
 import com.example.test.repo.UserLoginRepo;
 import com.example.test.repo.UserRepo;
 import io.jsonwebtoken.Claims;
@@ -31,10 +33,12 @@ public class JWTService {
     private final AdminRepo adminRepo;
     private final UserLoginRepo userLoginRepo;
     private final UserLoginService userLoginService;
+    private final FuelStationRepo fuelStationRepo;
     //nota safe way
     private String secretKey = "";
 
-    public JWTService(AdminRepo adminRepo, UserRepo userRepo, UserLoginRepo userLoginRepo, OtpGenerateService otpGenerateService, UserLoginService userLoginService) {
+    public JWTService(AdminRepo adminRepo, UserRepo userRepo, UserLoginRepo userLoginRepo, OtpGenerateService otpGenerateService, UserLoginService userLoginService, FuelStationRepo fuelStationRepo) {
+
 
         //generate the key
         try {
@@ -47,6 +51,8 @@ public class JWTService {
         this.adminRepo = adminRepo;
         this.userLoginService = userLoginService;
         this.userLoginRepo = userLoginRepo;
+        this.fuelStationRepo = fuelStationRepo;
+
     }
 
     public String generateAdminToken(String userName) {
@@ -94,6 +100,30 @@ public class JWTService {
                 .setExpiration(new Date(System.currentTimeMillis()+30*60*10000))//30min expiration
                 .signWith(getKey())//to sign in it needs the key
                 .compact();
+
+    }
+
+    public String generateFuelStationToken(String username) {
+        FuelStation fuelStation = fuelStationRepo.findFuelStationByUserName(username);
+
+        if (fuelStation == null) {
+            throw new RuntimeException("Fuel Station not found");
+        }
+
+        // Generate token for FUELSTATION
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", "FUELSTATION");
+        claims.put("username", username);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis()+30*60*10000))
+                .signWith(getKey())//to sign in it needs the key
+                .compact();
+
+
 
     }
 
