@@ -115,7 +115,7 @@ public class BuyQuotaService {
                 "L of " + bqDetailsDTO.getFuelType() +
                 " has been successfully processed at " + buyQuota.getDate() +
                 ". Thank you!";
-        twilioSmsService.sendMessage(customerFuelQuota.getUser().getContactNo(),message);
+     //   twilioSmsService.sendMessage(customerFuelQuota.getUser().getContactNo(),message);
 
         CustomerNotificationDTO customerNotificationDTO = new CustomerNotificationDTO();
         customerNotificationDTO.setContent(message);
