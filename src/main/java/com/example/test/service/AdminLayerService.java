@@ -1,12 +1,18 @@
 package com.example.test.service;
 
-import com.example.test.dto.AdminDTO;
+import com.example.test.Security.Services.JWTService;
 import com.example.test.dto.AdminSignInDTO;
 import com.example.test.dto.BuyquotaFuelStationDTO;
 import com.example.test.enump.FuelType;
 import com.example.test.model.BuyQuota;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,6 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Service
 @Transactional
@@ -27,7 +34,15 @@ public class  AdminLayerService {
     @Autowired
     private AdminService adminService;
 
-    public Map<String, Double> getBuyQuotasDataByFuelType(FuelType fuelType) {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JWTService jwtService;
+
+     public Map<String, Double> getBuyQuotasDataByFuelType(FuelType fuelType) {
+
 
         List<BuyQuota> buyQuotaList = buyQuotaService.getBuyQuotasByFuelType(fuelType);
         // Initialize summary map
@@ -73,18 +88,32 @@ public class  AdminLayerService {
         return buyQuotaService.countByFuelTypeByDate(fuelType,date);
     }
 
-    public int adminSignIn(AdminSignInDTO adminSignInDTO){
-        AdminDTO adminDTO = adminService.getAdminByUserNameAndPassword(adminSignInDTO);
+    private static final Logger logger=Logger.getLogger(AdminLayerService.class.getName());
+    public String adminSignIn(AdminSignInDTO adminSignInDTO) {
 
-        if(adminDTO == null){
-            return 0;
-        }else{
-            return 1;
+        try {
+            logger.info("Attempting to authenticate admin: " + adminSignInDTO.getUserName());
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            adminSignInDTO.getUserName(),
+                            adminSignInDTO.getPassword())
+            );
+
+            if (authentication.isAuthenticated()) {
+                logger.info("Admin authenticated successfully");
+                return jwtService.generateAdminToken(adminSignInDTO.getUserName());
+            } else {
+                logger.warning("Admin authentication failed");
+                throw new BadCredentialsException("Invalid credentials");
+            }
+        } catch (AuthenticationException e) {
+            logger.severe("Authentication failed for admin: " + adminSignInDTO.getUserName() + " " + e.getMessage());
+            return "Authentication failed: " + e.getMessage();
         }
     }
 
-
     public List<BuyquotaFuelStationDTO> getFuelStationBuyQuoto() {
+
         return buyQuotaService.getFuelStationBuyQuoto();
     }
 

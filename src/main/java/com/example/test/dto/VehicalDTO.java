@@ -1,7 +1,8 @@
 package com.example.test.dto;
 
 import com.example.test.model.User;
-import com.example.test.enump.VehicalType;
+import com.example.test.model.VehicalType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,10 +13,10 @@ import lombok.NoArgsConstructor;
 public class VehicalDTO {
 
     private int vehicalId;
-    private String chassiNo;
+    private int chassiNo;
     private VehicalType vehicalType;
-    private String vehicalNo;
-    private String enginNo;
+    private int vehicalNo;
+    private int enginNo;
     private String fualType;
     private User user;
 }

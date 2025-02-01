@@ -1,23 +1,18 @@
 package com.example.test.service;
 
 
+
 import com.example.test.dto.*;
 import com.example.test.enump.FuelType;
+
 import com.example.test.model.BuyQuota;
-import com.example.test.model.CustomerFuelQuota;
-import com.example.test.model.FuelStation;
 import com.example.test.repo.BuyQuotaRepo;
-import com.example.test.repo.CustomerFuelQuotaRepo;
-import com.example.test.repo.FuelStationRepo;
-import com.example.test.repo.VehicalRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,12 +23,6 @@ public class BuyQuotaService {
 
     @Autowired
     private BuyQuotaRepo buyQuotaRepo;
-
-    @Autowired
-    private CustomerFuelQuotaRepo customerFuelQuotaRepo;
-
-    @Autowired
-    private FuelStationRepo fuelStationRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -48,8 +37,8 @@ public class BuyQuotaService {
     }
 
     public BuyQuotaDTO saveBuyQuota(BuyQuotaDTO buyQuotaDTO) {
-        BuyQuota buyQuota = buyQuotaRepo.save(modelMapper.map(buyQuotaDTO, BuyQuota.class));
-        return modelMapper.map(buyQuota, BuyQuotaDTO.class);
+        buyQuotaRepo.save(modelMapper.map(buyQuotaDTO, BuyQuota.class));
+        return buyQuotaDTO;
     }
 
     public List<BuyQuatoVehicleDTO> getBuyQuotosByVehical(int customerId) {
@@ -70,7 +59,7 @@ public class BuyQuotaService {
         List<BuyQuota> buyQuota = buyQuotaRepo.findAll();
         List<BuyquotaFuelStationDTO> buyquotaFuelStationDTOList = new ArrayList<>();
 
-        for (BuyQuota buyQuota1 : buyQuota) {
+        for(BuyQuota buyQuota1:buyQuota){
             BuyquotaFuelStationDTO buyquotaFuelStationDTO = new BuyquotaFuelStationDTO();
 
             buyquotaFuelStationDTO.setBqId(buyQuota1.getBqId());
@@ -85,6 +74,7 @@ public class BuyQuotaService {
         }
         return buyquotaFuelStationDTOList;
     }
+
 
 
     public BuyQuota saveBQuyQuota(@RequestBody BQDetailsDTO bqDetailsDTO) {
@@ -124,5 +114,6 @@ public class BuyQuotaService {
 
         return buyQuota;
     }
+
 
 }

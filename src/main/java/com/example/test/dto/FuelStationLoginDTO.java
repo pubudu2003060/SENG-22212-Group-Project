@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FuelStationLoginDTO {
 
-    private int registeredId;
+    private String username;
     private String password;
 }
