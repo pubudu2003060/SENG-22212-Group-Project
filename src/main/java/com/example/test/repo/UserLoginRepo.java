@@ -7,12 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 
 @Repository
 public interface UserLoginRepo extends JpaRepository<UserLogin, String> {
 
-    UserLogin getUserLoginByPhoneNumber(String phoneNumber);
 
+    @Query("select new com.example.test.model.UserLogin(u.phoneNumber,u.otp,u.verified) from UserLogin u where u.phoneNumber = :phoneNumber")
+    UserLogin getUserLoginByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+
+
+    //String phoneNumber(String phoneNumber);
 }

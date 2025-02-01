@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AdminSignInDTO {
 
-    private String email;
+    private String userName;
     private String password;
-
 }

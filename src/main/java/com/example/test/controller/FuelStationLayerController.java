@@ -19,8 +19,9 @@ public class FuelStationLayerController {
     private FuelStationService fuelStationService;
 
     @PostMapping("/loginfuelstation")
-    public boolean loginFuelStation(@RequestBody FuelStationLoginDTO fuelStationLoginDTO) {
-        return fuelStationService.loginFuelStation(fuelStationLoginDTO.getRegisteredId(), fuelStationLoginDTO.getPassword());
+    public String loginFuelStation(@RequestBody FuelStationLoginDTO fuelStationLoginDTO) {
+        System.out.println("Received login request for: " + fuelStationLoginDTO.getUsername());
+        return fuelStationService.loginFuelStation(fuelStationLoginDTO.getUsername(), fuelStationLoginDTO.getPassword());
     }
 
 }
