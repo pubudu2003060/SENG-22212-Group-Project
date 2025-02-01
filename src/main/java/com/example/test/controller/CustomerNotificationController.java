@@ -21,7 +21,7 @@ public class CustomerNotificationController {
     }
 
     @PostMapping("/addcustomernotifications")
-    public CustomerNotificationDTO saveStation(@RequestBody CustomerNotificationDTO customerNotificationDTO) {
-        return customerNotificationservice.saveStation( customerNotificationDTO );
+    public CustomerNotificationDTO saveNotification(@RequestBody CustomerNotificationDTO customerNotificationDTO) {
+        return customerNotificationservice.saveNotification( customerNotificationDTO );
     }
 }
