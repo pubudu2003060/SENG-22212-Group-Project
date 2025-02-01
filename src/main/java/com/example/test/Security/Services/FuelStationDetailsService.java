@@ -30,7 +30,7 @@ public class FuelStationDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         FuelStation fuelStation = fuelStationRepo.findFuelStationByUsername(username);
         if (fuelStation == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException("FuelStation Not found");
         }
         return new org.springframework.security.core.userdetails.User(
                 fuelStation.getUsername(),
