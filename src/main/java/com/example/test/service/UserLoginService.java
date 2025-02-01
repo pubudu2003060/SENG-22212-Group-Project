@@ -37,6 +37,14 @@ public class UserLoginService {
 
     public String sendOtp(String phoneNumber) {
         try {
+
+
+            User user = userRepo.findUserByContactNo(phoneNumber);
+            if (user == null) {
+                throw new Exception("User not found");
+            }
+
+
             String otp = otpGenerateService.generateOTP();
 
             //Save or update user login details
@@ -46,8 +54,18 @@ public class UserLoginService {
             userLogin.setVerified(false);
             userLoginRepo.save(userLogin);
 
-            // Send OTP via SMS
-            //twilioSmsService.sendOtp(phoneNumber, otp);
+
+            String longOtpMessage = "Dear User, \n\n"
+                    + "Thank you for using our service. We are sending you the OTP for authentication. Please use the following code to complete your verification process. "
+                    + "Your OTP code is: " + otp + ". \n\n"
+                    + "This OTP is valid for 5 minutes. If you did not request this, please ignore this message. "
+                    + "For more information, visit our website or contact support.";
+
+            //Send OTP via SMS
+            //twilioSmsService.sendMessage(phoneNumber, longOtpMessage);
+
+            return "OTP sent successfully ";
+
 
             return "OTP sent successfully "+phoneNumber;
         } catch (Exception e) {
@@ -55,12 +73,48 @@ public class UserLoginService {
         }
     }
 
-    public String validateOtp(LoginRequestDto loginRequest) {
+
+    public String sendOtpSignUp(String phoneNumber) {
+        try {
+
+            User user = userRepo.findUserByContactNo(phoneNumber);
+
+            if (user != null) {
+                throw new Exception("This number already used");
+            }
+
+            String otp = otpGenerateService.generateOTP();
+
+            //Save or update user login details
+            UserLogin userLogin = userLoginRepo.findById(phoneNumber).orElse(new UserLogin());
+            userLogin.setPhoneNumber(phoneNumber);
+            userLogin.setOtp(otp);
+            userLogin.setVerified(false);
+            userLoginRepo.save(userLogin);
+
+            String longOtpMessage = "Dear User, \n\n"
+                    + "Thank you for using our service. We are sending you the OTP for authentication. Please use the following code to complete your verification process. "
+                    + "Your OTP code is: " + otp + ". \n\n"
+                    + "This OTP is valid for 5 minutes. If you did not request this, please ignore this message. "
+                    + "For more information, visit our website or contact support.";
+
+            //Send OTP via SMS
+            //twilioSmsService.sendMessage(phoneNumber, longOtpMessage);
+
+            return "OTP sent successfully ";
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send OTP : " + e.getMessage());
+        }
+    }
+
+    public Object validateOtp(LoginRequestDto loginRequest) {
         try {
             UserLogin userLogin = userLoginRepo.getUserLoginByPhoneNumber(loginRequest.getPhoneNumber());
 
-            if(userLogin==null){
-                return "User not found for the provided phone number";
+            if (userLogin == null) {
+                throw new Exception("Number not found");
+
             }
 
             if (userLogin.getOtp()!=null && userLogin.getOtp().equals(loginRequest.getOtp())) {
@@ -75,15 +129,57 @@ public class UserLoginService {
         }
     }
 
-    public void sendCall(String phoneNumber){
+    public void sendCall(String phoneNumber) {
         try {
-            twilioSmsService.sendCall(phoneNumber,otpGenerateService.generateOTP());
+            twilioSmsService.sendCall(phoneNumber, otpGenerateService.generateOTP());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public VehicalDTO registerVehicalDetails(VehicalDTO vehicalDTO){
+
+    private List<VehicleMockDataDTO> loadMockData() {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("mock_vehicles.json")) {
+            if (inputStream == null) {
+                throw new RuntimeException("Mock vehicle data file not found!");
+            }
+
+            // Read JSON into List of VehicleMockDataDTO
+            List<VehicleMockDataDTO> mockDataList = objectMapper.readValue(
+                    inputStream, new TypeReference<List<VehicleMockDataDTO>>() {
+                    }
+            );
+
+            // Convert to DTO using ModelMapper (Optional)
+            return mockDataList.stream()
+                    .map(vehicle -> modelMapper.map(vehicle, VehicleMockDataDTO.class))
+                    .collect(Collectors.toList());
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading mock vehicle data", e);
+        }
+    }
+
+    public VehicalDTO registerVehicalDetails(VehicalDTO vehicalDTO) {
+        // Load mock data
+        List<VehicleMockDataDTO> mockVehicles = loadMockData();
+
+        // Check if the new vehicle exists in mock data
+        boolean isDuplicate = mockVehicles.stream().anyMatch(mockVehicle ->
+                mockVehicle.getChassiNo().equals(vehicalDTO.getChassiNo()) &&
+                        mockVehicle.getVehicalNo().equals(vehicalDTO.getVehicalNo()) &&
+                        mockVehicle.getEnginNo().equals(vehicalDTO.getEnginNo()) &&
+                        mockVehicle.getVehicalType().equals(vehicalDTO.getVehicalType())
+        );
+
+        if (!isDuplicate) {
+            throw new RuntimeException("Vehicle do not exists!");
+        }
+
+        // If not found in mock data, proceed with registration
+
         VehicalDTO vehicalDTO1 = vehicalService.addVehical(vehicalDTO);
 
         CustomerFuelQuotaDTO customerFuelQuotadto = new CustomerFuelQuotaDTO();
@@ -105,7 +201,6 @@ public class UserLoginService {
         return vehicalDTO1;
 
     }
-
 
 
 }

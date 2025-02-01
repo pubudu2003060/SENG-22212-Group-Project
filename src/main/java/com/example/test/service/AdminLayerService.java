@@ -3,6 +3,7 @@ package com.example.test.service;
 import com.example.test.Security.Services.JWTService;
 import com.example.test.dto.AdminSignInDTO;
 import com.example.test.dto.BuyquotaFuelStationDTO;
+import com.example.test.enump.FuelType;
 import com.example.test.model.BuyQuota;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,17 @@ public class  AdminLayerService {
     @Autowired
     private AdminService adminService;
 
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
     private JWTService jwtService;
 
-    public Map<String, Double> getBuyQuotasDataByFuelType(String fuelType) {
+   
+
+    public Map<String, Double> getBuyQuotasDataByFuelType(FuelType fuelType) {
+
 
         List<BuyQuota> buyQuotaList = buyQuotaService.getBuyQuotasByFuelType(fuelType);
         // Initialize summary map
