@@ -79,6 +79,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     userDetails = adminDetailsService.loadUserByUsername(identifier);
 
                 } else if ("USER".equals(role)) {
+                    logger.info("Loading User details for identifier: " + identifier);
                     userDetails =userDetailsServiceImp.loadUserByUsername(identifier);
                 } else if ("FUELSTATION".equals(role)) {
                     logger.info("Loading FUELSTATION details for identifier: " + identifier);

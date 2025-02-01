@@ -25,6 +25,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
+        String token = (String) authentication.getCredentials();
         System.out.println("Attempting authentication for username: " + username);
         Authentication authResult = null;
 
@@ -52,13 +53,18 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
         // If admin authentication fails, try user authentication
         System.out.println("Attempting user authentication...");
-        authResult = userAuthProvider.authenticate(authentication);
-        if (authResult != null) {
-            System.out.println("Authenticated as user");
-            return authResult;
-        } else {
-            System.out.println("User authentication failed");
+        if(isUserPhoneNumber(username)) {
+            System.out.println("Attempting phone number authentication for user...");
+            authResult = userAuthProvider.authenticate(authentication);
+            if (authResult != null) {
+                System.out.println("Authenticated as user");
+                return authResult;
+            } else {
+                System.out.println("User authentication failed");
+            }
         }
+
+
 
         // If none of the authentication providers succeed, throw exception
         throw new AuthenticationException("Authentication failed for all providers") {};
@@ -68,4 +74,11 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         // Modify the logic based on how you want to identify fuel station usernames
         return username != null && username.startsWith("station");  // Example condition
     }
+    private boolean isUserPhoneNumber(String username) {
+        // Modify the logic based on how you identify phone numbers
+        // Example: check if the user   nameOrPhone is a valid phone number (could be a regex check)
+        return username != null;   // Example phone number format
+    }
+
+
 }

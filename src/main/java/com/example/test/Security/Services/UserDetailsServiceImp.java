@@ -1,5 +1,6 @@
 package com.example.test.Security.Services;
 
+import com.example.test.repo.UserLoginRepo;
 import com.example.test.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,24 +18,26 @@ import java.util.logging.Logger;
 public class UserDetailsServiceImp implements UserDetailsService {
 
     private static final Logger logger= Logger.getLogger(UserDetailsServiceImp.class.getName());
-    private final UserRepo userRepo;
+    private final UserLoginRepo userLoginRepoRepo;
+    private final UserLoginRepo userLoginRepo;
 
-        public UserDetailsServiceImp(UserRepo userRepo) {
-            this.userRepo = userRepo;
+    public UserDetailsServiceImp(UserRepo userRepo, UserLoginRepo userLoginRepo) {
+            this.userLoginRepoRepo = userLoginRepo;
             logger.info("UserDetailsServiceImp Initialized");
-        }
+        this.userLoginRepo = userLoginRepo;
+    }
 
         @Override
         public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
-            com.example.test.model.User user = userRepo.getUserByContactNo(phoneNumber);
-            if (user == null) {
+            com.example.test.model.UserLogin userLogin = userLoginRepo.getUserByPhoneNumber(phoneNumber);
+            if (userLogin == null) {
                 throw new UsernameNotFoundException("User not found");
             }
 
             // Since there is no password, use an empty string
             return new org.springframework.security.core.userdetails.User(
-                    user.getContactNo(),
-                    user.getFirstName(), // No password
+                    userLogin.getPhoneNumber(),
+                    "", // No password
                     List.of(new SimpleGrantedAuthority("ROLE_USER"))
             );
         }
