@@ -20,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -63,5 +64,25 @@ public class AdminService {
         return modelMapper.map(admin, AdminDTO.class);
     }
 
+
+    public Admin updatePassword(String email, String newPassword) throws Exception {
+        Admin optionalAdmin = adminrepo.findAdminByEmail(email);
+
+        if (optionalAdmin != null) {
+            Admin admin = optionalAdmin;
+
+            // Check if new password is the same as the existing password
+            if (admin.getPassword().equals(newPassword)) {
+                throw new Exception("New password cannot be the same as the old password.");
+            }else {
+                admin.setPassword(newPassword); // Encrypt new password
+                return adminrepo.save(admin);
+            }
+
+
+        } else {
+            throw new Exception("Admin not found.");
+        }
+    }
 
 }

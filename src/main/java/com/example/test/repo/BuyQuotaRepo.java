@@ -1,6 +1,7 @@
 package com.example.test.repo;
 
 import com.example.test.dto.BuyQuatoVehicleDTO;
+import com.example.test.enump.FuelType;
 import com.example.test.model.BuyQuota;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +20,7 @@ public interface BuyQuotaRepo extends JpaRepository<BuyQuota, Integer> {
             "where b.user.userId = :customerId")
     List<BuyQuatoVehicleDTO> getBuyQuotosByVehical(@Param("customerId")int customerId);
 
-    List<BuyQuota> getBuyQuotasByFuelType(String fuelType);
+    List<BuyQuota> getBuyQuotasByFuelType(FuelType fuelType);
 
     @Query("SELECT COUNT(*) " +
             "FROM BuyQuota bq " +

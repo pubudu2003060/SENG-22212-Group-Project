@@ -13,6 +13,8 @@ public interface AdminRepo extends JpaRepository<Admin,Integer> {
 
 
 
+    Admin findAdminByEmail(String email);
+
 }
 //plain text ->hash1->hash2
 //bcrypt

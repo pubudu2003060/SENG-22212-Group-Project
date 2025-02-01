@@ -27,7 +27,7 @@ public class CustomerNotificationservice {
         }.getType());
     }
 
-    public CustomerNotificationDTO saveStation(CustomerNotificationDTO customerNotificationDTO) {
+    public CustomerNotificationDTO saveNotification(CustomerNotificationDTO customerNotificationDTO) {
         customerNotificationRepo.save(modelMapper.map(customerNotificationDTO, CustomerNotification.class));
         return customerNotificationDTO;
     }

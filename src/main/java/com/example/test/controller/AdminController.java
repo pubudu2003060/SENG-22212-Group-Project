@@ -1,6 +1,7 @@
 package com.example.test.controller;
 
 import com.example.test.dto.AdminDTO;
+import com.example.test.dto.ChangeAdminPasswordDTO;
 import com.example.test.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,5 +24,15 @@ public class AdminController {
     @PostMapping("/addadmin")
     public AdminDTO saveAdmin(@RequestBody AdminDTO adminDTO) {
         return adminService.saveAdmin(adminDTO);
+    }
+
+    @PutMapping("/update-password")
+    public String updatePassword(@RequestBody ChangeAdminPasswordDTO changeAdminPasswordDTO) {
+        try {
+            adminService.updatePassword(changeAdminPasswordDTO.getEmail(), changeAdminPasswordDTO.getNewPassword());
+            return "Password updated successfully!";
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 }

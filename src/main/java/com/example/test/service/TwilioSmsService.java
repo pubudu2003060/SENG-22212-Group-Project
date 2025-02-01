@@ -32,19 +32,13 @@ public class TwilioSmsService {
         Twilio.init(accountSid, authToken);
     }
 
-    public void sendOtp(String phoneNumber, String otp) {
+    public void sendMessage(String phoneNumber, String message) {
         initTwilio();
-
-        String longOtpMessage = "Dear User, \n\n"
-                + "Thank you for using our service. We are sending you the OTP for authentication. Please use the following code to complete your verification process. "
-                + "Your OTP code is: " + otp + ". \n\n"
-                + "This OTP is valid for 5 minutes. If you did not request this, please ignore this message. "
-                + "For more information, visit our website or contact support.";
 
         Message.creator(
                 new PhoneNumber(phoneNumber),
                 new PhoneNumber(fromPhoneNumber),
-                longOtpMessage
+                message
         ).create();
         System.out.println("OTP sent to " + phoneNumber);
     }
