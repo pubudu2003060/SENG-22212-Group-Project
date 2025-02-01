@@ -66,6 +66,7 @@ public class UserLoginService {
             if (userLogin.getOtp()!=null && userLogin.getOtp().equals(loginRequest.getOtp())) {
                 userLogin.setVerified(true);
                 userLoginRepo.save(userLogin);
+                System.out.println("OTP verified");
                 return "OTP verified successfully";
             } else {
                 return "Invalid OTP";

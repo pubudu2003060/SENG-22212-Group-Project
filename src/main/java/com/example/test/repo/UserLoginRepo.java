@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserLoginRepo extends JpaRepository<UserLogin, String> {
 
+    UserLogin getUserByPhoneNumber(String phoneNumber);
+
 
     @Query("select new com.example.test.model.UserLogin(u.phoneNumber,u.otp,u.verified) from UserLogin u where u.phoneNumber = :phoneNumber")
     UserLogin getUserLoginByPhoneNumber(@Param("phoneNumber") String phoneNumber);

@@ -97,6 +97,8 @@ public class JWTService {
                 .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 10000)) // 30 min expiration
                 .signWith(getKey())
                 .compact();
+
+
     }
     public String generateFuelStationToken(String username) {
         FuelStation fuelStation= fuelStationRepo.findFuelStationByUsername(username);
@@ -157,6 +159,7 @@ public class JWTService {
         } catch (ExpiredJwtException e) {
             throw new ExpiredJwtException(e.getHeader(), e.getClaims(), "Expired JWT token", e);
         } catch (Exception e) {
+            System.out.println("Invalid JWT signature"+e.getMessage());
             throw new RuntimeException("Invalid JWT signature", e);
         }
     }
