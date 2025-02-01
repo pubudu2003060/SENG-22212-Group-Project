@@ -2,8 +2,10 @@ package com.example.test.Security.Services;
 
 import com.example.test.dto.LoginRequestDto;
 import com.example.test.model.Admin;
+import com.example.test.model.FuelStation;
 import com.example.test.model.UserLogin;
 import com.example.test.repo.AdminRepo;
+import com.example.test.repo.FuelStationRepo;
 import com.example.test.repo.UserLoginRepo;
 import com.example.test.service.UserLoginService;
 import io.jsonwebtoken.Claims;
@@ -28,11 +30,12 @@ public class JWTService {
     private final UserLoginRepo userLoginRepo;
     private final UserLoginService userLoginService;
     private final String secretKey;
+    private final FuelStationRepo fuelStationRepo;
 
     // Constructor injection to avoid circular dependencies
     public JWTService(AdminRepo adminRepo,
                       UserLoginRepo userLoginRepo,
-                      UserLoginService userLoginService) {
+                      UserLoginService userLoginService, FuelStationRepo fuelStationRepo) {
 
         this.adminRepo = adminRepo;
         this.userLoginRepo = userLoginRepo;
@@ -40,6 +43,7 @@ public class JWTService {
 
         // Initialize secretKey once during the service construction
         this.secretKey = generateSecretKey();
+        this.fuelStationRepo = fuelStationRepo;
     }
 
     private String generateSecretKey() {
@@ -89,6 +93,24 @@ public class JWTService {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(phoneNumber)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 10000)) // 30 min expiration
+                .signWith(getKey())
+                .compact();
+    }
+    public String generateFuelStationToken(String username) {
+        FuelStation fuelStation= fuelStationRepo.findFuelStationByUsername(username);
+        if (fuelStation== null) {
+            throw new RuntimeException("fuelstation not found");
+        }
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", "FUELSTATION");
+        claims.put("username", username);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 10000)) // 30 min expiration
                 .signWith(getKey())

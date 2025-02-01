@@ -88,7 +88,7 @@ public class FuelStationService {
                             password));
 
             if (authentication.isAuthenticated()) {
-                return jwtService.generateAdminToken(username);
+                return jwtService.generateFuelStationToken(username);
             } else {
                 return "fail";
             }

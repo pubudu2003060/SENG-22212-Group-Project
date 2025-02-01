@@ -63,21 +63,25 @@ public class JwtFilter extends OncePerRequestFilter {
         String identifier = null;//this should be strung and fuel station id
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7); // Omit "Bearer " prefix
+            token = authHeader.substring(7);
+            logger.info("JWT Token received: " + token);// Omit "Bearer " prefix
             identifier = jwtService.extractSubject(token);
         }
 
         if (identifier != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             String role = jwtService.extractClaims(token, claims -> claims.get("role", String.class));
+            logger.info("Extracted identifier from JWT: " + identifier + " for role: " + role);
             UserDetails userDetails = null;
 
             try {
                 if ("ADMIN".equals(role)) {
+                    logger.info("Loading ADMIN details for identifier: " + identifier);
                     userDetails = adminDetailsService.loadUserByUsername(identifier);
 
                 } else if ("USER".equals(role)) {
                     userDetails =userDetailsServiceImp.loadUserByUsername(identifier);
                 } else if ("FUELSTATION".equals(role)) {
+                    logger.info("Loading FUELSTATION details for identifier: " + identifier);
                     userDetails = fuelStationDetailsService.loadUserByUsername(identifier); // Default user loading
                 } else {
                     response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid role in token");
