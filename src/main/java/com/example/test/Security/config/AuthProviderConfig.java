@@ -14,13 +14,15 @@ public class AuthProviderConfig {
     private final UserDetailsService adminDetailsService;
     private final UserDetailsService userDetailsService;
     private final UserDetailsService fuelStationDetailsService;
+
+    @Lazy // Add this annotation
     private final PasswordEncoder passwordEncoder;
 
     public AuthProviderConfig(
-            @Qualifier("adminDetailsService")UserDetailsService adminDetailsService,
-            @Qualifier("userDetailsServiceImp")UserDetailsService userDetailsService,
+            @Qualifier("adminDetailsService") UserDetailsService adminDetailsService,
+            @Qualifier("userDetailsServiceImp") UserDetailsService userDetailsService,
             @Qualifier("fuelStationDetailsService") UserDetailsService fuelStationDetailsService,
-                              PasswordEncoder passwordEncoder) {
+            @Lazy PasswordEncoder passwordEncoder) { // Annotate here
         this.adminDetailsService = adminDetailsService;
         this.userDetailsService = userDetailsService;
         this.fuelStationDetailsService = fuelStationDetailsService;
