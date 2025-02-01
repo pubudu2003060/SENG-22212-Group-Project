@@ -59,7 +59,11 @@ public class UserLoginService {
         try {
             UserLogin userLogin = userLoginRepo.getUserLoginByPhoneNumber(loginRequest.getPhoneNumber());
 
-            if (userLogin.getOtp().equals(loginRequest.getOtp())) {
+            if(userLogin==null){
+                return "User not found for the provided phone number";
+            }
+
+            if (userLogin.getOtp()!=null && userLogin.getOtp().equals(loginRequest.getOtp())) {
                 userLogin.setVerified(true);
                 userLoginRepo.save(userLogin);
                 return "OTP verified successfully";

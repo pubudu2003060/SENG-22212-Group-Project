@@ -20,7 +20,7 @@ public class FuelStationPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Assuming roles can be added, for now, setting a default "ROLE_WORKER"
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_WORKER"));
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_FUELSTATION"));
     }
 
     @Override

@@ -15,7 +15,7 @@ public interface FuelStationRepo extends JpaRepository<FuelStation, Integer> {
 
     List<FuelStation> findByStatus(Status status);
 
-    boolean existsFuelStationByUsernameAndPassword(String username, String password);
+    //boolean existsFuelStationByUsernameAndPassword(String username, String password);
 
     @Query("SELECT COUNT(s) FROM FuelStation s WHERE s.status = 'ACTIVE'")
     long getTotalActiveStations();
@@ -25,4 +25,5 @@ public interface FuelStationRepo extends JpaRepository<FuelStation, Integer> {
 
     FuelStation findFuelStationByUsername(String username);
 
+    String username(String username);
 }
