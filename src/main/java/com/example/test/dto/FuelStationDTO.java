@@ -1,9 +1,5 @@
 package com.example.test.dto;
 
-import com.example.test.enump.EligibleFuelCapacity;
-import com.example.test.enump.FuelType;
-import com.example.test.enump.StationType;
-import com.example.test.enump.Status;
 import com.example.test.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,9 +15,10 @@ public class FuelStationDTO {
     private Status status;
     private StationType stationType;
     private int registeredId;
-    private EligibleFuelCapacity eligibleFuelCapacity;
     private int capacity;
+    private EligibleFuelCapacity eligibleFuelCapacity;
     private FuelType fuelType;
+    private String username;
     private String password;
     private FuelStationOwner fuelStationOwner;
 

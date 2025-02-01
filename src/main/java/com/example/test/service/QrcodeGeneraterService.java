@@ -23,8 +23,8 @@ public class QrcodeGeneraterService {
     @Autowired
     QrcodeRepo qrcodeRepo;
 
-    public byte[] generateQrCode(String vehicalId) {
-        Qrcode qrcode = qrcodeRepo.getQrcodeByCustomerFualQuata_Vehical_VehicalNo(vehicalId);
+    public byte[] generateQrCode(int vehicalId) {
+        Qrcode qrcode = qrcodeRepo.getQrcodeByCustomerFualQuata_Vehical_VehicalId(vehicalId);
         String Text = qrcode.getContent();
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         try {
@@ -41,8 +41,8 @@ public class QrcodeGeneraterService {
         }
     }
 
-    public String generateQRCodeImage(String vehicalId) {
-        Qrcode qrcode = qrcodeRepo.getQrcodeByCustomerFualQuata_Vehical_VehicalNo(vehicalId);
+    public String generateQRCodeImage(int vehicalId) {
+        Qrcode qrcode = qrcodeRepo.getQrcodeByCustomerFualQuata_Vehical_VehicalId(vehicalId);
         String Text = qrcode.getContent();
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = null;

@@ -1,4 +1,4 @@
-package com.example.test.enump;
+package com.example.test.model;
 
 public enum Status {
     ACTIVE, INACTIVE

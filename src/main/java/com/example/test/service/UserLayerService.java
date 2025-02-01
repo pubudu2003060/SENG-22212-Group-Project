@@ -47,11 +47,11 @@ public class UserLayerService {
         return buyQuotaService.getBuyQuotosByVehical(customerId);
     }
 
-    public byte[] generateQrCode(String vehicalId) {
+    public byte[] generateQrCode(int vehicalId) {
         return qrcodeGeneraterService.generateQrCode(vehicalId);
     }
 
-    public String generateQRCodeImage(String vehicalId) {
+    public String generateQRCodeImage(int vehicalId) {
         return qrcodeGeneraterService.generateQRCodeImage(vehicalId);
     }
 

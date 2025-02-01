@@ -16,18 +16,15 @@ public class FuelStationOwner {
     private int stationOwnerid;
 
     @Column(nullable = false)
-    private String firstName;
+    private String name;
 
     @Column(nullable = false)
-    private String lastName;
-
-    @Column(nullable = false,unique = true)
     private String contact;
 
     @Column(nullable = false)
     private String address;
 
     @Column(unique = true, nullable = false)
-    private double nicNo;
+    private int nicNo;
 
 }

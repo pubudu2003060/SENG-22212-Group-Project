@@ -8,8 +8,13 @@ import java.util.List;
 
 public interface AdminRepo extends JpaRepository<Admin,Integer> {
 
-    Admin getAdminByEmailAndPassword(String email, String password);
+    Admin getAdminByUserNameAndPassword(String userName, String password);
+    Admin findAdminByUserName(String userName);
+
+
 
     Admin findAdminByEmail(String email);
 
 }
+//plain text ->hash1->hash2
+//bcrypt

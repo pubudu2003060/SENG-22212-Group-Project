@@ -2,7 +2,7 @@ package com.example.test.controller;
 
 import com.example.test.dto.LoginRequestDto;
 import com.example.test.dto.VehicalDTO;
-import com.example.test.model.UserLogin;
+import com.example.test.Security.Services.JWTService;
 import com.example.test.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,32 +14,29 @@ public class UserLoginController {
     @Autowired
     private UserLoginService userLoginService;
 
+    @Autowired
+    private JWTService jwtService;
+
     @PostMapping("/send-otp/{phoneNumber}")
     public String sendOtp(@PathVariable("phoneNumber") String phoneNumber) {
         try {
-            return userLoginService.sendOtplogin(phoneNumber);
+            return userLoginService.sendOtp(phoneNumber);
         }
         catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-    }
 
-    @PostMapping("/send-otp/su/{phoneNumber}")
-    public String sendOtpSignUP(@PathVariable("phoneNumber") String phoneNumber) {
-        try {
-            return userLoginService.sendOtpSignUp(phoneNumber);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
     }
 
     @PostMapping("/validate-otp")
-    public Object validateOtp(@RequestBody LoginRequestDto loginRequest) {
-        try {
-            return userLoginService.validateOtp(loginRequest);
-        }catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+    public String validateOtp(@RequestBody LoginRequestDto loginRequest) {
+        String result= userLoginService.validateOtp(loginRequest);
+        if ("OTP verified successfully".equals(result)) {
+            // If OTP is verified, generate the JWT token
+            return jwtService.generateUserToken(loginRequest.getPhoneNumber());
+        } else {
+            // Return the message if OTP validation failed
+            return result;
         }
     }
 
