@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Service
 @Transactional
@@ -84,23 +85,32 @@ public class  AdminLayerService {
         return buyQuotaService.countByFuelTypeByDate(fuelType,date);
     }
 
+    private static final Logger logger=Logger.getLogger(AdminLayerService.class.getName());
     public String adminSignIn(AdminSignInDTO adminSignInDTO) {
+
         try {
+            logger.info("Attempting to authenticate admin: " + adminSignInDTO.getUserName());
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(adminSignInDTO.getUserName(), adminSignInDTO.getPassword())
+                    new UsernamePasswordAuthenticationToken(
+                            adminSignInDTO.getUserName(),
+                            adminSignInDTO.getPassword())
             );
 
             if (authentication.isAuthenticated()) {
+                logger.info("Admin authenticated successfully");
                 return jwtService.generateAdminToken(adminSignInDTO.getUserName());
             } else {
+                logger.warning("Admin authentication failed");
                 throw new BadCredentialsException("Invalid credentials");
             }
         } catch (AuthenticationException e) {
+            logger.severe("Authentication failed for admin: " + adminSignInDTO.getUserName() + " " + e.getMessage());
             return "Authentication failed: " + e.getMessage();
         }
     }
 
     public List<BuyquotaFuelStationDTO> getFuelStationBuyQuoto() {
+
         return buyQuotaService.getFuelStationBuyQuoto();
     }
 

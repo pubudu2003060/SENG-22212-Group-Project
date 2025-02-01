@@ -11,19 +11,27 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
+@Qualifier("fuelStationDetailsService")
 public class FuelStationDetailsService implements UserDetailsService {
+    private static final Logger logger= Logger.getLogger(FuelStationDetailsService.class.getName());
     private final FuelStationRepo fuelStationRepo;
 
 
     public FuelStationDetailsService(FuelStationRepo fuelStationRepo) {
+
         this.fuelStationRepo = fuelStationRepo;
+        logger.info("FuelStationDetailsService Initialized");
     }
 
     @Override
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        FuelStation fuelStation = fuelStationRepo.findById(Integer.parseInt(id)).orElseThrow(() -> new IllegalArgumentException("Station not found with ID:" + id));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        FuelStation fuelStation = fuelStationRepo.findFuelStationByUsername(username);
+        if (fuelStation == null) {
+            throw new UsernameNotFoundException(username);
+        }
         return new org.springframework.security.core.userdetails.User(
                 fuelStation.getUsername(),
                 fuelStation.getPassword(),

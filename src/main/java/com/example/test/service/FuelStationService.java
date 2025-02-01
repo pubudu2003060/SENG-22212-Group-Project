@@ -14,6 +14,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -76,12 +77,19 @@ public class FuelStationService {
     }
 
     public String loginFuelStation(String username, String password) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            username,
+                            password));
 
-        if(authentication.isAuthenticated()){
-            return jwtService.generateAdminToken(username);
-        }else{
-            return "fail";
+            if (authentication.isAuthenticated()) {
+                return jwtService.generateAdminToken(username);
+            } else {
+                return "fail";
+            }
+        } catch (AuthenticationException e) {
+            return "Login fail" + e.getMessage();
         }
     }
 
