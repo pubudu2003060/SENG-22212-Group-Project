@@ -18,7 +18,7 @@ public class FuelStationLayerController {
     @Autowired
     private FuelStationService fuelStationService;
 
-    @GetMapping("/loginfuelstation")
+    @PostMapping("/loginfuelstation")
     public String loginFuelStation(@RequestBody FuelStationLoginDTO fuelStationLoginDTO) {
         return fuelStationService.loginFuelStation(fuelStationLoginDTO.getUsername(), fuelStationLoginDTO.getPassword());
     }
