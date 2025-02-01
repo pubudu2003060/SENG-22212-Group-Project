@@ -31,9 +31,19 @@ public class JwtFilter extends OncePerRequestFilter {
 
 
     @Autowired
+    @Qualifier("adminDetailsService")
+    @Lazy
+    private UserDetailsService adminDetailsService;
+
+    @Autowired
     @Qualifier("userDetailsServiceImp")
     @Lazy
-    private final UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsServiceImp;
+
+    @Autowired
+    @Qualifier("fuelStationDetailsService")
+    @Lazy
+    private UserDetailsService fuelStationDetailsService;
 
     private static final Logger logger = Logger.getLogger(JwtFilter.class.getName());
 
@@ -41,7 +51,7 @@ public class JwtFilter extends OncePerRequestFilter {
     public JwtFilter(JWTService jwtService, ApplicationContext context, @Lazy @Qualifier("userDetailsServiceImp") UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.context = context;
-        this.userDetailsService = userDetailsService;
+
     }
 
     @Override
@@ -63,10 +73,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
             try {
                 if ("ADMIN".equals(role)) {
-                    userDetails = context.getBean(UserDetailsService.class)
-                            .loadUserByUsername(identifier); // Load admin details
+                    userDetails = adminDetailsService.loadUserByUsername(identifier);
+
                 } else if ("USER".equals(role)) {
-                    userDetails = userDetailsService.loadUserByUsername(identifier); // Default user loading
+                    userDetails =userDetailsServiceImp.loadUserByUsername(identifier);
+                } else if ("FUELSTATION".equals(role)) {
+                    userDetails = fuelStationDetailsService.loadUserByUsername(identifier); // Default user loading
                 } else {
                     response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid role in token");
                     return;
@@ -96,6 +108,9 @@ public class JwtFilter extends OncePerRequestFilter {
             return true;
         }
         if (requestURI.startsWith("/api/v1/user") && "USER".equals(role)) {
+            return true;
+        }
+        if (requestURI.startsWith("/api/v1/fuelstation") && "FUELSTATION".equals(role)) {
             return true;
         }
         return requestURI.startsWith("/api/v1");

@@ -18,6 +18,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public class FuelStationService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JWTService jwtService;
+
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     public List<FuelStationManagementDTO> getAllFuelStations() {
         List<FuelStation> fuelStationList = fuelStationRepo.findAll();
@@ -69,6 +72,7 @@ public class FuelStationService {
 
     public FuelStationDTO addFuelStation(FuelStationDTO fuelStationDTO) {
         try {
+            fuelStationDTO.setPassword(encoder.encode(fuelStationDTO.getPassword()));
             FuelStation fuelStation = fuelStationRepo.save(modelMapper.map(fuelStationDTO, FuelStation.class));
             return modelMapper.map(fuelStation, FuelStationDTO.class);
         } catch (Exception e) {
