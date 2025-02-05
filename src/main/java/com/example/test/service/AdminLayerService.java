@@ -1,5 +1,6 @@
 package com.example.test.service;
 
+import com.example.test.Security.Services.JWTService;
 import com.example.test.dto.AdminDTO;
 import com.example.test.dto.AdminSignInDTO;
 import com.example.test.dto.BuyquotaFuelStationDTO;
@@ -7,6 +8,11 @@ import com.example.test.enump.FuelType;
 import com.example.test.model.BuyQuota;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,6 +32,11 @@ public class  AdminLayerService {
     private UserService userService;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JWTService jwtService;
+
 
     public Map<String, Double> getBuyQuotasDataByFuelType(FuelType fuelType) {
 
@@ -73,13 +84,26 @@ public class  AdminLayerService {
         return buyQuotaService.countByFuelTypeByDate(fuelType,date);
     }
 
-    public int adminSignIn(AdminSignInDTO adminSignInDTO){
-        AdminDTO adminDTO = adminService.getAdminByUserNameAndPassword(adminSignInDTO);
+    public String adminSignIn(AdminSignInDTO adminSignInDTO) {
 
-        if(adminDTO == null){
-            return 0;
-        }else{
-            return 1;
+        try {
+           // AdminDTO adminDTO = adminService.getAdminByUserNameAndPassword(adminSignInDTO);
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            adminSignInDTO.getEmail(),
+                            adminSignInDTO.getPassword())
+            );
+
+            if (authentication.isAuthenticated()) {
+
+                return jwtService.generateAdminToken(adminSignInDTO.getEmail());
+            } else {
+
+                throw new BadCredentialsException("Invalid credentials");
+            }
+        } catch (AuthenticationException e) {
+
+            return "Authentication failed: " + e.getMessage();
         }
     }
 

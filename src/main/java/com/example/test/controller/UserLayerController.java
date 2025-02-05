@@ -25,7 +25,7 @@ public class UserLayerController {
         return userLayerService.getVehicalFualdata(customerID);
     }
 
-    @GetMapping("/getVehicalFualQuata/{customerid}")
+    @GetMapping("user/getVehicalFualQuata/{customerid}")
     public List<VehicalFualQuataDTO> getVehicalFualQuata(@PathVariable("customerid") int customerID){
         return userLayerService.getVehicalFualQuata(customerID);
     }
