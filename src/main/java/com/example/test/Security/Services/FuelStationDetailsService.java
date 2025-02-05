@@ -27,8 +27,8 @@ public class FuelStationDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        FuelStation fuelStation = fuelStationRepo.findFuelStationByRegisteredId(Integer.parseInt(username));
+    public UserDetails loadUserByUsername(String registerdId) throws UsernameNotFoundException {
+        FuelStation fuelStation = fuelStationRepo.findFuelStationByRegisteredId(Integer.parseInt(registerdId));
         if (fuelStation == null) {
             throw new UsernameNotFoundException("FuelStation Not found");
         }
@@ -38,4 +38,5 @@ public class FuelStationDetailsService implements UserDetailsService {
                 List.of(new SimpleGrantedAuthority("ROLE_FUELSTATION"))
         );
     }
+
 }

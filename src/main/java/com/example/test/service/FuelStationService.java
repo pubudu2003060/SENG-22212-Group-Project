@@ -1,5 +1,6 @@
 package com.example.test.service;
 
+import com.example.test.Security.Services.JWTService;
 import com.example.test.dto.FuelStationDTO;
 import com.example.test.dto.FuelStationManagementDTO;
 import com.example.test.dto.VehicleMockDataDTO;
@@ -13,6 +14,11 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -30,6 +36,13 @@ public class FuelStationService {
     private FuelStationOwnerService fuelStationOwnerService;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    //not to create object immediately as started,just create only when it is needed
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JWTService jwtService;
+
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     public List<FuelStationManagementDTO> getAllFuelStations() {
         List<FuelStation> fuelStationList = fuelStationRepo.findAll();
@@ -101,7 +114,7 @@ public class FuelStationService {
                 throw new RuntimeException("Fuel Station do not exists!");
             }
 
-
+            fuelStationDTO.setPassword(encoder.encode(fuelStationDTO.getPassword()));
             FuelStation fuelStation = fuelStationRepo.save(modelMapper.map(fuelStationDTO, FuelStation.class));
             return modelMapper.map(fuelStation, FuelStationDTO.class);
 
@@ -111,9 +124,23 @@ public class FuelStationService {
         }
     }
 
-    public boolean loginFuelStation(int username, String password) {
-        return fuelStationRepo.existsFuelStationByRegisteredIdAndPassword(username, password);
+    public String loginFuelStation(int registerdId, String password) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            registerdId,
+                            password));
+
+            if (authentication.isAuthenticated()) {
+                return jwtService.generateFuelStationToken(registerdId);
+            } else {
+                return "fail";
+            }
+        } catch (AuthenticationException e) {
+            return "Login fail" + e.getMessage();
+        }
     }
+
 
     public Long getTotalActiveStations() {
         return fuelStationRepo.getTotalActiveStations();

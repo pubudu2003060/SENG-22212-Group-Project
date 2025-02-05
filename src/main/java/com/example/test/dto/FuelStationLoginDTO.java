@@ -11,4 +11,5 @@ public class FuelStationLoginDTO {
 
     private int registeredId;
     private String password;
+
 }

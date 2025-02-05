@@ -100,19 +100,19 @@ public class JWTService {
 
 
     }
-    public String generateFuelStationToken(String username) {
-        FuelStation fuelStation= fuelStationRepo.findFuelStationByRegisteredId(Integer.parseInt(username));
+    public String generateFuelStationToken(int registerdId) {
+        FuelStation fuelStation= fuelStationRepo.findFuelStationByRegisteredId(registerdId);
         if (fuelStation== null) {
             throw new RuntimeException("fuelstation not found");
         }
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", "FUELSTATION");
-        claims.put("username", username);
+        claims.put("registerdId", registerdId);
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(username)
+                .setSubject(String.valueOf(registerdId))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 10000)) // 30 min expiration
                 .signWith(getKey())

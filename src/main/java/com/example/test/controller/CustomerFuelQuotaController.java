@@ -48,7 +48,7 @@ public class CustomerFuelQuotaController {
         return customerFualQuataService.allocateFuel(customerFuelQuotaId, allocatedFuel);
     }
 
-    @GetMapping("/getDetailsbycfcid")
+    @GetMapping("fuelstation/getDetailsbycfcid")
     public Object getDetailsbycfcid(@RequestParam("customerFuelQuotaId") int customerFuelQuotaId) {
         try {
             Object object = customerFualQuataService.getDetailsbycfcid(customerFuelQuotaId);

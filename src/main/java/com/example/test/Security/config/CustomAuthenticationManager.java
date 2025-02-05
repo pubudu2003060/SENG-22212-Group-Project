@@ -30,7 +30,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         Authentication authResult = null;
 
         // Try fuel station authentication first
-        if (isFuelStationUsername(username)) {
+
             System.out.println("Attempting fuel station authentication...");
             authResult = fuelStationAuthProvider.authenticate(authentication);
             if (authResult != null) {
@@ -39,7 +39,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
             } else {
                 System.out.println("Fuel station authentication failed");
             }
-        }
+
 
         // If fuel station authentication fails, try admin authentication
         System.out.println("Attempting admin authentication...");
@@ -70,7 +70,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         throw new AuthenticationException("Authentication failed for all providers") {};
     }
 
-    private boolean isFuelStationUsername(String username) {
+    private boolean isFuelStationRegisterdId(String username) {
         // Modify the logic based on how you want to identify fuel station usernames
         return username != null && username.startsWith("station");  // Example condition
     }
