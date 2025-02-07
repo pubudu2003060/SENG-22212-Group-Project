@@ -1,6 +1,7 @@
 package com.example.test.service;
 
 import com.example.test.Security.Services.JWTService;
+import com.example.test.Security.principals.UserPrincipal;
 import com.example.test.dto.AdminDTO;
 import com.example.test.dto.AdminSignInDTO;
 import com.example.test.dto.BuyquotaFuelStationDTO;
@@ -8,19 +9,19 @@ import com.example.test.enump.FuelType;
 import com.example.test.model.BuyQuota;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -84,28 +85,27 @@ public class  AdminLayerService {
         return buyQuotaService.countByFuelTypeByDate(fuelType,date);
     }
 
-    public String adminSignIn(AdminSignInDTO adminSignInDTO) {
-
+    public ResponseEntity<String> adminSignIn(AdminSignInDTO adminSignInDTO) {
         try {
-           // AdminDTO adminDTO = adminService.getAdminByUserNameAndPassword(adminSignInDTO);
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             adminSignInDTO.getEmail(),
-                            adminSignInDTO.getPassword())
+                            adminSignInDTO.getPassword(),
+                            Collections.singletonList(new SimpleGrantedAuthority("ADMIN"))
+                    )
             );
 
             if (authentication.isAuthenticated()) {
-
-                return jwtService.generateAdminToken(adminSignInDTO.getEmail());
+                String token = jwtService.generateAdminToken(adminSignInDTO.getEmail());
+                return ResponseEntity.ok(token); // Return 200 OK with the token
             } else {
-
-                throw new BadCredentialsException("Invalid credentials");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
             }
         } catch (AuthenticationException e) {
-
-            return "Authentication failed: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Authentication failed: " + e.getMessage());
         }
     }
+
 
 
     public List<BuyquotaFuelStationDTO> getFuelStationBuyQuoto() {

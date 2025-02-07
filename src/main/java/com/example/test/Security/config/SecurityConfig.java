@@ -48,7 +48,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/adminsignin", "/api/v1/addadmin", "/api/v1/adduser", "/api/v1/login/send-otp/**",
                                 "/api/v1/login/validate-otp", "/api/v1/loginfuelstation", "/api/v1/addfuelstationowner",
-                                "/api/v1/addfuelstation", "/api/v1/login/addvehical")
+                                "/api/v1/addfuelstation", "/api/v1/login/addvehical","/api/v1/getadmin")
                         .permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/user/**").hasRole("USER")
@@ -60,7 +60,6 @@ public class SecurityConfig {
     }
 
     @Bean
-
     public AuthenticationManager authenticationManager() {
         return new CustomAuthenticationManager(adminAuthProvider, userAuthProvider, fuelStationAuthProvider);
     }

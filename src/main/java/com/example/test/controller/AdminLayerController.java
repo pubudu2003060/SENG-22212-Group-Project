@@ -6,6 +6,7 @@ import com.example.test.enump.FuelType;
 import com.example.test.service.AdminLayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -41,7 +42,7 @@ public class AdminLayerController {
     }
 
     @PostMapping("/adminsignin")
-    public String getAdminByUsernameandPassword(@RequestBody AdminSignInDTO adminSignInDTO) {
+    public ResponseEntity<String> getAdminByUsernameandPassword(@RequestBody AdminSignInDTO adminSignInDTO) {
         return adminLayerService.adminSignIn(adminSignInDTO);
     }
 
