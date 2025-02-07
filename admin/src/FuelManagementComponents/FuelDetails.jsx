@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Button, Table, Select, Input, DatePicker, Row, Col } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import cookies from "js-cookie";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 function FuelDetails() {
+  let token = cookies.get("token");
+  if (!token) {
+    console.error("Token not found in cookies!");
+    navigate("/login");
+  }
+  axios.defaults.headers["Authorization"] = `Bearer ${token}`;
   const [data, setData] = useState([]); // Filtered data
   const [originalData, setOriginalData] = useState([]); // Full data
   const [stations, setStations] = useState([]);
@@ -58,7 +65,7 @@ function FuelDetails() {
         setVehicleTypes(uniqueFuelTypes);
       } catch (error) {
         console.error('Error fetching data:', error);
-        navigate("/details-not-found");
+    //    navigate("/details-not-found");
       }
     };
 
