@@ -2,10 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Card, List, Typography } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import cookies from "js-cookie";
 
 const { Title } = Typography;
 
 function FuelTypes() {
+    let token = cookies.get("token");
+    if (!token) {
+        console.error("Token not found in cookies!");
+        navigate("/login");
+    }
+    axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+
   const [fuelTypes, setFuelTypes] = useState([]);
   const navigate = useNavigate();
   
@@ -18,7 +26,7 @@ function FuelTypes() {
       })
       .catch(error => {
         console.error('Error fetching fuel types:', error);
-        navigate("/details-not-found");
+    //    navigate("/details-not-found");
       });
   }, [navigate]);
 

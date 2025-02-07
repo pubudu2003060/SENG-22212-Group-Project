@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Typography, Button, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import cookies from "js-cookie";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 function TotalFuelDistributed() {
+  let token = cookies.get("token");
+  if (!token) {
+    console.error("Token not found in cookies!");
+    navigate("/login");
+  }
+  axios.defaults.headers["Authorization"] = `Bearer ${token}`;
   const navigate = useNavigate();
   const [fuelTypes, setFuelTypes] = useState([]);
   const [selectedFuelType, setSelectedFuelType] = useState('');
@@ -28,7 +35,7 @@ function TotalFuelDistributed() {
       })
       .catch(error => {
         console.error('Error fetching fuel types:', error);
-        navigate("/details-not-found");
+       // navigate("/details-not-found");
       });
   }, [navigate]);
 
@@ -47,7 +54,7 @@ function TotalFuelDistributed() {
         })
         .catch(error => {
           console.error('Error fetching fuel data:', error);
-          navigate("/details-not-found");
+    //      navigate("/details-not-found");
         });
     }
   };
