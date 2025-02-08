@@ -48,7 +48,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configure(http))  // Enable CORS
+                .csrf(csrf -> csrf.disable())  // Disable CSRF
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/adminsignin", "/api/v1/addadmin", "/api/v1/adduser", "/api/v1/login/send-otp/**",
                                 "/api/v1/login/validate-otp", "/api/v1/loginfuelstation", "/api/v1/addfuelstationowner",
@@ -62,7 +63,6 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
 
 
     @Bean
