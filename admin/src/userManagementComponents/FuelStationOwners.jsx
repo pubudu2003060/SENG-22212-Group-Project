@@ -5,8 +5,15 @@ import { SearchOutlined} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 import "../styles/userManagement.css";
+import cookies from "js-cookie";
 
 function FuelStationOwners() {
+    let token = cookies.get("token");
+    if (!token) {
+        console.error("Token not found in cookies!");
+        navigate("/login");
+    }
+    axios.defaults.headers["Authorization"] = `Bearer ${token}`;
 
     const [stationOwners, setStationOwners] = useState([]);
     const [filteredStationOwners, setFilteredStationOwners] = useState([]);
@@ -27,7 +34,7 @@ function FuelStationOwners() {
             console.log(response.data);
           } catch (error) {
             console.error("Error fetching station owners:", error);
-            navigate("/details-not-found");
+       //     navigate("/details-not-found");
           }
         };
         fetchStationOwners();

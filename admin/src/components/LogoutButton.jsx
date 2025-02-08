@@ -10,6 +10,7 @@ function LogoutButton() {
     // Clear cookies
     cookies.remove("adminEmail");
     cookies.remove("adminUserName");
+    cookies.remove("token")
 
     // Clear other storage (if any)
     localStorage.clear();

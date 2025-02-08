@@ -4,10 +4,17 @@ import { Input, Select, message, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import "../styles/fuelQuotaManagement.css";
+import cookies from "js-cookie";
 
 const { Option } = Select;
 
 function SetNewQuota() {
+  let token = cookies.get("token");
+  if (!token) {
+    console.error("Token not found in cookies!");
+    navigate("/login");
+  }
+  axios.defaults.headers["Authorization"] = `Bearer ${token}`;
   const [vehicleTypes, setVehicleTypes] = useState([]);
   const [uniqueVehicleTypes, setUniqueVehicleTypes] = useState([]);
   const [filters, setFilters] = useState({ vehicleType: "" });
@@ -37,7 +44,7 @@ function SetNewQuota() {
   
       } catch (error) {
         console.error("Error fetching eligible fuel quotas:", error);
-        navigate("/details-not-found");
+    //    navigate("/details-not-found");
       }
     };
   
@@ -58,7 +65,7 @@ function SetNewQuota() {
     } catch (error) {
       console.error("Error fetching fuel quota:", error);
       setCurrentQuota(null);
-      navigate("/details-not-found");
+   //   navigate("/details-not-found");
     }
   
     setNewQuota(""); // Clear the new quota input
