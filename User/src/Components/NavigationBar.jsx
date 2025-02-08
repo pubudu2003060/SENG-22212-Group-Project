@@ -29,6 +29,7 @@ function NavigationBar() {
                     sessionStorage.removeItem("lastName")
                     sessionStorage.removeItem("address")
                     sessionStorage.removeItem("idNo")
+                    sessionStorage.removeItem("jwtToken")
                     navigate("/")
                 }}>Logout
                 </button>

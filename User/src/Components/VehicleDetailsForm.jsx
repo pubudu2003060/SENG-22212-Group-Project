@@ -48,14 +48,20 @@ const VehicleDetailsForm = () => {
         if (!validateForm()) return;
 
         try {
+            let token = sessionStorage.getItem("jwtToken")
             setLoading(true);
-            const response = await axios.post("http://localhost:8080/api/v1/login/addvehical", {
+            const response = await axios.post("http://localhost:8080/api/v1/login/user/addvehical", {
                 chassiNo: formData.chassisNumber,
                 vehicalType: formData.vehicleType,
                 vehicalNo: formData.vehicleNumber,
                 enginNo: formData.engineNumber,
                 fualType: formData.fuelType,
                 user: { userId: parseInt(userId) }
+            },{
+                headers: {
+                    "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                },
             });
             alert("Vehicle registered successfully!");
             navigate("/QRGenerator",{state:{vehicalNo:formData.vehicleNumber}});

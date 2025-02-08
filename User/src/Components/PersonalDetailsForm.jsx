@@ -99,34 +99,56 @@ function PersonalDetailsForm() {
                 phoneNumber: "+94" + formData.phoneNumber,
                 otp: formData.OTP,
             })
-
             .then((response) => {
+                console.log("Full Response:", response.data);
+
+                // Extract token and user data from response body
+                const token = response.data.token;
+                const userData = response.data.data;
+
+                if (token) {
+                    sessionStorage.setItem("jwtToken", token);
+                }
+
+                if (userData) {
+                    sessionStorage.setItem("userId", userData.userId);
+                    sessionStorage.setItem("userContactNumber", userData.contactNo);
+                    sessionStorage.setItem("firstName", userData.firstName);
+                    sessionStorage.setItem("lastName", userData.lastName);
+                    sessionStorage.setItem("address", userData.address);
+                    sessionStorage.setItem("idNo", userData.idNo);
+                }
 
                 if (response.data !== "Invalid OTP") {
                     setIsVerified(true);
-                    alert("OTP verified successfully")
+                    alert("OTP verified successfully");
                 } else {
                     setIsVerified(false);
-                    alert("Invalid OTP. ");
+                    alert("Invalid OTP.");
                 }
-
             })
             .catch((err) => {
-
-                alert("Failed to verify OTP. ");
-
+                console.error("Error verifying OTP:", err);
+                alert("Failed to verify OTP.");
             });
+
     };
 
     const saveUserData = () => {
+        let token = sessionStorage.getItem("jwtToken")
         axios
-            .post("http://localhost:8080/api/v1/adduser", {
+            .post("http://localhost:8080/api/v1/user/adduser", {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 contactNo: "+94" + formData.phoneNumber,
                 address: formData.address,
                 identityType: formData.idType,
                 idNo: formData.idNumber,
+            },{
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
             })
             .then((response) => {
                 console.log("User data saved:", response.data);

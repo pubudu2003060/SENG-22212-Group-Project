@@ -87,10 +87,12 @@ function ProfileManagement() {
     // New function to update profile
     const updateProfile = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/v1/updateuser', {
+            let token = sessionStorage.getItem("jwtToken")
+            const response = await fetch('http://localhost:8080/api/v1/user/updateuser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify({   // Convert object to JSON string
                     userId: defaultProfileData.UserID,
@@ -206,7 +208,6 @@ function ProfileManagement() {
 
                         <hr/>
                         <div className="profile-form-group">
-                            <input type="checkbox" id="agreeTerms" value="agree"/>
                             <label htmlFor="agreeTerms">I certify that the updated profile information provided is
                                 accurate and up-to-date.</label>
                         </div>
