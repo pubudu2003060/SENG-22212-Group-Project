@@ -26,7 +26,7 @@ public class AdminController {
         return adminService.saveAdmin(adminDTO);
     }
 
-    @PutMapping("/update-password")
+    @PutMapping("/admin/update-password")
     public String updatePassword(@RequestBody ChangeAdminPasswordDTO changeAdminPasswordDTO) {
         try {
             adminService.updatePassword(changeAdminPasswordDTO.getEmail(), changeAdminPasswordDTO.getNewPassword());

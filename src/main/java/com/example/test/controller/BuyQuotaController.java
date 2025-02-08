@@ -17,7 +17,7 @@ public class BuyQuotaController {
     @Autowired
     private BuyQuotaService buyQuotaService;
 
-    @GetMapping("/getbuyquotes")
+    @GetMapping("/admin/getbuyquotes")
     public List<BuyQuotaDTO> getAllBuyQuota() {
         return buyQuotaService.getAllbuyquota();
     }

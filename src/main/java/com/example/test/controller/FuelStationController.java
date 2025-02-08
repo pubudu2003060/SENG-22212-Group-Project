@@ -18,7 +18,7 @@ public class FuelStationController {
     @Autowired
     private FuelStationService fuelStationService;
 
-    @GetMapping("/getfuelstations")
+    @GetMapping("/admin/getfuelstations")
     public List<FuelStationManagementDTO> getAllFuelStations() {
         return fuelStationService.getAllFuelStations();
     }
@@ -28,7 +28,7 @@ public class FuelStationController {
         return fuelStationService.updateFuelStationStatus(id, status);
     }
 
-    @GetMapping("/filterByStatus")
+    @GetMapping("/admin/filterByStatus")
     public List<FuelStationManagementDTO> filterByStatus(@RequestParam Status status) {
         return fuelStationService.filterStationByStatus(status);
     }
@@ -53,12 +53,12 @@ public class FuelStationController {
         }
     }
 
-    @GetMapping("/getTotalActiveFuelStations")
+    @GetMapping("/admin/getTotalActiveFuelStations")
     public Long getTotalActiveFuelStations() {
         return fuelStationService.getTotalActiveStations();
     }
 
-    @GetMapping("/findFuelStationCapacityBelow8000")
+    @GetMapping("/admin/findFuelStationCapacityBelow8000")
     public List<FuelStationDTO> findFuelStationCapacityBelow8000() {
         return fuelStationService.findFuelStationsCapacityBelow8000();
     }

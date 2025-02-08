@@ -18,7 +18,7 @@ public class CustomerFuelQuotaController {
     @Autowired
     CustomerFualQuataService customerFualQuataService;
 
-    @GetMapping("/getallcustomerquota")
+    @GetMapping("/admin/getallcustomerquota")
     public List<CustomerFuelQuotaDTO> getAllCustomerFuelQuotas() {
         return customerFualQuataService.getAllCustomerFuelQuotas();
     }
@@ -33,7 +33,7 @@ public class CustomerFuelQuotaController {
         return customerFualQuataService.updateFuelQuota(vehicleType, fuelQuantity);
     }
 
-    @GetMapping("/getFuelQuotaByVehicleType")
+    @GetMapping("/admin/getFuelQuotaByVehicleType")
     public Integer getFuelQuotaDetailsByVehicleType(@RequestParam("vehicalType") VehicalType vehicalType) {
         return customerFualQuataService.getFuelQuotaDetailsByVehicleType(vehicalType);
     }
