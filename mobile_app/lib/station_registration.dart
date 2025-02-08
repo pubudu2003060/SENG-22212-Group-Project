@@ -103,7 +103,7 @@ class _StationRegisterScreenState extends State<StationRegisterScreen> {
 
       if (response.statusCode == 200) {
         await saveData(regNoController.text);
-        Navigator.pushNamed(context, '/qr_scanner');
+        Navigator.pushNamed(context, '/dashboard');
       } else {
         throw Exception('Failed to register fuel station: ${response.body}');
       }
