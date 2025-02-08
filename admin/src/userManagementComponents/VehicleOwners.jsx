@@ -5,10 +5,17 @@ import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 import "../styles/userManagement.css";
+import cookies from "js-cookie";
 
 const { Option } = Select;
 
 function VehicleOwners() {
+    let token = cookies.get("token");
+    if (!token) {
+        console.error("Token not found in cookies!");
+        navigate("/login");
+    }
+    axios.defaults.headers["Authorization"] = `Bearer ${token}`;
 
     const [owners, setOwners] = useState([]);
     const [filteredOwners, setFilteredOwners] = useState([]);
@@ -35,7 +42,7 @@ function VehicleOwners() {
             setIdentityType(uniqueTypes);
           } catch (error) {
             console.error("Error fetching data:", error);
-            navigate("/details-not-found");
+           // navigate("/details-not-found");
           }
         };
         fetchUsers();

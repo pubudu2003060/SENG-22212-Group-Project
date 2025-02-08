@@ -6,10 +6,17 @@ import UpdateStationStatus from './UpdateStationStatus';
 import "../styles/StationManagement.css";
 import StationDetails from './StationsDetails';
 import { useNavigate } from 'react-router-dom';
+import cookies from "js-cookie";
 
 const { Option } = Select;
 
 function InactiveFuelStations() {
+    let token = cookies.get("token");
+    if (!token) {
+        console.error("Token not found in cookies!");
+        navigate("/login");
+    }
+    axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     const [stations, setStations] = useState([]);
     const [filteredStations, setFilteredStations] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -41,7 +48,7 @@ function InactiveFuelStations() {
             setFuelTypes(uniqueFuelTypes);
           } catch (error) {
             console.error("Error fetching data:", error);
-            navigate("/details-not-found");
+          //  navigate("/details-not-found");
           }
         };
         fetchStations();

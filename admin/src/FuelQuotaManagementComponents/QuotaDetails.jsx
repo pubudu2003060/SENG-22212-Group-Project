@@ -4,10 +4,17 @@ import { Input, Select, Pagination, Button } from 'antd';
 import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import "../styles/fuelQuotaManagement.css";
+import cookies from "js-cookie";
 
 const { Option } = Select;
 
 function QuotaDetails() {
+    let token = cookies.get("token");
+    if (!token) {
+        console.error("Token not found in cookies!");
+        navigate("/login");
+    }
+    axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     const [quota, setQuota] = useState([]);
     const [filteredQuota, setFilteredQuota] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -32,7 +39,7 @@ function QuotaDetails() {
                 setUniqueVehicleTypes(uniqueTypes);
             } catch (error) {
                 console.error("Error fetching data:", error);
-                navigate("/details-not-found");
+   //             navigate("/details-not-found");
             }
         };
     
