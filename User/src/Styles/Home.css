@@ -46,7 +46,7 @@ html, body {
     padding: 0;
     padding-top: 160px; /* Space below the fixed top bar */
     box-sizing: border-box;
-    background-image: url('images/fuelstation.jpg');
+    background-image: url('/images/fuelstation.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
