@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 
 function VehicleInfomation() {
 
-    const { userId, userContactNumber, firstName, lastName } = getSessionData();
+    const {userId, userContactNumber, firstName, lastName} = getSessionData();
     const navigate = useNavigate();
     const [vehicleData, setVehicleData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -16,9 +16,17 @@ function VehicleInfomation() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
+                let token = sessionStorage.getItem("jwtToken")
                 setIsLoading(true);
-                const url = `http://localhost:8080/api/v1/getBuyQuotosByVehical/${userId}`;
-                const response = await axios.get(url);
+                const url = `http://localhost:8080/api/v1/user/getBuyQuotosByVehical/${userId}`;
+                const response = await axios.get(url,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
                 setVehicleData(response.data);
             } catch (error) {
                 console.error("Error fetching user data:", error.message);
@@ -40,35 +48,35 @@ function VehicleInfomation() {
     return (
         <div className="vehicle">
             <WebHeader/>
-            <NavigationBar />
+            <NavigationBar/>
             <div className="vehicle-body">
                 <div id="vehicle-interBody">
                     <h2 id="vehicle-subHeading">Vehicle Fuel Details</h2>
-                    <table className="vehicle-table" >
+                    <table className="vehicle-table">
                         <thead>
-                            <tr>
-                                <th>Vehicle No</th>
-                                <th>Vehicle Type</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Fuel Type</th>
-                            </tr>
+                        <tr>
+                            <th>Vehicle No</th>
+                            <th>Vehicle Type</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Fuel Type</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {vehicleData.map((vehicle, index) => (
-                                <tr key={index}>
-                                    <td>{vehicle.vehicalNo}</td>
-                                    <td>{vehicle.vehicalType}</td>
-                                    <td>{vehicle.amount}</td>
-                                    <td>{vehicle.date}</td>
-                                    <td>{vehicle.fualType}</td>
-                                </tr>
-                            ))}
+                        {vehicleData.map((vehicle, index) => (
+                            <tr key={index}>
+                                <td>{vehicle.vehicalNo}</td>
+                                <td>{vehicle.vehicalType}</td>
+                                <td>{vehicle.amount}</td>
+                                <td>{vehicle.date}</td>
+                                <td>{vehicle.fualType}</td>
+                            </tr>
+                        ))}
                         </tbody>
                     </table>
                 </div>
             </div>
-            <WebFooter />
+            <WebFooter/>
         </div>
     );
 }

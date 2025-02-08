@@ -24,13 +24,20 @@ function QRGenerator() {
                 navigate("/VehicleDetailsForm");
                 return;
             }
-            console.log(`http://localhost:8080/api/v1/generateQrCodeByVehicalId/${vehicleId}`)
+
 
             try {
-
+                let token = sessionStorage.getItem("jwtToken")
+                console.log(token)
                 const response = await axios.get(
-                    `http://localhost:8080/api/v1/generateQrCodeByVehicalId/${vehicleId}`,
-                    {responseType: 'arraybuffer'}
+                    `http://localhost:8080/api/v1/user/generateQrCodeByVehicalId/${vehicleId}`,
+                    {responseType: 'arraybuffer',
+
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                 );
 
                 const base64Image = btoa(

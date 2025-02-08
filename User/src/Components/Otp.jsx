@@ -38,7 +38,6 @@ function Otp() {
 
         if (enteredOtp.length === 4) {
             try {
-
                 const response = await fetch("http://localhost:8080/api/v1/login/validate-otp", {
                     method: "POST",
                     headers: {
@@ -50,24 +49,31 @@ function Otp() {
                     }),
                 });
 
+                // Parse the response as JSON
                 const result = await response.json();
-                console.log(result)
-                if (response.ok) {
-                    alert("Login Successfull!");
-                    sessionStorage.setItem("userId", result.userId)
-                    sessionStorage.setItem("userContactNumber",result.contactNo)
-                    sessionStorage.setItem("firstName",result.firstName)
-                    sessionStorage.setItem("lastName",result.lastName)
-                    sessionStorage.setItem("address",result.address)
-                    sessionStorage.setItem("idNo",result.idNo)
-                    navigate("/Dashboard");
+                console.log("Full Response:", result); // Debugging
 
+                if (response.ok) {
+                    alert("Login Successful!");
+
+                    // Store token and user data in sessionStorage
+                    sessionStorage.setItem("jwtToken", result.token);
+                    sessionStorage.setItem("userId", result.data.userId);
+                    sessionStorage.setItem("userContactNumber", result.data.contactNo);
+                    sessionStorage.setItem("firstName", result.data.firstName);
+                    sessionStorage.setItem("lastName", result.data.lastName);
+                    sessionStorage.setItem("address", result.data.address);
+                    sessionStorage.setItem("idNo", result.data.idNo);
+
+                    navigate("/Dashboard");
                 } else {
-                    setError("Error validating OTP." );
+                    setError("Error validating OTP.");
                 }
             } catch (error) {
                 setError("An error occurred while validating OTP.");
+                console.error("Fetch Error:", error);
             }
+
         } else {
             setError("Please enter a valid 4-digit OTP.");
         }

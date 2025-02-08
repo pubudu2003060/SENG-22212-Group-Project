@@ -16,9 +16,16 @@ function Dashboard() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
+                let token = sessionStorage.getItem("jwtToken")
                 setIsLoading(true);
-                const url = `http://localhost:8080/api/v1/getVehicalFualQuata/${userId}`;
-                const response = await axios.get(url);
+                const url = `http://localhost:8080/api/v1/user/getVehicalFualQuata/${userId}`;
+                const response = await axios.get(url,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                 setUserData(response.data);
             } catch (error) {
                 console.error("Error fetching user data:", error.message);
