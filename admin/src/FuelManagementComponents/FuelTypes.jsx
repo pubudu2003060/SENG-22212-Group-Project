@@ -18,7 +18,7 @@ function FuelTypes() {
   const navigate = useNavigate();
   
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/getbuyquotes')
+    axios.get('http://localhost:8080/api/v1/admin/getbuyquotes')
       .then(response => {
         // Extract unique fuel types
         const uniqueTypes = Array.from(new Set(response.data.map(item => item.fuelType)));
