@@ -23,7 +23,7 @@ function FuelTransactions() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/getbuyquotes')
+    axios.get('http://localhost:8080/api/v1/admin/getbuyquotes')
       .then(response => {
         // Extract unique fuel types
         const uniqueTypes = Array.from(new Set(response.data.map(item => item.fuelType)));
@@ -40,7 +40,7 @@ function FuelTransactions() {
 
   useEffect(() => {
     if (selectedFuelType && selectedDate) {
-      axios.get(`http://localhost:8080/api/v1/tranctionscountByFuelTypeandDate/${selectedFuelType}/${selectedDate}`)
+      axios.get(`http://localhost:8080/api/v1/admin/tranctionscountByFuelTypeandDate/${selectedFuelType}/${selectedDate}`)
         .then(response => {
           setTransactionsCount(response.data); // Update state with fetched data
         })

@@ -25,7 +25,7 @@ function TotalFuelDistributed() {
 
   // Fetch fuel types on mount
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/getbuyquotes')
+    axios.get('http://localhost:8080/api/v1/admin/getbuyquotes')
       .then(response => {
         const uniqueTypes = Array.from(new Set(response.data.map(item => item.fuelType)));
         setFuelTypes(uniqueTypes);
@@ -47,7 +47,7 @@ function TotalFuelDistributed() {
   // Fetch fuel data based on selected fuel type
   const handleFetchFuelData = () => {
     if (selectedFuelType) {
-      axios.get(`http://localhost:8080/api/v1/getBuyQuotasDataByFuelType/${selectedFuelType}`)
+      axios.get(`http://localhost:8080/api/v1/admin/getBuyQuotasDataByFuelType/${selectedFuelType}`)
         .then(response => {
           setFuelDistribution(response.data); // Update fuel distribution data
           console.log(response.data)

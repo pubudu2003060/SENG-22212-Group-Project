@@ -26,7 +26,7 @@ function SetNewQuota() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/v1/getallcustomerquota");
+        const response = await axios.get("http://localhost:8080/api/v1/admin/getallcustomerquota");
   
         // Transform data into the required format
         const transformedData = response.data.map((item) => ({
@@ -58,7 +58,7 @@ function SetNewQuota() {
   
     try {
       // Fetch the current quota for the selected vehicle type
-      const response = await axios.get("http://localhost:8080/api/v1/getFuelQuotaByVehicleType", {
+      const response = await axios.get("http://localhost:8080/api/v1/admin/getFuelQuotaByVehicleType", {
         params: { vehicalType: value },
       });
       setCurrentQuota(response.data || "Not available");

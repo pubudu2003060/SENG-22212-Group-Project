@@ -28,7 +28,7 @@ function FuelStationOwners() {
     useEffect(() => {
         const fetchStationOwners = async () => {
           try {
-            const response = await axios.get("http://localhost:8080/api/v1/getfuelstationowners");
+            const response = await axios.get("http://localhost:8080/api/v1/admin/getfuelstationowners");
             setStationOwners(response.data);
             setFilteredStationOwners(response.data);
             console.log(response.data);

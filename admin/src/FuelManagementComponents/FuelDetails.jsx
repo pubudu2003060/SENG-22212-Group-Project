@@ -30,8 +30,8 @@ function FuelDetails() {
     const fetchData = async () => {
       try {
         const [buyQuotesResponse, customerQuotaResponse] = await Promise.all([
-          axios.get('http://localhost:8080/api/v1/getbuyquotes'),
-          axios.get('http://localhost:8080/api/v1/getallcustomerquota'),
+          axios.get('http://localhost:8080/api/v1/admin/getbuyquotes'),
+          axios.get('http://localhost:8080/api/v1/admin/getallcustomerquota'),
         ]);
 
         const buyQuotesData = buyQuotesResponse.data;

@@ -15,7 +15,7 @@ function ChangePassword() {
         }
 
         try {
-            const response = await axios.put('http://localhost:8080/api/v1/update-password',
+            const response = await axios.put('http://localhost:8080/api/v1/admin/update-password',
                 {
                     email: cookies.get("adminEmail"),
                     newPassword: newPassword
