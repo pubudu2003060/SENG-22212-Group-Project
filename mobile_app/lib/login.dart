@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print(response.body);
       if (response.body == 'true') {
         await saveData(regNoController.text);
-        Navigator.pushNamed(context, '/qr_scanner');
+        Navigator.pushNamed(context, '/dashboard');
       } else {
         throw Exception('Failed to login: ${response.body}');
       }
