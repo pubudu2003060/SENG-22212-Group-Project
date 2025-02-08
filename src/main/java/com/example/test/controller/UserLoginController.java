@@ -80,7 +80,7 @@ public class UserLoginController {
                 "</Response>";
     }
 
-    @PostMapping("/addvehical")
+    @PostMapping("/user/addvehical")
     public VehicalDTO addVehical(@RequestBody VehicalDTO vehicalDTO) {
         return userLoginService.registerVehicalDetails(vehicalDTO);
     }

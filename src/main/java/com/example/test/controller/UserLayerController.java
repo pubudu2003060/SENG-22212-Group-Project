@@ -25,17 +25,17 @@ public class UserLayerController {
         return userLayerService.getVehicalFualdata(customerID);
     }
 
-    @GetMapping("user/getVehicalFualQuata/{customerid}")
+    @GetMapping("/user/getVehicalFualQuata/{customerid}")
     public List<VehicalFualQuataDTO> getVehicalFualQuata(@PathVariable("customerid") int customerID){
         return userLayerService.getVehicalFualQuata(customerID);
     }
 
-    @GetMapping("/getBuyQuotosByVehical/{customerid}")
+    @GetMapping("/user/getBuyQuotosByVehical/{customerid}")
     public List<BuyQuatoVehicleDTO> getBuyQuotosByVehical(@PathVariable("customerid") int customerId){
         return userLayerService.getBuyQuotosByVehical(customerId);
     }
 
-    @GetMapping("/generateQrCodeByVehicalId/{vehicalid}")
+    @GetMapping("/user/generateQrCodeByVehicalId/{vehicalid}")
     public byte[] generateQrCodeByVehicalId(@PathVariable("vehicalid") String vehicalId) {
         return userLayerService.generateQrCode(vehicalId);
     }
@@ -45,12 +45,9 @@ public class UserLayerController {
         return userLayerService.generateQRCodeImage(vehicalId);
     }
 
-    @PostMapping("/updateuser")
+    @PostMapping("/user/updateuser")
     public Object updateUser(@RequestBody  UserDto userDTO) {
         return userLayerService.updateUser(userDTO);
     }
-
-
-
 
 }

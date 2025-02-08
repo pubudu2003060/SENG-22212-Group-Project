@@ -51,7 +51,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configure(http))  // Enable CORS
                 .csrf(csrf -> csrf.disable())  // Disable CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/adminsignin", "/api/v1/addadmin", "/api/v1/adduser", "/api/v1/login/send-otp/**",
+                        .requestMatchers("/api/v1/adminsignin", "/api/v1/addadmin", "/api/v1/login/send-otp/**",
                                 "/api/v1/login/validate-otp", "/api/v1/loginfuelstation", "/api/v1/addfuelstationowner",
                                 "/api/v1/addfuelstation", "/api/v1/login/addvehical", "/api/v1/getadmin")
                         .permitAll()

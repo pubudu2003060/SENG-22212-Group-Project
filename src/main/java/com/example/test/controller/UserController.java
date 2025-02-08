@@ -20,7 +20,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/adduser")
+    @PostMapping("/user/adduser")
     public UserDto saveUser(@RequestBody UserDto userDTO) {
         return userService.saveUser(userDTO);
     }
