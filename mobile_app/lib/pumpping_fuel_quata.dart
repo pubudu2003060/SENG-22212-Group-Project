@@ -17,6 +17,20 @@ class PumpingFuelQuota extends StatefulWidget {
 class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
   final TextEditingController fuelLitersController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  String? jwtToken;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadJwtToken();
+  }
+
+  Future<void> _loadJwtToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      jwtToken = prefs.getString('jwttoken');
+    });
+  }
 
   @override
   void dispose() {
@@ -27,87 +41,99 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
   void _onKeyPressed(String value) {
     setState(() {
       if (value == "x") {
-        // Remove the last character if the text is not empty
         if (fuelLitersController.text.isNotEmpty) {
           fuelLitersController.text = fuelLitersController.text
               .substring(0, fuelLitersController.text.length - 1);
         }
       } else if (value == ".") {
-        // Add decimal only if it doesn't already exist
         if (!fuelLitersController.text.contains(".")) {
           fuelLitersController.text += value;
         }
       } else {
-        // Append the pressed key to the text
         fuelLitersController.text += value;
       }
     });
   }
 
-  // Function to calculate the remaining fuel after pumping
- int calculateRemainingFuel() {
-  double pumpedFuel = double.tryParse(fuelLitersController.text) ?? 0;
-  int remain = (widget.remainFuel - pumpedFuel).toInt();
+  int calculateRemainingFuel() {
+    double pumpedFuel = double.tryParse(fuelLitersController.text) ?? 0;
+    int remain = (widget.remainFuel - pumpedFuel).toInt();
 
-  if (remain < 0) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Pumped fuel is more than remaining fuel.')),
-    );
-    return 0; // Return the initial value of remaining fuel
-  } else {
-    return remain;
-  }
-}
-
-
-  // Function to update the fuel data via HTTP
-  Future<void> updateFuelData(
-      int customerFuelQuotaId, int newRemainFuel) async {
-    print(customerFuelQuotaId.toString() + " " + newRemainFuel.toString());
-
-    // Update the fuel data
-    final urlUpdate = Uri.parse(
-        'http://192.168.1.173:8080/api/v1/updateCustomerFueeldata/$customerFuelQuotaId/$newRemainFuel');
-    final responseUpdate = await http.get(urlUpdate);
-
-    if (responseUpdate.statusCode == 200) {
-      // Parse the response body
-      final result = json.decode(responseUpdate.body);
-
-      if (result.toString() == '1') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Fuel data updated successfully.')),
-        );
-
-        final prefs = await SharedPreferences.getInstance();
-
-        int? customerFuelQuotaId = prefs.getInt('customerFuelQuotaId');
-        int? pumpedFuel = prefs.getInt('pumpedFuel');
-        String? registeredId = prefs.getString('registeredId');
-        String? fuelType = prefs.getString('fuelType');
-
-        // Now, add the buy quote
-        addBuyQuota(customerFuelQuotaId! ,pumpedFuel! ,registeredId!,fuelType!);
-
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          '/qr_scanner',
-          (route) => false, // This removes all previous routes
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to update fuel data.')),
-        );
-      }
-    } else {
+    if (remain < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Error occurred while updating fuel data.')),
+        const SnackBar(content: Text('Pumped fuel is more than remaining fuel.')),
       );
+      return 0;
+    } else {
+      return remain;
     }
   }
 
-  // Function to add buy quota via HTTP
+  Future<void> updateFuelData(int customerFuelQuotaId, int newRemainFuel) async {
+    if (jwtToken == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Authentication error. Please login again.')),
+      );
+      return;
+    }
+
+    print(customerFuelQuotaId.toString() + " " + newRemainFuel.toString());
+
+    final urlUpdate = Uri.parse(
+        'http://192.168.1.173:8080/api/v1/fuelstation/updateCustomerFueldata/$customerFuelQuotaId/$newRemainFuel');
+    
+    try {
+      final responseUpdate = await http.get(
+        urlUpdate,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $jwtToken',
+        },
+      );
+
+      if (responseUpdate.statusCode == 200) {
+        final result = json.decode(responseUpdate.body);
+
+        if (result.toString() == '1') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Fuel data updated successfully.')),
+          );
+
+          final prefs = await SharedPreferences.getInstance();
+
+          int? customerFuelQuotaId = prefs.getInt('customerFuelQuotaId');
+          int? pumpedFuel = prefs.getInt('pumpedFuel');
+          String? registeredId = prefs.getString('registeredId');
+          String? fuelType = prefs.getString('fuelType');
+
+          addBuyQuota(customerFuelQuotaId!, pumpedFuel!, registeredId!, fuelType!);
+
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/qr_scanner',
+            (route) => false,
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to update fuel data.')),
+          );
+        }
+      } else if (responseUpdate.statusCode == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Authentication expired. Please login again.')),
+        );
+        // Navigate to login screen here if needed
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error occurred while updating fuel data.')),
+        );
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Network error: $error')),
+      );
+    }
+  }
 
   Future<void> saveData() async {
     int pumpedFuel = int.tryParse(fuelLitersController.text) ?? 0;
@@ -116,41 +142,58 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
     await prefs.setInt('pumpedFuel', pumpedFuel);
   }
 
-  Future<void> addBuyQuota(int customerFuelQuotaId ,int amount ,String registeredId,String fuelType ) async {
-    // Create the payload for adding the buy quota
+  Future<void> addBuyQuota(int customerFuelQuotaId, int amount, String registeredId, String fuelType) async {
+    if (jwtToken == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Authentication error. Please login again.')),
+      );
+      return;
+    }
+
     final payload = {
-      'customerFuelQuotaId':customerFuelQuotaId ,
-      'amount':amount ,
-      'registeredId':registeredId,
+      'customerFuelQuotaId': customerFuelQuotaId,
+      'amount': amount,
+      'registeredId': registeredId,
       'fuelType': fuelType
     };
 
-    // Send the POST request to add the buy quota
-    final url = Uri.parse('http://192.168.1.173:8080/api/v1/addbuyquotes');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode(payload),
-    );
+    final url = Uri.parse('http://192.168.1.173:8080/api/v1/fuelstation/addbuyquotes');
+    
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $jwtToken',
+        },
+        body: json.encode(payload),
+      );
 
-    if (response.statusCode == 200) {
-      final result = json.decode(response.body);
-      if (result.toString() == '1') {
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Buy quota added successfully.')),
+          );
+        
+      } else if (response.statusCode == 401) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Buy quota added successfully.')),
+          const SnackBar(content: Text('Authentication expired. Please login again.')),
         );
+        
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to add buy quota.')),
+          const SnackBar(content: Text('Error occurred while adding buy quota.')),
         );
       }
-    } else {
+    } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error occurred while adding buy quota.')),
+        SnackBar(content: Text('Network error: $error')),
       );
     }
   }
 
+  // Rest of the widget code remains the same...
   @override
   Widget build(BuildContext context) {
     saveData();
@@ -169,12 +212,10 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Fuel Liters Input Box
             Container(
               padding: const EdgeInsets.all(30.0),
               decoration: BoxDecoration(
-                color:
-                    const Color.fromARGB(255, 255, 255, 255).withOpacity(0.2),
+                color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(8.0),
                 border: Border.all(color: Colors.blue, width: 2.0),
               ),
@@ -183,17 +224,14 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
                 children: [
                   const Text(
                     'Enter Pumped Fuel Liters',
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 30.0),
-                  // Display the entered fuel liters
                   TextField(
                     controller: fuelLitersController,
-                    keyboardType:
-                        TextInputType.none, // Disable default keyboard
+                    keyboardType: TextInputType.none,
                     focusNode: _focusNode,
-                    readOnly: true, // Prevent editing via default keyboard
+                    readOnly: true,
                     decoration: const InputDecoration(
                       hintText: 'Enter fuel liters',
                       border: OutlineInputBorder(),
@@ -201,7 +239,6 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
                           EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                     ),
                     onTap: () {
-                      // Show the custom keyboard when tapped
                       FocusScope.of(context).requestFocus(_focusNode);
                     },
                   ),
@@ -211,26 +248,21 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
             const SizedBox(height: 20.0),
             if (_focusNode.hasFocus) _buildCustomKeyboard(),
             const SizedBox(height: 20.0),
-            // Submit Button
             ElevatedButton(
               onPressed: () {
                 if (fuelLitersController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Please fill in the fuel liters.')),
+                    const SnackBar(content: Text('Please fill in the fuel liters.')),
                   );
                 } else {
-                  // Calculate remaining fuel
                   int newRemainFuel = calculateRemainingFuel();
-                if(newRemainFuel != 0){
-                  updateFuelData(widget.customerFuelQuotaId, newRemainFuel);
-                }
-                  
+                  if(newRemainFuel != 0){
+                    updateFuelData(widget.customerFuelQuotaId, newRemainFuel);
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 80, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 12),
                 backgroundColor: const Color.fromARGB(255, 64, 146, 198),
               ),
               child: const Text(
@@ -248,20 +280,7 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
   }
 
   Widget _buildCustomKeyboard() {
-    final List<String> keys = [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      ".",
-      "0",
-      "x",
-    ];
+    final List<String> keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "x"];
 
     return Container(
       color: Colors.grey[200],
@@ -269,7 +288,7 @@ class _PumpingFuelQuotaState extends State<PumpingFuelQuota> {
       child: GridView.builder(
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3, // 3 columns for the keyboard
+          crossAxisCount: 3,
           mainAxisSpacing: 10.0,
           crossAxisSpacing: 10.0,
           childAspectRatio: 1.75,
