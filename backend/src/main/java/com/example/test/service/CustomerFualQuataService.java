@@ -1,9 +1,8 @@
 package com.example.test.service;
 
 import com.example.test.dto.*;
-import com.example.test.model.BuyQuota;
 import com.example.test.model.CustomerFuelQuota;
-import com.example.test.model.VehicalType;
+import com.example.test.enump.VehicalType;
 import com.example.test.repo.CustomerFuelQuotaRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -65,19 +63,15 @@ public class CustomerFualQuataService {
     }
 
 
-
     public String updateFuelQuota(VehicalType vehicleType, int newFuelQuota) {
         List<CustomerFuelQuota> customerFuelQuotaList = customerFuelQuotaRepo.findByVehicleType(vehicleType);
         for (CustomerFuelQuota customerFuelQuota : customerFuelQuotaList) {
-
             customerFuelQuota.setEligibleFuelQuota(newFuelQuota);
             customerFuelQuotaRepo.save(customerFuelQuota);
 
         }
 
-
         return "Updated fuel quota to" + newFuelQuota + "for" + customerFuelQuotaList.size() + "vehicle of type" + vehicleType + ".";
-
 
     }
 

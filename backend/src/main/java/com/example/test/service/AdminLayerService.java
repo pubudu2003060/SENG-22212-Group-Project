@@ -1,35 +1,27 @@
 package com.example.test.service;
 
 import com.example.test.Security.Services.JWTService;
-
 import com.example.test.Security.principals.UserPrincipal;
 import com.example.test.dto.AdminDTO;
-
 import com.example.test.dto.AdminSignInDTO;
 import com.example.test.dto.BuyquotaFuelStationDTO;
 import com.example.test.enump.FuelType;
 import com.example.test.model.BuyQuota;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-
 import java.util.*;
-
 
 @Service
 @Transactional
@@ -48,7 +40,6 @@ public class  AdminLayerService {
 
 
     public Map<String, Double> getBuyQuotasDataByFuelType(FuelType fuelType) {
-
 
         List<BuyQuota> buyQuotaList = buyQuotaService.getBuyQuotasByFuelType(fuelType);
         // Initialize summary map
@@ -94,7 +85,6 @@ public class  AdminLayerService {
         return buyQuotaService.countByFuelTypeByDate(fuelType,date);
     }
 
-
     public ResponseEntity<String> adminSignIn(AdminSignInDTO adminSignInDTO) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -118,9 +108,7 @@ public class  AdminLayerService {
 
 
 
-
     public List<BuyquotaFuelStationDTO> getFuelStationBuyQuoto() {
-
         return buyQuotaService.getFuelStationBuyQuoto();
     }
 

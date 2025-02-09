@@ -18,3 +18,26 @@ public class VehicalEligibleData {
         ELIGIBLE_DAYS_MAP.put(VehicalType.TRACTOR, "friday,saturday");
         ELIGIBLE_DAYS_MAP.put(VehicalType.OTHER, "sunday");
         ELIGIBLE_DAYS_MAP.put(VehicalType.TRUCK, "monday,wednesday,friday");
+
+        // Mapping for eligible fuel quota (in liters)
+        ELIGIBLE_FUEL_QUOTA_MAP.put(VehicalType.CAR, 20);
+        ELIGIBLE_FUEL_QUOTA_MAP.put(VehicalType.LORRY, 50);
+        ELIGIBLE_FUEL_QUOTA_MAP.put(VehicalType.VAN, 30);
+        ELIGIBLE_FUEL_QUOTA_MAP.put(VehicalType.THREEWHEEL, 10);
+        ELIGIBLE_FUEL_QUOTA_MAP.put(VehicalType.BUS, 50);
+        ELIGIBLE_FUEL_QUOTA_MAP.put(VehicalType.BIKE, 10);
+        ELIGIBLE_FUEL_QUOTA_MAP.put(VehicalType.TRACTOR, 40);
+        ELIGIBLE_FUEL_QUOTA_MAP.put(VehicalType.OTHER, 15);
+        ELIGIBLE_FUEL_QUOTA_MAP.put(VehicalType.TRUCK, 60);
+    }
+
+    // Method to get eligible days based on vehicle type
+    public static String getEligibleDays(VehicalType vehicalType) {
+        return ELIGIBLE_DAYS_MAP.getOrDefault(vehicalType, "No eligible days");
+    }
+
+    // Method to get eligible fuel quota based on vehicle type
+    public static int getEligibleFuelQuota(VehicalType vehicalType) {
+        return ELIGIBLE_FUEL_QUOTA_MAP.getOrDefault(vehicalType, 0);
+    }
+}

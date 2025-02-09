@@ -1,20 +1,25 @@
 package com.example.test.service;
 
-import com.example.test.dto.CustomerFuelQuotaDTO;
-import com.example.test.dto.LoginRequestDto;
-import com.example.test.dto.QrcodeDTO;
-import com.example.test.dto.VehicalDTO;
-import com.example.test.model.*;
+import com.example.test.dto.*;
+import com.example.test.enump.VehicalEligibleData;
+import com.example.test.model.CustomerFuelQuota;
+import com.example.test.model.User;
+import com.example.test.model.UserLogin;
+import com.example.test.model.Vehical;
 import com.example.test.repo.UserLoginRepo;
+import com.example.test.repo.UserRepo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -34,16 +39,16 @@ public class UserLoginService {
     private ModelMapper modelMapper;
     @Autowired
     private QrcodeService qrcodeService;
+    @Autowired
+    private UserRepo userRepo;
 
-    public String sendOtp(String phoneNumber) {
+    public String sendOtplogin(String phoneNumber) {
         try {
-
 
             User user = userRepo.findUserByContactNo(phoneNumber);
             if (user == null) {
                 throw new Exception("User not found");
             }
-
 
             String otp = otpGenerateService.generateOTP();
 
@@ -53,7 +58,6 @@ public class UserLoginService {
             userLogin.setOtp(otp);
             userLogin.setVerified(false);
             userLoginRepo.save(userLogin);
-
 
             String longOtpMessage = "Dear User, \n\n"
                     + "Thank you for using our service. We are sending you the OTP for authentication. Please use the following code to complete your verification process. "
@@ -66,13 +70,10 @@ public class UserLoginService {
 
             return "OTP sent successfully ";
 
-
-            return "OTP sent successfully "+phoneNumber;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to send OTP " + e.getMessage());
+            throw new RuntimeException("Failed to send OTP : " + e.getMessage());
         }
     }
-
 
     public String sendOtpSignUp(String phoneNumber) {
         try {
@@ -114,14 +115,13 @@ public class UserLoginService {
 
             if (userLogin == null) {
                 throw new Exception("Number not found");
-
             }
 
-            if (userLogin.getOtp()!=null && userLogin.getOtp().equals(loginRequest.getOtp())) {
+            if (userLogin.getOtp().equals(loginRequest.getOtp())) {
                 userLogin.setVerified(true);
                 userLoginRepo.save(userLogin);
-                System.out.println("OTP verified");
-                return "OTP verified successfully";
+                User user = userRepo.getUserByContactNo(loginRequest.getPhoneNumber());
+                return user;
             } else {
                 return "Invalid OTP";
             }
@@ -137,7 +137,6 @@ public class UserLoginService {
             throw new RuntimeException(e.getMessage());
         }
     }
-
 
     private List<VehicleMockDataDTO> loadMockData() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -180,29 +179,28 @@ public class UserLoginService {
         }
 
         // If not found in mock data, proceed with registration
-
         VehicalDTO vehicalDTO1 = vehicalService.addVehical(vehicalDTO);
 
+        // Create CustomerFuelQuotaDTO
         CustomerFuelQuotaDTO customerFuelQuotadto = new CustomerFuelQuotaDTO();
-        customerFuelQuotadto.setEligibleDays("sunday,monday");
-        customerFuelQuotadto.setEligibleFuelQuota(50000);
-        customerFuelQuotadto.setRemainFuel(50000);
+        customerFuelQuotadto.setEligibleDays(VehicalEligibleData.getEligibleDays(vehicalDTO1.getVehicalType()));
+        customerFuelQuotadto.setEligibleFuelQuota(VehicalEligibleData.getEligibleFuelQuota(vehicalDTO1.getVehicalType()));
+        customerFuelQuotadto.setRemainFuel(VehicalEligibleData.getEligibleFuelQuota(vehicalDTO1.getVehicalType()));
         customerFuelQuotadto.setUsedFuelQuota(0);
         customerFuelQuotadto.setUser(vehicalDTO.getUser());
         customerFuelQuotadto.setVehical(modelMapper.map(vehicalDTO1, Vehical.class));
 
+        // Save Customer Fuel Quota
         CustomerFuelQuotaDTO customerFuelQuotadto1 = customerFualQuataService.saveCustomerFuelQuota(customerFuelQuotadto);
 
+        // Generate QR Code
         QrcodeDTO qrcodeDTO = new QrcodeDTO();
-
         qrcodeDTO.setContent(Integer.toString(customerFuelQuotadto1.getCustomerFuelQuotaId()));
         qrcodeDTO.setCustomerFualQuata(modelMapper.map(customerFuelQuotadto1, CustomerFuelQuota.class));
-
 
         qrcodeService.addQrcode(qrcodeDTO);
 
         return vehicalDTO1;
-
     }
 
 

@@ -3,7 +3,7 @@ package com.example.test.controller;
 import com.example.test.Security.Services.JWTService;
 import com.example.test.dto.LoginRequestDto;
 import com.example.test.dto.VehicalDTO;
-import com.example.test.Security.Services.JWTService;
+import com.example.test.model.UserLogin;
 import com.example.test.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -26,12 +26,21 @@ public class UserLoginController {
     @PostMapping("/send-otp/{phoneNumber}")
     public String sendOtp(@PathVariable("phoneNumber") String phoneNumber) {
         try {
-            return userLoginService.sendOtp(phoneNumber);
+            return userLoginService.sendOtplogin(phoneNumber);
         }
         catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
 
+    @PostMapping("/send-otp/su/{phoneNumber}")
+    public String sendOtpSignUP(@PathVariable("phoneNumber") String phoneNumber) {
+        try {
+            return userLoginService.sendOtpSignUp(phoneNumber);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @PostMapping("/validate-otp")
@@ -52,7 +61,6 @@ public class UserLoginController {
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
-
         }
     }
 

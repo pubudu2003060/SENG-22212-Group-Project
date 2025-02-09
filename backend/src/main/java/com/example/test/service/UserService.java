@@ -1,16 +1,12 @@
 package com.example.test.service;
 
-import com.example.test.Security.principals.UserPrincipal;
 import com.example.test.dto.UserDto;
-import com.example.test.model.*;
-import com.example.test.repo.UserLoginRepo;
+import com.example.test.model.User;
 import com.example.test.repo.UserRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +21,6 @@ public class UserService {
 
     @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    private UserLoginRepo userLoginRepo;
 
     public List<UserDto> getAllUsers() {
         List<User> userList = userRepo.findAll();
@@ -61,17 +55,5 @@ public class UserService {
         }
 
     }
-    public UserDetails loadUserByPhoneNumber(String phoneNumber) {
-        UserLogin userLogin = userLoginRepo.getUserLoginByPhoneNumber(phoneNumber);
-        if (userLogin == null) {
-            throw new UsernameNotFoundException("User not found with phone number: " + phoneNumber);
-        }
-        UserPrincipal userPrincipal = new UserPrincipal(userLogin);
-        return userPrincipal; // Return UserPrincipal
-    }
-
-
-
-
 
 }
