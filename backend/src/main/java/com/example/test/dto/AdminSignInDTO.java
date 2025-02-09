@@ -11,4 +11,5 @@ public class AdminSignInDTO {
 
     private String email;
     private String password;
+
 }

@@ -22,7 +22,6 @@ public class FuelStationLayerController {
     @PostMapping("/loginfuelstation")
     public ResponseEntity<String> loginFuelStation(@RequestBody FuelStationLoginDTO fuelStationLoginDTO) {
         return fuelStationService.loginFuelStation(fuelStationLoginDTO.getRegisteredId(), fuelStationLoginDTO.getPassword());
-
     }
 
 }

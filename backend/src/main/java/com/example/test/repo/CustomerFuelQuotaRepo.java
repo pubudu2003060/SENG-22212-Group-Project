@@ -1,12 +1,9 @@
 package com.example.test.repo;
 
-
 import com.example.test.dto.QrCodeScanDetailsDTO;
-
-
 import com.example.test.dto.VehicalFualQuataDTO;
 import com.example.test.model.CustomerFuelQuota;
-import com.example.test.model.VehicalType;
+import com.example.test.enump.VehicalType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface CustomerFuelQuotaRepo extends JpaRepository<CustomerFuelQuota, Integer> {

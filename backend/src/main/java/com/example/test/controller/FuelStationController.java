@@ -2,14 +2,13 @@ package com.example.test.controller;
 
 import com.example.test.dto.FuelStationDTO;
 import com.example.test.dto.FuelStationManagementDTO;
-import com.example.test.model.Status;
+import com.example.test.enump.Status;
 import com.example.test.service.FuelStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin

@@ -1,5 +1,7 @@
 package com.example.test.model;
 
+import com.example.test.enump.FuelType;
+import com.example.test.enump.VehicalType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,17 +18,17 @@ public class Vehical {
     private int vehicalId;
 
     @Column(nullable = false, unique = true)
-    private int chassiNo;
+    private String chassiNo;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private VehicalType vehicalType;
 
     @Column(nullable = false, unique = true)
-    private int vehicalNo;
+    private String vehicalNo;
 
     @Column(nullable = false, unique = true)
-    private int enginNo;
+    private String enginNo;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
