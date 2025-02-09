@@ -1,5 +1,7 @@
 package com.example.test.service;
 
+import com.example.test.Security.Services.JWTService;
+import com.example.test.Security.principals.UserPrincipal;
 import com.example.test.dto.AdminDTO;
 import com.example.test.dto.AdminSignInDTO;
 import com.example.test.dto.BuyquotaFuelStationDTO;
@@ -7,14 +9,19 @@ import com.example.test.enump.FuelType;
 import com.example.test.model.BuyQuota;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -26,6 +33,11 @@ public class  AdminLayerService {
     private UserService userService;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JWTService jwtService;
+
 
     public Map<String, Double> getBuyQuotasDataByFuelType(FuelType fuelType) {
 
@@ -73,15 +85,27 @@ public class  AdminLayerService {
         return buyQuotaService.countByFuelTypeByDate(fuelType,date);
     }
 
-    public int adminSignIn(AdminSignInDTO adminSignInDTO){
-        AdminDTO adminDTO = adminService.getAdminByUserNameAndPassword(adminSignInDTO);
+    public ResponseEntity<String> adminSignIn(AdminSignInDTO adminSignInDTO) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            adminSignInDTO.getEmail(),
+                            adminSignInDTO.getPassword(),
+                            Collections.singletonList(new SimpleGrantedAuthority("ADMIN"))
+                    )
+            );
 
-        if(adminDTO == null){
-            return 0;
-        }else{
-            return 1;
+            if (authentication.isAuthenticated()) {
+                String token = jwtService.generateAdminToken(adminSignInDTO.getEmail());
+                return ResponseEntity.ok(token); // Return 200 OK with the token
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            }
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Authentication failed: " + e.getMessage());
         }
     }
+
 
 
     public List<BuyquotaFuelStationDTO> getFuelStationBuyQuoto() {

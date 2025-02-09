@@ -88,41 +88,46 @@ public class BuyQuotaService {
 
 
     public BuyQuota saveBQuyQuota(@RequestBody BQDetailsDTO bqDetailsDTO) {
+        try {
+
+            BuyQuotaDTO buyQuotaDTO1 = new BuyQuotaDTO();
+
+            buyQuotaDTO1.setAmount(bqDetailsDTO.getAmount());
+            buyQuotaDTO1.setDate(new Date());
+            buyQuotaDTO1.setFuelType(bqDetailsDTO.getFuelType());
+
+            FuelStation fuelStation = fuelStationRepo.getFuelStationByRegisteredId(bqDetailsDTO.getRegisteredId());
+            int curretcapacity = fuelStation.getCapacity();
+            int newcapacity = curretcapacity + bqDetailsDTO.getAmount();
+            fuelStation.setCapacity(newcapacity);
+            fuelStationRepo.save(fuelStation);
+            buyQuotaDTO1.setFuelStation(fuelStation);
+
+            CustomerFuelQuota  customerFuelQuota = customerFuelQuotaRepo.getCustomerFuelQuotaByCustomerFuelQuotaId(bqDetailsDTO.getCustomerFuelQuotaId());
+            buyQuotaDTO1.setVehical(customerFuelQuota.getVehical());
+            buyQuotaDTO1.setUser(customerFuelQuota.getUser());
+
+            BuyQuota buyQuota = buyQuotaRepo.save(modelMapper.map(buyQuotaDTO1, BuyQuota.class));
+
+            TwilioSmsService twilioSmsService = new TwilioSmsService();
+            String message = "Dear " + customerFuelQuota.getUser().getFirstName() +
+                    ", your fuel quota purchase of " + bqDetailsDTO.getAmount() +
+                    "L of " + bqDetailsDTO.getFuelType() +
+                    " has been successfully processed at " + buyQuota.getDate() +
+                    ". Thank you!";
+            //   twilioSmsService.sendMessage(customerFuelQuota.getUser().getContactNo(),message);
+
+            CustomerNotificationDTO customerNotificationDTO = new CustomerNotificationDTO();
+            customerNotificationDTO.setContent(message);
+            customerNotificationDTO.setUser(customerFuelQuota.getUser());
+            customerNotificationservice.saveNotification(customerNotificationDTO);
+
+            return buyQuota;
+        }catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
 
 
-        BuyQuotaDTO buyQuotaDTO1 = new BuyQuotaDTO();
-
-        buyQuotaDTO1.setAmount(bqDetailsDTO.getAmount());
-        buyQuotaDTO1.setDate(new Date());
-        buyQuotaDTO1.setFuelType(bqDetailsDTO.getFuelType());
-
-        FuelStation fuelStation = fuelStationRepo.getFuelStationByRegisteredId(bqDetailsDTO.getRegisteredId());
-        int curretcapacity = fuelStation.getCapacity();
-        int newcapacity = curretcapacity + bqDetailsDTO.getAmount();
-        fuelStation.setCapacity(newcapacity);
-        fuelStationRepo.save(fuelStation);
-        buyQuotaDTO1.setFuelStation(fuelStation);
-
-        CustomerFuelQuota  customerFuelQuota = customerFuelQuotaRepo.getCustomerFuelQuotaByCustomerFuelQuotaId(bqDetailsDTO.getCustomerFuelQuotaId());
-        buyQuotaDTO1.setVehical(customerFuelQuota.getVehical());
-        buyQuotaDTO1.setUser(customerFuelQuota.getUser());
-
-        BuyQuota buyQuota = buyQuotaRepo.save(modelMapper.map(buyQuotaDTO1, BuyQuota.class));
-
-        TwilioSmsService twilioSmsService = new TwilioSmsService();
-        String message = "Dear " + customerFuelQuota.getUser().getFirstName() +
-                ", your fuel quota purchase of " + bqDetailsDTO.getAmount() +
-                "L of " + bqDetailsDTO.getFuelType() +
-                " has been successfully processed at " + buyQuota.getDate() +
-                ". Thank you!";
-     //   twilioSmsService.sendMessage(customerFuelQuota.getUser().getContactNo(),message);
-
-        CustomerNotificationDTO customerNotificationDTO = new CustomerNotificationDTO();
-        customerNotificationDTO.setContent(message);
-        customerNotificationDTO.setUser(customerFuelQuota.getUser());
-        customerNotificationservice.saveNotification(customerNotificationDTO);
-
-        return buyQuota;
     }
 
 }
