@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 public class FuelStationOwnerDTO {
 
     private int stationOwnerid;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String contact;
     private String address;
-    private double nicNo;
+    private int nicNo;
 }
