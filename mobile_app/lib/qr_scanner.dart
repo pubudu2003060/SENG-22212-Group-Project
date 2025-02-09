@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'qr_details.dart';
 
@@ -14,10 +15,24 @@ class QRScannerScreen extends StatefulWidget {
 class _QRScannerScreenState extends State<QRScannerScreen> {
   final MobileScannerController cameraController = MobileScannerController();
   bool isProcessing = false;
+  String? jwtToken;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadJwtToken();
+  }
+
+  Future<void> _loadJwtToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      jwtToken = prefs.getString('jwttoken');
+    });
+  }
 
   @override
   void dispose() {
-    cameraController.dispose(); // Remove camera access when leaving the page
+    cameraController.dispose();
     super.dispose();
   }
 
@@ -33,7 +48,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
             onPressed: () {
               setState(() {
                 isProcessing = false;
-                cameraController.start(); // Restart camera if needed
+                cameraController.start();
               });
             },
           ),
@@ -41,7 +56,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       ),
       body: Stack(
         children: [
-          // QR Scanner
           Positioned.fill(
             child: MobileScanner(
               controller: cameraController,
@@ -52,11 +66,11 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 final barcode = barcodeCapture.barcodes.first;
                 if (barcode.rawValue != null && _isInteger(barcode.rawValue!)) {
                   final customerFuelQuotaId = barcode.rawValue!;
-                  cameraController.stop(); // Stop camera once QR is read
+                  cameraController.stop();
 
                   _fetchDetailsAndNavigate(customerFuelQuotaId);
                 } else {
-                  _showSnackBar("Invalid QR Code! Vehical not found!.");
+                  _showSnackBar("Invalid QR Code! Vehicle not found!");
                   setState(() => isProcessing = false);
                 }
               },
@@ -67,18 +81,28 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     );
   }
 
-  // Check if the scanned QR is an integer
   bool _isInteger(String value) {
     return RegExp(r'^\d+$').hasMatch(value);
   }
 
-  // Fetch details from API and navigate to next page
   Future<void> _fetchDetailsAndNavigate(String customerFuelQuotaId) async {
+    if (jwtToken == null) {
+      _showSnackBar("Authentication error. Please login again.");
+      setState(() => isProcessing = false);
+      return;
+    }
+
     final url = Uri.parse(
-        "http://192.168.1.173:8080/api/v1/getDetailsbycfcid?customerFuelQuotaId=$customerFuelQuotaId");
+        "http://192.168.1.173:8080/api/v1/fuelstation/getDetailsbycfcid?customerFuelQuotaId=$customerFuelQuotaId");
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $jwtToken',
+        },
+      );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
@@ -97,16 +121,18 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               eligibleDays: data['eligibleDays'],
               eligibleFuelQuota: data['eligibleFuelQuota'],
               remainFuel: data['remainFuel'],
-            
             ),
           ),
         );
+      } else if (response.statusCode == 401) {
+        _showSnackBar("Authentication expired. Please login again.");
+        // Here you might want to navigate back to login screen
       } else {
-        _showSnackBar("Failed to fetch details.");
+        _showSnackBar("Failed to fetch details. Status: ${response.statusCode}");
         setState(() => isProcessing = false);
       }
     } catch (error) {
-      _showSnackBar("Error: $error");
+      _showSnackBar("Network error: $error");
       setState(() => isProcessing = false);
     }
   }
