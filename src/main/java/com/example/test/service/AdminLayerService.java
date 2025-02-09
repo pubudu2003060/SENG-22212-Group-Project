@@ -89,22 +89,22 @@ public class  AdminLayerService {
     public String adminSignIn(AdminSignInDTO adminSignInDTO) {
 
         try {
-            logger.info("Attempting to authenticate admin: " + adminSignInDTO.getUserName());
+            logger.info("Attempting to authenticate admin: " + adminSignInDTO.getEmail());
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            adminSignInDTO.getUserName(),
+                            adminSignInDTO.getEmail(),
                             adminSignInDTO.getPassword())
             );
 
             if (authentication.isAuthenticated()) {
                 logger.info("Admin authenticated successfully");
-                return jwtService.generateAdminToken(adminSignInDTO.getUserName());
+                return jwtService.generateAdminToken(adminSignInDTO.getEmail());
             } else {
                 logger.warning("Admin authentication failed");
                 throw new BadCredentialsException("Invalid credentials");
             }
         } catch (AuthenticationException e) {
-            logger.severe("Authentication failed for admin: " + adminSignInDTO.getUserName() + " " + e.getMessage());
+            logger.severe("Authentication failed for admin: " + adminSignInDTO.getEmail() + " " + e.getMessage());
             return "Authentication failed: " + e.getMessage();
         }
     }

@@ -57,22 +57,22 @@ public class JWTService {
     }
 
     // Method to generate admin token
-    public String generateAdminToken(String userName) {
-        Admin admin = adminRepo.findAdminByUserName(userName);
+    public String generateAdminToken(String email) {
+        Admin admin = adminRepo.findAdminByEmail(email);
         if (admin == null) {
             throw new RuntimeException("Admin not found");
         }
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", "ADMIN");
-        claims.put("username", userName);
+        claims.put("email", email);
 
         Date now = new Date();
         Date expirationTime = new Date(now.getTime() + 86400000); // 1 day expiration
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(userName)
+                .setSubject(email)
                 .setIssuedAt(now)
                 .setExpiration(expirationTime)
                 .signWith(getKey())
@@ -100,19 +100,19 @@ public class JWTService {
 
 
     }
-    public String generateFuelStationToken(String username) {
-        FuelStation fuelStation= fuelStationRepo.findFuelStationByUsername(username);
+    public String generateFuelStationToken(int registeredId) {
+        FuelStation fuelStation= fuelStationRepo.findFuelStationByRegisteredId(registeredId);
         if (fuelStation== null) {
             throw new RuntimeException("fuelstation not found");
         }
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", "FUELSTATION");
-        claims.put("username", username);
+        claims.put("username", registeredId);
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(username)
+                .setSubject(registeredId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 10000)) // 30 min expiration
                 .signWith(getKey())

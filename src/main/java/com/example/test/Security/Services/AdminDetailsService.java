@@ -28,11 +28,11 @@ public class AdminDetailsService implements UserDetailsService {
         }
 
         @Override
-        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-            Admin admin = adminRepo.findAdminByUserName(username);
+        public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+            Admin admin = adminRepo.findAdminByEmail(email);
 
             if (admin == null) {
-                throw new UsernameNotFoundException("Admin not found with username: "+username);
+                throw new UsernameNotFoundException("Admin not found with username: "+email);
             }
 
             String role = "ADMIN"; // Static role assignment for now
@@ -40,7 +40,7 @@ public class AdminDetailsService implements UserDetailsService {
             // Add custom logic here to fetch roles dynamically if needed
 
             return new org.springframework.security.core.userdetails.User(
-                    admin.getUserName(),
+                    admin.getEmail(),
                     admin.getPassword(),
                     List.of(new SimpleGrantedAuthority("ROLE_" + role))
             );

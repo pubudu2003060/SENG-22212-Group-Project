@@ -80,15 +80,15 @@ public class FuelStationService {
         }
     }
 
-    public String loginFuelStation(String username, String password) {
+    public String loginFuelStation(int registeredId, String password) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            username,
+                            re,
                             password));
 
             if (authentication.isAuthenticated()) {
-                return jwtService.generateFuelStationToken(username);
+                return jwtService.generateFuelStationToken(registeredId);
             } else {
                 return "fail";
             }
