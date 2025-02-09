@@ -3,17 +3,16 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-Future<void> saveData(String registeredId) async {
+Future<void> saveData(String registeredId,String token) async {
  final prefs = await SharedPreferences.getInstance();
  await prefs.setString('registeredId', registeredId);
+ await prefs.setString('jwttoken', token);
 }
 
 
@@ -64,8 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
         body: body,
       );
       print(response.body);
-      if (response.body == 'true') {
-        await saveData(regNoController.text);
+      if (response.statusCode == 200) {
+        await saveData(regNoController.text,response.body);
         Navigator.pushNamed(context, '/dashboard');
       } else {
         throw Exception('Failed to login: ${response.body}');
