@@ -25,4 +25,6 @@ public interface FuelStationRepo extends JpaRepository<FuelStation, Integer> {
 
     FuelStation getFuelStationByRegisteredId(int registeredId);
 
+    FuelStation findFuelStationByRegisteredId(int registeredId);
+
 }

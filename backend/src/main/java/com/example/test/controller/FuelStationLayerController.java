@@ -8,6 +8,7 @@ import com.example.test.service.FuelStationOwnerService;
 import com.example.test.service.FuelStationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +20,7 @@ public class FuelStationLayerController {
     private FuelStationService fuelStationService;
 
     @PostMapping("/loginfuelstation")
-    public boolean loginFuelStation(@RequestBody FuelStationLoginDTO fuelStationLoginDTO) {
+    public ResponseEntity<String> loginFuelStation(@RequestBody FuelStationLoginDTO fuelStationLoginDTO) {
         return fuelStationService.loginFuelStation(fuelStationLoginDTO.getRegisteredId(), fuelStationLoginDTO.getPassword());
     }
 

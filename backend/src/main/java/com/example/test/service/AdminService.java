@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public class AdminService {
     @Autowired
     private ModelMapper modelMapper;
 
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
     public List<AdminDTO> getAllAdmin() {
         List<Admin> adminList = adminrepo.findAll();
         return modelMapper.map(adminList, new TypeToken<List<AdminDTO>>() {
@@ -32,6 +35,7 @@ public class AdminService {
     }
 
     public AdminDTO saveAdmin(AdminDTO adminDTO) {
+        adminDTO.setPassword(encoder.encode(adminDTO.getPassword()));
         adminrepo.save(modelMapper.map(adminDTO, Admin.class));
         return adminDTO;
     }
@@ -57,7 +61,7 @@ public class AdminService {
             if (admin.getPassword().equals(newPassword)) {
                 throw new Exception("New password cannot be the same as the old password.");
             }else {
-                admin.setPassword(newPassword); // Encrypt new password
+                admin.setPassword(encoder.encode(newPassword)); // Encrypt new password
                 return adminrepo.save(admin);
             }
 

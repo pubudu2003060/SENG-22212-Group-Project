@@ -20,7 +20,7 @@ public class VehicalController {
         return vehicalService.getAllVehicals();
     }
 
-    @GetMapping("/getTotalVehicles")
+    @GetMapping("/admin/getTotalVehicles")
     public Long getTotalVehicals() {
         return vehicalService.getVehicleCount();
     }

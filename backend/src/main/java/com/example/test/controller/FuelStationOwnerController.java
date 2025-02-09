@@ -16,7 +16,7 @@ public class FuelStationOwnerController {
     @Autowired
     private FuelStationOwnerService fuelStationOwnerService;
 
-    @GetMapping("/getfuelstationowners")
+    @GetMapping("/admin/getfuelstationowners")
     public List<FuelStationOwnerDTO> getAllFuelStationOwners() {
         return fuelStationOwnerService.getAllFuelStationOwners();
     }

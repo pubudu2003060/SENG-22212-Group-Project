@@ -18,7 +18,7 @@ public class CustomerFuelQuotaController {
     @Autowired
     CustomerFualQuataService customerFualQuataService;
 
-    @GetMapping("/getallcustomerquota")
+    @GetMapping("/admin/getallcustomerquota")
     public List<CustomerFuelQuotaDTO> getAllCustomerFuelQuotas() {
         return customerFualQuataService.getAllCustomerFuelQuotas();
     }
@@ -33,7 +33,7 @@ public class CustomerFuelQuotaController {
         return customerFualQuataService.updateFuelQuota(vehicleType, fuelQuantity);
     }
 
-    @GetMapping("/getFuelQuotaByVehicleType")
+    @GetMapping("/admin/getFuelQuotaByVehicleType")
     public Integer getFuelQuotaDetailsByVehicleType(@RequestParam("vehicalType") VehicalType vehicalType) {
         return customerFualQuataService.getFuelQuotaDetailsByVehicleType(vehicalType);
     }
@@ -48,7 +48,7 @@ public class CustomerFuelQuotaController {
         return customerFualQuataService.allocateFuel(customerFuelQuotaId, allocatedFuel);
     }
 
-    @GetMapping("/getDetailsbycfcid")
+    @GetMapping("/fuelstation/getDetailsbycfcid")
     public Object getDetailsbycfcid(@RequestParam("customerFuelQuotaId") int customerFuelQuotaId) {
         try {
             Object object = customerFualQuataService.getDetailsbycfcid(customerFuelQuotaId);
@@ -58,7 +58,7 @@ public class CustomerFuelQuotaController {
         }
     }
 
-    @GetMapping("/updateCustomerFueeldata/{customerFuelQuotaId}/{remainFuel}")
+    @GetMapping("/fuelstation/updateCustomerFueldata/{customerFuelQuotaId}/{remainFuel}")
     public Object updateCustomerFueeldata(@PathVariable int customerFuelQuotaId,@PathVariable int remainFuel) {
         try {
             return customerFualQuataService.updateCustomerFueeldata(customerFuelQuotaId, remainFuel);

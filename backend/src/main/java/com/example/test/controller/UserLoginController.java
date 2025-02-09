@@ -1,11 +1,17 @@
 package com.example.test.controller;
 
+import com.example.test.Security.Services.JWTService;
 import com.example.test.dto.LoginRequestDto;
 import com.example.test.dto.VehicalDTO;
 import com.example.test.model.UserLogin;
 import com.example.test.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -13,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserLoginController {
     @Autowired
     private UserLoginService userLoginService;
+
+    @Autowired
+    private JWTService jwtService;
 
     @PostMapping("/send-otp/{phoneNumber}")
     public String sendOtp(@PathVariable("phoneNumber") String phoneNumber) {
@@ -35,13 +44,27 @@ public class UserLoginController {
     }
 
     @PostMapping("/validate-otp")
-    public Object validateOtp(@RequestBody LoginRequestDto loginRequest) {
+    public ResponseEntity<Map<String, Object>> validateOtp(@RequestBody LoginRequestDto loginRequest) {
         try {
-            return userLoginService.validateOtp(loginRequest);
-        }catch (Exception e) {
+            // Validate OTP and get user details
+            Object responseBody = userLoginService.validateOtp(loginRequest);
+
+            // Generate JWT token
+            String jwtToken = jwtService.generateUserToken(loginRequest.getPhoneNumber());
+
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", jwtToken);
+            response.put("data", responseBody);
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+
 
     @PostMapping("/makecall/{phoneNumber}")
     public Void sendcall(@PathVariable("phoneNumber") String phoneNumber) {
@@ -57,7 +80,7 @@ public class UserLoginController {
                 "</Response>";
     }
 
-    @PostMapping("/addvehical")
+    @PostMapping("/user/addvehical")
     public VehicalDTO addVehical(@RequestBody VehicalDTO vehicalDTO) {
         return userLoginService.registerVehicalDetails(vehicalDTO);
     }
