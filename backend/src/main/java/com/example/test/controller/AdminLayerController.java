@@ -23,6 +23,7 @@ public class AdminLayerController {
     @Autowired
     private AdminLayerService adminLayerService;
 
+
     @GetMapping("/admin/getBuyQuotasDataByFuelType/{fualType}")
     public Map<String, Double> getBuyQuotasDataByFuelType(@PathVariable("fualType") FuelType fuelType) {
         return adminLayerService.getBuyQuotasDataByFuelType(fuelType);
@@ -42,7 +43,9 @@ public class AdminLayerController {
     }
 
     @PostMapping("/adminsignin")
+
     public ResponseEntity<String> getAdminByUsernameandPassword(@RequestBody AdminSignInDTO adminSignInDTO) {
+
         return adminLayerService.adminSignIn(adminSignInDTO);
     }
 

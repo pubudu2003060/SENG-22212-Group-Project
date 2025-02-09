@@ -3,7 +3,7 @@ package com.example.test.controller;
 import com.example.test.dto.CustomerFuelQuotaDTO;
 import com.example.test.dto.QrCodeScanDetailsDTO;
 import com.example.test.dto.ScannedQRCodeDTO;
-import com.example.test.enump.VehicalType;
+import com.example.test.model.VehicalType;
 import com.example.test.service.CustomerFualQuataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +43,7 @@ public class CustomerFuelQuotaController {
         return customerFualQuataService.getScannedDetails(customerFuelQuotaId);
     }
 
-    @PutMapping("/allocateFuel")
+    @PutMapping("fuelstation/allocateFuel")
     public String allocateFuel(@RequestParam int customerFuelQuotaId, @RequestParam int allocatedFuel) {
         return customerFualQuataService.allocateFuel(customerFuelQuotaId, allocatedFuel);
     }

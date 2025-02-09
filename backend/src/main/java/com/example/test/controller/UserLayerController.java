@@ -25,6 +25,7 @@ public class UserLayerController {
         return userLayerService.getVehicalFualdata(customerID);
     }
 
+
     @GetMapping("/user/getVehicalFualQuata/{customerid}")
     public List<VehicalFualQuataDTO> getVehicalFualQuata(@PathVariable("customerid") int customerID){
         return userLayerService.getVehicalFualQuata(customerID);
@@ -35,13 +36,15 @@ public class UserLayerController {
         return userLayerService.getBuyQuotosByVehical(customerId);
     }
 
+
     @GetMapping("/user/generateQrCodeByVehicalId/{vehicalid}")
     public byte[] generateQrCodeByVehicalId(@PathVariable("vehicalid") String vehicalId) {
+
         return userLayerService.generateQrCode(vehicalId);
     }
 
     @GetMapping("/generateQRCodeImageByVehicalId/{vehicalid}")
-    public String generateQRCodeImage(@PathVariable("vehicalid") String vehicalId) {
+    public String generateQRCodeImage(@PathVariable("vehicalid") int vehicalId) {
         return userLayerService.generateQRCodeImage(vehicalId);
     }
 
