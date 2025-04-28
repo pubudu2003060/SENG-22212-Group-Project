@@ -18,7 +18,7 @@ function VehicleInfomation() {
             try {
                 let token = sessionStorage.getItem("jwtToken")
                 setIsLoading(true);
-                const url = `http://pass-my-fule-backend.onrender.com/api/v1/user/getBuyQuotosByVehical/${userId}`;
+                const url = `https://pass-my-fule-backend.onrender.com/api/v1/user/getBuyQuotosByVehical/${userId}`;
                 const response = await axios.get(url,
                     {
                         headers: {

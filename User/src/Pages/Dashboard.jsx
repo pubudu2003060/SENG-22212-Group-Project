@@ -18,7 +18,7 @@ function Dashboard() {
             try {
                 let token = sessionStorage.getItem("jwtToken")
                 setIsLoading(true);
-                const url = `http://pass-my-fule-backend.onrender.com/api/v1/user/getVehicalFualQuata/${userId}`;
+                const url = `https://pass-my-fule-backend.onrender.com/api/v1/user/getVehicalFualQuata/${userId}`;
                 const response = await axios.get(url,
                     {
                         headers: {

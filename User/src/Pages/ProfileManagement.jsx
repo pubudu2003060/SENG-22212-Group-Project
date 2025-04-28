@@ -35,7 +35,7 @@ function ProfileManagement() {
     // New function to request OTP
     const requestOtp = async () => {
         try {
-            let url = `http://pass-my-fule-backend.onrender.com/api/v1/login/send-otp/${defaultProfileData.PhoneNo}`;
+            let url = `https://pass-my-fule-backend.onrender.com/api/v1/login/send-otp/${defaultProfileData.PhoneNo}`;
             const response = await fetch(url, {
                 method: "POST",
             });
@@ -57,7 +57,7 @@ function ProfileManagement() {
     // New function to validate OTP
     const validateOtp = async () => {
         try {
-            const response = await fetch("http://pass-my-fule-backend.onrender.com/api/v1/login/validate-otp", {
+            const response = await fetch("https://pass-my-fule-backend.onrender.com/api/v1/login/validate-otp", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -88,7 +88,7 @@ function ProfileManagement() {
     const updateProfile = async () => {
         try {
             let token = sessionStorage.getItem("jwtToken")
-            const response = await fetch('http://pass-my-fule-backend.onrender.com/api/v1/user/updateuser', {
+            const response = await fetch('https://pass-my-fule-backend.onrender.com/api/v1/user/updateuser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

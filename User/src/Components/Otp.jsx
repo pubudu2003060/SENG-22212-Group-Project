@@ -38,7 +38,7 @@ function Otp() {
 
         if (enteredOtp.length === 4) {
             try {
-                const response = await fetch("http://pass-my-fule-backend.onrender.com/api/v1/login/validate-otp", {
+                const response = await fetch("https://pass-my-fule-backend.onrender.com/api/v1/login/validate-otp", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
