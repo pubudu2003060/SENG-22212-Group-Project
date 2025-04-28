@@ -30,8 +30,8 @@ function FuelDetails() {
     const fetchData = async () => {
       try {
         const [buyQuotesResponse, customerQuotaResponse] = await Promise.all([
-          axios.get('http://localhost:8080/api/v1/admin/getbuyquotes'),
-          axios.get('http://localhost:8080/api/v1/admin/getallcustomerquota'),
+          axios.get('https://pass-my-fule-backend.onrender.com/api/v1/admin/getbuyquotes'),
+          axios.get('https://pass-my-fule-backend.onrender.com/api/v1/admin/getallcustomerquota'),
         ]);
 
         const buyQuotesData = buyQuotesResponse.data;

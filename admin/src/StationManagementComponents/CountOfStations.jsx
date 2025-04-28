@@ -16,7 +16,7 @@ function CountOfStations() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/admin/getfuelstations")
+        axios.get("https://pass-my-fule-backend.onrender.com/api/v1/admin/getfuelstations")
             .then((response) => {
                 const stations = response.data || [];
                 const activeStations = stations.filter(station => station.status === "ACTIVE");

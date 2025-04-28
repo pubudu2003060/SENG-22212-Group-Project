@@ -32,7 +32,7 @@ function VehicleOwners() {
     useEffect(() => {
         const fetchUsers = async () => {
           try {
-            const response = await axios.get("http://localhost:8080/api/v1/admin/getusers");
+            const response = await axios.get("https://pass-my-fule-backend.onrender.com/api/v1/admin/getusers");
             console.log(response.data); 
             setOwners(response.data || []); // Use fallback if owners is undefined
             setFilteredOwners(response.data || []);

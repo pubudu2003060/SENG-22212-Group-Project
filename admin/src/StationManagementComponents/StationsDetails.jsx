@@ -16,7 +16,7 @@ function StationDetails({ stationId }) {
 
     const fetchStationDetails = () => {
         setLoading(true);
-        axios.get(`http://localhost:8080/api/v1/getFuelStationDetails/${stationId}`)
+        axios.get(`https://pass-my-fule-backend.onrender.com/api/v1/getFuelStationDetails/${stationId}`)
             .then(response => {
                 setStationDetails(response.data);
             })

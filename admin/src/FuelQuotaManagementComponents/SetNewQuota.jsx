@@ -26,7 +26,7 @@ function SetNewQuota() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/v1/admin/getallcustomerquota");
+        const response = await axios.get("https://pass-my-fule-backend.onrender.com/api/v1/admin/getallcustomerquota");
   
         // Transform data into the required format
         const transformedData = response.data.map((item) => ({
@@ -58,7 +58,7 @@ function SetNewQuota() {
   
     try {
       // Fetch the current quota for the selected vehicle type
-      const response = await axios.get("http://localhost:8080/api/v1/admin/getFuelQuotaByVehicleType", {
+      const response = await axios.get("https://pass-my-fule-backend.onrender.com/api/v1/admin/getFuelQuotaByVehicleType", {
         params: { vehicalType: value },
       });
       setCurrentQuota(response.data || "Not available");
@@ -92,7 +92,7 @@ function SetNewQuota() {
     try {
       // API call to update the quota in the database using URL parameters
       const response = await axios.put(
-        `http://localhost:8080/api/v1/updateFuelQuotaByVehicleType`,
+        `https://pass-my-fule-backend.onrender.com/api/v1/updateFuelQuotaByVehicleType`,
         {
           vehicleType: filters.vehicleType.toUpperCase(), // Move these from params to body
           fuelQuantity: Number(newQuota),

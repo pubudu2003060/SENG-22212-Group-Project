@@ -14,7 +14,7 @@ function Profile() {
 
   useEffect(() => {
     // Fetch admin data when component mounts
-    axios.get('http://localhost:8080/api/v1/getadmin')
+    axios.get('https://pass-my-fule-backend.onrender.com/api/v1/getadmin')
       .then((response) => {
         const admin = response.data.find(admin => admin.email === loggedInEmail);
         if (admin) {
@@ -38,7 +38,7 @@ function Profile() {
     const updatedAdmin = { ...values };
 
     // Send PUT request to update the admin data
-    axios.put(`http://localhost:8080/api/v1/updateadmin/${loggedInEmail}`, updatedAdmin)
+    axios.put(`https://pass-my-fule-backend.onrender.com/api/v1/updateadmin/${loggedInEmail}`, updatedAdmin)
       .then(() => {
         message.success('Profile updated successfully!');
         setAdminDataForProfile(updatedAdmin); // Update the stored data after successful update

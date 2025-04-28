@@ -39,7 +39,7 @@ function Dashboard() {
     const [totalActiveFuelStations, setTotalActiveFuelStations] = useState(0);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/admin/getTotalActiveFuelStations')
+        axios.get('https://pass-my-fule-backend.onrender.com/api/v1/admin/getTotalActiveFuelStations')
             .then(response => {
                 setTotalActiveFuelStations(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data);
             })
@@ -53,7 +53,7 @@ function Dashboard() {
     const [totalVehicles, setTotalVehicles] = useState(0);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/admin/getTotalVehicles')
+        axios.get('https://pass-my-fule-backend.onrender.com/api/v1/admin/getTotalVehicles')
             .then(response => {
                 setTotalVehicles(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data);
             })
@@ -67,7 +67,7 @@ function Dashboard() {
     const [totalLowFuelStations, setTotalLowFuelStations] = useState(0);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/admin/findFuelStationCapacityBelow8000')
+        axios.get('https://pass-my-fule-backend.onrender.com/api/v1/admin/findFuelStationCapacityBelow8000')
             .then(response => {
                 setTotalLowFuelStations(Array.isArray(response.data) && response.data.length === 0 ? 0 : response.data);
             })

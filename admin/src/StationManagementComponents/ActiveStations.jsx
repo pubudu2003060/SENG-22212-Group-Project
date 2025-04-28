@@ -34,7 +34,7 @@ function ActiveFuelStations() {
     useEffect(() => {
         const fetchStations = async () => {
           try {
-            const response = await axios.get("http://localhost:8080/api/v1/admin/filterByStatus?status=ACTIVE");
+            const response = await axios.get("https://pass-my-fule-backend.onrender.com/api/v1/admin/filterByStatus?status=ACTIVE");
             console.log(response.data);
             setStations(response.data || []); // Use fallback if stations is undefined
             setFilteredStations(response.data || []);

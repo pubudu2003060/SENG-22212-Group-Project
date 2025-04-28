@@ -29,7 +29,7 @@ function Login() {
 
     const fetchdata = async () => {
         try {
-            const responce = await axios.post("http://localhost:8080/api/v1/adminsignin", {
+            const responce = await axios.post("https://pass-my-fule-backend.onrender.com/api/v1/adminsignin", {
                 email: email,
                 password: password
             })
@@ -39,7 +39,7 @@ function Login() {
             if (responce.status === 200) {
 
                 //fetch admin name
-                const adminResponse = await axios.get("http://localhost:8080/api/v1/getadmin", {
+                const adminResponse = await axios.get("https://pass-my-fule-backend.onrender.com/api/v1/getadmin", {
 
                 });
                 let adminData = adminResponse.data.find(admin => admin.email === email);

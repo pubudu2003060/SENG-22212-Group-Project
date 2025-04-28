@@ -14,7 +14,7 @@ function UpdateStationStatus({ station, onUpdate }) {
         setLoading(true);
         const newStatus = station.status === "ACTIVE" ? "INACTIVE" : "ACTIVE";
         
-        axios.put(`http://localhost:8080/api/v1/updateStatus/${station.stationId}?status=${newStatus}`)
+        axios.put(`https://pass-my-fule-backend.onrender.com/api/v1/updateStatus/${station.stationId}?status=${newStatus}`)
             .then(response => {
                 message.success(`Station status updated to ${newStatus}`);
                 onUpdate(station.stationId, newStatus); // Update parent state
