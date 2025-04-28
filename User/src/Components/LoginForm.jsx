@@ -15,7 +15,7 @@ function Login() {
 
         if (phoneNumber.length === 10 && !isNaN(phoneNumber)) {
             try {
-                const response = await fetch(`http://localhost:8080/api/v1/login/send-otp/%2B94${phoneNumber}`, {
+                const response = await fetch(`http://pass-my-fule-backend.onrender.com/api/v1/login/send-otp/%2B94${phoneNumber}`, {
                     method: "POST",
                 });
 

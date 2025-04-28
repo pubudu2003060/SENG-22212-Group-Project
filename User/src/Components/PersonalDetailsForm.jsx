@@ -71,7 +71,7 @@ function PersonalDetailsForm() {
     const sendOTP = () => {
         if(formData.phoneNumber.trim() != "" && formData.phoneNumber.length == 10 && /^07\d{8}$/.test(formData.phoneNumber)){
             axios
-                .post(`http://localhost:8080/api/v1/login/send-otp/su/%2B94${formData.phoneNumber}`)
+                .post(`http://pass-my-fule-backend.onrender.com/api/v1/login/send-otp/su/%2B94${formData.phoneNumber}`)
                 .then((response) => {
 
                     if (response.status == 200) {
@@ -95,7 +95,7 @@ function PersonalDetailsForm() {
 
     const verifyOTP = () => {
         axios
-            .post("http://localhost:8080/api/v1/login/validate-otp", {
+            .post("http://pass-my-fule-backend.onrender.com/api/v1/login/validate-otp", {
                 phoneNumber: "+94" + formData.phoneNumber,
                 otp: formData.OTP,
             })
@@ -137,7 +137,7 @@ function PersonalDetailsForm() {
     const saveUserData = () => {
         let token = sessionStorage.getItem("jwtToken")
         axios
-            .post("http://localhost:8080/api/v1/user/adduser", {
+            .post("http://pass-my-fule-backend.onrender.com/api/v1/user/adduser", {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 contactNo: "+94" + formData.phoneNumber,

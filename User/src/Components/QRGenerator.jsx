@@ -30,7 +30,7 @@ function QRGenerator() {
                 let token = sessionStorage.getItem("jwtToken")
                 console.log(token)
                 const response = await axios.get(
-                    `http://localhost:8080/api/v1/user/generateQrCodeByVehicalId/${vehicleId}`,
+                    `http://pass-my-fule-backend.onrender.com/api/v1/user/generateQrCodeByVehicalId/${vehicleId}`,
                     {responseType: 'arraybuffer',
 
                         headers: {

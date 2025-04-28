@@ -50,7 +50,7 @@ const VehicleDetailsForm = () => {
         try {
             let token = sessionStorage.getItem("jwtToken")
             setLoading(true);
-            const response = await axios.post("http://localhost:8080/api/v1/login/user/addvehical", {
+            const response = await axios.post("http://pass-my-fule-backend.onrender.com/api/v1/login/user/addvehical", {
                 chassiNo: formData.chassisNumber,
                 vehicalType: formData.vehicleType,
                 vehicalNo: formData.vehicleNumber,
