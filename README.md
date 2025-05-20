@@ -3,7 +3,7 @@
 
 ## Fuel Quota Management System
 
-### Overview
+### Overview of the system
 
 PassMyFuel is a comprehensive fuel management system designed to improve the efficiency of fuel distribution for users, administrators, and fuel stations. The system consists of three main components:
 
