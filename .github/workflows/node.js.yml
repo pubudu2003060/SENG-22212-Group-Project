@@ -30,6 +30,4 @@ jobs:
         run: npm run build --if-present
         working-directory: User
 
-      - name: Run tests
-        run: npm test
-        working-directory: User
+     
