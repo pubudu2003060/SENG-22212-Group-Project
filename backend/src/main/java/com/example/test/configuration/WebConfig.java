@@ -14,7 +14,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://passmyfueluser.netlify.app/","https://passmyfueladmin.netlify.app/")
+                        .allowedOrigins("https://passmyfueluser.netlify.app/","https://passmyfueladmin.netlify.app/","http://localhost:5173")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
