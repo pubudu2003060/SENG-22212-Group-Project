@@ -1,93 +1,96 @@
-import React, {useState} from 'react';
-import axios from 'axios';
-import {Form, Input, Button, message} from 'antd';
+import React, { useState } from "react";
+import axios from "axios";
+import { Form, Input, Button, message } from "antd";
 import cookies from "js-cookie";
 
 function ChangePassword() {
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
-    const handlePasswordChange = async () => {
-        if (newPassword !== confirmNewPassword) {
-            message.error('New password and confirm new password do not match.');
-            return;
+  const handlePasswordChange = async () => {
+    if (newPassword !== confirmNewPassword) {
+      message.error("New password and confirm new password do not match.");
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        "http://localhost:8080/api/v1/admin/update-password",
+        {
+          email: cookies.get("adminEmail"),
+          newPassword: newPassword,
         }
+      );
 
-        try {
-            const response = await axios.put('https://pass-my-fule-backend.onrender.com/api/v1/admin/update-password',
-                {
-                    email: cookies.get("adminEmail"),
-                    newPassword: newPassword
-                }
-            );
-
-            if (response.status === 200) {
-
-              if(response.data == "Password updated successfully!"){
-                message.success('Password changed successfully.');
-                setCurrentPassword('');
-                setNewPassword('');
-                setConfirmNewPassword('');
-              }else {
-                message.error('New password cannot be the same as the old password.');
-                setCurrentPassword('');
-                setNewPassword('');
-                setConfirmNewPassword('');
-              }
-
-            } else {
-                message.error('Failed to change password. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error changing password:', error);
-            message.error('Failed to change password. Please try again.');
+      if (response.status === 200) {
+        if (response.data == "Password updated successfully!") {
+          message.success("Password changed successfully.");
+          setCurrentPassword("");
+          setNewPassword("");
+          setConfirmNewPassword("");
+        } else {
+          message.error("New password cannot be the same as the old password.");
+          setCurrentPassword("");
+          setNewPassword("");
+          setConfirmNewPassword("");
         }
-    };
+      } else {
+        message.error("Failed to change password. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+      message.error("Failed to change password. Please try again.");
+    }
+  };
 
-    const handleReset = () => {
-        setCurrentPassword('');
-        setNewPassword('');
-        setConfirmNewPassword('');
-    };
+  const handleReset = () => {
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmNewPassword("");
+  };
 
-    return (
-        <Form
-            layout="vertical"
-            onFinish={handlePasswordChange}
-            style={{width: '75%', marginLeft: '2rem'}}
+  return (
+    <Form
+      layout="vertical"
+      onFinish={handlePasswordChange}
+      style={{ width: "75%", marginLeft: "2rem" }}
+    >
+      <Form.Item label="Current Password">
+        <Input.Password
+          value={currentPassword}
+          onChange={(e) => setCurrentPassword(e.target.value)}
+          required
+        />
+      </Form.Item>
+      <Form.Item label="New Password">
+        <Input.Password
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          required
+        />
+      </Form.Item>
+      <Form.Item label="Confirm New Password">
+        <Input.Password
+          value={confirmNewPassword}
+          onChange={(e) => setConfirmNewPassword(e.target.value)}
+          required
+        />
+      </Form.Item>
+      <Form.Item>
+        <Button
+          type="primary"
+          htmlType="submit"
+          style={{ marginRight: "1rem" }}
         >
-            <Form.Item label="Current Password">
-                <Input.Password
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                    required
-                />
-            </Form.Item>
-            <Form.Item label="New Password">
-                <Input.Password
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    required
-                />
-            </Form.Item>
-            <Form.Item label="Confirm New Password">
-                <Input.Password
-                    value={confirmNewPassword}
-                    onChange={(e) => setConfirmNewPassword(e.target.value)}
-                    required
-                />
-            </Form.Item>
-            <Form.Item>
-                <Button type="primary" htmlType="submit" style={{marginRight: '1rem'}}>
-                    Change Password
-                </Button>
-                <Button type="default" onClick={handleReset}>
-                    Reset
-                </Button>
-            </Form.Item>
-        </Form>
-    );
+          Change Password
+        </Button>
+        <Button type="default" onClick={handleReset}>
+          Reset
+        </Button>
+      </Form.Item>
+    </Form>
+  );
 }
 
 export default ChangePassword;

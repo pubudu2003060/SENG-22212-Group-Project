@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Card, DatePicker, Select, Row, Col } from 'antd';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Card, DatePicker, Select, Row, Col } from "antd";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import cookies from "js-cookie";
 
 const { Option } = Select;
@@ -14,39 +14,48 @@ function FuelTransactions() {
   }
   axios.defaults.headers["Authorization"] = `Bearer ${token}`;
   const [fuelTypes, setFuelTypes] = useState([]);
-  const [selectedFuelType, setSelectedFuelType] = useState('');
+  const [selectedFuelType, setSelectedFuelType] = useState("");
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date();
-    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}-${String(today.getDate()).padStart(2, "0")}`;
   });
   const [transactionsCount, setTransactionsCount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('https://pass-my-fule-backend.onrender.com/api/v1/admin/getbuyquotes')
-      .then(response => {
+    axios
+      .get("http://localhost:8080/api/v1/admin/getbuyquotes")
+      .then((response) => {
         // Extract unique fuel types
-        const uniqueTypes = Array.from(new Set(response.data.map(item => item.fuelType)));
+        const uniqueTypes = Array.from(
+          new Set(response.data.map((item) => item.fuelType))
+        );
         setFuelTypes(uniqueTypes);
         if (uniqueTypes.length > 0) {
           setSelectedFuelType(uniqueTypes[0]);
         }
       })
-      .catch(error => {
-        console.error('Error fetching fuel types:', error);
-     //   navigate("/details-not-found");
+      .catch((error) => {
+        console.error("Error fetching fuel types:", error);
+        //   navigate("/details-not-found");
       });
   }, [navigate]);
 
   useEffect(() => {
     if (selectedFuelType && selectedDate) {
-      axios.get(`https://pass-my-fule-backend.onrender.com/api/v1/admin/tranctionscountByFuelTypeandDate/${selectedFuelType}/${selectedDate}`)
-        .then(response => {
+      axios
+        .get(
+          `http://localhost:8080/api/v1/admin/tranctionscountByFuelTypeandDate/${selectedFuelType}/${selectedDate}`
+        )
+        .then((response) => {
           setTransactionsCount(response.data); // Update state with fetched data
         })
-        .catch(error => {
-          console.error('Error fetching transactions count:', error);
-      //    navigate("/details-not-found");
+        .catch((error) => {
+          console.error("Error fetching transactions count:", error);
+          //    navigate("/details-not-found");
         });
     }
   }, [selectedFuelType, selectedDate, navigate]);
@@ -66,9 +75,9 @@ function FuelTransactions() {
           <Select
             value={selectedFuelType}
             onChange={handleFuelTypeChange}
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           >
-            {fuelTypes.map(type => (
+            {fuelTypes.map((type) => (
               <Option key={type} value={type}>
                 {type}
               </Option>
@@ -80,7 +89,7 @@ function FuelTransactions() {
           <DatePicker
             onChange={handleDateChange}
             format="YYYY-MM-DD"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           />
         </Col>
       </Row>
